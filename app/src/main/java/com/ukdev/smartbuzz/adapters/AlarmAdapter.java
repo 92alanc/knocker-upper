@@ -58,8 +58,11 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
         final Alarm alarm = data[position];
         holder.title.setText(alarm.getTitle());
         holder.triggerTime.setText(alarm.getTriggerTime().toString());
-        holder.repetition.setText(BackEndTools.convertIntArrayToString(context,
+        if (alarm.repeats())
+            holder.repetition.setText(BackEndTools.convertIntArrayToString(context,
                 alarm.getRepetition()));
+        else
+            holder.repetition.setVisibility(View.GONE);
         if (alarm.getTriggerTime().getHours() >= 6 &&
                 alarm.getTriggerTime().getHours() < 18) // Day time
             holder.sunMoonImg.setImageResource(R.drawable.sun);
@@ -68,11 +71,11 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
         if (alarm.isReminder())
             holder.reminderIcon.setVisibility(View.VISIBLE);
         else
-            holder.reminderIcon.setVisibility(View.INVISIBLE);
+            holder.reminderIcon.setVisibility(View.GONE);
         if (alarm.hasDifferentTimeZone())
             holder.timeZoneIcon.setVisibility(View.VISIBLE);
         else
-            holder.timeZoneIcon.setVisibility(View.INVISIBLE);
+            holder.timeZoneIcon.setVisibility(View.GONE);
         if (alarm.isOn())
         {
             holder.alarmSwitch.setChecked(true);

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.*;
@@ -147,20 +146,24 @@ public class HomeActivity extends AppCompatActivity
         selectedItems = new ArrayList<>();
         listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener()
         {
+            int i = 0;
             @Override
             public void onItemCheckedStateChanged(android.view.ActionMode actionMode,
                                                   int position,
                                                   long l, boolean isChecked)
             {
+                i = position;
                 if (isChecked)
                 {
                     if (!selectedItems.contains(position))
                         selectedItems.add(position);
+                    listView.getChildAt(position).setBackgroundResource(R.drawable.alarm_listviewitem_shape_selected);
                 }
                 else
                 {
                     if (selectedItems.contains(position))
                         selectedItems.remove(selectedItems.indexOf(position));
+                    listView.getChildAt(position).setBackgroundResource(R.drawable.alarm_listviewitem_shape);
                 }
                 if (selectedItems.size() == 1)
                     actionMode.setTitle(getString(R.string.item_selected));
@@ -207,6 +210,8 @@ public class HomeActivity extends AppCompatActivity
             {
                 selectedItems.clear();
                 toolbar.setVisibility(View.VISIBLE);
+                if (listView.getChildCount() > 0)
+                    listView.getChildAt(i).setBackgroundResource(R.drawable.alarm_listviewitem_shape);
             }
         });
         FrontEndTools.adaptAlarmsListView(this, listView, AppConstants.ORDER_BY_ID);

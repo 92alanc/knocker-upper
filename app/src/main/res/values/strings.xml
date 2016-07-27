@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Not translatable -->
-    <string name="app_info_header" translatable="false">Smart Buzz 1.9</string>
+    <string name="app_info_header" translatable="false">Smart Buzz 2.0</string>
     <string name="app_name" translatable="false">Smart Buzz</string>
     <string name="ok" translatable="false">OK</string>
     <string name="fifteen_min" translatable="false">15 min</string>

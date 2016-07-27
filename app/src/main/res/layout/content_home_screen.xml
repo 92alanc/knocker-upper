@@ -5,7 +5,6 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/activity_home_screen"
         tools:context=".activities.HomeActivity">
@@ -15,7 +14,9 @@
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbarThumbVertical="@drawable/scrollbar_vertical_home"
-            android:background="@color/white"/>
+            android:padding="5dp"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="5dp"
+            android:scrollbarThumbVertical="@drawable/scrollbar_vertical_home"/>
 
 </RelativeLayout>
