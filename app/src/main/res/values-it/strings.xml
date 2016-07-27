@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Italiano -->
+    <string name="about">Circa</string>
+    <string name="alarm_saved">Sveglia salvata</string>
+    <string name="alarm_set">Sveglia impostata</string>
+    <string name="alarm_updated">Sveglia aggiornata</string>
+    <string name="cancel">Cancellare</string>
+    <string name="cancelled">Cancellato</string>
+    <string name="delete">Elimina sveglia</string>
+    <string name="delete_question">Sei sicuro di voler eliminare questa sveglia?</string>
+    <string name="dismiss">Disméttere</string>
+    <string name="info">
+        Sviluppata da UKDev Solutions\n
+        e-mail: alcam.ukdev@gmail.com
+    </string>
+    <string name="new_alarm">Nuova sveglia</string>
+    <string name="no">No</string>
+    <string name="question">Sei sveglio?</string>
+    <string name="repeat">Ripetere durante la settimana</string>
+    <string name="save">Salvare</string>
+    <string name="set_as_reminder">Impostare come promemoria</string>
+    <string name="time_zone">Fuso orario</string>
+    <string name="title_hint">Titolo</string>
+    <string name="x_alarms_set">%1$s Sveglie impostate</string>
+    <string name="yes">Si</string>
+    <string name="ringtone">Suoneria</string>
+    <string name="vibrate">Vibrare</string>
+    <string name="volume">Volume</string>
+    <string name="weekends">Fine settimana</string>
+    <string name="week_days">Giorni feriali</string>
+    <string name="read_external_storage">Lettura di storage esterno</string>
+    <string name="every_day">Quotidiano</string>
+    <string name="alarm_already_stored">Una sveglia con il titolo di %1$s è già memorizzata nel database</string>
+    <string name="items_selected">%1$s elementi selezionati</string>
+    <string name="item_selected">1 elemento selezionato</string>
+    <string name="alarm_deleted">Sveglia eliminata</string>
+    <string name="alarms_deleted">%1$s sveglie eliminate</string>
+    <string name="one_alarm_set">1 Sveglia impostata</string>
+    <string name="help">Aiuto</string>
+    <string name="sort_time">Ordina per tempo</string>
+    <string name="sort_title">Ordina per titolo</string>
+    <string name="alarm_locked">\"%1$s\" rimarrà bloccato finché di disméttere Sleep Checker</string>
+    <string name="snooze">Snooze</string>
+
+</resources>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.ukdev.smartbuzz">
+
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <uses-permission-sdk-23 android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission-sdk-23 android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission-sdk-23 android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission-sdk-23 android:name="android.permission.VIBRATE"/>
+    <uses-permission-sdk-23 android:name="android.permission.WAKE_LOCK"/>
+
+    <application
+            android:allowBackup="true"
+            android:fullBackupContent="true"
+            android:icon="@drawable/app_icon"
+            android:label="@string/app_name"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme">
+
+        <!-- Home screen -->
+        <activity
+                android:name=".activities.HomeActivity"
+                android:label="@string/app_name"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.RUN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!-- Alarm creator -->
+        <activity
+                android:name=".activities.AlarmCreatorActivity"
+                android:label="@string/new_alarm"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <!-- Alarm activity -->
+        <activity
+                android:name=".activities.AlarmActivity"
+                android:label="@string/app_name"
+                android:noHistory="true"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:finishOnTaskLaunch="true"
+                android:excludeFromRecents="true">
+        </activity>
+
+        <!-- Sleep Checker -->
+        <activity
+                android:name=".activities.SleepCheckerActivity"
+                android:label="@string/app_name"
+                android:noHistory="true"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:finishOnTaskLaunch="true"
+                android:excludeFromRecents="true">
+        </activity>
+
+        <!-- Help activity -->
+        <activity
+                android:name=".activities.HelpActivity"
+                android:label="@string/help"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <!-- Alarm receiver -->
+        <receiver
+                android:name=".extras.AlarmReceiver"
+                android:enabled="true"
+                android:exported="false">
+            <intent-filter>
+                <action android:name="com.ukdev.smartbuzz.ACTION_TRIGGER_ALARM"/>
+                <action android:name="com.ukdev.smartbuzz.ACTION_SLEEP_CHECKER"/>
+                <action android:name="com.ukdev.smartbuzz.ACTION_SNOOZE"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- Boot receiver -->
+        <receiver
+                android:name=".extras.BootReceiver"
+                android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+
+                <category android:name="android.intent.category.HOME"/>
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>
