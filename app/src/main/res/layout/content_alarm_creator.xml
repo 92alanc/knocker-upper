@@ -325,7 +325,7 @@
                 android:hapticFeedbackEnabled="true"
                 android:spinnerMode="dialog"
                 android:background="@color/white"
-                android:text="@string/time_zone"
+                android:prompt="@string/time_zone"
                 android:layout_centerVertical="true"
                 android:textSize="15sp"
                 android:textColor="@color/black"
