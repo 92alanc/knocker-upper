@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.ukdev.smartbuzz.extras.*;
@@ -380,6 +381,10 @@ public class AlarmCreatorActivity extends AppCompatActivity
 
             Alarm alarm = new Alarm(id, title, triggerTime, ringtone, volume, vibrate,
                     reminder, true, timeZone, repetition, snooze);
+            AudioManager manager = (AudioManager)getSystemService(AUDIO_SERVICE);
+            Log.d("Test", String.format("Volume set to %1$d. Maximum volume allowed: %2$d",
+                                        alarm.getVolume(),
+                                        manager.getStreamMaxVolume(AudioManager.STREAM_ALARM)));
             AlarmDAO.insert(this, alarm);
             AlarmHandler.scheduleAlarm(this, alarm);
             FrontEndTools.showToast(getBaseContext(),

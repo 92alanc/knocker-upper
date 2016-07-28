@@ -6,6 +6,7 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
+import android.util.Log;
 import com.ukdev.smartbuzz.extras.AppConstants;
 import com.ukdev.smartbuzz.extras.AudioFocusChangeListener;
 
@@ -365,6 +366,8 @@ public class Alarm
                 e.printStackTrace();
             }
             player.start();
+            Log.d("Test", String.format("Playing alarm ringtone. Volume = %1$d",
+                  manager.getStreamVolume(AudioManager.STREAM_ALARM)));
         }
     }
 
