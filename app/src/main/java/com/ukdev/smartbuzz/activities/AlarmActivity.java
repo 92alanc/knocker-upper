@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -68,15 +67,6 @@ public class AlarmActivity extends AppCompatActivity
     public void onBackPressed()
     {
         // Do nothing
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if (keyCode == KeyEvent.KEYCODE_HOME)
-            AlarmHandler.dismissAlarm(alarm, AlarmActivity.this,
-                    getBaseContext(), alarm.getPlayer(), alarm.getVibrator(), wakeLock);
-        return super.onKeyDown(keyCode, event);
     }
 
     /**

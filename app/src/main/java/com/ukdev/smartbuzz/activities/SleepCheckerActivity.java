@@ -53,15 +53,6 @@ public class SleepCheckerActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
-        if (wakeLock.isHeld())
-            wakeLock.release();
-        stopCountdown();
-    }
-
-    @Override
     public void onBackPressed()
     {
         // Do nothing

@@ -368,6 +368,8 @@ public class AlarmCreatorActivity extends AppCompatActivity
 
             int id = AlarmDAO.selectAll(this, AppConstants.ORDER_BY_ID).length + 1;
             TimeZoneWrapper timeZone = (TimeZoneWrapper)timeZoneSpinner.getSelectedItem();
+            if (ringtoneSpinner.getSelectedItem() == null) // Something terribly wrong happened
+                ringtoneSpinner.setSelection(0);
             RingtoneWrapper ringtone = (RingtoneWrapper)ringtoneSpinner.getSelectedItem();
             int volume = volumeSeekBar.getProgress();
             boolean vibrate = vibrateCheckBox.isChecked();
