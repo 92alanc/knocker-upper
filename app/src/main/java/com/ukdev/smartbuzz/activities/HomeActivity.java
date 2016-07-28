@@ -210,7 +210,7 @@ public class HomeActivity extends AppCompatActivity
             {
                 selectedItems.clear();
                 toolbar.setVisibility(View.VISIBLE);
-                if (listView.getChildCount() > 0)
+                for (int i = 0; i < listView.getChildCount(); i++)
                     listView.getChildAt(i).setBackgroundResource(R.drawable.alarm_listviewitem_shape);
             }
         });
