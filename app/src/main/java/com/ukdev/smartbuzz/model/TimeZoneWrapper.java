@@ -90,6 +90,8 @@ public class TimeZoneWrapper
         Date currentLocalTime = calendar.getTime();
         DateFormat date = new SimpleDateFormat("Z", Locale.UK);
         String localTime = date.format(currentLocalTime);
+        if (localTime.startsWith("+"))
+            localTime = localTime.replace("+", "");
         return TimeZoneWrapper.parseLocalTimeZoneOffset(localTime);
     }
 

@@ -8,10 +8,10 @@ android
     defaultConfig
     {
         applicationId "com.ukdev.smartbuzz"
-        minSdkVersion 21
+        minSdkVersion 16
         targetSdkVersion 24
-        versionCode 11
-        versionName "2.0"
+        versionCode 12
+        versionName "2.1"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes

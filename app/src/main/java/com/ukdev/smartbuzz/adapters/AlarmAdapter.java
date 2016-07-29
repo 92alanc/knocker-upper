@@ -2,6 +2,7 @@ package com.ukdev.smartbuzz.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.ukdev.smartbuzz.database.AlarmDAO;
 import com.ukdev.smartbuzz.extras.AlarmHandler;
+import com.ukdev.smartbuzz.extras.AppConstants;
 import com.ukdev.smartbuzz.extras.FrontEndTools;
 import com.ukdev.smartbuzz.extras.BackEndTools;
 import com.ukdev.smartbuzz.model.Alarm;
@@ -112,10 +114,16 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
                                 String.format(context.getString(R.string.alarm_locked),
                                         alarm.getTitle()),
                                 Toast.LENGTH_LONG);
-                        compoundButton.setChecked(true);
+                        if (AppConstants.OS_VERSION >= Build.VERSION_CODES.LOLLIPOP)
+                            compoundButton.setChecked(true);
+                        else
+                            compoundButton.setVisibility(View.GONE);
                     }
                     else
                     {
+                        if (AppConstants.OS_VERSION < Build.VERSION_CODES.LOLLIPOP
+                            && compoundButton.getVisibility() == View.GONE)
+                            compoundButton.setVisibility(View.VISIBLE);
                         alarm.toggle(false);
                         AlarmHandler.cancelAlarm(context, alarm);
                         compoundButton.setChecked(false);

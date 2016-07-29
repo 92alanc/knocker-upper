@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import com.ukdev.smartbuzz.activities.AlarmActivity;
@@ -43,7 +44,10 @@ public class AlarmHandler
         intent.putExtra(AppConstants.EXTRA_ID, alarm.getId());
         PendingIntent pendingIntent =
                 PendingIntent.getBroadcast(context, alarm.getId(), intent, 0);
-        manager.setExact(RTC_WAKEUP, triggerTime, pendingIntent);
+        if (AppConstants.OS_VERSION < Build.VERSION_CODES.KITKAT)
+            manager.set(RTC_WAKEUP, triggerTime, pendingIntent);
+        else
+            manager.setExact(RTC_WAKEUP, triggerTime, pendingIntent);
     }
 
     /**
@@ -164,7 +168,10 @@ public class AlarmHandler
             intent.setAction(AppConstants.ACTION_SLEEP_CHECKER);
             intent.putExtra(AppConstants.EXTRA_ID, alarm.getId());
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 999, intent, 0);
-            manager.setExact(AlarmManager.RTC_WAKEUP, callTime, pendingIntent);
+            if (AppConstants.OS_VERSION >= Build.VERSION_CODES.KITKAT)
+                manager.setExact(AlarmManager.RTC_WAKEUP, callTime, pendingIntent);
+            else
+                manager.set(AlarmManager.RTC_WAKEUP, callTime, pendingIntent);
         }
     }
 
@@ -216,7 +223,10 @@ public class AlarmHandler
         intent.setAction(AppConstants.ACTION_SNOOZE);
         intent.putExtra(AppConstants.EXTRA_ID, alarm.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(), intent, 0);
-        manager.setExact(RTC_WAKEUP, snoozeTime, pendingIntent);
+        if (AppConstants.OS_VERSION >= Build.VERSION_CODES.KITKAT)
+            manager.setExact(RTC_WAKEUP, snoozeTime, pendingIntent);
+        else
+            manager.set(RTC_WAKEUP, snoozeTime, pendingIntent);
     }
 
     /**

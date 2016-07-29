@@ -5,6 +5,7 @@ import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Vibrator;
 import com.ukdev.smartbuzz.extras.AppConstants;
 import com.ukdev.smartbuzz.extras.AudioFocusChangeListener;
@@ -329,24 +330,31 @@ public class Alarm
         player = new MediaPlayer();
         vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
         int volume;
-        AudioAttributes.Builder attributes = new AudioAttributes.Builder();
-        attributes.setUsage(USAGE_ALARM);
+        /*AudioAttributes.Builder attributes = new AudioAttributes.Builder();
+        attributes.setUsage(USAGE_ALARM);*/
         if (activity.getIntent().getAction().equals(AppConstants.ACTION_MAYHEM))
         {
             volume = manager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
-            vibrator.vibrate(AppConstants.VIBRATION_PATTERN, 0, attributes.build());
+            vibrator.vibrate(AppConstants.VIBRATION_PATTERN, 0);
         }
         else
         {
             volume = this.getVolume();
             if (this.vibrates())
-                vibrator.vibrate(AppConstants.VIBRATION_PATTERN, 0, attributes.build());
+                vibrator.vibrate(AppConstants.VIBRATION_PATTERN, 0);
         }
         manager.setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
-        int requestResult = manager.requestAudioFocus(new AudioFocusChangeListener(manager,
-                        this.getVolume()),
-                AudioManager.STREAM_ALARM,
-                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
+        int requestResult;
+        if ( AppConstants.OS_VERSION >= Build.VERSION_CODES.KITKAT)
+            requestResult = manager.requestAudioFocus(new AudioFocusChangeListener(manager,
+                                                                                   this.getVolume()),
+                                                      AudioManager.STREAM_ALARM,
+                                                      AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
+        else
+            requestResult = manager.requestAudioFocus(new AudioFocusChangeListener(manager,
+                                                                                   this.getVolume()),
+                                                      AudioManager.STREAM_ALARM,
+                                                      AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
         if (requestResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
         {
             player.setAudioStreamType(AudioManager.STREAM_ALARM);

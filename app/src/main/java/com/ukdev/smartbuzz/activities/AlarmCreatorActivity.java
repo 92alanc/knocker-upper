@@ -228,9 +228,15 @@ public class AlarmCreatorActivity extends AppCompatActivity
                     player = new MediaPlayer();
                     int v = (BackEndTools.getMaxVolume(manager) * volumeSeekBar.getProgress()) / 100;
                     manager.setStreamVolume(AudioManager.STREAM_ALARM, v, 0);
-                    int requestResult = manager.requestAudioFocus(listener,
-                            AudioManager.STREAM_ALARM,
-                            AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
+                    int requestResult;
+                    if (AppConstants.OS_VERSION >= Build.VERSION_CODES.KITKAT)
+                        requestResult = manager.requestAudioFocus(listener,
+                                AudioManager.STREAM_ALARM,
+                                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
+                    else
+                        requestResult = manager.requestAudioFocus(listener,
+                                                                  AudioManager.STREAM_ALARM,
+                                                                  AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
                     if (requestResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
                     {
                         player.setAudioStreamType(AudioManager.STREAM_ALARM);

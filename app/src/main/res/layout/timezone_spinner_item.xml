@@ -25,7 +25,7 @@
             android:id="@+id/timeZoneOffset"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
+            android:textSize="13sp"
             android:focusable="false"
             android:layout_column="3"
             android:layout_gravity="center_vertical"
