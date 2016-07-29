@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
+import android.media.AudioManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.GridLayout;
@@ -207,6 +208,16 @@ public class BackEndTools
         int pid = android.os.Process.myPid();
         android.os.Process.killProcess(pid);
         System.exit(0);
+    }
+
+    /**
+     * Gets the maximum volume available on the device
+     * @param manager - AudioManager
+     * @return max volume
+     */
+    public static int getMaxVolume(AudioManager manager)
+    {
+        return manager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
     }
 
 }
