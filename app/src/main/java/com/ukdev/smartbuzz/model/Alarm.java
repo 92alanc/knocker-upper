@@ -2,7 +2,6 @@ package com.ukdev.smartbuzz.model;
 
 import android.app.Activity;
 import android.content.Context;
-import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -13,7 +12,6 @@ import com.ukdev.smartbuzz.extras.AudioFocusChangeListener;
 import java.io.IOException;
 
 import static android.content.Context.AUDIO_SERVICE;
-import static android.media.AudioAttributes.USAGE_ALARM;
 
 /**
  * Alarm class
@@ -330,8 +328,6 @@ public class Alarm
         player = new MediaPlayer();
         vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
         int volume;
-        /*AudioAttributes.Builder attributes = new AudioAttributes.Builder();
-        attributes.setUsage(USAGE_ALARM);*/
         if (activity.getIntent().getAction().equals(AppConstants.ACTION_MAYHEM))
         {
             volume = manager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
