@@ -48,7 +48,6 @@ public class AppConstants
     public static final String ORDER_BY_TITLE = AlarmTable.COLUMN_TITLE;
 
     // --- OUTPUT ---
-    public static final int MAX_VOLUME = 7;
     // Vibrates for 2s and stops for 1s
     public static final long[] VIBRATION_PATTERN = new long[] { 1000, 2000 };
 

@@ -1,5 +1,6 @@
 package com.ukdev.smartbuzz.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -12,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.ukdev.smartbuzz.extras.*;
@@ -41,6 +41,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
     private SeekBar volumeSeekBar;
     private MediaPlayer player;
     private ToggleButton[] repetitionButtons;
+    private AudioManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,6 +50,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         setContentView(R.layout.activity_alarm_creator);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        manager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         reminderCheckBox = (CheckBox)findViewById(R.id.reminderCheckBox);
         setToolbarLayout();
         setTopSaveButton();
@@ -209,9 +211,9 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private void setRingtoneTestButton()
     {
-        final AudioManager manager = (AudioManager)getSystemService(AUDIO_SERVICE);
+        int volume = (getMaxVolume(manager) * volumeSeekBar.getProgress()) / 100;
         final AudioFocusChangeListener listener = new AudioFocusChangeListener(manager,
-                volumeSeekBar.getProgress());
+                volume);
         final ImageButton ringtoneTestButton = (ImageButton)findViewById(
                 R.id.ringtoneTestButton);
         ringtoneTestButton.setOnClickListener(new View.OnClickListener()
@@ -224,7 +226,8 @@ public class AlarmCreatorActivity extends AppCompatActivity
                     RingtoneWrapper ringtone = (RingtoneWrapper)
                             ringtoneSpinner.getSelectedItem();
                     player = new MediaPlayer();
-                    manager.setStreamVolume(AudioManager.STREAM_ALARM, volumeSeekBar.getProgress(), 0);
+                    int v = (getMaxVolume(manager) * volumeSeekBar.getProgress()) / 100;
+                    manager.setStreamVolume(AudioManager.STREAM_ALARM, v, 0);
                     int requestResult = manager.requestAudioFocus(listener,
                             AudioManager.STREAM_ALARM,
                             AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
@@ -372,7 +375,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
             if (ringtoneSpinner.getSelectedItem() == null) // Something terribly wrong happened
                 ringtoneSpinner.setSelection(0);
             RingtoneWrapper ringtone = (RingtoneWrapper)ringtoneSpinner.getSelectedItem();
-            int volume = volumeSeekBar.getProgress();
+            int volume = (getMaxVolume(manager) * volumeSeekBar.getProgress()) / 100;
             boolean vibrate = vibrateCheckBox.isChecked();
             GridLayout layout = (GridLayout)findViewById(R.id.repetitionLayout);
             int[] repetition = BackEndTools.getSelectedRepetition(layout);
@@ -381,10 +384,6 @@ public class AlarmCreatorActivity extends AppCompatActivity
 
             Alarm alarm = new Alarm(id, title, triggerTime, ringtone, volume, vibrate,
                     reminder, true, timeZone, repetition, snooze);
-            AudioManager manager = (AudioManager)getSystemService(AUDIO_SERVICE);
-            Log.d("Test", String.format("Volume set to %1$d. Maximum volume allowed: %2$d",
-                                        alarm.getVolume(),
-                                        manager.getStreamMaxVolume(AudioManager.STREAM_ALARM)));
             AlarmDAO.insert(this, alarm);
             AlarmHandler.scheduleAlarm(this, alarm);
             FrontEndTools.showToast(getBaseContext(),
@@ -424,7 +423,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         alarm.setTimeZone(timeZone);
         RingtoneWrapper ringtone = (RingtoneWrapper)ringtoneSpinner.getSelectedItem();
         alarm.setRingtone(ringtone);
-        int volume = volumeSeekBar.getProgress();
+        int volume = (getMaxVolume(manager) * volumeSeekBar.getProgress()) / 100;
         alarm.setVolume(volume);
         boolean vibrate = vibrateCheckBox.isChecked();
         alarm.toggleVibration(vibrate);
@@ -612,6 +611,16 @@ public class AlarmCreatorActivity extends AppCompatActivity
                     }
                 }
         );
+    }
+
+    /**
+     * Gets the maximum volume available on the device
+     * @param manager - AudioManager
+     * @return max volume
+     */
+    private int getMaxVolume(AudioManager manager)
+    {
+        return manager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
     }
 
 }

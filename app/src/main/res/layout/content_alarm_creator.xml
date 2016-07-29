@@ -286,8 +286,8 @@
                 android:layout_below="@id/volumeText"
                 android:background="@color/white"
                 android:hapticFeedbackEnabled="true"
-                android:max="7"
-                android:progress="3"/>
+                android:max="100"
+                android:progress="50"/>
 
         <!-- Vibrate checkbox -->
         <CheckBox
