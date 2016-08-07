@@ -40,3 +40,6 @@ proguard/
 
 # Promotion files
 *.csv
+
+# Log files
+*.txt

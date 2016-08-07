@@ -1,0 +1,2 @@
+07-28 20:31:25.421 4788-4788/com.ukdev.smartbuzz D/Test: Volume set to 7. Maximum volume allowed: 15
+07-28 20:32:00.191 4788-4788/com.ukdev.smartbuzz D/Test: Playing alarm ringtone. Volume = 7

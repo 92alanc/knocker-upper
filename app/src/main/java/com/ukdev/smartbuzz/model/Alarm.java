@@ -359,7 +359,7 @@ public class Alarm
             {
                 if (this.getTitle().toLowerCase().contains(AppConstants.TITLE_ACADEMIA)
                         || this.getTitle().toLowerCase().contains(AppConstants.TITLE_TREINO))
-                    player.setDataSource(context, AppConstants.AUDIO_BIRRR);
+                    player.setDataSource(context, AppConstants.AUDIO_BIRL);
                 else
                     player.setDataSource(context, this.getRingtone().getUri());
                 player.prepare();

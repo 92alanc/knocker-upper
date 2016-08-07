@@ -1,6 +1,7 @@
 package com.ukdev.smartbuzz.extras;
 
 import android.Manifest;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import com.ukdev.smartbuzz.R;
@@ -14,12 +15,14 @@ public class AppConstants
 {
 
     // --- AUDIO FILES ---
-    public static final Uri AUDIO_BIRRR = Uri.parse("android.resource://com.ukdev.smartbuzz/" + R.raw.birrr);
+    public static final Uri AUDIO_BIRL = Uri.parse("android.resource://com.ukdev.smartbuzz/" + R.raw.birl);
 
     // --- DEFAULT VALUES ---
     public static final int DEFAULT_INTENT_EXTRA = 1;
 
     // --- INTENT ACTIONS ---
+    // When the device is booted
+    static final String ACTION_BOOT_COMPLETED = Intent.ACTION_BOOT_COMPLETED;
     // Creates a new alarm
     public static final String ACTION_CREATE_ALARM = "com.ukdev.smartbuzz.ACTION_CREATE_ALARM";
     // Cancels an alarm

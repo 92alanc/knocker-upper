@@ -35,6 +35,7 @@ public class AlarmHandler
      */
     public static void scheduleAlarm(Context context, Alarm alarm)
     {
+        alarm.setLocked(false);
         AlarmManager manager = (AlarmManager)context
                 .getSystemService(Context.ALARM_SERVICE);
         long triggerTime = TimeWrapper

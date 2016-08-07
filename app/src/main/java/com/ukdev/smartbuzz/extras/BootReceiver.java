@@ -19,7 +19,7 @@ public class BootReceiver extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED))
+        if (intent.getAction().equals(AppConstants.ACTION_BOOT_COMPLETED))
         {
             ArrayList<Alarm> activeAlarms = AlarmDAO.getActiveAlarms(context);
             if (activeAlarms.size() > 0)
