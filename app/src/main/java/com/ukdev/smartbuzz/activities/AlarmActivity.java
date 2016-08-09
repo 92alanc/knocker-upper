@@ -2,6 +2,7 @@ package com.ukdev.smartbuzz.activities;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -28,6 +29,7 @@ public class AlarmActivity extends AppCompatActivity
     private PowerManager.WakeLock wakeLock;
     private boolean snooze;
     private final SnoozeCounter snoozeCounter = new SnoozeCounter(this);
+    private CountDownTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -48,10 +50,12 @@ public class AlarmActivity extends AppCompatActivity
         alarm = AlarmDAO.select(this, getIntent().getIntExtra(AppConstants.EXTRA_ID,
                 AppConstants.DEFAULT_INTENT_EXTRA));
         setTitle();
+        countdown();
         setDismissButton();
         setSnoozeButton();
         alarm.playRingtone(AlarmActivity.this, getBaseContext());
         snooze = false;
+
     }
 
     @Override
@@ -90,6 +94,7 @@ public class AlarmActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+                timer.cancel();
                 snoozeCounter.reset();
                 AlarmHandler.dismissAlarm(alarm, AlarmActivity.this,
                         getBaseContext(), alarm.getPlayer(), alarm.getVibrator(), wakeLock);
@@ -113,6 +118,7 @@ public class AlarmActivity extends AppCompatActivity
                 @Override
                 public void onClick(View view)
                 {
+                    timer.cancel();
                     snooze = true;
                     if (wakeLock.isHeld())
                         wakeLock.release();
@@ -125,6 +131,29 @@ public class AlarmActivity extends AppCompatActivity
                 }
             });
         }
+    }
+
+    /**
+     * Counts down 1 minute until the alarm dismisses itself
+     */
+    private void countdown()
+    {
+        timer = new CountDownTimer(AppConstants.ONE_MINUTE, AppConstants.ONE_SECOND)
+        {
+            @Override
+            public void onTick(long l)
+            {
+                // Do nothing
+            }
+
+            @Override
+            public void onFinish()
+            {
+                AlarmHandler.dismissAlarm(alarm, AlarmActivity.this, getBaseContext(),
+                                          alarm.getPlayer(), alarm.getVibrator(), wakeLock);
+            }
+        };
+        timer.start();
     }
 
 }

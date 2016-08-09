@@ -63,7 +63,7 @@ public class AppConstants
 
     // --- TIME ---
     public static final long TEN_SECONDS = 10000;
-    private static final int ONE_MINUTE = 60000;
+    public static final int ONE_MINUTE = 60000;
     public static final long ONE_SECOND = 1000;
     static final int TWO_MINUTES = 2 * ONE_MINUTE;
     static final int THREE_MINUTES = 3 * ONE_MINUTE;
