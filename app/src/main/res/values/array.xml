@@ -95,14 +95,14 @@
 
     <!-- Help contents -->
     <string-array name="helpContents">
-        <item>To create an alarm, click the "+" button at the bottom right corner of the screen, then
+        <item>To create an alarm, click the \'+\' button at the bottom right corner of the screen, then
             fill in the fields you want.
-            \nTo save, click either the top or the bottom "Save" button.
+            \nTo save, click either the \'Save\' button.
         </item>
         <item>To delete an alarm, tap and hold an item on the list, select other alarms if you want, then click the rubbish bin button at the top right corner of the screen.</item>
         <item>To edit an alarm, click on the one you want, make your changes, and then save.</item>
         <item>Reminders are a bit different than alarms. They will not trigger Sleep Checker after they are dismissed.</item>
-        <item>You can set your alarms to repeat during the week.\nTo do so, just check the "Repeat during the week" box when you are creating an alarm.</item>
+        <item>You can set your alarms to repeat during the week.\nTo do so, just check the \'Repeat during the week\' box when you are creating an alarm.</item>
         <item>Sleep Checker is a silent agent that is triggered at a random time between 3 and 5 minutes after you dismiss an alarm.\nIt makes sure you don\'t sleep longer than you should and miss your appointments.
         \nWhen it\'s triggered, you will have 10 seconds to prove that you\'re awake, otherwise the alarm will trigger again, but with a slight difference: the volume will be set to maximum and your device will vibrate.
         </item>

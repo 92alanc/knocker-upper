@@ -17,7 +17,7 @@
     <string-array name="helpContents">
         <item>Um einen Alarm zu erstellen, klicken Sie auf die Schaltfläche "+" in der unteren rechten Ecke des Bildschirms, dann
                          Füllen Sie die gewünschten Felder.
-                         \nUm speichern, klicken Sie entweder auf die Schaltfläche "Speichern" am oberen oder am unteren Rand.</item>
+                         \nUm speichern, klicken Sie auf die Schaltfläche "Speichern".</item>
         <item>Um einen Alarm zu löschen, tippen Sie auf ein Element in der Liste halten, wählen Sie andere Alarme aus, wenn Sie wollen, dann klicken Sie auf den Mülleimer-Taste in der oberen rechten Ecke des Bildschirms.</item>
         <item>Um einen Alarm zu bearbeiten, klicken Sie auf die, die Sie wollen, nehmen Sie Ihre Änderungen, und dann speichern.</item>
         <item>Erinnerungen sind ein bisschen anders als Alarme. Sie rufen Sleep Checker nicht nach ihnen zu stoppen.</item>

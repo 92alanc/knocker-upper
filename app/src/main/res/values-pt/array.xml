@@ -17,7 +17,7 @@
     <string-array name="helpContents">
         <item>Para criar um alarme, clique no botão "+" no canto inferior direito da tela, depois
             preencha os campos que quiser.
-            \nPara salvar, clique ou no botão "Salvar" de cima ou de baixo.</item>
+            \nPara salvar, clique no botão "Salvar".</item>
         <item>Para excluir um alarme, segure em um item da lista, selecione outros alarmes se quiser, depois clique no botão da lixeira no canto superior direito da tela.</item>
         <item>Para editar um alarme, clique no que você quer, faça as mudanças, depois salve.</item>
         <item>Lembretes são um pouco diferentes dos alarmes. Eles não vão ativar o Sleep Checker depois que são dispensados.</item>

@@ -17,7 +17,7 @@
     <string-array name="helpContents">
         <item>Per creare una sveglia, fare clic sul pulsante "+" in basso a destra dello schermo, poi
                          compilare i campi che si desidera.
-                         \nPer salvare, fare clic sul pulsante "Salva" in alto o in basso.</item>
+                         \nPer salvare, fare clic sul pulsante "Salva".</item>
         <item>Per eliminare una sveglia, toccare e tenere premuto un elemento della lista, selezionare altri sveglie, se si desidera, quindi fare clic sul pulsante spazzatura nell\'angolo in alto a destra dello schermo.</item>
         <item>Per modificare una sveglia, cliccare su quello desiderato, apportare le modifiche e quindi salvare.</item>
         <item>Promemoria sono un po \'diverso da quello degli sveglie. Essi non chiamare Sleep Checker dopo di loro arresto.</item>
