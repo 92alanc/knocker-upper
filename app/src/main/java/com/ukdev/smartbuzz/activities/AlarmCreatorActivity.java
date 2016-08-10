@@ -7,7 +7,6 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -53,8 +52,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         manager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         reminderCheckBox = (CheckBox)findViewById(R.id.reminderCheckBox);
         setToolbarLayout();
-        setTopSaveButton();
-        setBottomSaveButton();
+        setSaveButton();
         setTimePicker();
         repetitionButtons = FrontEndTools.buildRepetitionButtons(this, this);
         setRepetitionCheckBox();
@@ -94,42 +92,12 @@ public class AlarmCreatorActivity extends AppCompatActivity
     }
 
     /**
-     * Sets actions to topSaveButton
+     * Sets actions to saveButton
      */
-    private void setTopSaveButton()
+    private void setSaveButton()
     {
-        FloatingActionButton topSaveButton =
-                (FloatingActionButton) findViewById(R.id.topSaveButton);
-        topSaveButton.setOnClickListener(
-                new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View view)
-                    {
-                        if (isEditing)
-                        {
-                            update();
-                            FrontEndTools.startActivity(AlarmCreatorActivity.this,
-                                    HomeActivity.class);
-                        }
-                        else
-                        {
-                            if (save())
-                                FrontEndTools.startActivity(AlarmCreatorActivity.this,
-                                        HomeActivity.class);
-                        }
-                    }
-                }
-        );
-    }
-
-    /**
-     * Sets actions to bottomSaveButton
-     */
-    private void setBottomSaveButton()
-    {
-        Button bottomSaveButton = (Button) findViewById(R.id.bottomSaveButton);
-        bottomSaveButton.setOnClickListener(
+        Button saveButton = (Button) findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(
                 new View.OnClickListener()
                 {
                     @Override

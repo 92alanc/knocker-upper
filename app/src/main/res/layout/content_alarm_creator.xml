@@ -371,7 +371,7 @@
                     android:textSize="18sp"/>
             <!-- Save button -->
             <Button
-                    android:id="@+id/bottomSaveButton"
+                    android:id="@+id/saveButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
