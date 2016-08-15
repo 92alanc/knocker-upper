@@ -107,17 +107,17 @@ public class AlarmCreatorActivity extends AppCompatActivity
                         {
                             update();
                             FrontEndTools.startActivity(AlarmCreatorActivity.this,
-                                    HomeActivity.class);
+                                                        HomeActivity.class);
                         }
                         else
                         {
                             if (save())
                                 FrontEndTools.startActivity(AlarmCreatorActivity.this,
-                                        HomeActivity.class);
+                                                            HomeActivity.class);
                         }
                     }
                 }
-        );
+                                     );
     }
 
     /**
@@ -181,7 +181,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
     {
         int volume = (BackEndTools.getMaxVolume(manager) * volumeSeekBar.getProgress()) / 100;
         final AudioFocusChangeListener listener = new AudioFocusChangeListener(manager,
-                volume);
+                                                                               volume);
         final ImageButton ringtoneTestButton = (ImageButton)findViewById(
                 R.id.ringtoneTestButton);
         ringtoneTestButton.setOnClickListener(new View.OnClickListener()
@@ -193,64 +193,71 @@ public class AlarmCreatorActivity extends AppCompatActivity
                 {
                     RingtoneWrapper ringtone = (RingtoneWrapper)
                             ringtoneSpinner.getSelectedItem();
-                    player = new MediaPlayer();
-                    int v = (BackEndTools.getMaxVolume(manager) * volumeSeekBar.getProgress()) / 100;
-                    manager.setStreamVolume(AudioManager.STREAM_ALARM, v, 0);
-                    int requestResult;
-                    if (AppConstants.OS_VERSION >= Build.VERSION_CODES.KITKAT)
-                        requestResult = manager.requestAudioFocus(listener,
-                                AudioManager.STREAM_ALARM,
-                                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
-                    else
-                        requestResult = manager.requestAudioFocus(listener,
-                                                                  AudioManager.STREAM_ALARM,
-                                                                  AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
-                    if (requestResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
+                    if (ringtone.isPlayable())
                     {
-                        player.setAudioStreamType(AudioManager.STREAM_ALARM);
-                        try
+                        player = new MediaPlayer();
+                        int v = (BackEndTools.getMaxVolume(manager) * volumeSeekBar.getProgress()) / 100;
+                        manager.setStreamVolume(AudioManager.STREAM_ALARM, v, 0);
+                        int requestResult;
+                        if (AppConstants.OS_VERSION >= Build.VERSION_CODES.KITKAT)
+                            requestResult = manager.requestAudioFocus(listener,
+                                                                      AudioManager.STREAM_ALARM,
+                                                                      AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
+                        else
+                            requestResult = manager.requestAudioFocus(listener,
+                                                                      AudioManager.STREAM_ALARM,
+                                                                      AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+                        if (requestResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
                         {
-                            player.setDataSource(getBaseContext(), ringtone.getUri());
-                            player.prepare();
+                            player.setAudioStreamType(AudioManager.STREAM_ALARM);
+                            try
+                            {
+                                player.setDataSource(getBaseContext(), ringtone.getUri());
+                                player.prepare();
+                            }
+                            catch (IOException e)
+                            {
+                                e.printStackTrace();
+                            }
                         }
-                        catch (IOException e)
+                        volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
                         {
-                            e.printStackTrace();
-                        }
+                            @Override
+                            public void onProgressChanged(SeekBar seekBar, int progress, boolean b)
+                            {
+                                manager.setStreamVolume(AudioManager.STREAM_ALARM, progress, 0);
+                                if (!player.isPlaying())
+                                    player.start();
+                            }
+
+                            @Override
+                            public void onStartTrackingTouch(SeekBar seekBar)
+                            {
+
+                            }
+
+                            @Override
+                            public void onStopTrackingTouch(SeekBar seekBar)
+                            {
+
+                            }
+                        });
+                        player.start();
+                        ringtoneTestButton.setImageResource(R.drawable.stop);
+                        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
+                        {
+                            @Override
+                            public void onCompletion(MediaPlayer mediaPlayer)
+                            {
+                                manager.abandonAudioFocus(listener);
+                                ringtoneTestButton.setImageResource(R.drawable.play);
+                            }
+                        });
                     }
-                    volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
-                    {
-                        @Override
-                        public void onProgressChanged(SeekBar seekBar, int progress, boolean b)
-                        {
-                            manager.setStreamVolume(AudioManager.STREAM_ALARM, progress, 0);
-                            if (!player.isPlaying())
-                                player.start();
-                        }
-
-                        @Override
-                        public void onStartTrackingTouch(SeekBar seekBar)
-                        {
-
-                        }
-
-                        @Override
-                        public void onStopTrackingTouch(SeekBar seekBar)
-                        {
-
-                        }
-                    });
-                    player.start();
-                    ringtoneTestButton.setImageResource(R.drawable.stop);
-                    player.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
-                    {
-                        @Override
-                        public void onCompletion(MediaPlayer mediaPlayer)
-                        {
-                            manager.abandonAudioFocus(listener);
-                            ringtoneTestButton.setImageResource(R.drawable.play);
-                        }
-                    });
+                    else
+                        FrontEndTools.showToast(getBaseContext(),
+                                                String.format(getString(R.string.invalid_ringtone_file),
+                                                              ringtone.getTitle()), Toast.LENGTH_LONG);
                 }
                 else
                 {
@@ -312,20 +319,30 @@ public class AlarmCreatorActivity extends AppCompatActivity
     private boolean save()
     {
         String title = titleBox.getText().toString().equals("") ?
-                getResources().getString(R.string.new_alarm) :
-                titleBox.getText().toString();
+                       getResources().getString(R.string.new_alarm) :
+                       titleBox.getText().toString();
+        if (ringtoneSpinner.getSelectedItem() == null) // Something terribly wrong happened
+            ringtoneSpinner.setSelection(0);
+        RingtoneWrapper ringtone = (RingtoneWrapper)ringtoneSpinner.getSelectedItem();
         if (AlarmDAO.hasDuplicates(this, title)
-                && !title.equalsIgnoreCase(getString(R.string.new_alarm)))
+            && !title.equalsIgnoreCase(getString(R.string.new_alarm)))
         {
             FrontEndTools.showToast(this,
-                    String.format(getString(R.string.alarm_already_stored), title),
-                    Toast.LENGTH_LONG);
+                                    String.format(getString(R.string.alarm_already_stored), title),
+                                    Toast.LENGTH_LONG);
+            return false;
+        }
+        else if (!ringtone.isPlayable())
+        {
+            FrontEndTools.showToast(this,
+                                    String.format(getString(R.string.invalid_ringtone_file),
+                                                  ringtone.getTitle()), Toast.LENGTH_LONG);
             return false;
         }
         else
         {
             if (AlarmDAO.hasDuplicates(this, title)
-                    && title.equalsIgnoreCase(getString(R.string.new_alarm)))
+                && title.equalsIgnoreCase(getString(R.string.new_alarm)))
                 title = title + " " + (AlarmDAO.getNewAlarmCount(this) + 1);
             timePicker.clearFocus();
             int hours;
@@ -346,9 +363,6 @@ public class AlarmCreatorActivity extends AppCompatActivity
 
             int id = AlarmDAO.selectAll(this, AppConstants.ORDER_BY_ID).length + 1;
             TimeZoneWrapper timeZone = (TimeZoneWrapper)timeZoneSpinner.getSelectedItem();
-            if (ringtoneSpinner.getSelectedItem() == null) // Something terribly wrong happened
-                ringtoneSpinner.setSelection(0);
-            RingtoneWrapper ringtone = (RingtoneWrapper)ringtoneSpinner.getSelectedItem();
             int volume;
             float vol = (BackEndTools.getMaxVolume(manager) * volumeSeekBar.getProgress()) / 100;
             if (vol == (int)vol)
@@ -362,12 +376,12 @@ public class AlarmCreatorActivity extends AppCompatActivity
                 player.stop();
 
             Alarm alarm = new Alarm(id, title, triggerTime, ringtone, volume, vibrate,
-                    reminder, true, timeZone, repetition, snooze);
+                                    reminder, true, timeZone, repetition, snooze);
             AlarmDAO.insert(this, alarm);
             AlarmHandler.scheduleAlarm(this, alarm);
             FrontEndTools.showToast(getBaseContext(),
-                    getString(R.string.alarm_set),
-                    Toast.LENGTH_SHORT);
+                                    getString(R.string.alarm_set),
+                                    Toast.LENGTH_SHORT);
             return true;
         }
     }
@@ -378,53 +392,65 @@ public class AlarmCreatorActivity extends AppCompatActivity
     private void update()
     {
         Alarm alarm = AlarmDAO.selectAll(this, AppConstants.ORDER_BY_ID)[(idToEdit - 1)];
+        String originalTitle = alarm.getTitle();
         String title = titleBox.getText().toString().equals("") ?
-                getResources().getString(R.string.new_alarm) :
-                titleBox.getText().toString();
-        alarm.setTitle(title);
-        int hours;
-        int minutes;
-        if (AppConstants.OS_VERSION >= Build.VERSION_CODES.M)
-        {
-            hours = timePicker.getHour();
-            minutes = timePicker.getMinute();
-        }
-        else
-        {
-            hours = timePicker.getCurrentHour();
-            minutes = timePicker.getCurrentMinute();
-        }
-        TimeWrapper time = new TimeWrapper(hours, minutes);
-        alarm.setTriggerTime(time);
-        CheckBox reminderCheckBox = (CheckBox)findViewById(R.id.reminderCheckBox);
-        alarm.setAsReminder(reminderCheckBox.isChecked());
-        TimeZoneWrapper timeZone = (TimeZoneWrapper)timeZoneSpinner.getSelectedItem();
-        alarm.setTimeZone(timeZone);
+                       getResources().getString(R.string.new_alarm) :
+                       titleBox.getText().toString();
+        if (ringtoneSpinner.getSelectedItem() == null) // Something terribly wrong happened
+            ringtoneSpinner.setSelection(0);
         RingtoneWrapper ringtone = (RingtoneWrapper)ringtoneSpinner.getSelectedItem();
-        alarm.setRingtone(ringtone);
-        int volume;
-        float vol = (BackEndTools.getMaxVolume(manager) * volumeSeekBar.getProgress()) / 100;
-        if (vol == (int)vol)
-            volume = (int)vol;
+        if (!title.equalsIgnoreCase(originalTitle) && AlarmDAO.hasDuplicates(this, title))
+            FrontEndTools.showToast(this, String.format(getString(R.string.alarm_already_stored), title),
+                                    Toast.LENGTH_LONG);
+        else if (!ringtone.isPlayable())
+            FrontEndTools.showToast(this, String.format(getString(R.string.invalid_ringtone_file),
+                                                        ringtone.getTitle()), Toast.LENGTH_LONG);
         else
-            volume = (int)vol + 1;
-        alarm.setVolume(volume);
-        boolean vibrate = vibrateCheckBox.isChecked();
-        alarm.toggleVibration(vibrate);
-        int snooze = getSnoozeSpinnerValue();
-        alarm.setSnooze(snooze);
-        GridLayout layout = (GridLayout)findViewById(R.id.repetitionLayout);
-        int[] repetition = BackEndTools.getSelectedRepetition(layout);
-        alarm.setRepetition(repetition);
-        alarm.toggle(true);
-        if (player != null && player.isPlaying())
-            player.stop();
+        {
+            alarm.setTitle(title);
+            int hours;
+            int minutes;
+            if (AppConstants.OS_VERSION >= Build.VERSION_CODES.M)
+            {
+                hours = timePicker.getHour();
+                minutes = timePicker.getMinute();
+            }
+            else
+            {
+                hours = timePicker.getCurrentHour();
+                minutes = timePicker.getCurrentMinute();
+            }
+            TimeWrapper time = new TimeWrapper(hours, minutes);
+            alarm.setTriggerTime(time);
+            CheckBox reminderCheckBox = (CheckBox)findViewById(R.id.reminderCheckBox);
+            alarm.setAsReminder(reminderCheckBox.isChecked());
+            TimeZoneWrapper timeZone = (TimeZoneWrapper)timeZoneSpinner.getSelectedItem();
+            alarm.setTimeZone(timeZone);
+            alarm.setRingtone(ringtone);
+            int volume;
+            float vol = (BackEndTools.getMaxVolume(manager) * volumeSeekBar.getProgress()) / 100;
+            if (vol == (int)vol)
+                volume = (int)vol;
+            else
+                volume = (int)vol + 1;
+            alarm.setVolume(volume);
+            boolean vibrate = vibrateCheckBox.isChecked();
+            alarm.toggleVibration(vibrate);
+            int snooze = getSnoozeSpinnerValue();
+            alarm.setSnooze(snooze);
+            GridLayout layout = (GridLayout)findViewById(R.id.repetitionLayout);
+            int[] repetition = BackEndTools.getSelectedRepetition(layout);
+            alarm.setRepetition(repetition);
+            alarm.toggle(true);
+            if (player != null && player.isPlaying())
+                player.stop();
 
-        AlarmDAO.update(this, alarm.getId(), alarm);
-        AlarmHandler.updateAlarm(this, alarm);
-        FrontEndTools.showToast(getBaseContext(),
-                getString(R.string.alarm_updated),
-                Toast.LENGTH_SHORT);
+            AlarmDAO.update(this, alarm.getId(), alarm);
+            AlarmHandler.updateAlarm(this, alarm);
+            FrontEndTools.showToast(getBaseContext(),
+                                    getString(R.string.alarm_updated),
+                                    Toast.LENGTH_SHORT);
+        }
     }
 
     /**
@@ -589,13 +615,13 @@ public class AlarmCreatorActivity extends AppCompatActivity
                         if (player != null && player.isPlaying())
                             player.stop();
                         FrontEndTools.showToast(getBaseContext(),
-                                getString(R.string.cancelled), Toast.LENGTH_SHORT);
+                                                getString(R.string.cancelled), Toast.LENGTH_SHORT);
                         Intent intent = new Intent(AlarmCreatorActivity.this,
-                                HomeActivity.class);
+                                                   HomeActivity.class);
                         AlarmCreatorActivity.this.startActivity(intent);
                     }
                 }
-        );
+                                       );
     }
 
 }

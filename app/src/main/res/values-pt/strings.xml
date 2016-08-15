@@ -12,7 +12,7 @@
     <string name="delete_question">Tem certeza que deseja apagar este alarme?</string>
     <string name="dismiss">Parar</string>
     <string name="info">
-        Desenvolvido por UKDev Solutions\n
+        Desenvolvido por Braincorp Apps\n
         e-mail: alcam.ukdev@gmail.com
     </string>
     <string name="new_alarm">Novo Alarme</string>
@@ -43,5 +43,6 @@
     <string name="sort_title">Ordenar por título</string>
     <string name="alarm_locked">\ "%1$s\" vai continuar bloqueado até você dispensar o Sleep Checker</string>
     <string name="snooze">Soneca</string>
+    <string name="invalid_ringtone_file">%1$s não é um arquivo de toque válido.</string>
 
 </resources>

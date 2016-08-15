@@ -12,7 +12,7 @@
     <string name="delete_question">¿Estas seguro de que deseas borrar esta alarma?</string>
     <string name="dismiss">Parar</string>
     <string name="info">
-        Desarrollada por UKDev Solutions\ne-mail: alcam.ukdev@gmail.com
+        Desarrollada por Braincorp Apps\ne-mail: alcam.ukdev@gmail.com
     </string>
     <string name="new_alarm">Nueva Alarma</string>
     <string name="no">No</string>
@@ -42,5 +42,6 @@
     <string name="sort_title">Ordenar por titulo</string>
     <string name="alarm_locked">\"%1$s\" permanecerá bloqueado hasta que pares Sleep Checker</string>
     <string name="snooze">Snooze</string>
+    <string name="invalid_ringtone_file">%1$s no es un archivo de tono válido.</string>
 
 </resources>

@@ -12,7 +12,7 @@
     <string name="delete_question">Bist Du sicher, dass Du den Alarm löschen willst?</string>
     <string name="dismiss">Verwerfen</string>
     <string name="info">
-        Entwickelt von UKDev Solutions\n
+        Entwickelt von Braincorp Apps\n
         e-mail: alcam.ukdev@gmail.com
     </string>
     <string name="new_alarm">Neuer Alarm</string>
@@ -43,5 +43,6 @@
     <string name="sort_title">Sortieren nach Titel</string>
     <string name="alarm_locked">\"%1$s\" bleiben gesperrt, bis Sie Sleep Checker verwerfen</string>
     <string name="snooze">Schlummer</string>
+    <string name="invalid_ringtone_file">%1$s ist keine gültige Klingelton-Datei.</string>
 
 </resources>

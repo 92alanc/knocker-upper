@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import com.ukdev.smartbuzz.extras.AppConstants;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -59,6 +60,18 @@ public class RingtoneWrapper
     public String getTitle()
     {
         return title;
+    }
+
+    /**
+     * Tells whether the ringtone is playable
+     * Note: a ringtone is considered as playable
+     * if its size in bytes is greater than zero
+     * @return true if the ringtone is playable
+     */
+    public boolean isPlayable()
+    {
+        File ringtoneFile = new File(uri.toString());
+        return ringtoneFile.length() < 0;
     }
 
     /**

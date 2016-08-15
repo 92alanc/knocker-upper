@@ -12,7 +12,7 @@
     <string name="delete_question">Sei sicuro di voler eliminare questa sveglia?</string>
     <string name="dismiss">Disméttere</string>
     <string name="info">
-        Sviluppata da UKDev Solutions\n
+        Sviluppata da Braincorp Apps\n
         e-mail: alcam.ukdev@gmail.com
     </string>
     <string name="new_alarm">Nuova sveglia</string>
@@ -43,5 +43,6 @@
     <string name="sort_title">Ordina per titolo</string>
     <string name="alarm_locked">\"%1$s\" rimarrà bloccato finché di disméttere Sleep Checker</string>
     <string name="snooze">Snooze</string>
+    <string name="invalid_ringtone_file">%1$s non è un file suoneria valido.</string>
 
 </resources>
