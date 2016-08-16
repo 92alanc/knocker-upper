@@ -49,7 +49,7 @@ public class AlarmDAO
         values.put(AlarmTable.COLUMN_VOLUME, alarm.getVolume());
         values.put(AlarmTable.COLUMN_SNOOZE, alarm.getSnooze());
         values.put(AlarmTable.COLUMN_STATE, alarm.isOn() ? 1 : 0);
-        values.put(AlarmTable.COLUMN_LOCKED, alarm.isLocked() ? 1 : 0);
+        values.put(AlarmTable.COLUMN_IS_LOCKED, alarm.isLocked() ? 1 : 0);
         db.insert(TABLE_NAME, null, values);
         db.close();
     }
@@ -96,7 +96,7 @@ public class AlarmDAO
         values.put(AlarmTable.COLUMN_VOLUME, newAlarmValues.getVolume());
         values.put(AlarmTable.COLUMN_SNOOZE, newAlarmValues.getSnooze());
         values.put(AlarmTable.COLUMN_STATE, newAlarmValues.isOn() ? 1 : 0);
-        values.put(AlarmTable.COLUMN_LOCKED, newAlarmValues.isLocked() ? 1 : 0);
+        values.put(AlarmTable.COLUMN_IS_LOCKED, newAlarmValues.isLocked() ? 1 : 0);
         db.update(TABLE_NAME, values,
                 AlarmTable.COLUMN_ID + " = ?",
                 new String[] { String.valueOf(id) });
@@ -178,7 +178,7 @@ public class AlarmDAO
                 repetition = BackEndTools.convertStringToIntArray(context,
                         cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_REPETITION)));
                 RingtoneWrapper ringtone = new RingtoneWrapper(Uri.parse(ringtoneUri), ringtoneTitle, ringtoneType);
-                isLocked = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_LOCKED)) == 1;
+                isLocked = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_IS_LOCKED)) == 1;
 
                 alarms[i] = new Alarm(id, alarmTitle, triggerTime, ringtone, volume, vibrates,
                         isReminder, isOn, timeZone, repetition, snooze);

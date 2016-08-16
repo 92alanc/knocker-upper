@@ -25,25 +25,60 @@ public class AlarmTable
     static final String COLUMN_VOLUME = "VOLUME";
     static final String COLUMN_SNOOZE = "SNOOZE";
     static final String COLUMN_STATE = "STATE";
-    static final String COLUMN_LOCKED = "LOCKED";
+    static final String COLUMN_IS_LOCKED = "IS_LOCKED";
 
-    static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
-                                       "(" + COLUMN_ID + " INTEGER , "
-                                       + COLUMN_TITLE + " TEXT, "
-                                       + COLUMN_TRIGGER_HOURS + " INTEGER, "
-                                       + COLUMN_TRIGGER_MINUTES + " INTEGER, "
-                                       + COLUMN_REPETITION + " TEXT, "
-                                       + COLUMN_TIME_ZONE_TITLE + " TEXT, "
-                                       + COLUMN_TIME_ZONE_OFFSET_HOURS + " INTEGER, "
-                                       + COLUMN_TIME_ZONE_OFFSET_MINUTES + " INTEGER, "
-                                       + COLUMN_IS_REMINDER + " INTEGER, "
-                                       + COLUMN_VIBRATES + " INTEGER, "
-                                       + COLUMN_RINGTONE_URI + " TEXT, "
-                                       + COLUMN_RINGTONE_TITLE + " TEXT, "
-                                       + COLUMN_RINGTONE_TYPE + " INT, "
-                                       + COLUMN_VOLUME + " INTEGER, "
-                                       + COLUMN_SNOOZE + " INTEGER, "
-                                       + COLUMN_STATE + " INTEGER, "
-                                       + COLUMN_LOCKED + " INTEGER)";
+    /**
+     * Creates the table
+     * @return query to create the table
+     */
+    static String createTable()
+    {
+        return String.format(prepareQuery(),
+                                     TABLE_NAME,
+                                     COLUMN_ID,
+                                     COLUMN_TITLE,
+                                     COLUMN_TRIGGER_HOURS,
+                                     COLUMN_TRIGGER_MINUTES,
+                                     COLUMN_REPETITION,
+                                     COLUMN_TIME_ZONE_TITLE,
+                                     COLUMN_TIME_ZONE_OFFSET_HOURS,
+                                     COLUMN_TIME_ZONE_OFFSET_MINUTES,
+                                     COLUMN_IS_REMINDER,
+                                     COLUMN_VIBRATES,
+                                     COLUMN_RINGTONE_URI,
+                                     COLUMN_RINGTONE_TITLE,
+                                     COLUMN_RINGTONE_TYPE,
+                                     COLUMN_VOLUME,
+                                     COLUMN_SNOOZE,
+                                     COLUMN_STATE,
+                                     COLUMN_IS_LOCKED);
+    }
+
+    /**
+     * Prepares the structure of the query to create the table
+     * @return query structure
+     */
+    private static String prepareQuery()
+    {
+        StringBuilder query = new StringBuilder("CREATE TABLE %1$s");
+        query.append("(%2$s INTEGER, ");
+        query.append("%3$s TEXT, ");
+        query.append("%4$s INTEGER, ");
+        query.append("%5$s INTEGER, ");
+        query.append("%6$s TEXT, ");
+        query.append("%7$s TEXT, ");
+        query.append("%8$s INTEGER, ");
+        query.append("%9$s INTEGER, ");
+        query.append("%10$S INTEGER, ");
+        query.append("%11$s INTEGER, ");
+        query.append("%12$s TEXT, ");
+        query.append("%13$s TEXT, ");
+        query.append("%14$s INT DEFAULT 0, ");
+        query.append("%15$s INTEGER, ");
+        query.append("%16$s INTEGER, ");
+        query.append("%17$s INTEGER, ");
+        query.append("%18$s INTEGER)");
+        return query.toString();
+    }
 
 }
