@@ -105,8 +105,8 @@ public class AlarmCreatorActivity extends AppCompatActivity
                     {
                         if (isEditing)
                         {
-                            update();
-                            FrontEndTools.startActivity(AlarmCreatorActivity.this,
+                            if (update())
+                                FrontEndTools.startActivity(AlarmCreatorActivity.this,
                                                         HomeActivity.class);
                         }
                         else
@@ -388,8 +388,10 @@ public class AlarmCreatorActivity extends AppCompatActivity
 
     /**
      * Updates an alarm
+     * @return true if the operation has been successful,
+     * otherwise false
      */
-    private void update()
+    private boolean update()
     {
         Alarm alarm = AlarmDAO.selectAll(this, AppConstants.ORDER_BY_ID)[(idToEdit - 1)];
         String originalTitle = alarm.getTitle();
@@ -400,11 +402,17 @@ public class AlarmCreatorActivity extends AppCompatActivity
             ringtoneSpinner.setSelection(0);
         RingtoneWrapper ringtone = (RingtoneWrapper)ringtoneSpinner.getSelectedItem();
         if (!title.equalsIgnoreCase(originalTitle) && AlarmDAO.hasDuplicates(this, title))
+        {
             FrontEndTools.showToast(this, String.format(getString(R.string.alarm_already_stored), title),
                                     Toast.LENGTH_LONG);
+            return false;
+        }
         else if (!ringtone.isPlayable())
+        {
             FrontEndTools.showToast(this, String.format(getString(R.string.invalid_ringtone_file),
                                                         ringtone.getTitle()), Toast.LENGTH_LONG);
+            return false;
+        }
         else
         {
             alarm.setTitle(title);
@@ -450,6 +458,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
             FrontEndTools.showToast(getBaseContext(),
                                     getString(R.string.alarm_updated),
                                     Toast.LENGTH_SHORT);
+            return true;
         }
     }
 

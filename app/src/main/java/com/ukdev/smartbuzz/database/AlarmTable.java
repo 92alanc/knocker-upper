@@ -21,27 +21,29 @@ public class AlarmTable
     static final String COLUMN_VIBRATES = "VIBRATES";
     static final String COLUMN_RINGTONE_URI = "RINGTONE_URI";
     static final String COLUMN_RINGTONE_TITLE = "RINGTONE_TITLE";
+    static final String COLUMN_RINGTONE_TYPE = "RINGTONE_TYPE";
     static final String COLUMN_VOLUME = "VOLUME";
     static final String COLUMN_SNOOZE = "SNOOZE";
     static final String COLUMN_STATE = "STATE";
     static final String COLUMN_LOCKED = "LOCKED";
 
     static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
-            "(" + COLUMN_ID + " INTEGER , "
-            + COLUMN_TITLE + " TEXT, "
-            + COLUMN_TRIGGER_HOURS + " INTEGER, "
-            + COLUMN_TRIGGER_MINUTES + " INTEGER, "
-            + COLUMN_REPETITION + " TEXT, "
-            + COLUMN_TIME_ZONE_TITLE + " TEXT, "
-            + COLUMN_TIME_ZONE_OFFSET_HOURS + " INTEGER, "
-            + COLUMN_TIME_ZONE_OFFSET_MINUTES + " INTEGER, "
-            + COLUMN_IS_REMINDER + " INTEGER, "
-            + COLUMN_VIBRATES + " INTEGER, "
-            + COLUMN_RINGTONE_URI + " TEXT, "
-            + COLUMN_RINGTONE_TITLE + " TEXT, "
-            + COLUMN_VOLUME + " INTEGER, "
-            + COLUMN_SNOOZE + " INTEGER, "
-            + COLUMN_STATE + " INTEGER, "
-            + COLUMN_LOCKED + " INTEGER)";
+                                       "(" + COLUMN_ID + " INTEGER , "
+                                       + COLUMN_TITLE + " TEXT, "
+                                       + COLUMN_TRIGGER_HOURS + " INTEGER, "
+                                       + COLUMN_TRIGGER_MINUTES + " INTEGER, "
+                                       + COLUMN_REPETITION + " TEXT, "
+                                       + COLUMN_TIME_ZONE_TITLE + " TEXT, "
+                                       + COLUMN_TIME_ZONE_OFFSET_HOURS + " INTEGER, "
+                                       + COLUMN_TIME_ZONE_OFFSET_MINUTES + " INTEGER, "
+                                       + COLUMN_IS_REMINDER + " INTEGER, "
+                                       + COLUMN_VIBRATES + " INTEGER, "
+                                       + COLUMN_RINGTONE_URI + " TEXT, "
+                                       + COLUMN_RINGTONE_TITLE + " TEXT, "
+                                       + COLUMN_RINGTONE_TYPE + " INT, "
+                                       + COLUMN_VOLUME + " INTEGER, "
+                                       + COLUMN_SNOOZE + " INTEGER, "
+                                       + COLUMN_STATE + " INTEGER, "
+                                       + COLUMN_LOCKED + " INTEGER)";
 
 }

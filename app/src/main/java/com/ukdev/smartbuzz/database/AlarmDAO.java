@@ -45,6 +45,7 @@ public class AlarmDAO
         values.put(AlarmTable.COLUMN_VIBRATES, alarm.vibrates() ? 1 : 0);
         values.put(AlarmTable.COLUMN_RINGTONE_URI, alarm.getRingtone().getUri().toString());
         values.put(AlarmTable.COLUMN_RINGTONE_TITLE, alarm.getRingtone().getTitle());
+        values.put(AlarmTable.COLUMN_RINGTONE_TYPE, alarm.getRingtone().getType() == RingtoneType.Native ? 0 : 1);
         values.put(AlarmTable.COLUMN_VOLUME, alarm.getVolume());
         values.put(AlarmTable.COLUMN_SNOOZE, alarm.getSnooze());
         values.put(AlarmTable.COLUMN_STATE, alarm.isOn() ? 1 : 0);
@@ -91,6 +92,7 @@ public class AlarmDAO
         values.put(AlarmTable.COLUMN_VIBRATES, newAlarmValues.vibrates() ? 1 : 0);
         values.put(AlarmTable.COLUMN_RINGTONE_URI, newAlarmValues.getRingtone().getUri().toString());
         values.put(AlarmTable.COLUMN_RINGTONE_TITLE, newAlarmValues.getRingtone().getTitle());
+        values.put(AlarmTable.COLUMN_RINGTONE_TYPE, newAlarmValues.getRingtone().getType() == RingtoneType.Native ? 0 : 1);
         values.put(AlarmTable.COLUMN_VOLUME, newAlarmValues.getVolume());
         values.put(AlarmTable.COLUMN_SNOOZE, newAlarmValues.getSnooze());
         values.put(AlarmTable.COLUMN_STATE, newAlarmValues.isOn() ? 1 : 0);
@@ -145,6 +147,7 @@ public class AlarmDAO
                 boolean isOn, isReminder, vibrates, isLocked;
                 int[] repetition;
                 TimeWrapper triggerTime;
+                RingtoneType ringtoneType;
 
                 alarmTitle = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_TITLE));
 
@@ -163,13 +166,18 @@ public class AlarmDAO
                 isReminder = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_IS_REMINDER)) == 1;
                 ringtoneUri = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_RINGTONE_URI));
                 ringtoneTitle = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_RINGTONE_TITLE));
+                int type = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_RINGTONE_TYPE));
+                if (type == 0)
+                    ringtoneType = RingtoneType.Native;
+                else
+                    ringtoneType = RingtoneType.Custom;
                 volume = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_VOLUME));
                 snooze = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_SNOOZE));
                 vibrates = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_VIBRATES)) == 1;
 
                 repetition = BackEndTools.convertStringToIntArray(context,
                         cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_REPETITION)));
-                RingtoneWrapper ringtone = new RingtoneWrapper(Uri.parse(ringtoneUri), ringtoneTitle);
+                RingtoneWrapper ringtone = new RingtoneWrapper(Uri.parse(ringtoneUri), ringtoneTitle, ringtoneType);
                 isLocked = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_LOCKED)) == 1;
 
                 alarms[i] = new Alarm(id, alarmTitle, triggerTime, ringtone, volume, vibrates,
