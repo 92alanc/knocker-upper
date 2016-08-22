@@ -29,6 +29,7 @@ public class SleepCheckerActivity extends AppCompatActivity
     private CountDownTimer countdownTimer;
     private Alarm alarm;
     private PowerManager.WakeLock wakeLock;
+    private AlarmDAO database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -42,11 +43,12 @@ public class SleepCheckerActivity extends AppCompatActivity
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        database = AlarmDAO.getInstance(this);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK |
                 PowerManager.ACQUIRE_CAUSES_WAKEUP, "Tag");
         if (FrontEndTools.screenIsLocked(this))
             wakeLock.acquire();
-        alarm = AlarmDAO.select(this, getIntent()
+        alarm = database.select(this, getIntent()
                 .getIntExtra(AppConstants.EXTRA_ID, AppConstants.DEFAULT_INTENT_EXTRA));
         setYesButton();
         countdown();
@@ -83,7 +85,7 @@ public class SleepCheckerActivity extends AppCompatActivity
     {
         countdownTimer.cancel();
         alarm.setLocked(false);
-        AlarmDAO.update(this, alarm.getId(), alarm);
+        database.update(this, alarm.getId(), alarm);
         if (alarm != null && !alarm.repeats())
             AlarmHandler.killAlarm(getBaseContext(), alarm);
         if (wakeLock.isHeld())

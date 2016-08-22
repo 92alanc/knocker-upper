@@ -47,7 +47,7 @@ public class AlarmActivity extends AppCompatActivity
                 PowerManager.ACQUIRE_CAUSES_WAKEUP, "Tag");
         if (FrontEndTools.screenIsLocked(this))
             wakeLock.acquire();
-        alarm = AlarmDAO.select(this, getIntent().getIntExtra(AppConstants.EXTRA_ID,
+        alarm = AlarmDAO.getInstance(this).select(this, getIntent().getIntExtra(AppConstants.EXTRA_ID,
                 AppConstants.DEFAULT_INTENT_EXTRA));
         setTitle();
         countdown();

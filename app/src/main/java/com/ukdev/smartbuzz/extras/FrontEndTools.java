@@ -74,7 +74,7 @@ public class FrontEndTools
     public static void adaptAlarmsListView(Context context, ListView listView,
                                            String orderBy)
     {
-        Alarm[] alarms = AlarmDAO.selectAll(context, orderBy);
+        Alarm[] alarms = AlarmDAO.getInstance(context).selectAll(context, orderBy);
         AlarmAdapter adapter = new AlarmAdapter(context, R.layout.alarm_listview_item, alarms);
         listView.setAdapter(adapter);
     }
@@ -112,7 +112,7 @@ public class FrontEndTools
      */
     public static void showNotification(Context context)
     {
-        int alarmCount =AlarmDAO.getActiveAlarms(context).size();
+        int alarmCount =AlarmDAO.getInstance(context).getActiveAlarms(context).size();
         NotificationManager manager =
                 (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (alarmCount > 0)
@@ -248,6 +248,7 @@ public class FrontEndTools
      */
     public static void killApp(Context context)
     {
+        AlarmDAO.closeConnection();
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

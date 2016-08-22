@@ -21,7 +21,7 @@ public class BootReceiver extends BroadcastReceiver
     {
         if (intent.getAction().equals(AppConstants.ACTION_BOOT_COMPLETED))
         {
-            ArrayList<Alarm> activeAlarms = AlarmDAO.getActiveAlarms(context);
+            ArrayList<Alarm> activeAlarms = AlarmDAO.getInstance(context).getActiveAlarms(context);
             if (activeAlarms.size() > 0)
             {
                 for (Alarm alarm : activeAlarms)

@@ -32,6 +32,7 @@ public class HomeActivity extends AppCompatActivity
     private ListView listView;
     private ArrayList<Integer> selectedItems;
     private Toolbar toolbar;
+    private AlarmDAO database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,6 +41,7 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home_screen);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        database = AlarmDAO.getInstance(this);
         setAddButton();
         setListView();
         if (AppConstants.OS_VERSION >= Build.VERSION_CODES.M)
@@ -78,11 +80,11 @@ public class HomeActivity extends AppCompatActivity
                 FrontEndTools.startActivity(HomeActivity.this, HelpActivity.class);
                 break;
             case R.id.sortTimeItem:
-                if (AlarmDAO.selectAll(this, AppConstants.ORDER_BY_TIME).length > 1)
+                if (database.selectAll(this, AppConstants.ORDER_BY_TIME).length > 1)
                     FrontEndTools.adaptAlarmsListView(this, listView, AppConstants.ORDER_BY_TIME);
                 break;
             case R.id.sortTitleItem:
-                if (AlarmDAO.selectAll(this, AppConstants.ORDER_BY_TITLE).length > 1)
+                if (database.selectAll(this, AppConstants.ORDER_BY_TITLE).length > 1)
                     FrontEndTools.adaptAlarmsListView(this, listView, AppConstants.ORDER_BY_TITLE);
         }
         return super.onOptionsItemSelected(item);
@@ -254,7 +256,7 @@ public class HomeActivity extends AppCompatActivity
             else
             {
                 AlarmHandler.cancelAlarm(getBaseContext(), alarm);
-                AlarmDAO.delete(getBaseContext(), alarm.getId());
+                database.delete(alarm.getId());
             }
         }
         if (alarm != null && !alarm.isLocked())

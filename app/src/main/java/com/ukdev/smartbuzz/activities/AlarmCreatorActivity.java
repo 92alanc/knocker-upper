@@ -41,6 +41,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
     private MediaPlayer player;
     private ToggleButton[] repetitionButtons;
     private AudioManager manager;
+    private AlarmDAO database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,6 +50,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         setContentView(R.layout.activity_alarm_creator);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        database = AlarmDAO.getInstance(this);
         manager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         reminderCheckBox = (CheckBox)findViewById(R.id.reminderCheckBox);
         setToolbarLayout();
@@ -324,7 +326,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         if (ringtoneSpinner.getSelectedItem() == null) // Something terribly wrong happened
             ringtoneSpinner.setSelection(0);
         RingtoneWrapper ringtone = (RingtoneWrapper)ringtoneSpinner.getSelectedItem();
-        if (AlarmDAO.hasDuplicates(this, title)
+        if (database.hasDuplicates(this, title)
             && !title.equalsIgnoreCase(getString(R.string.new_alarm)))
         {
             FrontEndTools.showToast(this,
@@ -341,9 +343,9 @@ public class AlarmCreatorActivity extends AppCompatActivity
         }
         else
         {
-            if (AlarmDAO.hasDuplicates(this, title)
+            if (database.hasDuplicates(this, title)
                 && title.equalsIgnoreCase(getString(R.string.new_alarm)))
-                title = title + " " + (AlarmDAO.getNewAlarmCount(this) + 1);
+                title = title + " " + (database.getNewAlarmCount(this) + 1);
             timePicker.clearFocus();
             int hours;
             int minutes;
@@ -361,7 +363,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
             boolean reminder = reminderCheckBox.isChecked();
             int snooze = getSnoozeSpinnerValue();
 
-            int id = AlarmDAO.selectAll(this, AppConstants.ORDER_BY_ID).length + 1;
+            int id = database.selectAll(this, AppConstants.ORDER_BY_ID).length + 1;
             TimeZoneWrapper timeZone = (TimeZoneWrapper)timeZoneSpinner.getSelectedItem();
             int volume;
             float vol = (BackEndTools.getMaxVolume(manager) * volumeSeekBar.getProgress()) / 100;
@@ -377,7 +379,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
 
             Alarm alarm = new Alarm(id, title, triggerTime, ringtone, volume, vibrate,
                                     reminder, true, timeZone, repetition, snooze);
-            AlarmDAO.insert(this, alarm);
+            database.insert(this, alarm);
             AlarmHandler.scheduleAlarm(this, alarm);
             FrontEndTools.showToast(getBaseContext(),
                                     getString(R.string.alarm_set),
@@ -393,7 +395,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private boolean update()
     {
-        Alarm alarm = AlarmDAO.selectAll(this, AppConstants.ORDER_BY_ID)[(idToEdit - 1)];
+        Alarm alarm = database.selectAll(this, AppConstants.ORDER_BY_ID)[(idToEdit - 1)];
         String originalTitle = alarm.getTitle();
         String title = titleBox.getText().toString().equals("") ?
                        getResources().getString(R.string.new_alarm) :
@@ -401,7 +403,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         if (ringtoneSpinner.getSelectedItem() == null) // Something terribly wrong happened
             ringtoneSpinner.setSelection(0);
         RingtoneWrapper ringtone = (RingtoneWrapper)ringtoneSpinner.getSelectedItem();
-        if (!title.equalsIgnoreCase(originalTitle) && AlarmDAO.hasDuplicates(this, title))
+        if (!title.equalsIgnoreCase(originalTitle) && database.hasDuplicates(this, title))
         {
             FrontEndTools.showToast(this, String.format(getString(R.string.alarm_already_stored), title),
                                     Toast.LENGTH_LONG);
@@ -453,7 +455,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
             if (player != null && player.isPlaying())
                 player.stop();
 
-            AlarmDAO.update(this, alarm.getId(), alarm);
+            database.update(this, alarm.getId(), alarm);
             AlarmHandler.updateAlarm(this, alarm);
             FrontEndTools.showToast(getBaseContext(),
                                     getString(R.string.alarm_updated),
@@ -534,7 +536,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private void loadAlarmDataToEdit()
     {
-        Alarm alarmToEdit = AlarmDAO.select(this, idToEdit);
+        Alarm alarmToEdit = database.select(this, idToEdit);
         toolbarLayout =
                 (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
         titleBox = (EditText)findViewById(R.id.titleBox);

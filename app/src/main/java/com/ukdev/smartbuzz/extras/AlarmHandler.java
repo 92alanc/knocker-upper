@@ -36,7 +36,7 @@ public class AlarmHandler
     public static void scheduleAlarm(Context context, Alarm alarm)
     {
         alarm.setLocked(false);
-        AlarmDAO.update(context, alarm.getId(), alarm);
+        AlarmDAO.getInstance(context).update(context, alarm.getId(), alarm);
         AlarmManager manager = (AlarmManager)context
                 .getSystemService(Context.ALARM_SERVICE);
         long triggerTime = TimeWrapper
@@ -245,7 +245,7 @@ public class AlarmHandler
         {
             callSleepChecker(context, alarm);
             alarm.setLocked(true);
-            AlarmDAO.update(context, alarm.getId(), alarm);
+            AlarmDAO.getInstance(context).update(context, alarm.getId(), alarm);
         }
         if (alarm.isReminder() && !alarm.repeats())
             killAlarm(context, alarm);
@@ -262,7 +262,7 @@ public class AlarmHandler
     public static void killAlarm(Context context, Alarm alarm)
     {
         alarm.toggle(false);
-        AlarmDAO.update(context, alarm.getId(), alarm);
+        AlarmDAO.getInstance(context).update(context, alarm.getId(), alarm);
         FrontEndTools.showNotification(context);
     }
 

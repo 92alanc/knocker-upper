@@ -22,14 +22,40 @@ import static com.ukdev.smartbuzz.database.AlarmTable.TABLE_NAME;
 public class AlarmDAO
 {
 
+    private static AlarmDAO instance;
+    private static SQLiteDatabase reader, writer;
+
+    /**
+     * Gets an instance of the database
+     * @param context - Context
+     * @return database instance
+     */
+    public static AlarmDAO getInstance(Context context)
+    {
+        if (instance == null)
+            instance = new AlarmDAO();
+        reader = new DatabaseHelper(context).getReadableDatabase();
+        writer = new DatabaseHelper(context).getWritableDatabase();
+        return instance;
+    }
+
+    /**
+     * Closes the database connection to save memory
+     */
+    public static void closeConnection()
+    {
+        instance = null;
+        reader.close();
+        writer.close();
+    }
+
     /**
      * Inserts an alarm
      * @param context - Context
      * @param alarm - Alarm
      */
-    public static void insert(Context context, Alarm alarm)
+    public void insert(Context context, Alarm alarm)
     {
-        SQLiteDatabase db = new DatabaseHelper(context).getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(AlarmTable.COLUMN_ID, alarm.getId());
         values.put(AlarmTable.COLUMN_TITLE, alarm.getTitle());
@@ -50,21 +76,17 @@ public class AlarmDAO
         values.put(AlarmTable.COLUMN_SNOOZE, alarm.getSnooze());
         values.put(AlarmTable.COLUMN_STATE, alarm.isOn() ? 1 : 0);
         values.put(AlarmTable.COLUMN_IS_LOCKED, alarm.isLocked() ? 1 : 0);
-        db.insert(TABLE_NAME, null, values);
-        db.close();
+        writer.insert(TABLE_NAME, null, values);
     }
 
     /**
      * Deletes an alarm
-     * @param context - Context
      * @param id - int
      */
-    public static void delete(Context context, int id)
+    public void delete(int id)
     {
-        SQLiteDatabase db = new DatabaseHelper(context).getWritableDatabase();
-        db.delete(TABLE_NAME, AlarmTable.COLUMN_ID + " = ?",
+        writer.delete(TABLE_NAME, AlarmTable.COLUMN_ID + " = ?",
                 new String[] { String.valueOf(id) });
-        db.close();
     }
 
     /**
@@ -73,9 +95,8 @@ public class AlarmDAO
      * @param id - int
      * @param newAlarmValues - Alarm
      */
-    public static void update(Context context, int id, Alarm newAlarmValues)
+    public void update(Context context, int id, Alarm newAlarmValues)
     {
-        SQLiteDatabase db = new DatabaseHelper(context).getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(AlarmTable.COLUMN_ID, newAlarmValues.getId());
         values.put(AlarmTable.COLUMN_TITLE, newAlarmValues.getTitle());
@@ -97,10 +118,9 @@ public class AlarmDAO
         values.put(AlarmTable.COLUMN_SNOOZE, newAlarmValues.getSnooze());
         values.put(AlarmTable.COLUMN_STATE, newAlarmValues.isOn() ? 1 : 0);
         values.put(AlarmTable.COLUMN_IS_LOCKED, newAlarmValues.isLocked() ? 1 : 0);
-        db.update(TABLE_NAME, values,
+        writer.update(TABLE_NAME, values,
                 AlarmTable.COLUMN_ID + " = ?",
                 new String[] { String.valueOf(id) });
-        db.close();
     }
 
     /**
@@ -109,7 +129,7 @@ public class AlarmDAO
      * @param id - int
      * @return alarm
      */
-    public static Alarm select(Context context, int id)
+    public Alarm select(Context context, int id)
     {
         Alarm alarm = null;
         for (Alarm a : selectAll(context, AppConstants.ORDER_BY_ID))
@@ -129,10 +149,9 @@ public class AlarmDAO
      * @param orderBy - String
      * @return alarms
      */
-    public static Alarm[] selectAll(Context context, String orderBy)
+    public Alarm[] selectAll(Context context, String orderBy)
     {
-        SQLiteDatabase db = new DatabaseHelper(context).getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NAME,
+        Cursor cursor = reader.query(TABLE_NAME,
                     null, null, null, null, null, orderBy + " ASC");
         Alarm[] alarms = new Alarm[cursor.getCount()];
 
@@ -187,7 +206,6 @@ public class AlarmDAO
             }
         }
         cursor.close();
-        db.close();
         return alarms;
     }
 
@@ -196,7 +214,7 @@ public class AlarmDAO
      * @param context - Context
      * @return active alarms
      */
-    public static ArrayList<Alarm> getActiveAlarms(Context context)
+    public ArrayList<Alarm> getActiveAlarms(Context context)
     {
         ArrayList<Alarm> activeAlarms = new ArrayList<>();
         for (Alarm alarm : selectAll(context, AppConstants.ORDER_BY_ID))
@@ -213,7 +231,7 @@ public class AlarmDAO
      * @param title - String
      * @return has duplicates
      */
-    public static boolean hasDuplicates(Context context, String title)
+    public boolean hasDuplicates(Context context, String title)
     {
         boolean has = false;
         for (Alarm alarm : selectAll(context, AppConstants.ORDER_BY_ID))
@@ -232,7 +250,7 @@ public class AlarmDAO
      * @param context - Context
      * @return New Alarm count
      */
-    public static int getNewAlarmCount(Context context)
+    public int getNewAlarmCount(Context context)
     {
         int count = 0;
         for (Alarm alarm : selectAll(context, AppConstants.ORDER_BY_ID))
