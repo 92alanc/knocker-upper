@@ -26,7 +26,6 @@ public class BootReceiver extends BroadcastReceiver
             {
                 for (Alarm alarm : activeAlarms)
                     AlarmHandler.scheduleAlarm(context, alarm);
-                FrontEndTools.showNotification(context);
             }
         }
     }

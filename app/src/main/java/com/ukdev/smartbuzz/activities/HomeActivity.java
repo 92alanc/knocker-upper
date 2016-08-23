@@ -237,7 +237,6 @@ public class HomeActivity extends AppCompatActivity
                 }
             }
         });
-        FrontEndTools.showNotification(this);
     }
 
     /**
@@ -264,7 +263,6 @@ public class HomeActivity extends AppCompatActivity
             listView.invalidate();
             FrontEndTools.adaptAlarmsListView(HomeActivity.this,
                     listView, AppConstants.ORDER_BY_ID);
-            FrontEndTools.showNotification(getBaseContext());
             String toastText;
             if (selectedItems.size() == 1)
                 toastText = getString(R.string.alarm_deleted);

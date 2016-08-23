@@ -107,41 +107,6 @@ public class FrontEndTools
     }
 
     /**
-     * Shows a notification with the number of alarms set
-     * @param context - Context
-     */
-    public static void showNotification(Context context)
-    {
-        int alarmCount =AlarmDAO.getInstance(context).getActiveAlarms(context).size();
-        NotificationManager manager =
-                (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-        if (alarmCount > 0)
-        {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-            builder.setSmallIcon(R.drawable.notification);
-            builder.setContentTitle(context.getString(R.string.app_name));
-            String text;
-            if (alarmCount == 1)
-                text = context.getResources().getString(R.string.one_alarm_set);
-            else
-                text = String.format(context.getResources().getString(R.string.x_alarms_set), alarmCount);
-            builder.setContentText(text);
-
-            Intent resultIntent = new Intent(context, HomeActivity.class);
-            resultIntent.setAction(Intent.ACTION_RUN);
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-            stackBuilder.addParentStack(HomeActivity.class);
-            stackBuilder.addNextIntent(resultIntent);
-            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.setContentIntent(resultPendingIntent);
-            builder.setOngoing(true);
-            manager.notify(AppConstants.NOTIFICATION_ID, builder.build());
-        }
-        else
-            manager.cancel(AppConstants.NOTIFICATION_ID);
-    }
-
-    /**
      * Adapts the timezone picker
      * @param context - Context
      * @param timeZonePicker - Spinner
