@@ -326,7 +326,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         if (ringtoneSpinner.getSelectedItem() == null) // Something terribly wrong happened
             ringtoneSpinner.setSelection(0);
         RingtoneWrapper ringtone = (RingtoneWrapper)ringtoneSpinner.getSelectedItem();
-        if (database.hasDuplicates(this, title)
+        if (database.hasDuplicates(title)
             && !title.equalsIgnoreCase(getString(R.string.new_alarm)))
         {
             FrontEndTools.showToast(this,
@@ -343,7 +343,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         }
         else
         {
-            if (database.hasDuplicates(this, title)
+            if (database.hasDuplicates(title)
                 && title.equalsIgnoreCase(getString(R.string.new_alarm)))
                 title = title + " " + (database.getNewAlarmCount(this) + 1);
             timePicker.clearFocus();
@@ -403,7 +403,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         if (ringtoneSpinner.getSelectedItem() == null) // Something terribly wrong happened
             ringtoneSpinner.setSelection(0);
         RingtoneWrapper ringtone = (RingtoneWrapper)ringtoneSpinner.getSelectedItem();
-        if (!title.equalsIgnoreCase(originalTitle) && database.hasDuplicates(this, title))
+        if (!title.equalsIgnoreCase(originalTitle) && database.hasDuplicates(title))
         {
             FrontEndTools.showToast(this, String.format(getString(R.string.alarm_already_stored), title),
                                     Toast.LENGTH_LONG);

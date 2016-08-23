@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import com.ukdev.smartbuzz.R;
-import com.ukdev.smartbuzz.extras.AppConstants;
 import com.ukdev.smartbuzz.model.*;
 import com.ukdev.smartbuzz.extras.BackEndTools;
 
@@ -134,14 +133,55 @@ public class AlarmDAO
     public Alarm select(Context context, int id)
     {
         Alarm alarm = null;
-        for (Alarm a : selectAll(context, AppConstants.ORDER_BY_ID))
+        String query = String.format("SELECT * FROM %1$s WHERE %2$s = ?",
+                                     AlarmTable.TABLE_NAME, AlarmTable.COLUMN_ID);
+        Cursor cursor = reader.rawQuery(query, new String[] { String.valueOf(id) });
+        if (cursor.moveToFirst())
         {
-            if (a.getId() == id)
-            {
-                alarm = a;
-                break;
-            }
+            String alarmTitle, ringtoneTitle, ringtoneUri;
+            int hours, minutes, volume, snooze;
+            TimeZoneWrapper timeZone;
+            boolean isOn, isReminder, vibrates, isLocked;
+            int[] repetition;
+            TimeWrapper triggerTime;
+            RingtoneType ringtoneType;
+
+            alarmTitle = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_TITLE));
+
+            String timeZoneTitle = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_TIME_ZONE_TITLE));
+            int timeZoneOffsetHours = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TIME_ZONE_OFFSET_HOURS));
+            int timeZoneOffsetMinutes = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TIME_ZONE_OFFSET_MINUTES));
+            TimeWrapper timeZoneOffset = new TimeWrapper(timeZoneOffsetHours, timeZoneOffsetMinutes);
+            timeZone = new TimeZoneWrapper(timeZoneTitle, timeZoneOffset);
+
+            id = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_ID));
+            hours = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TRIGGER_HOURS));
+            minutes = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TRIGGER_MINUTES));
+            triggerTime = new TimeWrapper(hours, minutes);
+
+            isOn = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_STATE)) == 1;
+            isReminder = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_IS_REMINDER)) == 1;
+            ringtoneUri = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_RINGTONE_URI));
+            ringtoneTitle = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_RINGTONE_TITLE));
+            int type = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_RINGTONE_TYPE));
+            if (type == 0)
+                ringtoneType = RingtoneType.Native;
+            else
+                ringtoneType = RingtoneType.Custom;
+            volume = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_VOLUME));
+            snooze = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_SNOOZE));
+            vibrates = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_VIBRATES)) == 1;
+
+            repetition = BackEndTools.convertStringToIntArray(context,
+                                                              cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_REPETITION)));
+            RingtoneWrapper ringtone = new RingtoneWrapper(Uri.parse(ringtoneUri), ringtoneTitle, ringtoneType);
+            isLocked = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_IS_LOCKED)) == 1;
+
+            alarm = new Alarm(id, alarmTitle, triggerTime, ringtone, volume, vibrates,
+                                  isReminder, isOn, timeZone, repetition, snooze);
+            alarm.setLocked(isLocked);
         }
+        cursor.close();
         return alarm;
     }
 
@@ -219,31 +259,75 @@ public class AlarmDAO
     public ArrayList<Alarm> getActiveAlarms(Context context)
     {
         ArrayList<Alarm> activeAlarms = new ArrayList<>();
-        for (Alarm alarm : selectAll(context, AppConstants.ORDER_BY_ID))
+        String query = String.format("SELECT * FROM %1$s WHERE %2$s = ?",
+                                     AlarmTable.TABLE_NAME, AlarmTable.COLUMN_STATE);
+        Cursor cursor = reader.rawQuery(query, new String[] { "1" });
+        if (cursor.moveToFirst())
         {
-            if (alarm.isOn())
+            while (cursor.moveToNext())
+            {
+                String alarmTitle, ringtoneTitle, ringtoneUri;
+                int id, hours, minutes, volume, snooze;
+                TimeZoneWrapper timeZone;
+                boolean isOn, isReminder, vibrates, isLocked;
+                int[] repetition;
+                TimeWrapper triggerTime;
+                RingtoneType ringtoneType;
+
+                alarmTitle = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_TITLE));
+
+                String timeZoneTitle = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_TIME_ZONE_TITLE));
+                int timeZoneOffsetHours = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TIME_ZONE_OFFSET_HOURS));
+                int timeZoneOffsetMinutes = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TIME_ZONE_OFFSET_MINUTES));
+                TimeWrapper timeZoneOffset = new TimeWrapper(timeZoneOffsetHours, timeZoneOffsetMinutes);
+                timeZone = new TimeZoneWrapper(timeZoneTitle, timeZoneOffset);
+
+                id = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_ID));
+                hours = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TRIGGER_HOURS));
+                minutes = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TRIGGER_MINUTES));
+                triggerTime = new TimeWrapper(hours, minutes);
+
+                isOn = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_STATE)) == 1;
+                isReminder = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_IS_REMINDER)) == 1;
+                ringtoneUri = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_RINGTONE_URI));
+                ringtoneTitle = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_RINGTONE_TITLE));
+                int type = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_RINGTONE_TYPE));
+                if (type == 0)
+                    ringtoneType = RingtoneType.Native;
+                else
+                    ringtoneType = RingtoneType.Custom;
+                volume = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_VOLUME));
+                snooze = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_SNOOZE));
+                vibrates = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_VIBRATES)) == 1;
+
+                repetition = BackEndTools.convertStringToIntArray(context,
+                                                                  cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_REPETITION)));
+                RingtoneWrapper ringtone = new RingtoneWrapper(Uri.parse(ringtoneUri), ringtoneTitle, ringtoneType);
+                isLocked = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_IS_LOCKED)) == 1;
+
+                Alarm alarm = new Alarm(id, alarmTitle, triggerTime, ringtone, volume, vibrates,
+                                      isReminder, isOn, timeZone, repetition, snooze);
+                alarm.setLocked(isLocked);
                 activeAlarms.add(alarm);
+            }
         }
+        cursor.close();
         return activeAlarms;
     }
 
     /**
      * Tells if there are no duplicated alarm titles
-     * @param context - Context
      * @param title - String
      * @return has duplicates
      */
-    public boolean hasDuplicates(Context context, String title)
+    public boolean hasDuplicates(String title)
     {
-        boolean has = false;
-        for (Alarm alarm : selectAll(context, AppConstants.ORDER_BY_ID))
-        {
-            if (title.equalsIgnoreCase(alarm.getTitle()))
-            {
-                has = true;
-                break;
-            }
-        }
+        Cursor cursor = reader.query(AlarmTable.TABLE_NAME,
+                                     new String[] { AlarmTable.COLUMN_ID },
+                                     AlarmTable.COLUMN_TITLE + " LIKE '%" + title + "%'",
+                                     null, null, null, null, "1");
+        boolean has = cursor.getCount() > 0;
+        cursor.close();
         return has;
     }
 
@@ -254,12 +338,12 @@ public class AlarmDAO
      */
     public int getNewAlarmCount(Context context)
     {
-        int count = 0;
-        for (Alarm alarm : selectAll(context, AppConstants.ORDER_BY_ID))
-        {
-            if (alarm.getTitle().startsWith(context.getString(R.string.new_alarm)))
-                count++;
-        }
+        Cursor cursor = reader.query(AlarmTable.TABLE_NAME,
+                                     new String[] { AlarmTable.COLUMN_ID },
+                                     AlarmTable.COLUMN_TITLE + " LIKE '" + context.getString(R.string.new_alarm) + "%'",
+                                     null, null, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
         return count;
     }
 
