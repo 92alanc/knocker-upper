@@ -181,7 +181,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private void setRingtoneTestButton()
     {
-        int volume = (BackEndTools.getMaxVolume(manager) * volumeSeekBar.getProgress()) / 100;
+        int volume = volumeSeekBar.getProgress();
         final AudioFocusChangeListener listener = new AudioFocusChangeListener(manager,
                                                                                volume);
         final ImageButton ringtoneTestButton = (ImageButton)findViewById(
@@ -198,7 +198,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
                     if (ringtone.isPlayable())
                     {
                         player = new MediaPlayer();
-                        int v = (BackEndTools.getMaxVolume(manager) * volumeSeekBar.getProgress()) / 100;
+                        int v = volumeSeekBar.getProgress();
                         manager.setStreamVolume(AudioManager.STREAM_ALARM, v, 0);
                         int requestResult;
                         if (AppConstants.OS_VERSION >= Build.VERSION_CODES.KITKAT)
@@ -365,12 +365,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
 
             int id = database.selectAll(this, AppConstants.ORDER_BY_ID).length + 1;
             TimeZoneWrapper timeZone = (TimeZoneWrapper)timeZoneSpinner.getSelectedItem();
-            int volume;
-            float vol = (BackEndTools.getMaxVolume(manager) * volumeSeekBar.getProgress()) / 100;
-            if (vol == (int)vol)
-                volume = (int)vol;
-            else
-                volume = (int)vol + 1;
+            int volume = volumeSeekBar.getProgress();
             boolean vibrate = vibrateCheckBox.isChecked();
             GridLayout layout = (GridLayout)findViewById(R.id.repetitionLayout);
             int[] repetition = BackEndTools.getSelectedRepetition(layout);
@@ -437,12 +432,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
             TimeZoneWrapper timeZone = (TimeZoneWrapper)timeZoneSpinner.getSelectedItem();
             alarm.setTimeZone(timeZone);
             alarm.setRingtone(ringtone);
-            int volume;
-            float vol = (BackEndTools.getMaxVolume(manager) * volumeSeekBar.getProgress()) / 100;
-            if (vol == (int)vol)
-                volume = (int)vol;
-            else
-                volume = (int)vol + 1;
+            int volume = volumeSeekBar.getProgress();
             alarm.setVolume(volume);
             boolean vibrate = vibrateCheckBox.isChecked();
             alarm.toggleVibration(vibrate);
@@ -519,6 +509,10 @@ public class AlarmCreatorActivity extends AppCompatActivity
     private void setVolumeSeekBar()
     {
         volumeSeekBar = (SeekBar)findViewById(R.id.volumeSeekBar);
+        int limit = BackEndTools.getMaxVolume(manager);
+        int progress = limit / 2;
+        volumeSeekBar.setProgress(progress);
+        volumeSeekBar.setMax(limit);
         volumeSeekBar.setClickable(false);
         volumeSeekBar.setFocusable(false);
     }
@@ -555,7 +549,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         toolbarLayout.setTitle(alarmToEdit.getTitle() + "*");
         reminderCheckBox.setChecked(alarmToEdit.isReminder());
         vibrateCheckBox.setChecked(alarmToEdit.vibrates());
-        int progress = (alarmToEdit.getVolume() * 100) / BackEndTools.getMaxVolume(manager);
+        int progress = (alarmToEdit.getVolume());
         volumeSeekBar.setProgress(progress);
         ToggleButton[] repetitionButtons = FrontEndTools.getToggleButtons(
                 (GridLayout)findViewById(R.id.repetitionLayout));
