@@ -33,9 +33,9 @@ public class AlarmDAO
     {
         if (instance == null)
             instance = new AlarmDAO();
-        if (reader == null)
+        if (reader == null || !reader.isOpen())
             reader = new DatabaseHelper(context).getReadableDatabase();
-        if (writer == null)
+        if (writer == null || !writer.isOpen())
             writer = new DatabaseHelper(context).getWritableDatabase();
         return instance;
     }
