@@ -39,7 +39,6 @@ public class AlarmCreatorActivity extends AppCompatActivity
     private Spinner timeZoneSpinner, ringtoneSpinner, snoozeSpinner;
     private SeekBar volumeSeekBar;
     private MediaPlayer player;
-    private ToggleButton[] repetitionButtons;
     private AudioManager manager;
     private AlarmDAO database;
 
@@ -56,7 +55,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         setToolbarLayout();
         setSaveButton();
         setTimePicker();
-        repetitionButtons = FrontEndTools.buildRepetitionButtons(this, this);
+        FrontEndTools.buildRepetitionButtons(this, this);
         setRepetitionCheckBox();
         setRingtoneSpinner();
         setTimeZoneSpinner();
@@ -496,8 +495,6 @@ public class AlarmCreatorActivity extends AppCompatActivity
                 {
                     scrollView.setVisibility(View.GONE);
                     imageView.setVisibility(View.GONE);
-                    for (ToggleButton button : repetitionButtons)
-                        button.setChecked(false);
                 }
             }
         });
