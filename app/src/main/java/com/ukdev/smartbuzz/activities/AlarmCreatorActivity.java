@@ -325,15 +325,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         if (ringtoneSpinner.getSelectedItem() == null) // Something terribly wrong happened
             ringtoneSpinner.setSelection(0);
         RingtoneWrapper ringtone = (RingtoneWrapper)ringtoneSpinner.getSelectedItem();
-        if (database.hasDuplicates(title)
-            && !title.equalsIgnoreCase(getString(R.string.new_alarm)))
-        {
-            FrontEndTools.showToast(this,
-                                    String.format(getString(R.string.alarm_already_stored), title),
-                                    Toast.LENGTH_LONG);
-            return false;
-        }
-        else if (!ringtone.isPlayable())
+        if (!ringtone.isPlayable())
         {
             FrontEndTools.showToast(this,
                                     String.format(getString(R.string.invalid_ringtone_file),
@@ -342,9 +334,6 @@ public class AlarmCreatorActivity extends AppCompatActivity
         }
         else
         {
-            if (database.hasDuplicates(title)
-                && title.equalsIgnoreCase(getString(R.string.new_alarm)))
-                title = title + " " + (database.getNewAlarmCount(this) + 1);
             timePicker.clearFocus();
             int hours;
             int minutes;
@@ -390,20 +379,13 @@ public class AlarmCreatorActivity extends AppCompatActivity
     private boolean update()
     {
         Alarm alarm = database.selectAll(this, AppConstants.ORDER_BY_ID)[(idToEdit - 1)];
-        String originalTitle = alarm.getTitle();
         String title = titleBox.getText().toString().equals("") ?
                        getResources().getString(R.string.new_alarm) :
                        titleBox.getText().toString();
         if (ringtoneSpinner.getSelectedItem() == null) // Something terribly wrong happened
             ringtoneSpinner.setSelection(0);
         RingtoneWrapper ringtone = (RingtoneWrapper)ringtoneSpinner.getSelectedItem();
-        if (!title.equalsIgnoreCase(originalTitle) && database.hasDuplicates(title))
-        {
-            FrontEndTools.showToast(this, String.format(getString(R.string.alarm_already_stored), title),
-                                    Toast.LENGTH_LONG);
-            return false;
-        }
-        else if (!ringtone.isPlayable())
+        if (!ringtone.isPlayable())
         {
             FrontEndTools.showToast(this, String.format(getString(R.string.invalid_ringtone_file),
                                                         ringtone.getTitle()), Toast.LENGTH_LONG);

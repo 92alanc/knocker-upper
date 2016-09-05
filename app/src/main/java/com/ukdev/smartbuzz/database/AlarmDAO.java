@@ -315,36 +315,4 @@ public class AlarmDAO
         return activeAlarms;
     }
 
-    /**
-     * Tells if there are no duplicated alarm titles
-     * @param title - String
-     * @return has duplicates
-     */
-    public boolean hasDuplicates(String title)
-    {
-        Cursor cursor = reader.query(AlarmTable.TABLE_NAME,
-                                     new String[] { AlarmTable.COLUMN_ID },
-                                     AlarmTable.COLUMN_TITLE + " LIKE '%" + title + "%'",
-                                     null, null, null, null, "1");
-        boolean has = cursor.getCount() > 0;
-        cursor.close();
-        return has;
-    }
-
-    /**
-     * Gets the number of alarms with the title beginning with "New Alarm"
-     * @param context - Context
-     * @return New Alarm count
-     */
-    public int getNewAlarmCount(Context context)
-    {
-        Cursor cursor = reader.query(AlarmTable.TABLE_NAME,
-                                     new String[] { AlarmTable.COLUMN_ID },
-                                     AlarmTable.COLUMN_TITLE + " LIKE '" + context.getString(R.string.new_alarm) + "%'",
-                                     null, null, null, null, null);
-        int count = cursor.getCount();
-        cursor.close();
-        return count;
-    }
-
 }

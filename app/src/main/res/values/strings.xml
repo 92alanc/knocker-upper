@@ -10,7 +10,6 @@
 
     <!-- Default language (English) -->
     <string name="about">About</string>
-    <string name="alarm_already_stored">An alarm with the title %1$s is already stored in the database</string>
     <string name="alarm_deleted">Alarm deleted</string>
     <string name="alarm_locked">\"%1$s\" will remain locked until you dismiss Sleep Checker</string>
     <string name="alarm_saved">Alarm saved</string>
@@ -33,9 +32,7 @@
     <string name="items_selected">%1$s items selected</string>
     <string name="new_alarm">New Alarm</string>
     <string name="no">No</string>
-    <string name="one_alarm_set">1 alarm set</string>
     <string name="question">Are you awake?</string>
-    <string name="read_external_storage">Reading of external storage</string>
     <string name="repeat">Repeat during the week</string>
     <string name="save">Save</string>
     <string name="set_as_reminder">Set as reminder</string>
@@ -49,7 +46,6 @@
     <string name="volume">Volume</string>
     <string name="week_days">Week days</string>
     <string name="weekends">Weekends</string>
-    <string name="x_alarms_set">%1$s alarms set</string>
     <string name="yes">Yes</string>
 
 </resources>
