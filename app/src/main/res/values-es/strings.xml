@@ -39,5 +39,7 @@
     <string name="alarm_locked">\"%1$s\" permanecerá bloqueado hasta que pares Sleep Checker</string>
     <string name="snooze">Snooze</string>
     <string name="invalid_ringtone_file">%1$s no es un archivo de tono válido.</string>
+    <string name="alarm">Alarma</string>
+    <string name="new_reminder">Nuevo Recordatorio</string>
 
 </resources>

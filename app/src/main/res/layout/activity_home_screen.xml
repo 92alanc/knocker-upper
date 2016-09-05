@@ -32,4 +32,6 @@
             android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/add"/>
 
+    <include layout="@layout/save_button_layout"/>
+
 </android.support.design.widget.CoordinatorLayout>

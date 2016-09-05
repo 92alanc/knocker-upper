@@ -10,6 +10,7 @@
 
     <!-- Default language (English) -->
     <string name="about">About</string>
+    <string name="alarm">Alarm</string>
     <string name="alarm_deleted">Alarm deleted</string>
     <string name="alarm_locked">\"%1$s\" will remain locked until you dismiss Sleep Checker</string>
     <string name="alarm_saved">Alarm saved</string>
@@ -31,15 +32,16 @@
     <string name="item_selected">1 item selected</string>
     <string name="items_selected">%1$s items selected</string>
     <string name="new_alarm">New Alarm</string>
+    <string name="new_reminder">New Reminder</string>
     <string name="no">No</string>
     <string name="question">Are you awake?</string>
     <string name="repeat">Repeat during the week</string>
+    <string name="ringtone">Ringtone</string>
     <string name="save">Save</string>
     <string name="set_as_reminder">Set as reminder</string>
     <string name="snooze">Snooze</string>
     <string name="sort_time">Sort by time</string>
     <string name="sort_title">Sort by title</string>
-    <string name="ringtone">Ringtone</string>
     <string name="time_zone">Time zone</string>
     <string name="title_hint">Title</string>
     <string name="vibrate">Vibrate</string>

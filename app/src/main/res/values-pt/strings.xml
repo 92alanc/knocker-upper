@@ -40,5 +40,7 @@
     <string name="alarm_locked">\ "%1$s\" vai continuar bloqueado até você dispensar o Sleep Checker</string>
     <string name="snooze">Soneca</string>
     <string name="invalid_ringtone_file">%1$s não é um arquivo de toque válido.</string>
+    <string name="alarm">Alarme</string>
+    <string name="new_reminder">Novo Lembrete</string>
 
 </resources>

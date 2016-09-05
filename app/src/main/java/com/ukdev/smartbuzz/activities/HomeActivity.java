@@ -10,10 +10,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.*;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.*;
 import com.ukdev.smartbuzz.database.AlarmDAO;
 import com.ukdev.smartbuzz.extras.AlarmHandler;
 import com.ukdev.smartbuzz.extras.AppConstants;
@@ -35,6 +34,7 @@ public class HomeActivity extends AppCompatActivity
     private ArrayList<Integer> selectedItems;
     private Toolbar toolbar;
     private AlarmDAO database;
+    private FloatingActionButton addAlarmButton, addReminderButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,7 +44,11 @@ public class HomeActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         database = AlarmDAO.getInstance(this);
+        addAlarmButton = (FloatingActionButton)findViewById(R.id.addAlarmButton);
+        addReminderButton = (FloatingActionButton)findViewById(R.id.addReminderButton);
         setAddButton();
+        setAddAlarmButton();
+        setAddReminderButton();
         setListView();
         if (AppConstants.OS_VERSION >= Build.VERSION_CODES.M)
             BackEndTools.requestPermissions(this, HomeActivity.this);
@@ -144,12 +148,114 @@ public class HomeActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view)
                     {
-                        Intent intent = new Intent(HomeActivity.this, AlarmCreatorActivity.class);
-                        intent.setAction(AppConstants.ACTION_CREATE_ALARM);
-                        startActivity(intent);
+                        Animation animation =
+                                AnimationUtils.loadAnimation(getApplication(), R.anim.rotate_add);
+                        view.setAnimation(animation);
+                        if (addAlarmButton.getVisibility() == View.INVISIBLE
+                            && addReminderButton.getVisibility() == View.INVISIBLE)
+                            showButtons();
+                        else
+                            hideButtons();
                     }
                 }
         );
+    }
+
+    /**
+     * Sets actions to addAlarmButton
+     */
+    private void setAddAlarmButton()
+    {
+        addAlarmButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                createAlarm(false);
+            }
+        });
+    }
+
+    /**
+     * Sets actions to addReminderButton
+     */
+    private void setAddReminderButton()
+    {
+        addReminderButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                createAlarm(true);
+            }
+        });
+    }
+
+    /**
+     * Shows addAlarmButton and addReminderButton
+     */
+    private void showButtons()
+    {
+        FrameLayout.LayoutParams addAlarmButtonLayoutParams =
+                (FrameLayout.LayoutParams)addAlarmButton.getLayoutParams();
+        addAlarmButtonLayoutParams.rightMargin += (int)(addAlarmButton.getWidth() * 1.7);
+        addAlarmButtonLayoutParams.bottomMargin += (int)(addAlarmButton.getHeight() * 0.25);
+        addAlarmButton.setLayoutParams(addAlarmButtonLayoutParams);
+        Animation showAddAlarm =
+                AnimationUtils.loadAnimation(getApplication(), R.anim.show_add_alarm);
+        addAlarmButton.startAnimation(showAddAlarm);
+        addAlarmButton.setVisibility(View.VISIBLE);
+        addAlarmButton.setClickable(true);
+
+        FrameLayout.LayoutParams addReminderButtonLayoutParams =
+                (FrameLayout.LayoutParams)addReminderButton.getLayoutParams();
+        addReminderButtonLayoutParams.rightMargin += (int)(addReminderButton.getWidth() * 0.25);
+        addReminderButtonLayoutParams.bottomMargin += (int)(addReminderButton.getHeight() * 1.7);
+        addReminderButton.setLayoutParams(addReminderButtonLayoutParams);
+        Animation showAddReminder =
+                AnimationUtils.loadAnimation(getApplication(), R.anim.show_add_reminder);
+        addReminderButton.startAnimation(showAddReminder);
+        addReminderButton.setVisibility(View.VISIBLE);
+        addReminderButton.setClickable(true);
+    }
+
+    /**
+     * Hides addAlarmButton and addReminderButton
+     */
+    private void hideButtons()
+    {
+        FrameLayout.LayoutParams addAlarmButtonLayoutParams =
+                (FrameLayout.LayoutParams)addAlarmButton.getLayoutParams();
+        addAlarmButtonLayoutParams.rightMargin -= (int)(addAlarmButton.getWidth() * 1.7);
+        addAlarmButtonLayoutParams.bottomMargin -= (int)(addAlarmButton.getHeight() * 0.25);
+        addAlarmButton.setLayoutParams(addAlarmButtonLayoutParams);
+        Animation showAddAlarm =
+                AnimationUtils.loadAnimation(getApplication(), R.anim.hide_add_alarm);
+        addAlarmButton.startAnimation(showAddAlarm);
+        addAlarmButton.setVisibility(View.INVISIBLE);
+        addAlarmButton.setClickable(false);
+
+        FrameLayout.LayoutParams addReminderButtonLayoutParams =
+                (FrameLayout.LayoutParams)addReminderButton.getLayoutParams();
+        addReminderButtonLayoutParams.rightMargin -= (int)(addReminderButton.getWidth() * 0.25);
+        addReminderButtonLayoutParams.bottomMargin -= (int)(addReminderButton.getHeight() * 1.7);
+        addReminderButton.setLayoutParams(addReminderButtonLayoutParams);
+        Animation hideAddReminder =
+                AnimationUtils.loadAnimation(getApplication(), R.anim.hide_add_reminder);
+        addReminderButton.startAnimation(hideAddReminder);
+        addReminderButton.setVisibility(View.INVISIBLE);
+        addReminderButton.setClickable(false);
+    }
+
+    /**
+     * Creates an alarm or a reminder
+     */
+    private void createAlarm(boolean reminder)
+    {
+        Intent intent = new Intent(HomeActivity.this, AlarmCreatorActivity.class);
+        intent.setAction(AppConstants.ACTION_CREATE_ALARM);
+        intent.putExtra(AppConstants.EXTRA_REMINDER, reminder);
+        startActivity(intent);
     }
 
     /**
@@ -246,7 +352,8 @@ public class HomeActivity extends AppCompatActivity
                 {
                     Intent intent = new Intent(HomeActivity.this, AlarmCreatorActivity.class);
                     intent.setAction(AppConstants.ACTION_EDIT_ALARM);
-                    intent.putExtra(AppConstants.EXTRA_EDIT, ((Alarm)listView.getItemAtPosition(i)).getId());
+                    intent.putExtra(AppConstants.EXTRA_EDIT, alarm.getId());
+                    intent.putExtra(AppConstants.EXTRA_REMINDER, alarm.isReminder());
                     startActivity(intent);
                 }
             }

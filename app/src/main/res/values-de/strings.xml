@@ -40,5 +40,7 @@
     <string name="alarm_locked">\"%1$s\" bleiben gesperrt, bis Sie Sleep Checker verwerfen</string>
     <string name="snooze">Schlummer</string>
     <string name="invalid_ringtone_file">%1$s ist keine gültige Klingelton-Datei.</string>
+    <string name="alarm">Alarm</string>
+    <string name="new_reminder">Neue Erinnerung</string>
 
 </resources>

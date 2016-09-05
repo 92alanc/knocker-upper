@@ -340,7 +340,8 @@
                 android:background="@color/white"
                 android:checked="false"
                 android:text="@string/set_as_reminder"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                android:visibility="gone"/>
 
         <!-- Divider -->
         <View

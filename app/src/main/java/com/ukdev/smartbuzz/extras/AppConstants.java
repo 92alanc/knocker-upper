@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.database.AlarmTable;
 
@@ -41,6 +43,7 @@ public class AppConstants
     // --- INTENT EXTRAS ---
     public static final String EXTRA_EDIT = "ID to edit";
     public static final String EXTRA_ID = "ID";
+    public static final String EXTRA_REMINDER = "Reminder";
 
     // --- ORDER BY METHODS ---
     public static final String ORDER_BY_ID = AlarmTable.COLUMN_ID;

@@ -35,7 +35,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
     private CollapsingToolbarLayout toolbarLayout;
     private CheckBox repetitionCheckBox, reminderCheckBox, vibrateCheckBox;
     private int idToEdit;
-    private boolean isEditing;
+    private boolean isEditing, isReminder;
     private Spinner timeZoneSpinner, ringtoneSpinner, snoozeSpinner;
     private SeekBar volumeSeekBar;
     private MediaPlayer player;
@@ -52,6 +52,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         database = AlarmDAO.getInstance(this);
         manager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         reminderCheckBox = (CheckBox)findViewById(R.id.reminderCheckBox);
+        isReminder = getIntent().getBooleanExtra(AppConstants.EXTRA_REMINDER, false);
         setToolbarLayout();
         setSaveButton();
         setTimePicker();
@@ -67,6 +68,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         isEditing = getIntent().getAction().equals(AppConstants.ACTION_EDIT_ALARM);
         if (isEditing)
         {
+            reminderCheckBox.setVisibility(View.VISIBLE);
             idToEdit = getIntent().getIntExtra(AppConstants.EXTRA_EDIT, 0);
             loadAlarmDataToEdit();
         }
@@ -276,7 +278,10 @@ public class AlarmCreatorActivity extends AppCompatActivity
     private void setToolbarLayout()
     {
         toolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
-        toolbarLayout.setTitle(getTitle());
+        if (isReminder)
+            toolbarLayout.setTitle(getString(R.string.new_reminder));
+        else
+            toolbarLayout.setTitle(getString(R.string.new_alarm));
         toolbarLayout.setOnTouchListener(new View.OnTouchListener()
         {
             @Override
@@ -306,8 +311,16 @@ public class AlarmCreatorActivity extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable editable)
             {
-                if (titleBox.getText().toString().equals(""))
-                    toolbarLayout.setTitle(getString(R.string.new_alarm));
+                if (isReminder)
+                {
+                    if (titleBox.getText().toString().equals(""))
+                        toolbarLayout.setTitle(getString(R.string.new_reminder));
+                }
+                else
+                {
+                    if (titleBox.getText().toString().equals(""))
+                        toolbarLayout.setTitle(getString(R.string.new_alarm));
+                }
             }
         });
     }
@@ -319,7 +332,13 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private boolean save()
     {
-        String title = titleBox.getText().toString().equals("") ?
+        String title;
+        if (isReminder)
+            title = titleBox.getText().toString().equals("") ?
+                    getString(R.string.new_reminder) :
+                    titleBox.getText().toString();
+        else
+            title = titleBox.getText().toString().equals("") ?
                        getResources().getString(R.string.new_alarm) :
                        titleBox.getText().toString();
         if (ringtoneSpinner.getSelectedItem() == null) // Something terribly wrong happened
@@ -348,7 +367,6 @@ public class AlarmCreatorActivity extends AppCompatActivity
                 minutes = timePicker.getCurrentMinute();
             }
             TimeWrapper triggerTime = new TimeWrapper(hours, minutes);
-            boolean reminder = reminderCheckBox.isChecked();
             int snooze = getSnoozeSpinnerValue();
 
             int id = database.selectAll(this, AppConstants.ORDER_BY_ID).length + 1;
@@ -361,7 +379,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
                 player.stop();
 
             Alarm alarm = new Alarm(id, title, triggerTime, ringtone, volume, vibrate,
-                                    reminder, true, timeZone, repetition, snooze);
+                                    isReminder, true, timeZone, repetition, snooze);
             database.insert(this, alarm);
             AlarmHandler.scheduleAlarm(this, alarm);
             FrontEndTools.showToast(getBaseContext(),
@@ -379,7 +397,13 @@ public class AlarmCreatorActivity extends AppCompatActivity
     private boolean update()
     {
         Alarm alarm = database.selectAll(this, AppConstants.ORDER_BY_ID)[(idToEdit - 1)];
-        String title = titleBox.getText().toString().equals("") ?
+        String title;
+        if (isReminder)
+            title = titleBox.getText().toString().equals("") ?
+                    getResources().getString(R.string.new_reminder) :
+                    titleBox.getText().toString();
+        else
+            title = titleBox.getText().toString().equals("") ?
                        getResources().getString(R.string.new_alarm) :
                        titleBox.getText().toString();
         if (ringtoneSpinner.getSelectedItem() == null) // Something terribly wrong happened
@@ -513,7 +537,6 @@ public class AlarmCreatorActivity extends AppCompatActivity
         toolbarLayout =
                 (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
         titleBox = (EditText)findViewById(R.id.titleBox);
-        reminderCheckBox = (CheckBox)findViewById(R.id.reminderCheckBox);
         if (AppConstants.OS_VERSION >= Build.VERSION_CODES.M)
         {
             timePicker.setHour(alarmToEdit.getTriggerTime().getHours());

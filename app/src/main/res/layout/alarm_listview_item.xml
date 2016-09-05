@@ -59,7 +59,7 @@
             android:paddingLeft="10dp"
             android:paddingEnd="10dp"
             android:paddingRight="10dp"
-            android:src="@drawable/reminder"
+            android:src="@drawable/reminder_black"
             android:layout_below="@id/repetitionRow"
             android:focusable="false"/>
 
