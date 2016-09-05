@@ -7,7 +7,7 @@ android
 
     defaultConfig
     {
-        applicationId "com.ukdev.smartbuzztest"
+        applicationId "com.ukdev.smartbuzz"
         minSdkVersion 16
         targetSdkVersion 24
         versionCode 18
