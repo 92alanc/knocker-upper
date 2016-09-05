@@ -2,6 +2,8 @@ package com.ukdev.smartbuzz.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -105,16 +107,28 @@ public class HomeActivity extends AppCompatActivity
      */
     private void showInfo()
     {
-        FrontEndTools.showDialogue(this, getString(R.string.app_info_header),
-                getString(R.string.info), R.drawable.app_icon,
-                getString(R.string.ok), new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
+        try
+        {
+            PackageManager manager = getPackageManager();
+            PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
+            String version = info.versionName;
+            FrontEndTools.showDialogue(this, getString(R.string.app_name) + " "
+                            + version,
+                    getString(R.string.info), R.drawable.app_icon,
+                    getString(R.string.ok), new DialogInterface.OnClickListener()
                     {
-                        // Do nothing
-                    }
-                });
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i)
+                        {
+                            // Do nothing
+                        }
+                    });
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
+            // Damn! Something really wrong happened here
+            e.printStackTrace();
+        }
     }
 
     /**
