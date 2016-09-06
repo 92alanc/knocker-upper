@@ -13,7 +13,6 @@
     <string name="alarm">Alarm</string>
     <string name="alarm_deleted">Alarm deleted</string>
     <string name="alarm_locked">\"%1$s\" will remain locked until you dismiss Sleep Checker</string>
-    <string name="alarm_saved">Alarm saved</string>
     <string name="alarm_set">Alarm set</string>
     <string name="alarm_updated">Alarm updated</string>
     <string name="alarms_deleted">%1$s alarms deleted</string>
@@ -35,6 +34,8 @@
     <string name="new_reminder">New Reminder</string>
     <string name="no">No</string>
     <string name="question">Are you awake?</string>
+    <string name="reminder_set">Reminder set</string>
+    <string name="reminder_updated">Reminder updated</string>
     <string name="repeat">Repeat during the week</string>
     <string name="ringtone">Ringtone</string>
     <string name="save">Save</string>

@@ -3,7 +3,6 @@
 
     <!-- Deutsch -->
     <string name="about">About</string>
-    <string name="alarm_saved">Alarm gespeichert</string>
     <string name="alarm_set">Alarm aktiviert</string>
     <string name="alarm_updated">Alarm updated</string>
     <string name="cancel">Cancel</string>
@@ -42,5 +41,7 @@
     <string name="invalid_ringtone_file">%1$s ist keine gültige Klingelton-Datei.</string>
     <string name="alarm">Alarm</string>
     <string name="new_reminder">Neue Erinnerung</string>
+    <string name="reminder_set">Erinnerung aktiviert</string>
+    <string name="reminder_updated">Erinnerung updated</string>
 
 </resources>

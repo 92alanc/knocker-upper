@@ -3,7 +3,6 @@
 
     <!-- Português -->
     <string name="about">Sobre</string>
-    <string name="alarm_saved">Alarme salvo</string>
     <string name="alarm_set">Alarme programado</string>
     <string name="alarm_updated">Alarme atualizado</string>
     <string name="cancel">Cancelar</string>
@@ -42,5 +41,7 @@
     <string name="invalid_ringtone_file">%1$s não é um arquivo de toque válido.</string>
     <string name="alarm">Alarme</string>
     <string name="new_reminder">Novo Lembrete</string>
+    <string name="reminder_set">Lembrete programado</string>
+    <string name="reminder_updated">Lembrete atualizado</string>
 
 </resources>

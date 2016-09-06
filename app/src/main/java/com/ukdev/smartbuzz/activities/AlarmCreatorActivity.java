@@ -332,15 +332,21 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private boolean save()
     {
-        String title;
+        String title, token;
         if (isReminder)
+        {
+            token = getString(R.string.reminder_set);
             title = titleBox.getText().toString().equals("") ?
                     getString(R.string.new_reminder) :
                     titleBox.getText().toString();
+        }
         else
+        {
+            token = getString(R.string.alarm_set);
             title = titleBox.getText().toString().equals("") ?
-                       getResources().getString(R.string.new_alarm) :
-                       titleBox.getText().toString();
+                    getResources().getString(R.string.new_alarm) :
+                    titleBox.getText().toString();
+        }
         if (ringtoneSpinner.getSelectedItem() == null) // Something terribly wrong happened
             ringtoneSpinner.setSelection(0);
         RingtoneWrapper ringtone = (RingtoneWrapper)ringtoneSpinner.getSelectedItem();
@@ -383,7 +389,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
             database.insert(this, alarm);
             AlarmHandler.scheduleAlarm(this, alarm);
             FrontEndTools.showToast(getBaseContext(),
-                                    getString(R.string.alarm_set),
+                                    token,
                                     Toast.LENGTH_SHORT);
             return true;
         }
@@ -397,15 +403,21 @@ public class AlarmCreatorActivity extends AppCompatActivity
     private boolean update()
     {
         Alarm alarm = database.selectAll(this, AppConstants.ORDER_BY_ID)[(idToEdit - 1)];
-        String title;
+        String title, token;
         if (isReminder)
+        {
+            token = getString(R.string.reminder_updated);
             title = titleBox.getText().toString().equals("") ?
                     getResources().getString(R.string.new_reminder) :
                     titleBox.getText().toString();
+        }
         else
+        {
+            token = getString(R.string.alarm_updated);
             title = titleBox.getText().toString().equals("") ?
-                       getResources().getString(R.string.new_alarm) :
-                       titleBox.getText().toString();
+                    getResources().getString(R.string.new_alarm) :
+                    titleBox.getText().toString();
+        }
         if (ringtoneSpinner.getSelectedItem() == null) // Something terribly wrong happened
             ringtoneSpinner.setSelection(0);
         RingtoneWrapper ringtone = (RingtoneWrapper)ringtoneSpinner.getSelectedItem();
@@ -453,7 +465,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
             database.update(this, alarm.getId(), alarm);
             AlarmHandler.updateAlarm(this, alarm);
             FrontEndTools.showToast(getBaseContext(),
-                                    getString(R.string.alarm_updated),
+                                    token,
                                     Toast.LENGTH_SHORT);
             return true;
         }

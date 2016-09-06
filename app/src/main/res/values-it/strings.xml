@@ -3,7 +3,6 @@
 
     <!-- Italiano -->
     <string name="about">Circa</string>
-    <string name="alarm_saved">Sveglia salvata</string>
     <string name="alarm_set">Sveglia impostata</string>
     <string name="alarm_updated">Sveglia aggiornata</string>
     <string name="cancel">Cancellare</string>
@@ -42,5 +41,7 @@
     <string name="invalid_ringtone_file">%1$s non è un file suoneria valido.</string>
     <string name="alarm">Sveglia</string>
     <string name="new_reminder">Nuovo Promemoria</string>
+    <string name="reminder_set">Promemoria impostato</string>
+    <string name="reminder_updated">Promemoria aggiornato</string>
 
 </resources>
