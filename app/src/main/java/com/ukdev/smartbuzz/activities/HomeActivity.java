@@ -279,13 +279,15 @@ public class HomeActivity extends AppCompatActivity
                 {
                     if (!selectedItems.contains(position))
                         selectedItems.add(position);
-                    listView.getChildAt(position).setBackgroundResource(R.drawable.alarm_listviewitem_shape_selected);
+                    if (listView.getChildAt(position) != null)
+                        listView.getChildAt(position).setBackgroundResource(R.drawable.alarm_listviewitem_shape_selected);
                 }
                 else
                 {
                     if (selectedItems.contains(position))
                         selectedItems.remove(selectedItems.indexOf(position));
-                    listView.getChildAt(position).setBackgroundResource(R.drawable.alarm_listviewitem_shape);
+                    if (listView.getChildAt(position) != null)
+                        listView.getChildAt(position).setBackgroundResource(R.drawable.alarm_listviewitem_shape);
                 }
                 if (selectedItems.size() == 1)
                     actionMode.setTitle(getString(R.string.item_selected));
