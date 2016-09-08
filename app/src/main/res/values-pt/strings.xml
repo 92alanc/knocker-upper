@@ -8,14 +8,12 @@
     <string name="cancel">Cancelar</string>
     <string name="cancelled">Cancelado</string>
     <string name="delete">Apagar alarme</string>
-    <string name="delete_question">Tem certeza que deseja apagar este alarme?</string>
     <string name="dismiss">Parar</string>
     <string name="info">
         Desenvolvido por Braincorp Apps\n
         e-mail: alcam.ukdev@gmail.com
     </string>
     <string name="new_alarm">Novo Alarme</string>
-    <string name="no">Não</string>
     <string name="question">Você está acordado(a)?</string>
     <string name="repeat">Repetir durante a semana</string>
     <string name="save">Salvar</string>
@@ -39,9 +37,10 @@
     <string name="alarm_locked">\ "%1$s\" vai continuar bloqueado até você dispensar o Sleep Checker</string>
     <string name="snooze">Soneca</string>
     <string name="invalid_ringtone_file">%1$s não é um arquivo de toque válido.</string>
-    <string name="alarm">Alarme</string>
     <string name="new_reminder">Novo Lembrete</string>
     <string name="reminder_set">Lembrete programado</string>
     <string name="reminder_updated">Lembrete atualizado</string>
+    <string name="one_alarm_set">1 alarme programado</string>
+    <string name="x_alarms_set">%1$d alarmes programados</string>
 
 </resources>

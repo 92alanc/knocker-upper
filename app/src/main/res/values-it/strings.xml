@@ -8,14 +8,12 @@
     <string name="cancel">Cancellare</string>
     <string name="cancelled">Cancellato</string>
     <string name="delete">Elimina sveglia</string>
-    <string name="delete_question">Sei sicuro di voler eliminare questa sveglia?</string>
     <string name="dismiss">Disméttere</string>
     <string name="info">
         Sviluppata da Braincorp Apps\n
         e-mail: alcam.ukdev@gmail.com
     </string>
     <string name="new_alarm">Nuova sveglia</string>
-    <string name="no">No</string>
     <string name="question">Sei sveglio?</string>
     <string name="repeat">Ripetere durante la settimana</string>
     <string name="save">Salvare</string>
@@ -39,9 +37,10 @@
     <string name="alarm_locked">\"%1$s\" rimarrà bloccato finché di disméttere Sleep Checker</string>
     <string name="snooze">Snooze</string>
     <string name="invalid_ringtone_file">%1$s non è un file suoneria valido.</string>
-    <string name="alarm">Sveglia</string>
     <string name="new_reminder">Nuovo Promemoria</string>
     <string name="reminder_set">Promemoria impostato</string>
     <string name="reminder_updated">Promemoria aggiornato</string>
+    <string name="one_alarm_set">1 Sveglia impostata</string>
+    <string name="x_alarms_set">%1$d Sveglie impostate</string>
 
 </resources>

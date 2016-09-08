@@ -45,6 +45,9 @@ public class AppConstants
     public static final String EXTRA_ID = "ID";
     public static final String EXTRA_REMINDER = "Reminder";
 
+    // --- NOTIFICATIONS ---
+    public static final int NOTIFICATION_ID = 1;
+
     // --- ORDER BY METHODS ---
     public static final String ORDER_BY_ID = AlarmTable.COLUMN_ID;
     public static final String ORDER_BY_TIME = AlarmTable.COLUMN_TRIGGER_HOURS;

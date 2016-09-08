@@ -10,7 +10,6 @@
 
     <!-- Default language (English) -->
     <string name="about">About</string>
-    <string name="alarm">Alarm</string>
     <string name="alarm_deleted">Alarm deleted</string>
     <string name="alarm_locked">\"%1$s\" will remain locked until you dismiss Sleep Checker</string>
     <string name="alarm_set">Alarm set</string>
@@ -19,7 +18,6 @@
     <string name="cancel">Cancel</string>
     <string name="cancelled">Cancelled</string>
     <string name="delete">Delete alarm</string>
-    <string name="delete_question">Are you sure you want to delete this alarm?</string>
     <string name="dismiss">Dismiss</string>
     <string name="every_day">Every day</string>
     <string name="help">Help</string>
@@ -32,7 +30,7 @@
     <string name="items_selected">%1$s items selected</string>
     <string name="new_alarm">New Alarm</string>
     <string name="new_reminder">New Reminder</string>
-    <string name="no">No</string>
+    <string name="one_alarm_set">1 alarm set</string>
     <string name="question">Are you awake?</string>
     <string name="reminder_set">Reminder set</string>
     <string name="reminder_updated">Reminder updated</string>
@@ -49,6 +47,7 @@
     <string name="volume">Volume</string>
     <string name="week_days">Week days</string>
     <string name="weekends">Weekends</string>
+    <string name="x_alarms_set">%1$d alarms set</string>
     <string name="yes">Yes</string>
 
 </resources>

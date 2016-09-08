@@ -263,6 +263,7 @@ public class AlarmHandler
     {
         alarm.toggle(false);
         AlarmDAO.getInstance(context).update(context, alarm.getId(), alarm);
+        FrontEndTools.showNotification(context);
     }
 
 }

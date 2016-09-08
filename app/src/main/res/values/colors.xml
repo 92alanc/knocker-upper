@@ -5,10 +5,8 @@
     <color name="blue_dark">#303F9F</color>
     <color name="blue_light">#2196F3</color>
     <color name="green">#009688</color>
-    <color name="green_light">#80CBC4</color>
     <color name="grey">#E0E0E0</color>
     <color name="grey_light">#EEEEEE</color>
     <color name="red">#F44336</color>
-    <color name="red_light">#EF9A9A</color>
     <color name="white">#FFFFFF</color>
 </resources>

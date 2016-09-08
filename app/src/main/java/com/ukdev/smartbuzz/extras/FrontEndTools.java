@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.activities.HomeActivity;
 import com.ukdev.smartbuzz.adapters.AlarmAdapter;
 import com.ukdev.smartbuzz.adapters.RingtoneAdapter;
 import com.ukdev.smartbuzz.adapters.SnoozeAdapter;
@@ -135,7 +137,7 @@ public class FrontEndTools
      * @param context - Context
      */
     public static ToggleButton[] buildRepetitionButtons(final Context context,
-                                               AppCompatActivity activity)
+                                                        AppCompatActivity activity)
     {
         int[] references = BackEndTools.getReferencesArray(context, R.array.toggleButtons);
         String[] texts = context.getResources().getStringArray(R.array.daysOfTheWeek);
@@ -158,26 +160,62 @@ public class FrontEndTools
             }
             buttons[i].setOnCheckedChangeListener(
                     new CompoundButton.OnCheckedChangeListener()
-            {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton,
-                                             boolean isChecked)
-                {
-                    compoundButton.setChecked(isChecked);
-                    if (isChecked)
                     {
-                        compoundButton.setBackgroundColor(Color.parseColor("#EF9A9A")); // Light red
-                        compoundButton.setTextColor(Color.parseColor("#FFFFFF")); // White
-                    }
-                    else
-                    {
-                        compoundButton.setBackgroundColor(Color.parseColor("#FFFFFF")); // White
-                        compoundButton.setTextColor(Color.parseColor("#000000")); // Black
-                    }
-                }
-            });
+                        @Override
+                        public void onCheckedChanged(CompoundButton compoundButton,
+                                                     boolean isChecked)
+                        {
+                            compoundButton.setChecked(isChecked);
+                            if (isChecked)
+                            {
+                                compoundButton.setBackgroundColor(Color.parseColor("#EF9A9A")); // Light red
+                                compoundButton.setTextColor(Color.parseColor("#FFFFFF")); // White
+                            }
+                            else
+                            {
+                                compoundButton.setBackgroundColor(Color.parseColor("#FFFFFF")); // White
+                                compoundButton.setTextColor(Color.parseColor("#000000")); // Black
+                            }
+                        }
+                    });
         }
         return buttons;
+    }
+
+    /**
+     * Shows a notification with the number of alarms set
+     * @param context - Context
+     */
+    public static void showNotification(Context context)
+    {
+        int alarmCount = AlarmDAO.getInstance(context).getActiveAlarms(context).size();
+        NotificationManager manager =
+                (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (alarmCount > 0)
+        {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+            builder.setSmallIcon(R.drawable.alarm);
+
+            builder.setContentTitle(context.getString(R.string.app_name));
+            String text;
+            if (alarmCount == 1)
+                text = context.getResources().getString(R.string.one_alarm_set);
+            else
+                text = String.format(context.getResources().getString(R.string.x_alarms_set), alarmCount);
+            builder.setContentText(text);
+
+            Intent resultIntent = new Intent(context, HomeActivity.class);
+            resultIntent.setAction(Intent.ACTION_RUN);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+            stackBuilder.addParentStack(HomeActivity.class);
+            stackBuilder.addNextIntent(resultIntent);
+            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.setContentIntent(resultPendingIntent);
+            builder.setOngoing(true);
+            manager.notify(AppConstants.NOTIFICATION_ID, builder.build());
+        }
+        else
+            manager.cancel(AppConstants.NOTIFICATION_ID);
     }
 
     /**

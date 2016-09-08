@@ -34,6 +34,7 @@ proguard/
 # Intellij
 *.iml
 .idea/
+app/play_store_files/
 
 # Keystore files
 *.jks

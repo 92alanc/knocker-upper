@@ -132,7 +132,10 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
                     }
                 }
                 if (!alarm.isLocked())
+                {
                     AlarmDAO.getInstance(context).update(context, alarm.getId(), alarm);
+                    FrontEndTools.showNotification(context);
+                }
             }
         });
         return row;

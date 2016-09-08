@@ -5,13 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.model.*;
 import com.ukdev.smartbuzz.extras.BackEndTools;
 
 import java.util.ArrayList;
-
-import static com.ukdev.smartbuzz.database.AlarmTable.TABLE_NAME;
 
 /**
  * Alarm DAO
@@ -77,7 +74,7 @@ public class AlarmDAO
         values.put(AlarmTable.COLUMN_SNOOZE, alarm.getSnooze());
         values.put(AlarmTable.COLUMN_STATE, alarm.isOn() ? 1 : 0);
         values.put(AlarmTable.COLUMN_IS_LOCKED, alarm.isLocked() ? 1 : 0);
-        writer.insert(TABLE_NAME, null, values);
+        writer.insert(AlarmTable.TABLE_NAME, null, values);
     }
 
     /**
@@ -86,7 +83,7 @@ public class AlarmDAO
      */
     public void delete(int id)
     {
-        writer.delete(TABLE_NAME, AlarmTable.COLUMN_ID + " = ?",
+        writer.delete(AlarmTable.TABLE_NAME, AlarmTable.COLUMN_ID + " = ?",
                 new String[] { String.valueOf(id) });
     }
 
@@ -119,7 +116,7 @@ public class AlarmDAO
         values.put(AlarmTable.COLUMN_SNOOZE, newAlarmValues.getSnooze());
         values.put(AlarmTable.COLUMN_STATE, newAlarmValues.isOn() ? 1 : 0);
         values.put(AlarmTable.COLUMN_IS_LOCKED, newAlarmValues.isLocked() ? 1 : 0);
-        writer.update(TABLE_NAME, values,
+        writer.update(AlarmTable.TABLE_NAME, values,
                 AlarmTable.COLUMN_ID + " = ?",
                 new String[] { String.valueOf(id) });
     }
@@ -133,11 +130,11 @@ public class AlarmDAO
     public Alarm select(Context context, int id)
     {
         Alarm alarm = null;
-        String query = String.format("SELECT * FROM %1$s WHERE %2$s = ?",
-                                     AlarmTable.TABLE_NAME, AlarmTable.COLUMN_ID);
-        Cursor cursor = reader.rawQuery(query, new String[] { String.valueOf(id) });
-        if (cursor.moveToFirst())
+        Cursor cursor = reader.query(AlarmTable.TABLE_NAME, null, AlarmTable.COLUMN_ID + " = ?",
+                new String[] { String.valueOf(id) }, null, null, null, "1");
+        if (cursor.getCount() > 0)
         {
+            cursor.moveToFirst();
             String alarmTitle, ringtoneTitle, ringtoneUri;
             int hours, minutes, volume, snooze;
             TimeZoneWrapper timeZone;
@@ -173,12 +170,12 @@ public class AlarmDAO
             vibrates = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_VIBRATES)) == 1;
 
             repetition = BackEndTools.convertStringToIntArray(context,
-                                                              cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_REPETITION)));
+                    cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_REPETITION)));
             RingtoneWrapper ringtone = new RingtoneWrapper(Uri.parse(ringtoneUri), ringtoneTitle, ringtoneType);
             isLocked = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_IS_LOCKED)) == 1;
 
             alarm = new Alarm(id, alarmTitle, triggerTime, ringtone, volume, vibrates,
-                                  isReminder, isOn, timeZone, repetition, snooze);
+                    isReminder, isOn, timeZone, repetition, snooze);
             alarm.setLocked(isLocked);
         }
         cursor.close();
@@ -193,14 +190,15 @@ public class AlarmDAO
      */
     public Alarm[] selectAll(Context context, String orderBy)
     {
-        Cursor cursor = reader.query(TABLE_NAME,
-                    null, null, null, null, null, orderBy + " ASC");
+        Cursor cursor = reader.query(AlarmTable.TABLE_NAME,
+                null, null, null, null, null, orderBy + " ASC");
         Alarm[] alarms = new Alarm[cursor.getCount()];
 
         if (cursor.getCount() > 0)
         {
+            cursor.moveToFirst();
             int i = 0;
-            while (cursor.moveToNext())
+            do
             {
                 String alarmTitle, ringtoneTitle, ringtoneUri;
                 int id, hours, minutes, volume, snooze;
@@ -245,7 +243,7 @@ public class AlarmDAO
                         isReminder, isOn, timeZone, repetition, snooze);
                 alarms[i].setLocked(isLocked);
                 i++;
-            }
+            } while (cursor.moveToNext());
         }
         cursor.close();
         return alarms;
@@ -259,12 +257,12 @@ public class AlarmDAO
     public ArrayList<Alarm> getActiveAlarms(Context context)
     {
         ArrayList<Alarm> activeAlarms = new ArrayList<>();
-        String query = String.format("SELECT * FROM %1$s WHERE %2$s = ?",
-                                     AlarmTable.TABLE_NAME, AlarmTable.COLUMN_STATE);
-        Cursor cursor = reader.rawQuery(query, new String[] { "1" });
-        if (cursor.moveToFirst())
+        Cursor cursor = reader.query(AlarmTable.TABLE_NAME, null, AlarmTable.COLUMN_STATE + " = ?",
+                new String[] { "1" }, null, null, null);
+        if (cursor.getCount() > 0)
         {
-            while (cursor.moveToNext())
+            cursor.moveToFirst();
+            do
             {
                 String alarmTitle, ringtoneTitle, ringtoneUri;
                 int id, hours, minutes, volume, snooze;
@@ -301,15 +299,16 @@ public class AlarmDAO
                 vibrates = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_VIBRATES)) == 1;
 
                 repetition = BackEndTools.convertStringToIntArray(context,
-                                                                  cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_REPETITION)));
+                        cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_REPETITION)));
                 RingtoneWrapper ringtone = new RingtoneWrapper(Uri.parse(ringtoneUri), ringtoneTitle, ringtoneType);
                 isLocked = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_IS_LOCKED)) == 1;
 
                 Alarm alarm = new Alarm(id, alarmTitle, triggerTime, ringtone, volume, vibrates,
-                                      isReminder, isOn, timeZone, repetition, snooze);
+                        isReminder, isOn, timeZone, repetition, snooze);
                 alarm.setLocked(isLocked);
                 activeAlarms.add(alarm);
             }
+            while (cursor.moveToNext());
         }
         cursor.close();
         return activeAlarms;
