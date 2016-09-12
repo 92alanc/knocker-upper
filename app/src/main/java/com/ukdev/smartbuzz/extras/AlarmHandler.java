@@ -9,7 +9,6 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.PowerManager;
 import android.os.Vibrator;
-import android.view.Window;
 import com.ukdev.smartbuzz.activities.AlarmActivity;
 import com.ukdev.smartbuzz.activities.SleepCheckerActivity;
 import com.ukdev.smartbuzz.database.AlarmDAO;
@@ -252,9 +251,7 @@ public class AlarmHandler
             killAlarm(context, alarm);
         if (wakeLock.isHeld())
             wakeLock.release();
-        Window window = activity.getWindow();
-        if (window == null || !window.isActive())
-            BackEndTools.killApp(activity);
+        FrontEndTools.closeApp(context);
     }
 
     /**

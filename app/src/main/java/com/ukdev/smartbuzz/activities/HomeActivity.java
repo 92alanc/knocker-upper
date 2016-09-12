@@ -58,13 +58,13 @@ public class HomeActivity extends AppCompatActivity
     protected void onDestroy()
     {
         super.onDestroy();
-        FrontEndTools.killApp(this);
+        FrontEndTools.closeApp(this);
     }
 
     @Override
     public void onBackPressed()
     {
-        FrontEndTools.killApp(this);
+        FrontEndTools.closeApp(this);
     }
 
     @Override

@@ -246,7 +246,7 @@ public class FrontEndTools
      * Kills the app
      * @param context - Context
      */
-    public static void killApp(Context context)
+    public static void closeApp(Context context)
     {
         AlarmDAO.closeConnection();
         Intent intent = new Intent(Intent.ACTION_MAIN);
