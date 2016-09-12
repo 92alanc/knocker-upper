@@ -202,6 +202,7 @@ public class BackEndTools
      * Kills the app
      * @param activity - Activity
      */
+    @Deprecated
     public static void killApp(Activity activity)
     {
         activity.finish();

@@ -16,7 +16,6 @@ import com.ukdev.smartbuzz.database.AlarmDAO;
 import com.ukdev.smartbuzz.extras.AlarmHandler;
 import com.ukdev.smartbuzz.extras.AppConstants;
 import com.ukdev.smartbuzz.extras.FrontEndTools;
-import com.ukdev.smartbuzz.extras.BackEndTools;
 import com.ukdev.smartbuzz.model.Alarm;
 
 /**
@@ -90,7 +89,7 @@ public class SleepCheckerActivity extends AppCompatActivity
             AlarmHandler.killAlarm(getBaseContext(), alarm);
         if (wakeLock.isHeld())
             wakeLock.release();
-        BackEndTools.killApp(this);
+        FrontEndTools.closeApp(this);
     }
 
     /**
