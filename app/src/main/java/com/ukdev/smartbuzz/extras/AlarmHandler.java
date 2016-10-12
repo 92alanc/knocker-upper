@@ -11,9 +11,8 @@ import android.os.PowerManager;
 import android.os.Vibrator;
 import com.ukdev.smartbuzz.activities.AlarmActivity;
 import com.ukdev.smartbuzz.activities.SleepCheckerActivity;
-import com.ukdev.smartbuzz.database.AlarmDAO;
+import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.model.Alarm;
-import com.ukdev.smartbuzz.model.TimeWrapper;
 
 import java.util.Calendar;
 import java.util.Random;
@@ -36,11 +35,11 @@ public class AlarmHandler
     public static void scheduleAlarm(Context context, Alarm alarm)
     {
         alarm.setLocked(false);
-        AlarmDAO.getInstance(context).update(context, alarm.getId(), alarm);
+        AlarmRepository.getInstance(context).update(context, alarm.getId(), alarm);
         AlarmManager manager = (AlarmManager)context
                 .getSystemService(Context.ALARM_SERVICE);
-        long triggerTime = TimeWrapper
-                .getNextValidTrigger(alarm);
+        long triggerTime = BackEndTools
+                .getNextValidTriggerTime(alarm);
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.setAction(AppConstants.ACTION_TRIGGER_ALARM);
         intent.putExtra(AppConstants.EXTRA_ID, alarm.getId());
@@ -245,7 +244,7 @@ public class AlarmHandler
         {
             callSleepChecker(context, alarm);
             alarm.setLocked(true);
-            AlarmDAO.getInstance(context).update(context, alarm.getId(), alarm);
+            AlarmRepository.getInstance(context).update(context, alarm.getId(), alarm);
         }
         if (alarm.isReminder() && !alarm.repeats())
             killAlarm(context, alarm);
@@ -262,7 +261,7 @@ public class AlarmHandler
     public static void killAlarm(Context context, Alarm alarm)
     {
         alarm.toggle(false);
-        AlarmDAO.getInstance(context).update(context, alarm.getId(), alarm);
+        AlarmRepository.getInstance(context).update(context, alarm.getId(), alarm);
         FrontEndTools.showNotification(context);
     }
 

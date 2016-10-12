@@ -3,22 +3,24 @@ package com.ukdev.smartbuzz.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import com.ukdev.smartbuzz.model.*;
 import com.ukdev.smartbuzz.extras.BackEndTools;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Alarm DAO
  * Manages all database operations
  * Created by Alan Camargo - April 2016
  */
-public class AlarmDAO
+public class AlarmRepository
 {
 
-    private static AlarmDAO instance;
+    private static AlarmRepository instance;
     private static SQLiteDatabase reader, writer;
 
     /**
@@ -26,10 +28,10 @@ public class AlarmDAO
      * @param context - Context
      * @return database instance
      */
-    public static AlarmDAO getInstance(Context context)
+    public static AlarmRepository getInstance(Context context)
     {
         if (instance == null)
-            instance = new AlarmDAO();
+            instance = new AlarmRepository();
         if (reader == null || !reader.isOpen())
             reader = new DatabaseHelper(context).getReadableDatabase();
         if (writer == null || !writer.isOpen())
@@ -57,19 +59,14 @@ public class AlarmDAO
         ContentValues values = new ContentValues();
         values.put(AlarmTable.COLUMN_ID, alarm.getId());
         values.put(AlarmTable.COLUMN_TITLE, alarm.getTitle());
-        values.put(AlarmTable.COLUMN_TRIGGER_HOURS, alarm.getTriggerTime().getHours());
-        values.put(AlarmTable.COLUMN_TRIGGER_MINUTES, alarm.getTriggerTime().getMinutes());
+        values.put(AlarmTable.COLUMN_TRIGGER_HOURS, alarm.getTriggerTime().get(Calendar.HOUR_OF_DAY));
+        values.put(AlarmTable.COLUMN_TRIGGER_MINUTES, alarm.getTriggerTime().get(Calendar.MINUTE));
         values.put(AlarmTable.COLUMN_REPETITION, BackEndTools.convertIntArrayToString(context, alarm.getRepetition()));
-        values.put(AlarmTable.COLUMN_TIME_ZONE_TITLE, alarm.getTimeZone().getTitle());
-        int timeZoneGmtHours = alarm.getTimeZone().getOffset().getHours();
-        values.put(AlarmTable.COLUMN_TIME_ZONE_OFFSET_HOURS, timeZoneGmtHours);
-        int timeZoneGmtMinutes = alarm.getTimeZone().getOffset().getMinutes();
-        values.put(AlarmTable.COLUMN_TIME_ZONE_OFFSET_MINUTES, timeZoneGmtMinutes);
         values.put(AlarmTable.COLUMN_IS_REMINDER, alarm.isReminder() ? 1 : 0);
         values.put(AlarmTable.COLUMN_VIBRATES, alarm.vibrates() ? 1 : 0);
         values.put(AlarmTable.COLUMN_RINGTONE_URI, alarm.getRingtone().getUri().toString());
         values.put(AlarmTable.COLUMN_RINGTONE_TITLE, alarm.getRingtone().getTitle());
-        values.put(AlarmTable.COLUMN_RINGTONE_TYPE, alarm.getRingtone().getType() == RingtoneType.Native ? 0 : 1);
+        values.put(AlarmTable.COLUMN_RINGTONE_TYPE, alarm.getRingtone().getType() == RingtoneType.NATIVE ? 0 : 1);
         values.put(AlarmTable.COLUMN_VOLUME, alarm.getVolume());
         values.put(AlarmTable.COLUMN_SNOOZE, alarm.getSnooze());
         values.put(AlarmTable.COLUMN_STATE, alarm.isOn() ? 1 : 0);
@@ -98,20 +95,15 @@ public class AlarmDAO
         ContentValues values = new ContentValues();
         values.put(AlarmTable.COLUMN_ID, newAlarmValues.getId());
         values.put(AlarmTable.COLUMN_TITLE, newAlarmValues.getTitle());
-        values.put(AlarmTable.COLUMN_TRIGGER_HOURS, newAlarmValues.getTriggerTime().getHours());
-        values.put(AlarmTable.COLUMN_TRIGGER_MINUTES, newAlarmValues.getTriggerTime().getMinutes());
+        values.put(AlarmTable.COLUMN_TRIGGER_HOURS, newAlarmValues.getTriggerTime().get(Calendar.HOUR_OF_DAY));
+        values.put(AlarmTable.COLUMN_TRIGGER_MINUTES, newAlarmValues.getTriggerTime().get(Calendar.MINUTE));
         values.put(AlarmTable.COLUMN_REPETITION,
                 BackEndTools.convertIntArrayToString(context, newAlarmValues.getRepetition()));
-        values.put(AlarmTable.COLUMN_TIME_ZONE_TITLE, newAlarmValues.getTimeZone().getTitle());
-        int timeZoneGmtHours = newAlarmValues.getTimeZone().getOffset().getHours();
-        values.put(AlarmTable.COLUMN_TIME_ZONE_OFFSET_HOURS, timeZoneGmtHours);
-        int timeZoneGmtMinutes = newAlarmValues.getTimeZone().getOffset().getMinutes();
-        values.put(AlarmTable.COLUMN_TIME_ZONE_OFFSET_MINUTES, timeZoneGmtMinutes);
         values.put(AlarmTable.COLUMN_IS_REMINDER, newAlarmValues.isReminder() ? 1 : 0);
         values.put(AlarmTable.COLUMN_VIBRATES, newAlarmValues.vibrates() ? 1 : 0);
         values.put(AlarmTable.COLUMN_RINGTONE_URI, newAlarmValues.getRingtone().getUri().toString());
         values.put(AlarmTable.COLUMN_RINGTONE_TITLE, newAlarmValues.getRingtone().getTitle());
-        values.put(AlarmTable.COLUMN_RINGTONE_TYPE, newAlarmValues.getRingtone().getType() == RingtoneType.Native ? 0 : 1);
+        values.put(AlarmTable.COLUMN_RINGTONE_TYPE, newAlarmValues.getRingtone().getType() == RingtoneType.NATIVE ? 0 : 1);
         values.put(AlarmTable.COLUMN_VOLUME, newAlarmValues.getVolume());
         values.put(AlarmTable.COLUMN_SNOOZE, newAlarmValues.getSnooze());
         values.put(AlarmTable.COLUMN_STATE, newAlarmValues.isOn() ? 1 : 0);
@@ -136,25 +128,22 @@ public class AlarmDAO
         {
             cursor.moveToFirst();
             String alarmTitle, ringtoneTitle, ringtoneUri;
-            int hours, minutes, volume, snooze;
-            TimeZoneWrapper timeZone;
+            int day, hours, minutes, volume, snooze;
             boolean isOn, isReminder, vibrates, isLocked;
             int[] repetition;
-            TimeWrapper triggerTime;
+            Calendar triggerTime = Calendar.getInstance();
             RingtoneType ringtoneType;
 
             alarmTitle = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_TITLE));
 
-            String timeZoneTitle = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_TIME_ZONE_TITLE));
-            int timeZoneOffsetHours = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TIME_ZONE_OFFSET_HOURS));
-            int timeZoneOffsetMinutes = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TIME_ZONE_OFFSET_MINUTES));
-            TimeWrapper timeZoneOffset = new TimeWrapper(timeZoneOffsetHours, timeZoneOffsetMinutes);
-            timeZone = new TimeZoneWrapper(timeZoneTitle, timeZoneOffset);
-
             id = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_ID));
+            day = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TRIGGER_DAY));
             hours = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TRIGGER_HOURS));
             minutes = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TRIGGER_MINUTES));
-            triggerTime = new TimeWrapper(hours, minutes);
+            triggerTime.set(Calendar.DAY_OF_MONTH, day);
+            triggerTime.set(Calendar.HOUR_OF_DAY, hours);
+            triggerTime.set(Calendar.MINUTE, minutes);
+            triggerTime.set(Calendar.SECOND, 0);
 
             isOn = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_STATE)) == 1;
             isReminder = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_IS_REMINDER)) == 1;
@@ -162,9 +151,9 @@ public class AlarmDAO
             ringtoneTitle = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_RINGTONE_TITLE));
             int type = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_RINGTONE_TYPE));
             if (type == 0)
-                ringtoneType = RingtoneType.Native;
+                ringtoneType = RingtoneType.NATIVE;
             else
-                ringtoneType = RingtoneType.Custom;
+                ringtoneType = RingtoneType.CUSTOM;
             volume = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_VOLUME));
             snooze = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_SNOOZE));
             vibrates = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_VIBRATES)) == 1;
@@ -175,7 +164,7 @@ public class AlarmDAO
             isLocked = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_IS_LOCKED)) == 1;
 
             alarm = new Alarm(id, alarmTitle, triggerTime, ringtone, volume, vibrates,
-                    isReminder, isOn, timeZone, repetition, snooze);
+                    isReminder, isOn, repetition, snooze);
             alarm.setLocked(isLocked);
         }
         cursor.close();
@@ -201,25 +190,22 @@ public class AlarmDAO
             do
             {
                 String alarmTitle, ringtoneTitle, ringtoneUri;
-                int id, hours, minutes, volume, snooze;
-                TimeZoneWrapper timeZone;
+                int id, day, hours, minutes, volume, snooze;
                 boolean isOn, isReminder, vibrates, isLocked;
                 int[] repetition;
-                TimeWrapper triggerTime;
+                Calendar triggerTime = Calendar.getInstance();
                 RingtoneType ringtoneType;
 
                 alarmTitle = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_TITLE));
 
-                String timeZoneTitle = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_TIME_ZONE_TITLE));
-                int timeZoneOffsetHours = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TIME_ZONE_OFFSET_HOURS));
-                int timeZoneOffsetMinutes = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TIME_ZONE_OFFSET_MINUTES));
-                TimeWrapper timeZoneOffset = new TimeWrapper(timeZoneOffsetHours, timeZoneOffsetMinutes);
-                timeZone = new TimeZoneWrapper(timeZoneTitle, timeZoneOffset);
-
                 id = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_ID));
+                day = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TRIGGER_DAY));
                 hours = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TRIGGER_HOURS));
                 minutes = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TRIGGER_MINUTES));
-                triggerTime = new TimeWrapper(hours, minutes);
+                triggerTime.set(Calendar.DAY_OF_MONTH, day);
+                triggerTime.set(Calendar.HOUR_OF_DAY, hours);
+                triggerTime.set(Calendar.MINUTE, minutes);
+                triggerTime.set(Calendar.SECOND, 0);
 
                 isOn = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_STATE)) == 1;
                 isReminder = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_IS_REMINDER)) == 1;
@@ -227,9 +213,9 @@ public class AlarmDAO
                 ringtoneTitle = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_RINGTONE_TITLE));
                 int type = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_RINGTONE_TYPE));
                 if (type == 0)
-                    ringtoneType = RingtoneType.Native;
+                    ringtoneType = RingtoneType.NATIVE;
                 else
-                    ringtoneType = RingtoneType.Custom;
+                    ringtoneType = RingtoneType.CUSTOM;
                 volume = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_VOLUME));
                 snooze = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_SNOOZE));
                 vibrates = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_VIBRATES)) == 1;
@@ -240,7 +226,7 @@ public class AlarmDAO
                 isLocked = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_IS_LOCKED)) == 1;
 
                 alarms[i] = new Alarm(id, alarmTitle, triggerTime, ringtone, volume, vibrates,
-                        isReminder, isOn, timeZone, repetition, snooze);
+                        isReminder, isOn, repetition, snooze);
                 alarms[i].setLocked(isLocked);
                 i++;
             } while (cursor.moveToNext());
@@ -265,25 +251,22 @@ public class AlarmDAO
             do
             {
                 String alarmTitle, ringtoneTitle, ringtoneUri;
-                int id, hours, minutes, volume, snooze;
-                TimeZoneWrapper timeZone;
+                int id, day, hours, minutes, volume, snooze;
                 boolean isOn, isReminder, vibrates, isLocked;
                 int[] repetition;
-                TimeWrapper triggerTime;
+                Calendar triggerTime = Calendar.getInstance();
                 RingtoneType ringtoneType;
 
                 alarmTitle = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_TITLE));
 
-                String timeZoneTitle = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_TIME_ZONE_TITLE));
-                int timeZoneOffsetHours = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TIME_ZONE_OFFSET_HOURS));
-                int timeZoneOffsetMinutes = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TIME_ZONE_OFFSET_MINUTES));
-                TimeWrapper timeZoneOffset = new TimeWrapper(timeZoneOffsetHours, timeZoneOffsetMinutes);
-                timeZone = new TimeZoneWrapper(timeZoneTitle, timeZoneOffset);
-
                 id = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_ID));
+                day = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TRIGGER_DAY));
                 hours = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TRIGGER_HOURS));
                 minutes = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TRIGGER_MINUTES));
-                triggerTime = new TimeWrapper(hours, minutes);
+                triggerTime.set(Calendar.DAY_OF_MONTH, day);
+                triggerTime.set(Calendar.HOUR_OF_DAY, hours);
+                triggerTime.set(Calendar.MINUTE, minutes);
+                triggerTime.set(Calendar.SECOND, 0);
 
                 isOn = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_STATE)) == 1;
                 isReminder = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_IS_REMINDER)) == 1;
@@ -291,9 +274,9 @@ public class AlarmDAO
                 ringtoneTitle = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_RINGTONE_TITLE));
                 int type = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_RINGTONE_TYPE));
                 if (type == 0)
-                    ringtoneType = RingtoneType.Native;
+                    ringtoneType = RingtoneType.NATIVE;
                 else
-                    ringtoneType = RingtoneType.Custom;
+                    ringtoneType = RingtoneType.CUSTOM;
                 volume = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_VOLUME));
                 snooze = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_SNOOZE));
                 vibrates = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_VIBRATES)) == 1;
@@ -304,7 +287,7 @@ public class AlarmDAO
                 isLocked = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_IS_LOCKED)) == 1;
 
                 Alarm alarm = new Alarm(id, alarmTitle, triggerTime, ringtone, volume, vibrates,
-                        isReminder, isOn, timeZone, repetition, snooze);
+                        isReminder, isOn, repetition, snooze);
                 alarm.setLocked(isLocked);
                 activeAlarms.add(alarm);
             }
@@ -312,6 +295,31 @@ public class AlarmDAO
         }
         cursor.close();
         return activeAlarms;
+    }
+
+    /**
+     * Gets the last ID registered in the database
+     * @return last ID
+     */
+    public int getLastId()
+    {
+        Cursor cursor = reader.query(AlarmTable.TABLE_NAME, new String[] { AlarmTable.COLUMN_ID }, null, null,
+                null, null, AlarmTable.COLUMN_ID + " DESC", "1");
+        int lastId = 0;
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0)
+            lastId = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_ID));
+        cursor.close();
+        return lastId;
+    }
+
+    /**
+     * Gets the number of rows
+     * @return row count
+     */
+    public int getRowCount()
+    {
+        return (int) DatabaseUtils.queryNumEntries(reader, AlarmTable.TABLE_NAME);
     }
 
 }

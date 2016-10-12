@@ -42,5 +42,12 @@
     <string name="reminder_updated">Promemoria aggiornato</string>
     <string name="one_alarm_set">1 Sveglia impostata</string>
     <string name="x_alarms_set">%1$d Sveglie impostate</string>
+    <string name="sun">Dom</string>
+    <string name="mon">Lun</string>
+    <string name="tue">Mar</string>
+    <string name="wed">Mer</string>
+    <string name="thu">Gio</string>
+    <string name="fri">Ven</string>
+    <string name="sat">Sab</string>
 
 </resources>

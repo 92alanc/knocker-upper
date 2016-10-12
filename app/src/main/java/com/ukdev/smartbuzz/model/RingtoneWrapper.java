@@ -8,7 +8,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import com.ukdev.smartbuzz.extras.AppConstants;
 
 import java.io.File;
@@ -83,7 +82,7 @@ public class RingtoneWrapper
     public boolean isPlayable()
     {
         File ringtoneFile = new File(uri.toString());
-        return (type == RingtoneType.Native) || (ringtoneFile.length() > 0);
+        return (type == RingtoneType.NATIVE) || (ringtoneFile.length() > 0);
     }
 
     /**
@@ -105,7 +104,7 @@ public class RingtoneWrapper
         {
             uri = manager.getRingtoneUri(i);
             title = manager.getRingtone(i).getTitle(context);
-            type = RingtoneType.Native;
+            type = RingtoneType.NATIVE;
             ringtones.add(new RingtoneWrapper(uri, title, type));
         }
         int permission = ContextCompat.checkSelfPermission(context,
@@ -125,7 +124,7 @@ public class RingtoneWrapper
                 {
                     Uri songUri = Uri.parse(cursor.getString(pathColumn));
                     String songTitle = cursor.getString(titleColumn);
-                    RingtoneType fileType = RingtoneType.Custom;
+                    RingtoneType fileType = RingtoneType.CUSTOM;
                     ringtones.add(new RingtoneWrapper(songUri, songTitle, fileType));
                 }
                 while (cursor.moveToNext());

@@ -2,11 +2,7 @@ package com.ukdev.smartbuzz.extras;
 
 import android.Manifest;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.database.AlarmTable;
 
 /**
@@ -15,9 +11,6 @@ import com.ukdev.smartbuzz.database.AlarmTable;
  */
 public class AppConstants
 {
-
-    // --- AUDIO FILES ---
-    public static final Uri AUDIO_BIRL = Uri.parse("android.resource://com.ukdev.smartbuzz/" + R.raw.birl);
 
     // --- DEFAULT VALUES ---
     public static final int DEFAULT_INTENT_EXTRA = 1;
@@ -46,7 +39,7 @@ public class AppConstants
     public static final String EXTRA_REMINDER = "Reminder";
 
     // --- NOTIFICATIONS ---
-    public static final int NOTIFICATION_ID = 1;
+    static final int NOTIFICATION_ID = 1;
 
     // --- ORDER BY METHODS ---
     public static final String ORDER_BY_ID = AlarmTable.COLUMN_ID;
@@ -74,9 +67,5 @@ public class AppConstants
     static final long TEN_MINUTES = 2 * FIVE_MINUTES;
     static final long FIFTEEN_MINUTES = 3 * FIVE_MINUTES;
     public static final long ONE_DAY = 86400000;
-
-    // --- TITLES ---
-    public static final String TITLE_ACADEMIA = "academia";
-    public static final String TITLE_TREINO = "treino";
 
 }

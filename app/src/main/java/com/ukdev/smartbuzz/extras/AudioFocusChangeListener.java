@@ -3,7 +3,7 @@ package com.ukdev.smartbuzz.extras;
 import android.media.AudioManager;
 
 /**
- * Custom AudioFocusChangeListener
+ * CUSTOM AudioFocusChangeListener
  * Detects changes in audio focus
  * Created by Alan Camargo - July 2016
  */

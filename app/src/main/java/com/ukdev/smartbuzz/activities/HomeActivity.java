@@ -13,7 +13,7 @@ import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
-import com.ukdev.smartbuzz.database.AlarmDAO;
+import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.extras.AlarmHandler;
 import com.ukdev.smartbuzz.extras.AppConstants;
 import com.ukdev.smartbuzz.extras.FrontEndTools;
@@ -33,7 +33,7 @@ public class HomeActivity extends AppCompatActivity
     private ListView listView;
     private ArrayList<Integer> selectedItems;
     private Toolbar toolbar;
-    private AlarmDAO database;
+    private AlarmRepository database;
     private FloatingActionButton addAlarmButton, addReminderButton;
 
     @Override
@@ -43,7 +43,7 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home_screen);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        database = AlarmDAO.getInstance(this);
+        database = AlarmRepository.getInstance(this);
         addAlarmButton = (FloatingActionButton)findViewById(R.id.addAlarmButton);
         addReminderButton = (FloatingActionButton)findViewById(R.id.addReminderButton);
         setAddButton();
@@ -86,11 +86,11 @@ public class HomeActivity extends AppCompatActivity
                 FrontEndTools.startActivity(HomeActivity.this, HelpActivity.class);
                 break;
             case R.id.sortTimeItem:
-                if (database.selectAll(this, AppConstants.ORDER_BY_TIME).length > 1)
+                if (database.getRowCount() > 1)
                     FrontEndTools.adaptAlarmsListView(this, listView, AppConstants.ORDER_BY_TIME);
                 break;
             case R.id.sortTitleItem:
-                if (database.selectAll(this, AppConstants.ORDER_BY_TITLE).length > 1)
+                if (database.getRowCount() > 1)
                     FrontEndTools.adaptAlarmsListView(this, listView, AppConstants.ORDER_BY_TITLE);
         }
         return super.onOptionsItemSelected(item);

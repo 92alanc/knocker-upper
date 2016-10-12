@@ -10,8 +10,10 @@ import android.support.v4.content.ContextCompat;
 import android.widget.GridLayout;
 import android.widget.ToggleButton;
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.model.Alarm;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -219,6 +221,30 @@ public class BackEndTools
     public static int getMaxVolume(AudioManager manager)
     {
         return manager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
+    }
+
+    /**
+     * Gets the next valid trigger time, in milliseconds
+     * @param alarm - Alarm
+     * @return next valid trigger time
+     */
+    static long getNextValidTriggerTime(Alarm alarm)
+    {
+        int hours = alarm.getTriggerTime().get(Calendar.HOUR_OF_DAY);
+        int minutes = alarm.getTriggerTime().get(Calendar.MINUTE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hours);
+        calendar.set(Calendar.MINUTE, minutes);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Calendar now = Calendar.getInstance();
+
+        if ((hours <= now.get(Calendar.HOUR_OF_DAY)
+                || minutes > now.get(Calendar.MINUTE))
+                && (hours < now.get(Calendar.HOUR_OF_DAY)
+                || minutes <= now.get(Calendar.MINUTE)))
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        return calendar.getTimeInMillis();
     }
 
 }

@@ -8,13 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.ukdev.smartbuzz.database.AlarmDAO;
+import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.extras.AlarmHandler;
 import com.ukdev.smartbuzz.extras.AppConstants;
 import com.ukdev.smartbuzz.extras.FrontEndTools;
 import com.ukdev.smartbuzz.extras.BackEndTools;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.R;
+
+import java.util.Calendar;
 
 /**
  * Alarm adapter
@@ -50,7 +52,6 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
             holder.triggerTime = (TextView)row.findViewById(R.id.triggerTimeRow);
             holder.repetition = (TextView)row.findViewById(R.id.repetitionRow);
             holder.reminderIcon = (ImageView)row.findViewById(R.id.reminderIcon);
-            holder.timeZoneIcon = (ImageView)row.findViewById(R.id.timeZoneListViewIcon);
             holder.alarmSwitch = (Switch)row.findViewById(R.id.alarmSwitch);
             holder.sunMoonImg = (ImageView)row.findViewById(R.id.sunMoonImg);
             row.setTag(holder);
@@ -59,14 +60,17 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
             holder = (AlarmHolder)row.getTag();
         final Alarm alarm = data[position];
         holder.title.setText(alarm.getTitle());
-        holder.triggerTime.setText(alarm.getTriggerTime().toString());
+        String triggerTime = String.format("%1$d:%2$d",
+                alarm.getTriggerTime().get(Calendar.HOUR_OF_DAY),
+                alarm.getTriggerTime().get(Calendar.MINUTE));
+        holder.triggerTime.setText(triggerTime);
         if (alarm.repeats())
             holder.repetition.setText(BackEndTools.convertIntArrayToString(context,
                 alarm.getRepetition()));
         else
             holder.repetition.setVisibility(View.GONE);
-        if (alarm.getTriggerTime().getHours() >= 6 &&
-                alarm.getTriggerTime().getHours() < 18) // Day time
+        if (alarm.getTriggerTime().get(Calendar.HOUR_OF_DAY) >= 6 &&
+                alarm.getTriggerTime().get(Calendar.HOUR_OF_DAY) < 18) // Day time
             holder.sunMoonImg.setImageResource(R.drawable.sun);
         else // Night time
             holder.sunMoonImg.setImageResource(R.drawable.moon);
@@ -74,10 +78,6 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
             holder.reminderIcon.setVisibility(View.VISIBLE);
         else
             holder.reminderIcon.setVisibility(View.GONE);
-        if (alarm.hasDifferentTimeZone())
-            holder.timeZoneIcon.setVisibility(View.VISIBLE);
-        else
-            holder.timeZoneIcon.setVisibility(View.GONE);
         if (alarm.isOn())
         {
             holder.alarmSwitch.setChecked(true);
@@ -133,7 +133,7 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
                 }
                 if (!alarm.isLocked())
                 {
-                    AlarmDAO.getInstance(context).update(context, alarm.getId(), alarm);
+                    AlarmRepository.getInstance(context).update(context, alarm.getId(), alarm);
                     FrontEndTools.showNotification(context);
                 }
             }
@@ -150,7 +150,6 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
         TextView triggerTime;
         TextView repetition;
         ImageView reminderIcon;
-        ImageView timeZoneIcon;
         Switch alarmSwitch;
         ImageView sunMoonImg;
     }

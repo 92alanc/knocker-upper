@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
-import com.ukdev.smartbuzz.database.AlarmDAO;
+import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.database.SnoozeCounter;
 import com.ukdev.smartbuzz.extras.AlarmHandler;
 import com.ukdev.smartbuzz.extras.AppConstants;
@@ -46,7 +46,7 @@ public class AlarmActivity extends AppCompatActivity
                 PowerManager.ACQUIRE_CAUSES_WAKEUP, "Tag");
         if (FrontEndTools.screenIsLocked(this))
             wakeLock.acquire();
-        alarm = AlarmDAO.getInstance(this).select(this, getIntent().getIntExtra(AppConstants.EXTRA_ID,
+        alarm = AlarmRepository.getInstance(this).select(this, getIntent().getIntExtra(AppConstants.EXTRA_ID,
                 AppConstants.DEFAULT_INTENT_EXTRA));
         setTitle();
         countdown();

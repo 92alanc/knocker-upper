@@ -3,7 +3,7 @@ package com.ukdev.smartbuzz.extras;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import com.ukdev.smartbuzz.database.AlarmDAO;
+import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.model.Alarm;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class BootReceiver extends BroadcastReceiver
     {
         if (intent.getAction().equals(AppConstants.ACTION_BOOT_COMPLETED))
         {
-            ArrayList<Alarm> activeAlarms = AlarmDAO.getInstance(context).getActiveAlarms(context);
+            ArrayList<Alarm> activeAlarms = AlarmRepository.getInstance(context).getActiveAlarms(context);
             if (activeAlarms.size() > 0)
             {
                 for (Alarm alarm : activeAlarms)

@@ -20,6 +20,7 @@
     <string name="delete">Delete alarm</string>
     <string name="dismiss">Dismiss</string>
     <string name="every_day">Every day</string>
+    <string name="fri">Fri</string>
     <string name="help">Help</string>
     <string name="info">
         Developed by Braincorp Apps\n
@@ -28,6 +29,7 @@
     <string name="invalid_ringtone_file">%1$s is not a valid ringtone file.</string>
     <string name="item_selected">1 item selected</string>
     <string name="items_selected">%1$s items selected</string>
+    <string name="mon">Mon</string>
     <string name="new_alarm">New Alarm</string>
     <string name="new_reminder">New Reminder</string>
     <string name="one_alarm_set">1 alarm set</string>
@@ -36,15 +38,20 @@
     <string name="reminder_updated">Reminder updated</string>
     <string name="repeat">Repeat during the week</string>
     <string name="ringtone">Ringtone</string>
+    <string name="sat">Sat</string>
     <string name="save">Save</string>
     <string name="set_as_reminder">Set as reminder</string>
     <string name="snooze">Snooze</string>
     <string name="sort_time">Sort by time</string>
     <string name="sort_title">Sort by title</string>
+    <string name="sun">Sun</string>
+    <string name="thu">Thu</string>
     <string name="time_zone">Time zone</string>
     <string name="title_hint">Title</string>
+    <string name="tue">Tue</string>
     <string name="vibrate">Vibrate</string>
     <string name="volume">Volume</string>
+    <string name="wed">Wed</string>
     <string name="week_days">Week days</string>
     <string name="weekends">Weekends</string>
     <string name="x_alarms_set">%1$d alarms set</string>

@@ -42,5 +42,12 @@
     <string name="reminder_updated">Erinnerung updated</string>
     <string name="one_alarm_set">1 Alarm gesetzt</string>
     <string name="x_alarms_set">%1$d Alarme gesetzt</string>
+    <string name="sun">So</string>
+    <string name="mon">Mo</string>
+    <string name="tue">Di</string>
+    <string name="wed">Mi</string>
+    <string name="thu">Do</string>
+    <string name="fri">Fr</string>
+    <string name="sat">Sa</string>
 
 </resources>

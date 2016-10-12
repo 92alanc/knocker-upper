@@ -2,6 +2,7 @@ package com.ukdev.smartbuzz.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -17,11 +18,12 @@ import android.widget.*;
 import com.ukdev.smartbuzz.extras.*;
 import com.ukdev.smartbuzz.model.*;
 import com.ukdev.smartbuzz.view.CustomTimePicker;
-import com.ukdev.smartbuzz.database.AlarmDAO;
+import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Alarm Creator
@@ -36,11 +38,11 @@ public class AlarmCreatorActivity extends AppCompatActivity
     private CheckBox repetitionCheckBox, reminderCheckBox, vibrateCheckBox;
     private int idToEdit;
     private boolean isEditing, isReminder;
-    private Spinner timeZoneSpinner, ringtoneSpinner, snoozeSpinner;
+    private Spinner ringtoneSpinner, snoozeSpinner;
     private SeekBar volumeSeekBar;
     private MediaPlayer player;
     private AudioManager manager;
-    private AlarmDAO database;
+    private AlarmRepository database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,17 +51,22 @@ public class AlarmCreatorActivity extends AppCompatActivity
         setContentView(R.layout.activity_alarm_creator);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        database = AlarmDAO.getInstance(this);
+        database = AlarmRepository.getInstance(this);
         manager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         reminderCheckBox = (CheckBox)findViewById(R.id.reminderCheckBox);
         isReminder = getIntent().getBooleanExtra(AppConstants.EXTRA_REMINDER, false);
         setToolbarLayout();
         setSaveButton();
         setTimePicker();
-        FrontEndTools.buildRepetitionButtons(this, this);
         setRepetitionCheckBox();
+        setSundayButton();
+        setMondayButton();
+        setTuesdayButton();
+        setWednesdayButton();
+        setThursdayButton();
+        setFridayButton();
+        setSaturdayButton();
         setRingtoneSpinner();
-        setTimeZoneSpinner();
         setSnoozeSpinner();
         setVolumeSeekBar();
         setRingtoneTestButton();
@@ -110,36 +117,17 @@ public class AlarmCreatorActivity extends AppCompatActivity
                         {
                             if (update())
                                 FrontEndTools.startActivity(AlarmCreatorActivity.this,
-                                                        HomeActivity.class);
+                                        HomeActivity.class);
                         }
                         else
                         {
                             if (save())
                                 FrontEndTools.startActivity(AlarmCreatorActivity.this,
-                                                            HomeActivity.class);
+                                        HomeActivity.class);
                         }
                     }
                 }
-                                     );
-    }
-
-    /**
-     * Sets actions to timeZoneSpinner
-     */
-    private void setTimeZoneSpinner()
-    {
-        timeZoneSpinner = (Spinner)findViewById(R.id.timeZoneSpinner);
-        FrontEndTools.adaptTimeZonePicker(this, timeZoneSpinner);
-        TimeZoneWrapper[] timeZones = TimeZoneWrapper.getAllTimeZones(this);
-        TimeWrapper localTimeZone = TimeZoneWrapper.getLocalTimeZoneOffset();
-        for (int i = 0; i < timeZones.length; i++)
-        {
-            if (timeZones[i].getOffset().toString().equals(localTimeZone.toString()))
-            {
-                timeZoneSpinner.setSelection(i);
-                break;
-            }
-        }
+        );
     }
 
     /**
@@ -184,7 +172,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
     {
         int volume = volumeSeekBar.getProgress();
         final AudioFocusChangeListener listener = new AudioFocusChangeListener(manager,
-                                                                               volume);
+                volume);
         final ImageButton ringtoneTestButton = (ImageButton)findViewById(
                 R.id.ringtoneTestButton);
         ringtoneTestButton.setOnClickListener(new View.OnClickListener()
@@ -204,12 +192,12 @@ public class AlarmCreatorActivity extends AppCompatActivity
                         int requestResult;
                         if (AppConstants.OS_VERSION >= Build.VERSION_CODES.KITKAT)
                             requestResult = manager.requestAudioFocus(listener,
-                                                                      AudioManager.STREAM_ALARM,
-                                                                      AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
+                                    AudioManager.STREAM_ALARM,
+                                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
                         else
                             requestResult = manager.requestAudioFocus(listener,
-                                                                      AudioManager.STREAM_ALARM,
-                                                                      AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+                                    AudioManager.STREAM_ALARM,
+                                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
                         if (requestResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
                         {
                             player.setAudioStreamType(AudioManager.STREAM_ALARM);
@@ -259,8 +247,8 @@ public class AlarmCreatorActivity extends AppCompatActivity
                     }
                     else
                         FrontEndTools.showToast(getBaseContext(),
-                                                String.format(getString(R.string.invalid_ringtone_file),
-                                                              ringtone.getTitle()), Toast.LENGTH_LONG);
+                                String.format(getString(R.string.invalid_ringtone_file),
+                                        ringtone.getTitle()), Toast.LENGTH_LONG);
                 }
                 else
                 {
@@ -353,15 +341,15 @@ public class AlarmCreatorActivity extends AppCompatActivity
         if (!ringtone.isPlayable())
         {
             FrontEndTools.showToast(this,
-                                    String.format(getString(R.string.invalid_ringtone_file),
-                                                  ringtone.getTitle()), Toast.LENGTH_LONG);
+                    String.format(getString(R.string.invalid_ringtone_file),
+                            ringtone.getTitle()), Toast.LENGTH_LONG);
             return false;
         }
         else
         {
+            int id = database.getLastId() + 1;
             timePicker.clearFocus();
-            int hours;
-            int minutes;
+            int hours, minutes;
             if (AppConstants.OS_VERSION >= Build.VERSION_CODES.M)
             {
                 hours = timePicker.getHour();
@@ -372,11 +360,11 @@ public class AlarmCreatorActivity extends AppCompatActivity
                 hours = timePicker.getCurrentHour();
                 minutes = timePicker.getCurrentMinute();
             }
-            TimeWrapper triggerTime = new TimeWrapper(hours, minutes);
+            Calendar triggerTime = Calendar.getInstance();
+            triggerTime.set(Calendar.HOUR_OF_DAY, hours);
+            triggerTime.set(Calendar.MINUTE, minutes);
             int snooze = getSnoozeSpinnerValue();
 
-            int id = database.selectAll(this, AppConstants.ORDER_BY_ID).length + 1;
-            TimeZoneWrapper timeZone = (TimeZoneWrapper)timeZoneSpinner.getSelectedItem();
             int volume = volumeSeekBar.getProgress();
             boolean vibrate = vibrateCheckBox.isChecked();
             GridLayout layout = (GridLayout)findViewById(R.id.repetitionLayout);
@@ -385,12 +373,12 @@ public class AlarmCreatorActivity extends AppCompatActivity
                 player.stop();
 
             Alarm alarm = new Alarm(id, title, triggerTime, ringtone, volume, vibrate,
-                                    isReminder, true, timeZone, repetition, snooze);
+                    isReminder, true, repetition, snooze);
             database.insert(this, alarm);
             AlarmHandler.scheduleAlarm(this, alarm);
             FrontEndTools.showToast(getBaseContext(),
-                                    token,
-                                    Toast.LENGTH_SHORT);
+                    token,
+                    Toast.LENGTH_SHORT);
             return true;
         }
     }
@@ -424,14 +412,13 @@ public class AlarmCreatorActivity extends AppCompatActivity
         if (!ringtone.isPlayable())
         {
             FrontEndTools.showToast(this, String.format(getString(R.string.invalid_ringtone_file),
-                                                        ringtone.getTitle()), Toast.LENGTH_LONG);
+                    ringtone.getTitle()), Toast.LENGTH_LONG);
             return false;
         }
         else
         {
             alarm.setTitle(title);
-            int hours;
-            int minutes;
+            int hours, minutes;
             if (AppConstants.OS_VERSION >= Build.VERSION_CODES.M)
             {
                 hours = timePicker.getHour();
@@ -442,12 +429,12 @@ public class AlarmCreatorActivity extends AppCompatActivity
                 hours = timePicker.getCurrentHour();
                 minutes = timePicker.getCurrentMinute();
             }
-            TimeWrapper time = new TimeWrapper(hours, minutes);
-            alarm.setTriggerTime(time);
+            Calendar triggerTime = Calendar.getInstance();
+            triggerTime.set(Calendar.HOUR_OF_DAY, hours);
+            triggerTime.set(Calendar.MINUTE, minutes);
+            alarm.setTriggerTime(triggerTime);
             CheckBox reminderCheckBox = (CheckBox)findViewById(R.id.reminderCheckBox);
             alarm.setAsReminder(reminderCheckBox.isChecked());
-            TimeZoneWrapper timeZone = (TimeZoneWrapper)timeZoneSpinner.getSelectedItem();
-            alarm.setTimeZone(timeZone);
             alarm.setRingtone(ringtone);
             int volume = volumeSeekBar.getProgress();
             alarm.setVolume(volume);
@@ -465,8 +452,8 @@ public class AlarmCreatorActivity extends AppCompatActivity
             database.update(this, alarm.getId(), alarm);
             AlarmHandler.updateAlarm(this, alarm);
             FrontEndTools.showToast(getBaseContext(),
-                                    token,
-                                    Toast.LENGTH_SHORT);
+                    token,
+                    Toast.LENGTH_SHORT);
             return true;
         }
     }
@@ -519,6 +506,272 @@ public class AlarmCreatorActivity extends AppCompatActivity
     }
 
     /**
+     * Sets actions to sundayButton
+     */
+    private void setSundayButton()
+    {
+        ToggleButton sundayButton = (ToggleButton) findViewById(R.id.sundayButton);
+        if (sundayButton.isChecked())
+        {
+            sundayButton.setBackgroundColor(Color.parseColor("#EF9A9A")); // Light red
+            sundayButton.setTextColor(Color.parseColor("#FFFFFF")); // White
+        }
+        else
+        {
+            sundayButton.setBackgroundColor(Color.parseColor("#FFFFFF")); // White
+            sundayButton.setTextColor(Color.parseColor("#000000")); // Black
+        }
+        sundayButton.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener()
+                {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton,
+                                                 boolean isChecked)
+                    {
+                        compoundButton.setChecked(isChecked);
+                        if (isChecked)
+                        {
+                            compoundButton.setBackgroundColor(Color.parseColor("#EF9A9A")); // Light red
+                            compoundButton.setTextColor(Color.parseColor("#FFFFFF")); // White
+                        }
+                        else
+                        {
+                            compoundButton.setBackgroundColor(Color.parseColor("#FFFFFF")); // White
+                            compoundButton.setTextColor(Color.parseColor("#000000")); // Black
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Sets actions to mondayButton
+     */
+    private void setMondayButton()
+    {
+        ToggleButton mondayButton = (ToggleButton) findViewById(R.id.mondayButton);
+        if (mondayButton.isChecked())
+        {
+            mondayButton.setBackgroundColor(Color.parseColor("#EF9A9A")); // Light red
+            mondayButton.setTextColor(Color.parseColor("#FFFFFF")); // White
+        }
+        else
+        {
+            mondayButton.setBackgroundColor(Color.parseColor("#FFFFFF")); // White
+            mondayButton.setTextColor(Color.parseColor("#000000")); // Black
+        }
+        mondayButton.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener()
+                {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton,
+                                                 boolean isChecked)
+                    {
+                        compoundButton.setChecked(isChecked);
+                        if (isChecked)
+                        {
+                            compoundButton.setBackgroundColor(Color.parseColor("#EF9A9A")); // Light red
+                            compoundButton.setTextColor(Color.parseColor("#FFFFFF")); // White
+                        }
+                        else
+                        {
+                            compoundButton.setBackgroundColor(Color.parseColor("#FFFFFF")); // White
+                            compoundButton.setTextColor(Color.parseColor("#000000")); // Black
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Sets actions to tuesdayButton
+     */
+    private void setTuesdayButton()
+    {
+        ToggleButton tuesdayButton = (ToggleButton) findViewById(R.id.tuesdayButton);
+        if (tuesdayButton.isChecked())
+        {
+            tuesdayButton.setBackgroundColor(Color.parseColor("#EF9A9A")); // Light red
+            tuesdayButton.setTextColor(Color.parseColor("#FFFFFF")); // White
+        }
+        else
+        {
+            tuesdayButton.setBackgroundColor(Color.parseColor("#FFFFFF")); // White
+            tuesdayButton.setTextColor(Color.parseColor("#000000")); // Black
+        }
+        tuesdayButton.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener()
+                {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton,
+                                                 boolean isChecked)
+                    {
+                        compoundButton.setChecked(isChecked);
+                        if (isChecked)
+                        {
+                            compoundButton.setBackgroundColor(Color.parseColor("#EF9A9A")); // Light red
+                            compoundButton.setTextColor(Color.parseColor("#FFFFFF")); // White
+                        }
+                        else
+                        {
+                            compoundButton.setBackgroundColor(Color.parseColor("#FFFFFF")); // White
+                            compoundButton.setTextColor(Color.parseColor("#000000")); // Black
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Sets actions to wednesdayButton
+     */
+    private void setWednesdayButton()
+    {
+        ToggleButton wednesdayButton = (ToggleButton) findViewById(R.id.wednesdayButton);
+        if (wednesdayButton.isChecked())
+        {
+            wednesdayButton.setBackgroundColor(Color.parseColor("#EF9A9A")); // Light red
+            wednesdayButton.setTextColor(Color.parseColor("#FFFFFF")); // White
+        }
+        else
+        {
+            wednesdayButton.setBackgroundColor(Color.parseColor("#FFFFFF")); // White
+            wednesdayButton.setTextColor(Color.parseColor("#000000")); // Black
+        }
+        wednesdayButton.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener()
+                {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton,
+                                                 boolean isChecked)
+                    {
+                        compoundButton.setChecked(isChecked);
+                        if (isChecked)
+                        {
+                            compoundButton.setBackgroundColor(Color.parseColor("#EF9A9A")); // Light red
+                            compoundButton.setTextColor(Color.parseColor("#FFFFFF")); // White
+                        }
+                        else
+                        {
+                            compoundButton.setBackgroundColor(Color.parseColor("#FFFFFF")); // White
+                            compoundButton.setTextColor(Color.parseColor("#000000")); // Black
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Sets actions to thursdayButton
+     */
+    private void setThursdayButton()
+    {
+        ToggleButton thursdayButton = (ToggleButton) findViewById(R.id.thursdayButton);
+        if (thursdayButton.isChecked())
+        {
+            thursdayButton.setBackgroundColor(Color.parseColor("#EF9A9A")); // Light red
+            thursdayButton.setTextColor(Color.parseColor("#FFFFFF")); // White
+        }
+        else
+        {
+            thursdayButton.setBackgroundColor(Color.parseColor("#FFFFFF")); // White
+            thursdayButton.setTextColor(Color.parseColor("#000000")); // Black
+        }
+        thursdayButton.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener()
+                {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton,
+                                                 boolean isChecked)
+                    {
+                        compoundButton.setChecked(isChecked);
+                        if (isChecked)
+                        {
+                            compoundButton.setBackgroundColor(Color.parseColor("#EF9A9A")); // Light red
+                            compoundButton.setTextColor(Color.parseColor("#FFFFFF")); // White
+                        }
+                        else
+                        {
+                            compoundButton.setBackgroundColor(Color.parseColor("#FFFFFF")); // White
+                            compoundButton.setTextColor(Color.parseColor("#000000")); // Black
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Sets actions to fridayButton
+     */
+    private void setFridayButton()
+    {
+        ToggleButton fridayButton = (ToggleButton) findViewById(R.id.fridayButton);
+        if (fridayButton.isChecked())
+        {
+            fridayButton.setBackgroundColor(Color.parseColor("#EF9A9A")); // Light red
+            fridayButton.setTextColor(Color.parseColor("#FFFFFF")); // White
+        }
+        else
+        {
+            fridayButton.setBackgroundColor(Color.parseColor("#FFFFFF")); // White
+            fridayButton.setTextColor(Color.parseColor("#000000")); // Black
+        }
+        fridayButton.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener()
+                {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton,
+                                                 boolean isChecked)
+                    {
+                        compoundButton.setChecked(isChecked);
+                        if (isChecked)
+                        {
+                            compoundButton.setBackgroundColor(Color.parseColor("#EF9A9A")); // Light red
+                            compoundButton.setTextColor(Color.parseColor("#FFFFFF")); // White
+                        }
+                        else
+                        {
+                            compoundButton.setBackgroundColor(Color.parseColor("#FFFFFF")); // White
+                            compoundButton.setTextColor(Color.parseColor("#000000")); // Black
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Sets actions to saturdayButton
+     */
+    private void setSaturdayButton()
+    {
+        ToggleButton saturdayButton = (ToggleButton) findViewById(R.id.saturdayButton);
+        if (saturdayButton.isChecked())
+        {
+            saturdayButton.setBackgroundColor(Color.parseColor("#EF9A9A")); // Light red
+            saturdayButton.setTextColor(Color.parseColor("#FFFFFF")); // White
+        }
+        else
+        {
+            saturdayButton.setBackgroundColor(Color.parseColor("#FFFFFF")); // White
+            saturdayButton.setTextColor(Color.parseColor("#000000")); // Black
+        }
+        saturdayButton.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener()
+                {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton,
+                                                 boolean isChecked)
+                    {
+                        compoundButton.setChecked(isChecked);
+                        if (isChecked)
+                        {
+                            compoundButton.setBackgroundColor(Color.parseColor("#EF9A9A")); // Light red
+                            compoundButton.setTextColor(Color.parseColor("#FFFFFF")); // White
+                        }
+                        else
+                        {
+                            compoundButton.setBackgroundColor(Color.parseColor("#FFFFFF")); // White
+                            compoundButton.setTextColor(Color.parseColor("#000000")); // Black
+                        }
+                    }
+                });
+    }
+
+    /**
      * Sets functions to volumeSeekBar
      */
     private void setVolumeSeekBar()
@@ -551,13 +804,13 @@ public class AlarmCreatorActivity extends AppCompatActivity
         titleBox = (EditText)findViewById(R.id.titleBox);
         if (AppConstants.OS_VERSION >= Build.VERSION_CODES.M)
         {
-            timePicker.setHour(alarmToEdit.getTriggerTime().getHours());
-            timePicker.setMinute(alarmToEdit.getTriggerTime().getMinutes());
+            timePicker.setHour(alarmToEdit.getTriggerTime().get(Calendar.HOUR_OF_DAY));
+            timePicker.setMinute(alarmToEdit.getTriggerTime().get(Calendar.MINUTE));
         }
         else
         {
-            timePicker.setCurrentHour(alarmToEdit.getTriggerTime().getHours());
-            timePicker.setCurrentMinute(alarmToEdit.getTriggerTime().getMinutes());
+            timePicker.setCurrentHour(alarmToEdit.getTriggerTime().get(Calendar.HOUR_OF_DAY));
+            timePicker.setCurrentMinute(alarmToEdit.getTriggerTime().get(Calendar.MINUTE));
         }
         titleBox.setText(alarmToEdit.getTitle());
         toolbarLayout.setTitle(alarmToEdit.getTitle() + "*");
@@ -599,15 +852,6 @@ public class AlarmCreatorActivity extends AppCompatActivity
                 }
             }
         }
-        String[] timeZones = getResources().getStringArray(R.array.timezones);
-        for (int i = 0; i < timeZones.length; i++)
-        {
-            if (timeZones[i].equals(alarmToEdit.getTimeZone().getTitle()))
-            {
-                timeZoneSpinner.setSelection(i);
-                break;
-            }
-        }
         ArrayList<RingtoneWrapper> ringtones = RingtoneWrapper.getAllRingtones(this);
         for (int i = 0; i < ringtones.size(); i++)
         {
@@ -634,13 +878,13 @@ public class AlarmCreatorActivity extends AppCompatActivity
                         if (player != null && player.isPlaying())
                             player.stop();
                         FrontEndTools.showToast(getBaseContext(),
-                                                getString(R.string.cancelled), Toast.LENGTH_SHORT);
+                                getString(R.string.cancelled), Toast.LENGTH_SHORT);
                         Intent intent = new Intent(AlarmCreatorActivity.this,
-                                                   HomeActivity.class);
+                                HomeActivity.class);
                         AlarmCreatorActivity.this.startActivity(intent);
                     }
                 }
-                                       );
+        );
     }
 
 }

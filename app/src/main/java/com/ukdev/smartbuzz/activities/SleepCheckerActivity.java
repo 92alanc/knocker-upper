@@ -12,7 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import com.ukdev.smartbuzz.R;
-import com.ukdev.smartbuzz.database.AlarmDAO;
+import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.extras.AlarmHandler;
 import com.ukdev.smartbuzz.extras.AppConstants;
 import com.ukdev.smartbuzz.extras.FrontEndTools;
@@ -28,7 +28,7 @@ public class SleepCheckerActivity extends AppCompatActivity
     private CountDownTimer countdownTimer;
     private Alarm alarm;
     private PowerManager.WakeLock wakeLock;
-    private AlarmDAO database;
+    private AlarmRepository database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -42,7 +42,7 @@ public class SleepCheckerActivity extends AppCompatActivity
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        database = AlarmDAO.getInstance(this);
+        database = AlarmRepository.getInstance(this);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK |
                 PowerManager.ACQUIRE_CAUSES_WAKEUP, "Tag");
         if (FrontEndTools.screenIsLocked(this))

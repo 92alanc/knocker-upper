@@ -10,6 +10,7 @@ import com.ukdev.smartbuzz.extras.AppConstants;
 import com.ukdev.smartbuzz.extras.AudioFocusChangeListener;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 import static android.content.Context.AUDIO_SERVICE;
 
@@ -25,8 +26,7 @@ public class Alarm
     private int id, volume, snooze;
     private boolean on, reminder, vibrate, locked;
     private int[] repetition;
-    private TimeWrapper triggerTime;
-    private TimeZoneWrapper timeZone;
+    private Calendar triggerTime;
     private MediaPlayer player;
     private Vibrator vibrator;
 
@@ -34,21 +34,19 @@ public class Alarm
      * Instantiates the class
      * @param id - int
      * @param title - String
-     * @param triggerTime - TimeWrapper
+     * @param triggerTime - Calendar
      * @param ringtone - RingtoneWrapper
      * @param volume - int
      * @param vibrate - boolean
      * @param reminder - boolean
      * @param on - boolean
-     * @param timeZone - TimeZoneWrapper
      * @param repetition - int[]
      * @param snooze - int
      */
-    public Alarm(int id, String title, TimeWrapper triggerTime,
-                 RingtoneWrapper ringtone, int volume, boolean vibrate, boolean reminder, boolean on,
-                 TimeZoneWrapper timeZone, int[] repetition, int snooze)
+    public Alarm(int id, String title, Calendar triggerTime,
+                 RingtoneWrapper ringtone, int volume, boolean vibrate,
+                 boolean reminder, boolean on, int[] repetition, int snooze)
     {
-        this.id = id;
         this.title = title;
         this.triggerTime = triggerTime;
         this.ringtone = ringtone;
@@ -56,7 +54,6 @@ public class Alarm
         this.vibrate = vibrate;
         this.reminder = reminder;
         this.on = on;
-        this.timeZone = timeZone;
         this.repetition = repetition;
         this.snooze = snooze;
         locked = false;
@@ -112,7 +109,7 @@ public class Alarm
      * Gets the trigger time
      * @return trigger time
      */
-    public TimeWrapper getTriggerTime()
+    public Calendar getTriggerTime()
     {
         return triggerTime;
     }
@@ -121,7 +118,7 @@ public class Alarm
      * Sets the trigger time
      * @param triggerTime - TimeWrapper
      */
-    public void setTriggerTime(TimeWrapper triggerTime)
+    public void setTriggerTime(Calendar triggerTime)
     {
         this.triggerTime = triggerTime;
     }
@@ -151,37 +148,6 @@ public class Alarm
     public boolean repeats()
     {
         return this.repetition != null;
-    }
-
-    /**
-     * Tells if the alarm has a different time zone
-     * @return has different time zone
-     */
-    public boolean hasDifferentTimeZone()
-    {
-        boolean hoursDoNotMatch = (timeZone.getOffset().getHours() !=
-                TimeZoneWrapper.getLocalTimeZoneOffset().getHours());
-        boolean minutesDoNotMatch = (timeZone.getOffset().getMinutes() !=
-                TimeZoneWrapper.getLocalTimeZoneOffset().getMinutes());
-        return hoursDoNotMatch || minutesDoNotMatch;
-    }
-
-    /**
-     * Gets the time zone
-     * @return time zone
-     */
-    public TimeZoneWrapper getTimeZone()
-    {
-        return timeZone;
-    }
-
-    /**
-     * Sets the time zone
-     * @param timeZone - TimeZoneWrapper
-     */
-    public void setTimeZone(TimeZoneWrapper timeZone)
-    {
-        this.timeZone = timeZone;
     }
 
     /**
@@ -357,11 +323,7 @@ public class Alarm
             player.setLooping(true);
             try
             {
-                if (this.getTitle().toLowerCase().contains(AppConstants.TITLE_ACADEMIA)
-                        || this.getTitle().toLowerCase().contains(AppConstants.TITLE_TREINO))
-                    player.setDataSource(context, AppConstants.AUDIO_BIRL);
-                else
-                    player.setDataSource(context, this.getRingtone().getUri());
+                player.setDataSource(context, this.getRingtone().getUri());
                 player.prepare();
             }
             catch (IOException e)

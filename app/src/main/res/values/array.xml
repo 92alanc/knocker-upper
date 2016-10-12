@@ -12,87 +12,6 @@
         <item>Sat</item>
     </string-array>
 
-    <!-- Toggle buttons references -->
-    <string-array name="toggleButtons" translatable="false">
-        <item>@id/sundayButton</item>
-        <item>@id/mondayButton</item>
-        <item>@id/tuesdayButton</item>
-        <item>@id/wednesdayButton</item>
-        <item>@id/thursdayButton</item>
-        <item>@id/fridayButton</item>
-        <item>@id/saturdayButton</item>
-    </string-array>
-
-    <!-- Time zones -->
-    <string-array name="timezones" translatable="false">
-        <item>International Date Line West</item>
-        <item>Midway Island, Samoa</item>
-        <item>Hawaii</item>
-        <item>Alaska</item>
-        <item>Pacific Time (US and Canada), Tijuana</item>
-        <item>Mountain Time (US and Canada), Chihuahua, La Paz, Mazatlan, Arizona</item>
-        <item>Central Time (US and Canada), Saskatchewan, Guadalajara, Mexico City, Monterrey,Central America</item>
-        <item>Eastern Time (US and Canada), Indiana (East), Bogota, Lima, Quito</item>
-        <item>Atlantic Time (Canada), Caracas, La Paz, Santiago</item>
-        <item>Newfoundland and Labrador, Brasilia, Sao Paulo, Rio de Janeiro, Buenos Aires, Georgetown, Greenland</item>
-        <item>Mid-Atlantic</item>
-        <item>Azores, Cape Verde Islands</item>
-        <item>London, Edinburgh, Dublin, Lisbon, Casablanca, Monrovia</item>
-        <item>Belgrade, Budapest, Prague, Warsaw, Brussels, Copenhagen, Madrid, Paris, Amsterdam, Berlin, Bern, Rome, West Central Africa</item>
-        <item>Bucharest, Cairo, Helsinki, Kiev, Riga, Sofia, Tallinn, Athens, Istanbul, Jerusalem, Pretoria</item>
-        <item>Moscow, St. Petersburg, Volgograd, Kuwait, Riyadh, Nairobi, Baghdad, Tehran</item>
-        <item>Abu Dhabi, Muscat</item>
-        <item>Kabul</item>
-        <item>Baku, Tbilisi, Yerevan, Ekaterinburg, Islamabad, Karachi, Tashkent</item>
-        <item>Chennai, Kolkata, Mumbai, New Delhi</item>
-        <item>Kathmandu</item>
-        <item>Astana, Dhaka, Sri Jayawardenepura, Almaty, Novosibirsk</item>
-        <item>Yangon Rangoon</item>
-        <item>Bangkok, Hanoi, Jakarta, Krasnoyarsk</item>
-        <item>Beijing, Hong Kong SAR, Kuala Lumpur, Singapore, Taipei, Perth, Irkutsk, Ulaanbaatar</item>
-        <item>Seoul, Osaka, Sapporo, Tokyo, Yakutsk</item>
-        <item>Darwin, Adelaide</item>
-        <item>Canberra, Melbourne, Sydney, Brisbane, Hobart, Vladivostok, Guam, Port Moresby</item>
-        <item>Magadan, Solomon Islands, New Caledonia</item>
-        <item>Fiji Islands, Kamchatka, Marshall Islands, Auckland, Wellington</item>
-        <item>Nuku\'alofa</item>
-    </string-array>
-
-    <!-- Time zone offsets -->
-    <string-array name="offsets" translatable="false">
-        <item>GMT-12:00</item>
-        <item>GMT-11:00</item>
-        <item>GMT-10:00</item>
-        <item>GMT-09:00</item>
-        <item>GMT-08:00</item>
-        <item>GMT-07:00</item>
-        <item>GMT-06:00</item>
-        <item>GMT-05:00</item>
-        <item>GMT-04:00</item>
-        <item>GMT-03:00</item>
-        <item>GMT-02:00</item>
-        <item>GMT-01:00</item>
-        <item>GMT</item>
-        <item>GMT+01:00</item>
-        <item>GMT+02:00</item>
-        <item>GMT+03:00</item>
-        <item>GMT+04:00</item>
-        <item>GMT+04:30</item>
-        <item>GMT+05:00</item>
-        <item>GMT+05:30</item>
-        <item>GMT+05:45</item>
-        <item>GMT+06:00</item>
-        <item>GMT+06:30</item>
-        <item>GMT+07:00</item>
-        <item>GMT+08:00</item>
-        <item>GMT+09:00</item>
-        <item>GMT+09:30</item>
-        <item>GMT+10:00</item>
-        <item>GMT+11:00</item>
-        <item>GMT+12:00</item>
-        <item>GMT+13:00</item>
-    </string-array>
-
     <!-- Help contents -->
     <string-array name="helpContents">
         <item>To create an alarm, click the \'+\' button at the bottom right corner of the screen, then
@@ -106,7 +25,6 @@
         <item>Sleep Checker is a silent agent that is triggered at a random time between 3 and 5 minutes after you dismiss an alarm.\nIt makes sure you don\'t sleep longer than you should and miss your appointments.
         \nWhen it\'s triggered, you will have 10 seconds to prove that you\'re awake, otherwise the alarm will trigger again, but with a slight difference: the volume will be set to maximum and your device will vibrate.
         </item>
-        <item>Smart Buzz allows you to set alarms and reminders on different time zones so you don\'t have to worry about checking the time zone difference.</item>
     </string-array>
 
     <!-- Help topics -->
@@ -117,7 +35,6 @@
         <item>Reminders</item>
         <item>Repeating alarms</item>
         <item>The Sleep Checker feature</item>
-        <item>Time zones</item>
     </string-array>
 
 </resources>

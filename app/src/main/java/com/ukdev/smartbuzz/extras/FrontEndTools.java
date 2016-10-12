@@ -4,9 +4,7 @@ import android.app.*;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
@@ -15,11 +13,9 @@ import com.ukdev.smartbuzz.activities.HomeActivity;
 import com.ukdev.smartbuzz.adapters.AlarmAdapter;
 import com.ukdev.smartbuzz.adapters.RingtoneAdapter;
 import com.ukdev.smartbuzz.adapters.SnoozeAdapter;
-import com.ukdev.smartbuzz.adapters.TimeZoneAdapter;
-import com.ukdev.smartbuzz.database.AlarmDAO;
+import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.RingtoneWrapper;
-import com.ukdev.smartbuzz.model.TimeZoneWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +69,7 @@ public class FrontEndTools
     public static void adaptAlarmsListView(Context context, ListView listView,
                                            String orderBy)
     {
-        Alarm[] alarms = AlarmDAO.getInstance(context).selectAll(context, orderBy);
+        Alarm[] alarms = AlarmRepository.getInstance(context).selectAll(context, orderBy);
         AlarmAdapter adapter = new AlarmAdapter(context, R.layout.alarm_listview_item, alarms);
         listView.setAdapter(adapter);
     }
@@ -106,18 +102,6 @@ public class FrontEndTools
     }
 
     /**
-     * Adapts the timezone picker
-     * @param context - Context
-     * @param timeZonePicker - Spinner
-     */
-    public static void adaptTimeZonePicker(Context context, Spinner timeZonePicker)
-    {
-        TimeZoneWrapper[] timeZones = TimeZoneWrapper.getAllTimeZones(context);
-        TimeZoneAdapter adapter = new TimeZoneAdapter(context, R.layout.timezone_spinner_item, timeZones);
-        timeZonePicker.setAdapter(adapter);
-    }
-
-    /**
      * Adapts the ringtone picker
      * @param context - Context
      * @param ringtonePicker - Spinner
@@ -131,64 +115,12 @@ public class FrontEndTools
     }
 
     /**
-     * Sets toggle button settings
-     * Adds a text for each day of the week
-     * Changes the background colour depending on the state
-     * @param context - Context
-     */
-    public static ToggleButton[] buildRepetitionButtons(final Context context,
-                                                        AppCompatActivity activity)
-    {
-        int[] references = BackEndTools.getReferencesArray(context, R.array.toggleButtons);
-        String[] texts = context.getResources().getStringArray(R.array.daysOfTheWeek);
-        final ToggleButton[] buttons = new ToggleButton[references.length];
-        for (int i = 0; i < references.length; i++)
-        {
-            buttons[i] = (ToggleButton)activity.findViewById(references[i]);
-            buttons[i].setText(texts[i]);
-            buttons[i].setTextOn(texts[i]);
-            buttons[i].setTextOff(texts[i]);
-            if (buttons[i].isChecked())
-            {
-                buttons[i].setBackgroundColor(Color.parseColor("#EF9A9A")); // Light red
-                buttons[i].setTextColor(Color.parseColor("#FFFFFF")); // White
-            }
-            else
-            {
-                buttons[i].setBackgroundColor(Color.parseColor("#FFFFFF")); // White
-                buttons[i].setTextColor(Color.parseColor("#000000")); // Black
-            }
-            buttons[i].setOnCheckedChangeListener(
-                    new CompoundButton.OnCheckedChangeListener()
-                    {
-                        @Override
-                        public void onCheckedChanged(CompoundButton compoundButton,
-                                                     boolean isChecked)
-                        {
-                            compoundButton.setChecked(isChecked);
-                            if (isChecked)
-                            {
-                                compoundButton.setBackgroundColor(Color.parseColor("#EF9A9A")); // Light red
-                                compoundButton.setTextColor(Color.parseColor("#FFFFFF")); // White
-                            }
-                            else
-                            {
-                                compoundButton.setBackgroundColor(Color.parseColor("#FFFFFF")); // White
-                                compoundButton.setTextColor(Color.parseColor("#000000")); // Black
-                            }
-                        }
-                    });
-        }
-        return buttons;
-    }
-
-    /**
      * Shows a notification with the number of alarms set
      * @param context - Context
      */
     public static void showNotification(Context context)
     {
-        int alarmCount = AlarmDAO.getInstance(context).getActiveAlarms(context).size();
+        int alarmCount = AlarmRepository.getInstance(context).getActiveAlarms(context).size();
         NotificationManager manager =
                 (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (alarmCount > 0)
@@ -248,7 +180,7 @@ public class FrontEndTools
      */
     public static void closeApp(Context context)
     {
-        AlarmDAO.closeConnection();
+        AlarmRepository.closeConnection();
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

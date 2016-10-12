@@ -7,7 +7,7 @@ package com.ukdev.smartbuzz.model;
 public enum RingtoneType
 {
 
-    Native, // Already comes on the device
-    Custom // Music files, etc.
+    NATIVE, // Already comes on the device
+    CUSTOM // Music files, etc.
 
 }

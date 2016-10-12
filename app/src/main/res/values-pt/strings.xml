@@ -42,5 +42,12 @@
     <string name="reminder_updated">Lembrete atualizado</string>
     <string name="one_alarm_set">1 alarme programado</string>
     <string name="x_alarms_set">%1$d alarmes programados</string>
+    <string name="fri">Sex</string>
+    <string name="mon">Seg</string>
+    <string name="sat">Sáb</string>
+    <string name="sun">Dom</string>
+    <string name="thu">Qui</string>
+    <string name="tue">Ter</string>
+    <string name="wed">Qua</string>
 
 </resources>

@@ -63,21 +63,6 @@
             android:layout_below="@id/repetitionRow"
             android:focusable="false"/>
 
-    <!-- Time zone icon -->
-    <ImageView
-            android:id="@+id/timeZoneListViewIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            android:paddingLeft="10dp"
-            android:paddingEnd="10dp"
-            android:paddingRight="10dp"
-            android:src="@drawable/time_zone_small"
-            android:layout_below="@id/repetitionRow"
-            android:layout_toRightOf="@id/reminderIcon"
-            android:layout_toEndOf="@id/reminderIcon"
-            android:focusable="false"/>
-
     <!-- Switch -->
     <Switch
             android:id="@+id/alarmSwitch"
