@@ -36,8 +36,5 @@ proguard/
 .idea/
 app/play_store_files/
 
-# Keystore files
-*.jks
-
 # Promotion files
 *.csv
