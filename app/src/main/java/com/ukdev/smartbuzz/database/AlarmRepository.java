@@ -57,8 +57,8 @@ public class AlarmRepository
     public void insert(Context context, Alarm alarm)
     {
         ContentValues values = new ContentValues();
-        values.put(AlarmTable.COLUMN_ID, alarm.getId());
         values.put(AlarmTable.COLUMN_TITLE, alarm.getTitle());
+        values.put(AlarmTable.COLUMN_TRIGGER_DAY, alarm.getTriggerTime().get(Calendar.DAY_OF_MONTH));
         values.put(AlarmTable.COLUMN_TRIGGER_HOURS, alarm.getTriggerTime().get(Calendar.HOUR_OF_DAY));
         values.put(AlarmTable.COLUMN_TRIGGER_MINUTES, alarm.getTriggerTime().get(Calendar.MINUTE));
         values.put(AlarmTable.COLUMN_REPETITION, BackEndTools.convertIntArrayToString(context, alarm.getRepetition()));
@@ -93,8 +93,8 @@ public class AlarmRepository
     public void update(Context context, int id, Alarm newAlarmValues)
     {
         ContentValues values = new ContentValues();
-        values.put(AlarmTable.COLUMN_ID, newAlarmValues.getId());
         values.put(AlarmTable.COLUMN_TITLE, newAlarmValues.getTitle());
+        values.put(AlarmTable.COLUMN_TRIGGER_DAY, newAlarmValues.getTriggerTime().get(Calendar.DAY_OF_MONTH));
         values.put(AlarmTable.COLUMN_TRIGGER_HOURS, newAlarmValues.getTriggerTime().get(Calendar.HOUR_OF_DAY));
         values.put(AlarmTable.COLUMN_TRIGGER_MINUTES, newAlarmValues.getTriggerTime().get(Calendar.MINUTE));
         values.put(AlarmTable.COLUMN_REPETITION,

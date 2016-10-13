@@ -47,6 +47,7 @@ public class Alarm
                  RingtoneWrapper ringtone, int volume, boolean vibrate,
                  boolean reminder, boolean on, int[] repetition, int snooze)
     {
+        this.id = id;
         this.title = title;
         this.triggerTime = triggerTime;
         this.ringtone = ringtone;

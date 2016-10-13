@@ -60,9 +60,15 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
             holder = (AlarmHolder)row.getTag();
         final Alarm alarm = data[position];
         holder.title.setText(alarm.getTitle());
-        String triggerTime = String.format("%1$d:%2$d",
-                alarm.getTriggerTime().get(Calendar.HOUR_OF_DAY),
-                alarm.getTriggerTime().get(Calendar.MINUTE));
+        int hours = alarm.getTriggerTime().get(Calendar.HOUR_OF_DAY);
+        int minutes = alarm.getTriggerTime().get(Calendar.MINUTE);
+        String h = String.valueOf(hours);
+        String min = String.valueOf(minutes);
+        if (hours < 10)
+            h = "0" + h;
+        if (minutes < 10)
+            min = "0" + min;
+        String triggerTime = String.format("%1$s:%2$s", h, min);
         holder.triggerTime.setText(triggerTime);
         if (alarm.repeats())
             holder.repetition.setText(BackEndTools.convertIntArrayToString(context,

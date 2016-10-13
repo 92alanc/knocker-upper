@@ -67,7 +67,7 @@ public class AlarmTable
         query.append("%9$s INTEGER, ");
         query.append("%10$s TEXT, ");
         query.append("%11$s TEXT, ");
-        query.append("%12$s INT DEFAULT 0, ");
+        query.append("%12$s INTEGER DEFAULT 0, ");
         query.append("%13$s INTEGER, ");
         query.append("%14$s INTEGER, ");
         query.append("%15$s INTEGER, ");

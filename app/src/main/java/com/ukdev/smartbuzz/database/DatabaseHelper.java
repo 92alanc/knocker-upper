@@ -14,7 +14,7 @@ import static com.ukdev.smartbuzz.database.AlarmTable.TABLE_NAME;
 class DatabaseHelper extends SQLiteOpenHelper
 {
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
     private static final String DATABASE_NAME = "alarms.db";
 
     /**
