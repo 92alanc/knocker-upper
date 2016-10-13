@@ -18,6 +18,7 @@ import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.RingtoneWrapper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -209,6 +210,30 @@ public class FrontEndTools
         }
         else
             return null;
+    }
+
+    /**
+     * Shows the time left to an alarm's trigger time
+     * @param alarm - Alarm
+     * @return an array containing the days, hours and minutes left
+     */
+    public static int[] getTimeLeftToTrigger(Alarm alarm)
+    {
+        int[] timeLeft = new int[3];
+        Calendar now = Calendar.getInstance();
+        int daysDiff, hoursDiff, minutesDiff;
+        if (alarm.repeats())
+            daysDiff = alarm.getRepetition()[0] - now.get(Calendar.DAY_OF_WEEK);
+        else
+            daysDiff = 0;
+        Calendar triggerTime = Calendar.getInstance();
+        triggerTime.setTimeInMillis(BackEndTools.getNextValidTriggerTime(alarm));
+        hoursDiff = triggerTime.get(Calendar.HOUR_OF_DAY) - now.get(Calendar.HOUR_OF_DAY);
+        minutesDiff = triggerTime.get(Calendar.MINUTE) - now.get(Calendar.MINUTE);
+        timeLeft[0] = daysDiff;
+        timeLeft[1] = hoursDiff;
+        timeLeft[2] = minutesDiff;
+        return timeLeft;
     }
 
 }
