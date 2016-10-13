@@ -143,7 +143,7 @@ public class FrontEndTools
             stackBuilder.addNextIntent(resultIntent);
             PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setContentIntent(resultPendingIntent);
-            builder.setOngoing(true);
+            builder.setOngoing(false);
             manager.notify(AppConstants.NOTIFICATION_ID, builder.build());
         }
         else
