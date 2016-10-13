@@ -49,6 +49,8 @@ public class SleepCheckerActivity extends AppCompatActivity
             wakeLock.acquire();
         alarm = database.select(this, getIntent()
                 .getIntExtra(AppConstants.EXTRA_ID, AppConstants.DEFAULT_INTENT_EXTRA));
+        TextView alarmTitle = (TextView)findViewById(R.id.alarmTitle_SleepChecker);
+        alarmTitle.setText(alarm.getTitle());
         setYesButton();
         countdown();
     }
@@ -98,7 +100,7 @@ public class SleepCheckerActivity extends AppCompatActivity
     private void countdown()
     {
         final TextView countdownText = (TextView)findViewById(R.id.countdownText);
-        countdownTimer = new CountDownTimer(AppConstants.TEN_SECONDS,
+        countdownTimer = new CountDownTimer(AppConstants.FIFTEEN_SECONDS,
                 AppConstants.ONE_SECOND)
         {
             @Override
@@ -107,13 +109,13 @@ public class SleepCheckerActivity extends AppCompatActivity
                 int timeLeft = (int)(millisecondsUntilFinished / 1000);
                 switch (timeLeft)
                 {
-                    case 9:
+                    case 14:
                         countdownText.setTextColor(Color.parseColor("#009688")); // Green
                         break;
-                    case 6:
+                    case 9:
                         countdownText.setTextColor(Color.parseColor("#FFC107")); // Amber
                         break;
-                    case 3:
+                    case 4:
                         countdownText.setTextColor(Color.parseColor("#F44336")); // Red
                         break;
                 }

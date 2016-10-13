@@ -58,7 +58,7 @@ public class AppConstants
     public static final int OS_VERSION = Build.VERSION.SDK_INT;
 
     // --- TIME ---
-    public static final long TEN_SECONDS = 10000;
+    public static final long FIFTEEN_SECONDS = 15000;
     public static final int ONE_MINUTE = 60000;
     public static final long ONE_SECOND = 1000;
     static final int TWO_MINUTES = 2 * ONE_MINUTE;
@@ -66,6 +66,5 @@ public class AppConstants
     static final long FIVE_MINUTES = 5 * ONE_MINUTE;
     static final long TEN_MINUTES = 2 * FIVE_MINUTES;
     static final long FIFTEEN_MINUTES = 3 * FIVE_MINUTES;
-    public static final long ONE_DAY = 86400000;
 
 }
