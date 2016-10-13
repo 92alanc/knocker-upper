@@ -9,10 +9,7 @@
     <string name="cancelled">Cancellato</string>
     <string name="delete">Elimina sveglia</string>
     <string name="dismiss">Disméttere</string>
-    <string name="info">
-        Sviluppata da Braincorp Apps\n
-        e-mail: alcam.ukdev@gmail.com
-    </string>
+    <string name="info">Sviluppata da Braincorp Apps\ne-mail: alcam.ukdev@gmail.com</string>
     <string name="new_alarm">Nuova sveglia</string>
     <string name="question">Sei sveglio?</string>
     <string name="repeat">Ripetere durante la settimana</string>

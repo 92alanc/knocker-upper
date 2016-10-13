@@ -22,10 +22,7 @@
     <string name="every_day">Every day</string>
     <string name="fri">Fri</string>
     <string name="help">Help</string>
-    <string name="info">
-        Developed by Braincorp Apps\n
-        e-mail: alcam.ukdev@gmail.com
-    </string>
+    <string name="info">Developed by Braincorp Apps\ne-mail: alcam.ukdev@gmail.com</string>
     <string name="invalid_ringtone_file">%1$s is not a valid ringtone file.</string>
     <string name="item_selected">1 item selected</string>
     <string name="items_selected">%1$s items selected</string>

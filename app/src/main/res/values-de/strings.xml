@@ -9,10 +9,7 @@
     <string name="cancelled">Cancelled</string>
     <string name="delete">Alarm löschen</string>
     <string name="dismiss">Verwerfen</string>
-    <string name="info">
-        Entwickelt von Braincorp Apps\n
-        e-mail: alcam.ukdev@gmail.com
-    </string>
+    <string name="info">Entwickelt von Braincorp Apps\ne-mail: alcam.ukdev@gmail.com</string>
     <string name="new_alarm">Neuer Alarm</string>
     <string name="question">Bist Du wach?</string>
     <string name="repeat">Wiederholen während der Woche</string>
