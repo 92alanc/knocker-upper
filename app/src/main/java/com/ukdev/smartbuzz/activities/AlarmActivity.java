@@ -26,7 +26,6 @@ public class AlarmActivity extends AppCompatActivity
 
     private Alarm alarm;
     private PowerManager.WakeLock wakeLock;
-    private boolean snooze;
     private final SnoozeCounter snoozeCounter = new SnoozeCounter(this);
     private CountDownTimer timer;
 
@@ -53,16 +52,6 @@ public class AlarmActivity extends AppCompatActivity
         setDismissButton();
         setSnoozeButton();
         alarm.playRingtone(AlarmActivity.this, getBaseContext());
-        snooze = false;
-    }
-
-    @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
-        if (!snooze)
-            AlarmHandler.dismissAlarm(alarm, AlarmActivity.this,
-                    getBaseContext(), alarm.getPlayer(), alarm.getVibrator(), wakeLock);
     }
 
     @Override
@@ -117,7 +106,6 @@ public class AlarmActivity extends AppCompatActivity
                 public void onClick(View view)
                 {
                     timer.cancel();
-                    snooze = true;
                     if (wakeLock.isHeld())
                         wakeLock.release();
                     if (alarm.vibrates() || getIntent().getAction().equals(AppConstants.ACTION_MAYHEM))
