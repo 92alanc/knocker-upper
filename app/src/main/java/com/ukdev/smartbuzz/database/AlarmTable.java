@@ -58,15 +58,15 @@ public class AlarmTable
     {
         StringBuilder query = new StringBuilder("CREATE TABLE %1$s");
         query.append("(%2$s INTEGER PRIMARY KEY AUTOINCREMENT, ");
-        query.append("%3$s TEXT, ");
+        query.append("%3$s NVARCHAR(20), ");
         query.append("%4$s INTEGER, ");
         query.append("%5$s INTEGER, ");
         query.append("%6$s INTEGER, ");
-        query.append("%7$s TEXT, ");
+        query.append("%7$s VARCHAR(20), ");
         query.append("%8$S INTEGER, ");
         query.append("%9$s INTEGER, ");
-        query.append("%10$s TEXT, ");
-        query.append("%11$s TEXT, ");
+        query.append("%10$s VARCHAR(30), ");
+        query.append("%11$s NVARCHAR(50), ");
         query.append("%12$s INTEGER DEFAULT 0, ");
         query.append("%13$s INTEGER, ");
         query.append("%14$s INTEGER, ");
