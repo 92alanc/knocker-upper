@@ -49,5 +49,19 @@
     <string name="thu">Qui</string>
     <string name="tue">Ter</string>
     <string name="wed">Qua</string>
+    <string name="remaining_d_alarm">Alarme programado para %1$d d</string>
+    <string name="remaining_d_h_m_alarm">Alarme programado para %1$d d, %2$d h e %3$d min</string>
+    <string name="remaining_d_h_alarm">Alarme programado para %1$d d e %2$d h</string>
+    <string name="remaining_d_m_alarm">Alarme programado para %1$d d e %2$d min</string>
+    <string name="remaining_h_alarm">Alarme programado para %1$d h</string>
+    <string name="remaining_h_m_alarm">Alarme programado para %1$d h e %2$d min</string>
+    <string name="remaining_m_alarm">Alarme programado para %1$d min</string>
+    <string name="remaining_d_reminder">Lembrete programado para %1$d d</string>
+    <string name="remaining_d_h_m_reminder">Lembrete programado para %1$d d, %2$d h e %3$d min</string>
+    <string name="remaining_d_h_reminder">Lembrete programado para %1$d d e %2$d h</string>
+    <string name="remaining_d_m_reminder">Lembrete programado para %1$d d e %2$d min</string>
+    <string name="remaining_h_reminder">Lembrete programado para %1$d h</string>
+    <string name="remaining_h_m_reminder">Lembrete programado para %1$d h e %2$d min</string>
+    <string name="remaining_m_reminder">Lembrete programado para %1$d min</string>
 
 </resources>

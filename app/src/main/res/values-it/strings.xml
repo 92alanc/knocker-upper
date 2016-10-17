@@ -46,5 +46,19 @@
     <string name="thu">Gio</string>
     <string name="fri">Ven</string>
     <string name="sat">Sab</string>
+    <string name="remaining_d_alarm">Alarm set for %1$d d from now</string>
+    <string name="remaining_d_h_m_alarm">Alarm set for %1$d d, %2$d h and %3$d min from now</string>
+    <string name="remaining_d_h_alarm">Alarm set for %1$d d and %2$d h from now</string>
+    <string name="remaining_d_m_alarm">Alarm set for %1$d d and %2$d min from now</string>
+    <string name="remaining_h_alarm">Alarm set for %1$d h from now</string>
+    <string name="remaining_h_m_alarm">Alarm set for %1$d h and %2$d min from now</string>
+    <string name="remaining_m_alarm">Alarm set for %1$d min from now</string>
+    <string name="remaining_d_reminder">Reminder set for %1$d d from now</string>
+    <string name="remaining_d_h_m_reminder">Reminder set for %1$d d, %2$d h and %3$d min from now</string>
+    <string name="remaining_d_h_reminder">Reminder set for %1$d d and %2$d h from now</string>
+    <string name="remaining_d_m_reminder">Reminder set for %1$d d and %2$d min from now</string>
+    <string name="remaining_h_reminder">Reminder set for %1$d h from now</string>
+    <string name="remaining_h_m_reminder">Reminder set for %1$d h and %2$d min from now</string>
+    <string name="remaining_m_reminder">Reminder set for %1$d min from now</string>
 
 </resources>
