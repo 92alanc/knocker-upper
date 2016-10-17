@@ -223,7 +223,11 @@ public class FrontEndTools
         Calendar now = Calendar.getInstance();
         int daysDiff, hoursDiff, minutesDiff;
         if (alarm.repeats())
+        {
             daysDiff = alarm.getRepetition()[0] - now.get(Calendar.DAY_OF_WEEK);
+            if (daysDiff == 0)
+                daysDiff = 7;
+        }
         else
             daysDiff = 0;
         Calendar triggerTime = Calendar.getInstance();
