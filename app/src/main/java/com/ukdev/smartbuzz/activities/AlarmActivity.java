@@ -113,7 +113,7 @@ public class AlarmActivity extends AppCompatActivity
                     alarm.getPlayer().release();
                     snoozeCounter.update(snoozeCounter.getCount() + 1);
                     AlarmHandler.snoozeAlarm(getBaseContext(), alarm);
-                    FrontEndTools.closeApp(getBaseContext());
+                    FrontEndTools.killApp(AlarmActivity.this);
                 }
             });
         }

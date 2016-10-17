@@ -4,6 +4,7 @@ import android.app.*;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Process;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.NotificationCompat;
 import android.view.inputmethod.InputMethodManager;
@@ -177,15 +178,14 @@ public class FrontEndTools
 
     /**
      * Kills the app
-     * @param context - Context
+     * @param activity - Activity
      */
-    public static void closeApp(Context context)
+    public static void killApp(Activity activity)
     {
-        AlarmRepository.closeConnection();
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        activity.moveTaskToBack(true);
+        activity.finish();
+        Process.killProcess(Process.myPid());
+        System.exit(0);
     }
 
     /**
@@ -210,30 +210,6 @@ public class FrontEndTools
         }
         else
             return null;
-    }
-
-    /**
-     * Shows the time left to an alarm's trigger time
-     * @param alarm - Alarm
-     * @return an array containing the days, hours and minutes left
-     */
-    public static int[] getTimeLeftToTrigger(Alarm alarm)
-    {
-        int[] timeLeft = new int[3];
-        Calendar now = Calendar.getInstance();
-        int daysDiff, hoursDiff, minutesDiff;
-        if (alarm.repeats())
-            daysDiff = alarm.getRepetition()[0] - now.get(Calendar.DAY_OF_WEEK);
-        else
-            daysDiff = 0;
-        Calendar triggerTime = Calendar.getInstance();
-        triggerTime.setTimeInMillis(BackEndTools.getNextValidTriggerTime(alarm));
-        hoursDiff = triggerTime.get(Calendar.HOUR_OF_DAY) - now.get(Calendar.HOUR_OF_DAY);
-        minutesDiff = triggerTime.get(Calendar.MINUTE) - now.get(Calendar.MINUTE);
-        timeLeft[0] = daysDiff;
-        timeLeft[1] = hoursDiff;
-        timeLeft[2] = minutesDiff;
-        return timeLeft;
     }
 
 }

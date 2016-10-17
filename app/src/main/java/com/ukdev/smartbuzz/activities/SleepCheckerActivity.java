@@ -91,7 +91,7 @@ public class SleepCheckerActivity extends AppCompatActivity
             AlarmHandler.killAlarm(getBaseContext(), alarm);
         if (wakeLock.isHeld())
             wakeLock.release();
-        FrontEndTools.closeApp(this);
+        FrontEndTools.killApp(this);
     }
 
     /**
