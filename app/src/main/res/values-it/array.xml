@@ -23,8 +23,7 @@
         <item>Promemoria sono un po \'diverso da quello degli sveglie. Essi non chiamare Sleep Checker dopo di loro arresto.</item>
         <item>È possibile impostare le sveglie da ripetere durante la settimana.\nPer farlo, basta cliccare sul "Ripetere durante la settimana", mentre si crea una sveglia.</item>
         <item>Sleep Checker è un agente silenzioso che viene attivato in un momento casuale compreso tra 3 e 5 minuti dopo aver respingere una sveglia.\nSi fa in modo da non dormire più a lungo di quanto si dovrebbe e perdere gli appuntamenti.
-                     \nQuando è attivato, si avrà 10 secondi per dimostrare che sei sveglio, altrimenti la sveglia si innescherà di nuovo, ma con una piccola differenza: il volume viene impostato al massimo e il dispositivo vibra.</item>
-        <item>SmartBuzz permette di impostare sveglie e promemoria sullo fusi orari diversi in modo da non dovete preoccuparvi di controllare la differenza di fuso orario.</item>
+                     \nQuando è attivato, si avrà 15 secondi per dimostrare che sei sveglio, altrimenti la sveglia si innescherà di nuovo, ma con una piccola differenza: il volume viene impostato al massimo e il dispositivo vibra.</item>
     </string-array>
 
     <!-- Help topics -->
@@ -35,7 +34,6 @@
         <item>Promemoria</item>
         <item>Ripetizione di sveglie</item>
         <item>La funzione Sleep Checker</item>
-        <item>Fusi orari</item>
     </string-array>
 
 </resources>

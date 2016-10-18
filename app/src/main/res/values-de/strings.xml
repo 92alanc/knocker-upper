@@ -3,8 +3,6 @@
 
     <!-- Deutsch -->
     <string name="about">About</string>
-    <string name="alarm_set">Wecker aktiviert</string>
-    <string name="alarm_updated">Wecker updated</string>
     <string name="cancel">Cancel</string>
     <string name="cancelled">Cancelled</string>
     <string name="delete">Wecker löschen</string>
@@ -15,7 +13,6 @@
     <string name="repeat">Wiederholen während der Woche</string>
     <string name="save">Speichern</string>
     <string name="set_as_reminder">Als Erinnerung setzen</string>
-    <string name="time_zone">Zeitzone</string>
     <string name="title_hint">Titel</string>
     <string name="yes">Ja</string>
     <string name="vibrate">Vibrieren</string>
@@ -35,8 +32,6 @@
     <string name="snooze">Schlummer</string>
     <string name="invalid_ringtone_file">%1$s ist keine gültige Klingelton-Datei.</string>
     <string name="new_reminder">Neue Erinnerung</string>
-    <string name="reminder_set">Erinnerung aktiviert</string>
-    <string name="reminder_updated">Erinnerung updated</string>
     <string name="one_alarm_set">1 Wecker gesetzt</string>
     <string name="x_alarms_set">%1$d Alarme gesetzt</string>
     <string name="sun">So</string>

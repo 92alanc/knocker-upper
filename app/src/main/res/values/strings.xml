@@ -12,8 +12,6 @@
     <string name="about">About</string>
     <string name="alarm_deleted">Alarm deleted</string>
     <string name="alarm_locked">\"%1$s\" will remain locked until you dismiss Sleep Checker</string>
-    <string name="alarm_set">Alarm set</string>
-    <string name="alarm_updated">Alarm updated</string>
     <string name="alarms_deleted">%1$s alarms deleted</string>
     <string name="cancel">Cancel</string>
     <string name="cancelled">Cancelled</string>
@@ -45,8 +43,6 @@
     <string name="remaining_h_reminder">Reminder set for %1$d h from now</string>
     <string name="remaining_h_m_reminder">Reminder set for %1$d h and %2$d min from now</string>
     <string name="remaining_m_reminder">Reminder set for %1$d min from now</string>
-    <string name="reminder_set">Reminder set</string>
-    <string name="reminder_updated">Reminder updated</string>
     <string name="repeat">Repeat during the week</string>
     <string name="ringtone">Ringtone</string>
     <string name="sat">Sat</string>
