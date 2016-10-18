@@ -47,7 +47,6 @@
     <string name="remaining_d_h_m_alarm">Alarma programada para %1$d d, %2$d h y %3$d min desde ahora</string>
     <string name="remaining_d_h_alarm">Alarma programada para %1$d d y %2$d h desde ahora</string>
     <string name="remaining_d_m_alarm">Alarma programada para %1$d d y %2$d min desde ahora</string>
-    <string name="remaining_h_alarm">Alarma programada para %1$d h desde ahora</string>
     <string name="remaining_h_m_alarm">Alarma programada para %1$d h y %2$d min desde ahora</string>
     <string name="remaining_m_alarm">Alarma programada para %1$d min desde ahora</string>
     <string name="remaining_d_reminder">Recordatorio programado para %1$d d desde ahora</string>
@@ -57,5 +56,6 @@
     <string name="remaining_h_reminder">Recordatorio programado para %1$d h desde ahora</string>
     <string name="remaining_h_m_reminder">Recordatorio programado para %1$d h y %2$d min desde ahora</string>
     <string name="remaining_m_reminder">Recordatorio programado para %1$d min desde ahora</string>
+    <string name="remaining_h_alarm">Alarma programada para %1$d h desde ahora</string>
 
 </resources>
