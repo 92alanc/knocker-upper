@@ -229,7 +229,7 @@ public class FrontEndTools
                 else if (days == 0 && hours == 0 && minutes > 0)
                     token = String.format(context.getString(R.string.remaining_m_reminder), minutes);
                 else
-                    token = null;
+                    token = String.format(context.getString(R.string.remaining_d_reminder), 1);
                 break;
             case 0:
                 if (days > 0 && hours == 0 && minutes == 0)
@@ -247,7 +247,7 @@ public class FrontEndTools
                 else if (days == 0 && hours == 0 && minutes > 0)
                     token = String.format(context.getString(R.string.remaining_m_alarm), minutes);
                 else
-                    token = null;
+                    token = String.format(context.getString(R.string.remaining_d_alarm), 1);
                 break;
             default:
                 token = null;
