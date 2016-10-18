@@ -46,7 +46,7 @@ public class BackEndTools
                     if (array.length != 2 || (item != 1 && item != 7))
                         weekends = false;
                     if (array.length != 5 || (item != 2 && item != 3 && item != 4
-                            && item != 5 && item != 6))
+                                              && item != 5 && item != 6))
                         weekDays = false;
                 }
                 if (weekDays)
@@ -56,7 +56,7 @@ public class BackEndTools
                 else
                 {
                     String[] texts = context.getResources()
-                            .getStringArray(R.array.daysOfTheWeek);
+                                            .getStringArray(R.array.daysOfTheWeek);
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < array.length; i++)
                     {
@@ -111,7 +111,7 @@ public class BackEndTools
             else
             {
                 String[] texts = context.getResources()
-                        .getStringArray(R.array.daysOfTheWeek);
+                                        .getStringArray(R.array.daysOfTheWeek);
                 String[] split = str.split(", ");
                 values = new int[split.length];
                 for (int i = 0; i < split.length; i++)
@@ -174,13 +174,13 @@ public class BackEndTools
     {
         // First we'll check if the user has already granted the permissions
         int readExternalStorage = ContextCompat.checkSelfPermission(context,
-                AppConstants.PERMISSION_READ_EXTERNAL_STORAGE);
+                                                                    AppConstants.PERMISSION_READ_EXTERNAL_STORAGE);
 
         // Request read external storage permission
         if (readExternalStorage != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(activity,
-                    new String[] { AppConstants.PERMISSION_READ_EXTERNAL_STORAGE },
-                    AppConstants.REQUEST_CODE);
+                                              new String[] { AppConstants.PERMISSION_READ_EXTERNAL_STORAGE },
+                                              AppConstants.REQUEST_CODE);
     }
 
     /**
@@ -210,8 +210,8 @@ public class BackEndTools
         Calendar now = Calendar.getInstance();
 
         if ((hours <= now.get(Calendar.HOUR_OF_DAY)
-                || minutes > now.get(Calendar.MINUTE))
-                && (hours < now.get(Calendar.HOUR_OF_DAY)
+             || minutes > now.get(Calendar.MINUTE))
+            && (hours < now.get(Calendar.HOUR_OF_DAY)
                 || minutes <= now.get(Calendar.MINUTE)))
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         return calendar.getTimeInMillis();
@@ -248,22 +248,43 @@ public class BackEndTools
                 tomorrow = today + 1;
             else
                 tomorrow = 1;
-            if (repetition[0] == today)
+            if ((repetition[0] == today)
+                && (now.getTimeInMillis() < triggerTime.getTimeInMillis()))
                 nextDay = repetition[0];
             else
             {
                 for (int day : repetition)
                 {
+                    nextDay = day;
                     if (day == today || day == tomorrow)
+                    {
+                        if ((day == today) && ((triggerTime.get(Calendar.HOUR_OF_DAY) < now.get(Calendar.HOUR_OF_DAY))
+                                               || (triggerTime.get(Calendar.HOUR_OF_DAY) == now.get(Calendar.HOUR_OF_DAY))
+                                                  && triggerTime.get(Calendar.MINUTE) <= now.get(Calendar.MINUTE)))
+                            continue;
+                        else
+                            break;
+                    }
+                    if (day > tomorrow)
                     {
                         nextDay = day;
                         break;
                     }
+                    nextDay = repetition[0];
                 }
             }
             daysDiff = nextDay - now.get(Calendar.DAY_OF_WEEK);
-            if ((daysDiff == 0) && (nextDay != today) && (nextDay != tomorrow))
+            if ((daysDiff == 1) && (triggerTime.get(Calendar.HOUR_OF_DAY) <= now.get(Calendar.HOUR_OF_DAY))
+                && (triggerTime.get(Calendar.MINUTE) <= now.get(Calendar.MINUTE)))
+                daysDiff = 0;
+            else if (((daysDiff == 0) && (nextDay != today) && (nextDay != tomorrow)))
                 daysDiff = 7;
+            else if (((daysDiff == 0) && (repetition.length == 1)) && ((triggerTime.get(Calendar.HOUR_OF_DAY) < now.get(Calendar.HOUR_OF_DAY))
+                                                                       || (triggerTime.get(Calendar.HOUR_OF_DAY) == now.get(Calendar.HOUR_OF_DAY))
+                                                                          && triggerTime.get(Calendar.MINUTE) <= now.get(Calendar.MINUTE)))
+                daysDiff = 6;
+            else if (daysDiff < 0)
+                daysDiff = 7 + daysDiff;
         }
         else
             daysDiff = 0;
