@@ -391,7 +391,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private boolean update()
     {
-        alarm = database.selectAll(this, AppConstants.ORDER_BY_ID)[(idToEdit - 1)];
+        alarm = database.select(this, idToEdit);
         String title;
         if (isReminder)
             title = titleBox.getText().toString().equals("") ?
