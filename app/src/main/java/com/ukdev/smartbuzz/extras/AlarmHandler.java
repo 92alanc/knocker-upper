@@ -250,7 +250,7 @@ public class AlarmHandler
             killAlarm(context, alarm);
         if (wakeLock.isHeld())
             wakeLock.release();
-        FrontEndTools.killApp(activity);
+        BackEndTools.killApp(activity);
     }
 
     /**

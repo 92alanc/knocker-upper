@@ -4,7 +4,6 @@ import android.app.*;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Process;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.NotificationCompat;
 import android.view.inputmethod.InputMethodManager;
@@ -19,7 +18,6 @@ import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.RingtoneWrapper;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -177,18 +175,6 @@ public class FrontEndTools
     }
 
     /**
-     * Kills the app
-     * @param activity - Activity
-     */
-    public static void killApp(Activity activity)
-    {
-        activity.moveTaskToBack(true);
-        activity.finish();
-        Process.killProcess(Process.myPid());
-        System.exit(0);
-    }
-
-    /**
      * Gets all toggle buttons in a grid layout
      * @param layout - GridLayout
      * @return all toggle buttons
@@ -213,38 +199,61 @@ public class FrontEndTools
     }
 
     /**
-     * Shows the time left to an alarm's trigger time
+     * Shows a toast containing the time left for an alarm to trigger
+     * @param context - Context
      * @param alarm - Alarm
-     * @return an array containing the days, hours and minutes left
      */
-    public static int[] getTimeLeftToTrigger(Alarm alarm)
+    public static void showTimeLeftToTrigger(Context context, Alarm alarm)
     {
-        int[] timeLeft = new int[3];
-        Calendar now = Calendar.getInstance();
-        int daysDiff, hoursDiff, minutesDiff;
-        if (alarm.repeats())
+        int isReminder = alarm.isReminder() ? 1 : 0;
+        String token;
+        int[] timeLeft = BackEndTools.getTimeLeftToTrigger(alarm);
+        int days = timeLeft[0];
+        int hours = timeLeft[1];
+        int minutes = timeLeft[2];
+        switch (isReminder)
         {
-            daysDiff = alarm.getRepetition()[0] - now.get(Calendar.DAY_OF_WEEK);
-            if (daysDiff == 0)
-                daysDiff = 7;
+            case 1:
+                if (days > 0 && hours == 0 && minutes == 0)
+                    token = String.format(context.getString(R.string.remaining_d_reminder), days);
+                else if (days > 0 && hours > 0 && minutes > 0)
+                    token = String.format(context.getString(R.string.remaining_d_h_m_reminder), days, hours, minutes);
+                else if (days > 0 && hours > 0 && minutes == 0)
+                    token = String.format(context.getString(R.string.remaining_d_h_reminder), days, hours);
+                else if (days > 0 && hours == 0 && minutes > 0)
+                    token = String.format(context.getString(R.string.remaining_d_m_reminder), days, minutes);
+                else if (days == 0 && hours > 0 && minutes == 0)
+                    token = String.format(context.getString(R.string.remaining_h_reminder), hours);
+                else if (days == 0 && hours > 0 && minutes > 0)
+                    token = String.format(context.getString(R.string.remaining_h_m_reminder), hours, minutes);
+                else if (days == 0 && hours == 0 && minutes > 0)
+                    token = String.format(context.getString(R.string.remaining_m_reminder), minutes);
+                else
+                    token = null;
+                break;
+            case 0:
+                if (days > 0 && hours == 0 && minutes == 0)
+                    token = String.format(context.getString(R.string.remaining_d_alarm), days);
+                else if (days > 0 && hours > 0 && minutes > 0)
+                    token = String.format(context.getString(R.string.remaining_d_h_m_alarm), days, hours, minutes);
+                else if (days > 0 && hours > 0 && minutes == 0)
+                    token = String.format(context.getString(R.string.remaining_d_h_alarm), days, hours);
+                else if (days > 0 && hours == 0 && minutes > 0)
+                    token = String.format(context.getString(R.string.remaining_d_m_alarm), days, minutes);
+                else if (days == 0 && hours > 0 && minutes == 0)
+                    token = String.format(context.getString(R.string.remaining_h_alarm), hours);
+                else if (days == 0 && hours > 0 && minutes > 0)
+                    token = String.format(context.getString(R.string.remaining_h_m_alarm), hours, minutes);
+                else if (days == 0 && hours == 0 && minutes > 0)
+                    token = String.format(context.getString(R.string.remaining_m_alarm), minutes);
+                else
+                    token = null;
+                break;
+            default:
+                token = null;
+                break;
         }
-        else
-            daysDiff = 0;
-        Calendar triggerTime = Calendar.getInstance();
-        triggerTime.setTimeInMillis(BackEndTools.getNextValidTriggerTime(alarm));
-        hoursDiff = triggerTime.get(Calendar.HOUR_OF_DAY) - now.get(Calendar.HOUR_OF_DAY);
-        minutesDiff = triggerTime.get(Calendar.MINUTE) - now.get(Calendar.MINUTE);
-        if (minutesDiff < 0)
-        {
-            hoursDiff--;
-            minutesDiff = 60 + minutesDiff;
-        }
-        if (hoursDiff < 0)
-            hoursDiff = 24 + hoursDiff;
-        timeLeft[0] = daysDiff;
-        timeLeft[1] = hoursDiff;
-        timeLeft[2] = minutesDiff;
-        return timeLeft;
+        showToast(context, token, Toast.LENGTH_SHORT);
     }
 
 }

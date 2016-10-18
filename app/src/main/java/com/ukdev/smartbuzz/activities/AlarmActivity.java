@@ -13,6 +13,7 @@ import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.database.SnoozeCounter;
 import com.ukdev.smartbuzz.extras.AlarmHandler;
 import com.ukdev.smartbuzz.extras.AppConstants;
+import com.ukdev.smartbuzz.extras.BackEndTools;
 import com.ukdev.smartbuzz.extras.FrontEndTools;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.R;
@@ -113,7 +114,7 @@ public class AlarmActivity extends AppCompatActivity
                     alarm.getPlayer().release();
                     snoozeCounter.update(snoozeCounter.getCount() + 1);
                     AlarmHandler.snoozeAlarm(getBaseContext(), alarm);
-                    FrontEndTools.killApp(AlarmActivity.this);
+                    BackEndTools.killApp(AlarmActivity.this);
                 }
             });
         }
