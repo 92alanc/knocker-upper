@@ -48,19 +48,19 @@
     <string name="thu">Jue</string>
     <string name="fri">Vie</string>
     <string name="sat">Sáb</string>
-    <string name="remaining_d_alarm">Alarm set for %1$d d from now</string>
-    <string name="remaining_d_h_m_alarm">Alarm set for %1$d d, %2$d h and %3$d min from now</string>
-    <string name="remaining_d_h_alarm">Alarm set for %1$d d and %2$d h from now</string>
-    <string name="remaining_d_m_alarm">Alarm set for %1$d d and %2$d min from now</string>
-    <string name="remaining_h_alarm">Alarm set for %1$d h from now</string>
-    <string name="remaining_h_m_alarm">Alarm set for %1$d h and %2$d min from now</string>
-    <string name="remaining_m_alarm">Alarm set for %1$d min from now</string>
-    <string name="remaining_d_reminder">Reminder set for %1$d d from now</string>
-    <string name="remaining_d_h_m_reminder">Reminder set for %1$d d, %2$d h and %3$d min from now</string>
-    <string name="remaining_d_h_reminder">Reminder set for %1$d d and %2$d h from now</string>
-    <string name="remaining_d_m_reminder">Reminder set for %1$d d and %2$d min from now</string>
-    <string name="remaining_h_reminder">Reminder set for %1$d h from now</string>
-    <string name="remaining_h_m_reminder">Reminder set for %1$d h and %2$d min from now</string>
-    <string name="remaining_m_reminder">Reminder set for %1$d min from now</string>
+    <string name="remaining_d_alarm">Alarma programada para %1$d d desde ahora</string>
+    <string name="remaining_d_h_m_alarm">Alarma programada para %1$d d, %2$d h y %3$d min desde ahora</string>
+    <string name="remaining_d_h_alarm">Alarma programada para %1$d d y %2$d h desde ahora</string>
+    <string name="remaining_d_m_alarm">Alarma programada para %1$d d y %2$d min desde ahora</string>
+    <string name="remaining_h_alarm">Alarma programada para %1$d h desde ahora</string>
+    <string name="remaining_h_m_alarm">Alarma programada para %1$d h y %2$d min desde ahora</string>
+    <string name="remaining_m_alarm">Alarma programada para %1$d min desde ahora</string>
+    <string name="remaining_d_reminder">Recordatorio programado para %1$d d desde ahora</string>
+    <string name="remaining_d_h_m_reminder">Recordatorio programado para %1$d d, %2$d h y %3$d min desde ahora</string>
+    <string name="remaining_d_h_reminder">Recordatorio programado para %1$d d y %2$d h desde ahora</string>
+    <string name="remaining_d_m_reminder">Recordatorio programado para %1$d d y %2$d min desde ahora</string>
+    <string name="remaining_h_reminder">Recordatorio programado para %1$d h desde ahora</string>
+    <string name="remaining_h_m_reminder">Recordatorio programado para %1$d h y %2$d min desde ahora</string>
+    <string name="remaining_m_reminder">Recordatorio programado para %1$d min desde ahora</string>
 
 </resources>

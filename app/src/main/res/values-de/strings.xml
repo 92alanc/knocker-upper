@@ -3,14 +3,14 @@
 
     <!-- Deutsch -->
     <string name="about">About</string>
-    <string name="alarm_set">Alarm aktiviert</string>
-    <string name="alarm_updated">Alarm updated</string>
+    <string name="alarm_set">Wecker aktiviert</string>
+    <string name="alarm_updated">Wecker updated</string>
     <string name="cancel">Cancel</string>
     <string name="cancelled">Cancelled</string>
-    <string name="delete">Alarm löschen</string>
+    <string name="delete">Wecker löschen</string>
     <string name="dismiss">Verwerfen</string>
     <string name="info">Entwickelt von Braincorp Apps\ne-mail: alcam.ukdev@gmail.com</string>
-    <string name="new_alarm">Neuer Alarm</string>
+    <string name="new_alarm">Neuer Wecker</string>
     <string name="question">Bist Du wach?</string>
     <string name="repeat">Wiederholen während der Woche</string>
     <string name="save">Speichern</string>
@@ -25,7 +25,7 @@
     <string name="every_day">Täglich</string>
     <string name="item_selected">1 Artikel ausgewählt</string>
     <string name="items_selected">%1$s Artikel ausgewählt</string>
-    <string name="alarm_deleted">Alarm gelöscht</string>
+    <string name="alarm_deleted">Wecker gelöscht</string>
     <string name="alarms_deleted">%1$s Alarme gelöscht</string>
     <string name="help">Hilfe</string>
     <string name="ringtone">Klingelton</string>
@@ -37,7 +37,7 @@
     <string name="new_reminder">Neue Erinnerung</string>
     <string name="reminder_set">Erinnerung aktiviert</string>
     <string name="reminder_updated">Erinnerung updated</string>
-    <string name="one_alarm_set">1 Alarm gesetzt</string>
+    <string name="one_alarm_set">1 Wecker gesetzt</string>
     <string name="x_alarms_set">%1$d Alarme gesetzt</string>
     <string name="sun">So</string>
     <string name="mon">Mo</string>
@@ -46,19 +46,19 @@
     <string name="thu">Do</string>
     <string name="fri">Fr</string>
     <string name="sat">Sa</string>
-    <string name="remaining_d_alarm">Alarm set for %1$d d from now</string>
-    <string name="remaining_d_h_m_alarm">Alarm set for %1$d d, %2$d h and %3$d min from now</string>
-    <string name="remaining_d_h_alarm">Alarm set for %1$d d and %2$d h from now</string>
-    <string name="remaining_d_m_alarm">Alarm set for %1$d d and %2$d min from now</string>
-    <string name="remaining_h_alarm">Alarm set for %1$d h from now</string>
-    <string name="remaining_h_m_alarm">Alarm set for %1$d h and %2$d min from now</string>
-    <string name="remaining_m_alarm">Alarm set for %1$d min from now</string>
-    <string name="remaining_d_reminder">Reminder set for %1$d d from now</string>
-    <string name="remaining_d_h_m_reminder">Reminder set for %1$d d, %2$d h and %3$d min from now</string>
-    <string name="remaining_d_h_reminder">Reminder set for %1$d d and %2$d h from now</string>
-    <string name="remaining_d_m_reminder">Reminder set for %1$d d and %2$d min from now</string>
-    <string name="remaining_h_reminder">Reminder set for %1$d h from now</string>
-    <string name="remaining_h_m_reminder">Reminder set for %1$d h and %2$d min from now</string>
-    <string name="remaining_m_reminder">Reminder set for %1$d min from now</string>
+    <string name="remaining_d_alarm">Dieser Wecker klingelt in %1$d T</string>
+    <string name="remaining_d_h_m_alarm">Dieser Wecker klingelt in %1$d T, %2$d St und %3$d Min</string>
+    <string name="remaining_d_h_alarm">Dieser Wecker klingelt in %1$d T und %2$d St</string>
+    <string name="remaining_d_m_alarm">Dieser Wecker klingelt in %1$d T und %2$d Min</string>
+    <string name="remaining_h_alarm">Dieser Wecker klingelt in %1$d St</string>
+    <string name="remaining_h_m_alarm">Dieser Wecker klingelt in %1$d St und %2$d Min</string>
+    <string name="remaining_m_alarm">Dieser Wecker klingelt in %1$d Min</string>
+    <string name="remaining_d_reminder">Diese Erinnerung klingelt in %1$d T</string>
+    <string name="remaining_d_h_m_reminder">Diese Erinnerung klingelt in %1$d T, %2$d St und %3$d Min</string>
+    <string name="remaining_d_h_reminder">Diese Erinnerung klingelt in %1$d T und %2$d St</string>
+    <string name="remaining_d_m_reminder">Diese Erinnerung klingelt in %1$d d und %2$d min</string>
+    <string name="remaining_h_reminder">Diese Erinnerung klingelt in %1$d St</string>
+    <string name="remaining_h_m_reminder">Diese Erinnerung klingelt in %1$d St und %2$d Min</string>
+    <string name="remaining_m_reminder">Diese Erinnerung klingelt in %1$d Min</string>
 
 </resources>
