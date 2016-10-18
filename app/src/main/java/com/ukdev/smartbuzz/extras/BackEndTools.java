@@ -225,16 +225,9 @@ public class BackEndTools
     static int[] getTimeLeftToTrigger(Alarm alarm)
     {
         int[] timeLeft = new int[3];
+        int[] repetition = alarm.getRepetition();
         Calendar now = Calendar.getInstance();
         int daysDiff, hoursDiff, minutesDiff;
-        if (alarm.repeats())
-        {
-            daysDiff = alarm.getRepetition()[0] - now.get(Calendar.DAY_OF_WEEK);
-            if (daysDiff == 0)
-                daysDiff = 7;
-        }
-        else
-            daysDiff = 0;
         Calendar triggerTime = Calendar.getInstance();
         triggerTime.setTimeInMillis(getNextValidTriggerTime(alarm));
         hoursDiff = triggerTime.get(Calendar.HOUR_OF_DAY) - now.get(Calendar.HOUR_OF_DAY);
@@ -246,6 +239,34 @@ public class BackEndTools
         }
         if (hoursDiff < 0)
             hoursDiff = 24 + hoursDiff;
+        if (alarm.repeats())
+        {
+            int nextDay = 0;
+            int today = now.get(Calendar.DAY_OF_WEEK);
+            int tomorrow;
+            if (today != 7)
+                tomorrow = today + 1;
+            else
+                tomorrow = 1;
+            if (repetition[0] == today)
+                nextDay = repetition[0];
+            else
+            {
+                for (int day : repetition)
+                {
+                    if (day == today || day == tomorrow)
+                    {
+                        nextDay = day;
+                        break;
+                    }
+                }
+            }
+            daysDiff = nextDay - now.get(Calendar.DAY_OF_WEEK);
+            if ((daysDiff == 0) && (nextDay != today) && (nextDay != tomorrow))
+                daysDiff = 7;
+        }
+        else
+            daysDiff = 0;
         timeLeft[0] = daysDiff;
         timeLeft[1] = hoursDiff;
         timeLeft[2] = minutesDiff;
