@@ -10,8 +10,8 @@ android
         applicationId "com.ukdev.smartbuzz"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 32
-        versionName "3.2"
+        versionCode 33
+        versionName "3.3"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes
