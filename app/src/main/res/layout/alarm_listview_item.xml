@@ -64,12 +64,15 @@
             android:focusable="false"/>
 
     <!-- Switch -->
-    <Switch
-            android:id="@+id/alarmSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+    <ToggleButton
+            android:id="@+id/alarmToggleButton"
+            android:layout_width="50dp"
+            android:layout_height="35dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:textOn=""
+            android:textOff=""
+            android:textSize="15sp"
             android:gravity="top|end"
             android:focusable="false"/>
 

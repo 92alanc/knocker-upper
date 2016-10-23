@@ -52,7 +52,7 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
             holder.triggerTime = (TextView)row.findViewById(R.id.triggerTimeRow);
             holder.repetition = (TextView)row.findViewById(R.id.repetitionRow);
             holder.reminderIcon = (ImageView)row.findViewById(R.id.reminderIcon);
-            holder.alarmSwitch = (Switch)row.findViewById(R.id.alarmSwitch);
+            holder.alarmToggleButton = (ToggleButton)row.findViewById(R.id.alarmToggleButton);
             holder.sunMoonImg = (ImageView)row.findViewById(R.id.sunMoonImg);
             row.setTag(holder);
         }
@@ -86,20 +86,26 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
             holder.reminderIcon.setVisibility(View.GONE);
         if (alarm.isOn())
         {
-            holder.alarmSwitch.setChecked(true);
+            holder.alarmToggleButton.setChecked(true);
             holder.title.setTextColor(ContextCompat.getColor(context, R.color.green));
         }
         else
         {
-            holder.alarmSwitch.setChecked(false);
+            holder.alarmToggleButton.setChecked(false);
             holder.title.setTextColor(ContextCompat.getColor(context, R.color.red));
         }
-        if (holder.alarmSwitch.isChecked())
+        if (holder.alarmToggleButton.isChecked())
+        {
+            holder.alarmToggleButton.setBackgroundResource(R.drawable.alarm_toggle_button_selected);
             alarm.toggle(true);
+        }
         else
+        {
+            holder.alarmToggleButton.setBackgroundResource(R.drawable.alarm_toggle_button);
             alarm.toggle(false);
+        }
         final AlarmHolder finalHolder = holder;
-        holder.alarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        holder.alarmToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked)
@@ -108,6 +114,7 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
                 {
                     alarm.toggle(true);
                     AlarmHandler.scheduleAlarm(context, alarm);
+                    compoundButton.setBackgroundResource(R.drawable.alarm_toggle_button_selected);
                     compoundButton.setChecked(true);
                     finalHolder.title.setTextColor(ContextCompat.getColor(context,
                             R.color.green));
@@ -132,6 +139,7 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
                             compoundButton.setVisibility(View.VISIBLE);
                         alarm.toggle(false);
                         AlarmHandler.cancelAlarm(context, alarm);
+                        compoundButton.setBackgroundResource(R.drawable.alarm_toggle_button);
                         compoundButton.setChecked(false);
                         finalHolder.title.setTextColor(ContextCompat.getColor(context,
                                 R.color.red));
@@ -156,7 +164,7 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
         TextView triggerTime;
         TextView repetition;
         ImageView reminderIcon;
-        Switch alarmSwitch;
+        ToggleButton alarmToggleButton;
         ImageView sunMoonImg;
     }
 
