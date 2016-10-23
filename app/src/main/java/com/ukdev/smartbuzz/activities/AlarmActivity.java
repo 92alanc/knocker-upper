@@ -13,6 +13,7 @@ import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.database.SnoozeCounter;
 import com.ukdev.smartbuzz.extras.AlarmHandler;
 import com.ukdev.smartbuzz.extras.AppConstants;
+import com.ukdev.smartbuzz.extras.BackEndTools;
 import com.ukdev.smartbuzz.extras.FrontEndTools;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.R;
@@ -26,7 +27,6 @@ public class AlarmActivity extends AppCompatActivity
 
     private Alarm alarm;
     private PowerManager.WakeLock wakeLock;
-    private boolean snooze;
     private final SnoozeCounter snoozeCounter = new SnoozeCounter(this);
     private CountDownTimer timer;
 
@@ -53,16 +53,6 @@ public class AlarmActivity extends AppCompatActivity
         setDismissButton();
         setSnoozeButton();
         alarm.playRingtone(AlarmActivity.this, getBaseContext());
-        snooze = false;
-    }
-
-    @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
-        if (!snooze)
-            AlarmHandler.dismissAlarm(alarm, AlarmActivity.this,
-                    getBaseContext(), alarm.getPlayer(), alarm.getVibrator(), wakeLock);
     }
 
     @Override
@@ -117,7 +107,6 @@ public class AlarmActivity extends AppCompatActivity
                 public void onClick(View view)
                 {
                     timer.cancel();
-                    snooze = true;
                     if (wakeLock.isHeld())
                         wakeLock.release();
                     if (alarm.vibrates() || getIntent().getAction().equals(AppConstants.ACTION_MAYHEM))
@@ -125,7 +114,7 @@ public class AlarmActivity extends AppCompatActivity
                     alarm.getPlayer().release();
                     snoozeCounter.update(snoozeCounter.getCount() + 1);
                     AlarmHandler.snoozeAlarm(getBaseContext(), alarm);
-                    FrontEndTools.closeApp(getBaseContext());
+                    BackEndTools.killApp(AlarmActivity.this);
                 }
             });
         }

@@ -3,8 +3,8 @@ package com.ukdev.smartbuzz.extras;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.content.res.TypedArray;
 import android.media.AudioManager;
+import android.os.Process;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.GridLayout;
@@ -46,7 +46,7 @@ public class BackEndTools
                     if (array.length != 2 || (item != 1 && item != 7))
                         weekends = false;
                     if (array.length != 5 || (item != 2 && item != 3 && item != 4
-                            && item != 5 && item != 6))
+                                              && item != 5 && item != 6))
                         weekDays = false;
                 }
                 if (weekDays)
@@ -56,7 +56,7 @@ public class BackEndTools
                 else
                 {
                     String[] texts = context.getResources()
-                            .getStringArray(R.array.daysOfTheWeek);
+                                            .getStringArray(R.array.daysOfTheWeek);
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < array.length; i++)
                     {
@@ -111,7 +111,7 @@ public class BackEndTools
             else
             {
                 String[] texts = context.getResources()
-                        .getStringArray(R.array.daysOfTheWeek);
+                                        .getStringArray(R.array.daysOfTheWeek);
                 String[] split = str.split(", ");
                 values = new int[split.length];
                 for (int i = 0; i < split.length; i++)
@@ -128,23 +128,6 @@ public class BackEndTools
             }
             return values;
         }
-    }
-
-    /**
-     * Gets an integer array with references
-     * @param id - int
-     * @return references
-     */
-    static int[] getReferencesArray(Context context, int id)
-    {
-        TypedArray typedArray = context.getResources().obtainTypedArray(id);
-        int[] values = new int[typedArray.length()];
-        for (int i = 0; i < values.length; i++)
-        {
-            values[i] = typedArray.getResourceId(i, 0);
-        }
-        typedArray.recycle();
-        return values;
     }
 
     /**
@@ -191,26 +174,13 @@ public class BackEndTools
     {
         // First we'll check if the user has already granted the permissions
         int readExternalStorage = ContextCompat.checkSelfPermission(context,
-                AppConstants.PERMISSION_READ_EXTERNAL_STORAGE);
+                                                                    AppConstants.PERMISSION_READ_EXTERNAL_STORAGE);
 
         // Request read external storage permission
         if (readExternalStorage != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(activity,
-                    new String[] { AppConstants.PERMISSION_READ_EXTERNAL_STORAGE },
-                    AppConstants.REQUEST_CODE);
-    }
-
-    /**
-     * Kills the app
-     * @param activity - Activity
-     */
-    @Deprecated
-    public static void killApp(Activity activity)
-    {
-        activity.finish();
-        int pid = android.os.Process.myPid();
-        android.os.Process.killProcess(pid);
-        System.exit(0);
+                                              new String[] { AppConstants.PERMISSION_READ_EXTERNAL_STORAGE },
+                                              AppConstants.REQUEST_CODE);
     }
 
     /**
@@ -240,11 +210,100 @@ public class BackEndTools
         Calendar now = Calendar.getInstance();
 
         if ((hours <= now.get(Calendar.HOUR_OF_DAY)
-                || minutes > now.get(Calendar.MINUTE))
-                && (hours < now.get(Calendar.HOUR_OF_DAY)
+             || minutes > now.get(Calendar.MINUTE))
+            && (hours < now.get(Calendar.HOUR_OF_DAY)
                 || minutes <= now.get(Calendar.MINUTE)))
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         return calendar.getTimeInMillis();
+    }
+
+    /**
+     * Shows the time left to an alarm's trigger time
+     * @param alarm - Alarm
+     * @return an array containing the days, hours and minutes left
+     */
+    static int[] getTimeLeftToTrigger(Alarm alarm)
+    {
+        int[] timeLeft = new int[3];
+        int[] repetition = alarm.getRepetition();
+        Calendar now = Calendar.getInstance();
+        int daysDiff, hoursDiff, minutesDiff;
+        Calendar triggerTime = Calendar.getInstance();
+        triggerTime.setTimeInMillis(getNextValidTriggerTime(alarm));
+        hoursDiff = triggerTime.get(Calendar.HOUR_OF_DAY) - now.get(Calendar.HOUR_OF_DAY);
+        minutesDiff = triggerTime.get(Calendar.MINUTE) - now.get(Calendar.MINUTE);
+        if (minutesDiff < 0)
+        {
+            hoursDiff--;
+            minutesDiff = 60 + minutesDiff;
+        }
+        if (hoursDiff < 0)
+            hoursDiff = 24 + hoursDiff;
+        if (alarm.repeats())
+        {
+            int nextDay = 0;
+            int today = now.get(Calendar.DAY_OF_WEEK);
+            int tomorrow;
+            if (today != 7)
+                tomorrow = today + 1;
+            else
+                tomorrow = 1;
+            if ((repetition[0] == today)
+                && (now.getTimeInMillis() < triggerTime.getTimeInMillis()))
+                nextDay = repetition[0];
+            else
+            {
+                for (int day : repetition)
+                {
+                    nextDay = day;
+                    if (day == today || day == tomorrow)
+                    {
+                        if ((day == today) && ((triggerTime.get(Calendar.HOUR_OF_DAY) < now.get(Calendar.HOUR_OF_DAY))
+                                               || (triggerTime.get(Calendar.HOUR_OF_DAY) == now.get(Calendar.HOUR_OF_DAY))
+                                                  && triggerTime.get(Calendar.MINUTE) <= now.get(Calendar.MINUTE)))
+                            continue;
+                        else
+                            break;
+                    }
+                    if (day > tomorrow)
+                    {
+                        nextDay = day;
+                        break;
+                    }
+                    nextDay = repetition[0];
+                }
+            }
+            daysDiff = nextDay - now.get(Calendar.DAY_OF_WEEK);
+            if ((daysDiff == 1) && (triggerTime.get(Calendar.HOUR_OF_DAY) <= now.get(Calendar.HOUR_OF_DAY))
+                && (triggerTime.get(Calendar.MINUTE) <= now.get(Calendar.MINUTE)))
+                daysDiff = 0;
+            else if (((daysDiff == 0) && (nextDay != today) && (nextDay != tomorrow)))
+                daysDiff = 7;
+            else if (((daysDiff == 0) && (repetition.length == 1)) && ((triggerTime.get(Calendar.HOUR_OF_DAY) < now.get(Calendar.HOUR_OF_DAY))
+                                                                       || (triggerTime.get(Calendar.HOUR_OF_DAY) == now.get(Calendar.HOUR_OF_DAY))
+                                                                          && triggerTime.get(Calendar.MINUTE) <= now.get(Calendar.MINUTE)))
+                daysDiff = 6;
+            else if (daysDiff < 0)
+                daysDiff = 7 + daysDiff;
+        }
+        else
+            daysDiff = 0;
+        timeLeft[0] = daysDiff;
+        timeLeft[1] = hoursDiff;
+        timeLeft[2] = minutesDiff;
+        return timeLeft;
+    }
+
+    /**
+     * Kills the app
+     * @param activity - Activity
+     */
+    public static void killApp(Activity activity)
+    {
+        activity.moveTaskToBack(true);
+        activity.finish();
+        Process.killProcess(Process.myPid());
+        System.exit(0);
     }
 
 }

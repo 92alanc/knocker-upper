@@ -42,12 +42,13 @@ public class AlarmRepository
     /**
      * Closes the database connection to save memory
      */
+    /*
     public static void closeConnection()
     {
         instance = null;
         reader.close();
         writer.close();
-    }
+    }*/
 
     /**
      * Inserts an alarm

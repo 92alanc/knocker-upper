@@ -23,8 +23,7 @@
         <item>Erinnerungen sind ein bisschen anders als Alarme. Sie rufen Sleep Checker nicht nach ihnen zu stoppen.</item>
         <item>Sie können Ihre Alarme während der Woche zu wiederholen.\nUm es tun, klicken Sie einfach auf die "Wiederholen während der Woche", während Sie einen Alarm erstellen.</item>
         <item>Sleep Checker ist ein stiller Mittel, das zu einem beliebigen Zeitpunkt zwischen 3 und 5 Minuten ausgelöst wird, nachdem Sie einen Alarm zu entlassen.\nEs stellt sicher, dass Sie nicht länger schlafen, als Sie sollten und Ihre Termine verpassen.
-                     \nWenn es ausgelöst wird, erhalten Sie 10 Sekunden Zeit, um zu beweisen, dass du wach bist, sonst wird der Alarm erneut ausgelöst werden, aber mit einem kleinen Unterschied: Das Volumen wird auf Maximum und das Gerät vibriert, eingestellt werden.</item>
-        <item>Smart Buzz ermöglicht es Ihnen, Alarme und Erinnerungen auf verschiedene Zeitzonen einstellen, so dass Sie müssen Differenz die Zeitzone nicht darum kümmern zu überprüfen.</item>
+                     \nWenn es ausgelöst wird, erhalten Sie 15 Sekunden Zeit, um zu beweisen, dass du wach bist, sonst wird der Alarm erneut ausgelöst werden, aber mit einem kleinen Unterschied: Das Volumen wird auf Maximum und das Gerät vibriert, eingestellt werden.</item>
     </string-array>
 
     <!-- Help topics -->
@@ -35,7 +34,6 @@
         <item>Erinnerungen</item>
         <item>Wiederholen von Alarmen</item>
         <item>Das Merkmal Sleep Checker</item>
-        <item>Zeitzonen</item>
     </string-array>
 
 </resources>

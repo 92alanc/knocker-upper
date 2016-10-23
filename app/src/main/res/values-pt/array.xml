@@ -23,9 +23,8 @@
         <item>Lembretes são um pouco diferentes dos alarmes. Eles não vão ativar o Sleep Checker depois que são dispensados.</item>
         <item>Você pode programar seus alarmes para repetir durante a semana.\nPara fazer isso, é só marcar a caixa "Repetir durante a semana" quando estiver criando um alarme.</item>
         <item>Sleep Checker é um agente silencioso que é ativado em um tempo aleatório entre 3 e 5 minutos depois que você dispensa um alarme.\nAssim ele garante que você não vai dormir mais do que deve e perder seus compromissos.
-            \nQuando ele é ativado, você vai ter 10 segundos para provar que está acordado, ou então o alarme vai tocar de novo, mas com uma pequena diferença: o volume vai estar no máximo e seu dispositivo vai vibrar.
+            \nQuando ele é ativado, você vai ter 15 segundos para provar que está acordado, ou então o alarme vai tocar de novo, mas com uma pequena diferença: o volume vai estar no máximo e seu dispositivo vai vibrar.
         </item>
-        <item>Smart Buzz permite que você programe alarmes e lembretes em fuso horários diferentes para você não ter que se preocupar em conferir a diferença de fuso horários.</item>
     </string-array>
 
     <!-- Help topics -->
@@ -36,7 +35,6 @@
         <item>Lembretes</item>
         <item>Repetição de alarmes</item>
         <item>A função Sleep Checker</item>
-        <item>Fuso horários</item>
     </string-array>
 
 </resources>

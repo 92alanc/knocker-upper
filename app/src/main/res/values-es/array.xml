@@ -23,8 +23,7 @@
         <item>Los recordatorios son un poco diferente de las alarmas. No van a llamar Sleep Checker después de parar ellos.</item>
         <item>Puede configurar las alarmas de repetir durante la semana.\nPara hacerlo, sólo haga clic en el "Repetir durante la semana", mientras que se crea una alarma.</item>
         <item>Sleep Checker es un agente de silencio que se desencadena en un momento aleatorio entre 3 y 5 minutos después de descartar una alarma.\nSe asegura de no dormir más de lo que debe y perder sus citas.
-                     \nCuando es disparado, tendrá 10 segundos para demostrar que estás despierto, de lo contrario la alarma se activará de nuevo, pero con una ligera diferencia: el volumen se ajusta al máximo y su dispositivo vibrará.</item>
-        <item>Smart Buzz le permite establecer alarmas y recordatorios en diferentes zonas de tiempo por lo que no tiene que preocuparse por el control de la diferencia de zona horaria.</item>
+                     \nCuando es disparado, tendrá 15 segundos para demostrar que estás despierto, de lo contrario la alarma se activará de nuevo, pero con una ligera diferencia: el volumen se ajusta al máximo y su dispositivo vibrará.</item>
     </string-array>
 
     <!-- Help topics -->
@@ -35,7 +34,6 @@
         <item>Recordatorios</item>
         <item>Repetición de alarmas</item>
         <item>La función Sleep Checker</item>
-        <item>Zonas horarias</item>
     </string-array>
 
 </resources>

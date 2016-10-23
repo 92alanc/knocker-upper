@@ -175,19 +175,6 @@ public class FrontEndTools
     }
 
     /**
-     * Kills the app
-     * @param context - Context
-     */
-    public static void closeApp(Context context)
-    {
-        AlarmRepository.closeConnection();
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-    }
-
-    /**
      * Gets all toggle buttons in a grid layout
      * @param layout - GridLayout
      * @return all toggle buttons
@@ -209,6 +196,64 @@ public class FrontEndTools
         }
         else
             return null;
+    }
+
+    /**
+     * Shows a toast containing the time left for an alarm to trigger
+     * @param context - Context
+     * @param alarm - Alarm
+     */
+    public static void showTimeLeftToTrigger(Context context, Alarm alarm)
+    {
+        int isReminder = alarm.isReminder() ? 1 : 0;
+        String token;
+        int[] timeLeft = BackEndTools.getTimeLeftToTrigger(alarm);
+        int days = timeLeft[0];
+        int hours = timeLeft[1];
+        int minutes = timeLeft[2];
+        switch (isReminder)
+        {
+            case 1:
+                if (days > 0 && hours == 0 && minutes == 0)
+                    token = String.format(context.getString(R.string.remaining_d_reminder), days);
+                else if (days > 0 && hours > 0 && minutes > 0)
+                    token = String.format(context.getString(R.string.remaining_d_h_m_reminder), days, hours, minutes);
+                else if (days > 0 && hours > 0 && minutes == 0)
+                    token = String.format(context.getString(R.string.remaining_d_h_reminder), days, hours);
+                else if (days > 0 && hours == 0 && minutes > 0)
+                    token = String.format(context.getString(R.string.remaining_d_m_reminder), days, minutes);
+                else if (days == 0 && hours > 0 && minutes == 0)
+                    token = String.format(context.getString(R.string.remaining_h_reminder), hours);
+                else if (days == 0 && hours > 0 && minutes > 0)
+                    token = String.format(context.getString(R.string.remaining_h_m_reminder), hours, minutes);
+                else if (days == 0 && hours == 0 && minutes > 0)
+                    token = String.format(context.getString(R.string.remaining_m_reminder), minutes);
+                else
+                    token = String.format(context.getString(R.string.remaining_d_reminder), 1);
+                break;
+            case 0:
+                if (days > 0 && hours == 0 && minutes == 0)
+                    token = String.format(context.getString(R.string.remaining_d_alarm), days);
+                else if (days > 0 && hours > 0 && minutes > 0)
+                    token = String.format(context.getString(R.string.remaining_d_h_m_alarm), days, hours, minutes);
+                else if (days > 0 && hours > 0 && minutes == 0)
+                    token = String.format(context.getString(R.string.remaining_d_h_alarm), days, hours);
+                else if (days > 0 && hours == 0 && minutes > 0)
+                    token = String.format(context.getString(R.string.remaining_d_m_alarm), days, minutes);
+                else if (days == 0 && hours > 0 && minutes == 0)
+                    token = String.format(context.getString(R.string.remaining_h_alarm), hours);
+                else if (days == 0 && hours > 0 && minutes > 0)
+                    token = String.format(context.getString(R.string.remaining_h_m_alarm), hours, minutes);
+                else if (days == 0 && hours == 0 && minutes > 0)
+                    token = String.format(context.getString(R.string.remaining_m_alarm), minutes);
+                else
+                    token = String.format(context.getString(R.string.remaining_d_alarm), 1);
+                break;
+            default:
+                token = null;
+                break;
+        }
+        showToast(context, token, Toast.LENGTH_SHORT);
     }
 
 }
