@@ -72,11 +72,11 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
         holder.triggerTime.setText(triggerTime);
         if (alarm.repeats())
             holder.repetition.setText(BackEndTools.convertIntArrayToString(context,
-                alarm.getRepetition()));
+                                                                           alarm.getRepetition()));
         else
             holder.repetition.setVisibility(View.GONE);
         if (alarm.getTriggerTime().get(Calendar.HOUR_OF_DAY) >= 6 &&
-                alarm.getTriggerTime().get(Calendar.HOUR_OF_DAY) < 18) // Day time
+            alarm.getTriggerTime().get(Calendar.HOUR_OF_DAY) < 18) // Day time
             holder.sunMoonImg.setImageResource(R.drawable.sun);
         else // Night time
             holder.sunMoonImg.setImageResource(R.drawable.moon);
@@ -117,39 +117,22 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
                     compoundButton.setBackgroundResource(R.drawable.alarm_toggle_button_selected);
                     compoundButton.setChecked(true);
                     finalHolder.title.setTextColor(ContextCompat.getColor(context,
-                            R.color.green));
+                                                                          R.color.green));
                 }
                 else
                 {
-                    if (alarm.isLocked())
-                    {
-                        FrontEndTools.showToast(context,
-                                String.format(context.getString(R.string.alarm_locked),
-                                        alarm.getTitle()),
-                                Toast.LENGTH_LONG);
-                        if (AppConstants.OS_VERSION >= Build.VERSION_CODES.LOLLIPOP)
-                            compoundButton.setChecked(true);
-                        else
-                            compoundButton.setVisibility(View.GONE);
-                    }
-                    else
-                    {
-                        if (AppConstants.OS_VERSION < Build.VERSION_CODES.LOLLIPOP
-                            && compoundButton.getVisibility() == View.GONE)
-                            compoundButton.setVisibility(View.VISIBLE);
-                        alarm.toggle(false);
-                        AlarmHandler.cancelAlarm(context, alarm);
-                        compoundButton.setBackgroundResource(R.drawable.alarm_toggle_button);
-                        compoundButton.setChecked(false);
-                        finalHolder.title.setTextColor(ContextCompat.getColor(context,
-                                R.color.red));
-                    }
+                    if (AppConstants.OS_VERSION < Build.VERSION_CODES.LOLLIPOP
+                        && compoundButton.getVisibility() == View.GONE)
+                        compoundButton.setVisibility(View.VISIBLE);
+                    alarm.toggle(false);
+                    AlarmHandler.cancelAlarm(context, alarm);
+                    compoundButton.setBackgroundResource(R.drawable.alarm_toggle_button);
+                    compoundButton.setChecked(false);
+                    finalHolder.title.setTextColor(ContextCompat.getColor(context,
+                                                                          R.color.red));
                 }
-                if (!alarm.isLocked())
-                {
-                    AlarmRepository.getInstance(context).update(context, alarm.getId(), alarm);
-                    FrontEndTools.showNotification(context);
-                }
+                AlarmRepository.getInstance(context).update(context, alarm.getId(), alarm);
+                FrontEndTools.showNotification(context);
             }
         });
         return row;

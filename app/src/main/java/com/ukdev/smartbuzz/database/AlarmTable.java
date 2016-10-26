@@ -23,7 +23,6 @@ public class AlarmTable
     static final String COLUMN_VOLUME = "VOLUME";
     static final String COLUMN_SNOOZE = "SNOOZE";
     static final String COLUMN_STATE = "STATE";
-    static final String COLUMN_IS_LOCKED = "IS_LOCKED";
 
     /**
      * Creates the table
@@ -46,8 +45,7 @@ public class AlarmTable
                 COLUMN_RINGTONE_TYPE,
                 COLUMN_VOLUME,
                 COLUMN_SNOOZE,
-                COLUMN_STATE,
-                COLUMN_IS_LOCKED);
+                COLUMN_STATE);
     }
 
     /**
@@ -70,8 +68,7 @@ public class AlarmTable
         query.append("%12$s INTEGER DEFAULT 0, ");
         query.append("%13$s INTEGER, ");
         query.append("%14$s INTEGER, ");
-        query.append("%15$s INTEGER, ");
-        query.append("%16$s INTEGER)");
+        query.append("%15$s INTEGER)");
         return query.toString();
     }
 

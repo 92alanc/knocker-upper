@@ -40,17 +40,6 @@ public class AlarmRepository
     }
 
     /**
-     * Closes the database connection to save memory
-     */
-    /*
-    public static void closeConnection()
-    {
-        instance = null;
-        reader.close();
-        writer.close();
-    }*/
-
-    /**
      * Inserts an alarm
      * @param context - Context
      * @param alarm - Alarm
@@ -71,7 +60,6 @@ public class AlarmRepository
         values.put(AlarmTable.COLUMN_VOLUME, alarm.getVolume());
         values.put(AlarmTable.COLUMN_SNOOZE, alarm.getSnooze());
         values.put(AlarmTable.COLUMN_STATE, alarm.isOn() ? 1 : 0);
-        values.put(AlarmTable.COLUMN_IS_LOCKED, alarm.isLocked() ? 1 : 0);
         writer.insert(AlarmTable.TABLE_NAME, null, values);
     }
 
@@ -108,7 +96,6 @@ public class AlarmRepository
         values.put(AlarmTable.COLUMN_VOLUME, newAlarmValues.getVolume());
         values.put(AlarmTable.COLUMN_SNOOZE, newAlarmValues.getSnooze());
         values.put(AlarmTable.COLUMN_STATE, newAlarmValues.isOn() ? 1 : 0);
-        values.put(AlarmTable.COLUMN_IS_LOCKED, newAlarmValues.isLocked() ? 1 : 0);
         writer.update(AlarmTable.TABLE_NAME, values,
                 AlarmTable.COLUMN_ID + " = ?",
                 new String[] { String.valueOf(id) });
@@ -130,7 +117,7 @@ public class AlarmRepository
             cursor.moveToFirst();
             String alarmTitle, ringtoneTitle, ringtoneUri;
             int day, hours, minutes, volume, snooze;
-            boolean isOn, isReminder, vibrates, isLocked;
+            boolean isOn, isReminder, vibrates;
             int[] repetition;
             Calendar triggerTime = Calendar.getInstance();
             RingtoneType ringtoneType;
@@ -162,11 +149,9 @@ public class AlarmRepository
             repetition = BackEndTools.convertStringToIntArray(context,
                     cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_REPETITION)));
             RingtoneWrapper ringtone = new RingtoneWrapper(Uri.parse(ringtoneUri), ringtoneTitle, ringtoneType);
-            isLocked = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_IS_LOCKED)) == 1;
 
             alarm = new Alarm(id, alarmTitle, triggerTime, ringtone, volume, vibrates,
                     isReminder, isOn, repetition, snooze);
-            alarm.setLocked(isLocked);
         }
         cursor.close();
         return alarm;
@@ -192,7 +177,7 @@ public class AlarmRepository
             {
                 String alarmTitle, ringtoneTitle, ringtoneUri;
                 int id, day, hours, minutes, volume, snooze;
-                boolean isOn, isReminder, vibrates, isLocked;
+                boolean isOn, isReminder, vibrates;
                 int[] repetition;
                 Calendar triggerTime = Calendar.getInstance();
                 RingtoneType ringtoneType;
@@ -224,11 +209,9 @@ public class AlarmRepository
                 repetition = BackEndTools.convertStringToIntArray(context,
                         cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_REPETITION)));
                 RingtoneWrapper ringtone = new RingtoneWrapper(Uri.parse(ringtoneUri), ringtoneTitle, ringtoneType);
-                isLocked = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_IS_LOCKED)) == 1;
 
                 alarms[i] = new Alarm(id, alarmTitle, triggerTime, ringtone, volume, vibrates,
                         isReminder, isOn, repetition, snooze);
-                alarms[i].setLocked(isLocked);
                 i++;
             } while (cursor.moveToNext());
         }
@@ -253,7 +236,7 @@ public class AlarmRepository
             {
                 String alarmTitle, ringtoneTitle, ringtoneUri;
                 int id, day, hours, minutes, volume, snooze;
-                boolean isOn, isReminder, vibrates, isLocked;
+                boolean isOn, isReminder, vibrates;
                 int[] repetition;
                 Calendar triggerTime = Calendar.getInstance();
                 RingtoneType ringtoneType;
@@ -285,11 +268,9 @@ public class AlarmRepository
                 repetition = BackEndTools.convertStringToIntArray(context,
                         cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_REPETITION)));
                 RingtoneWrapper ringtone = new RingtoneWrapper(Uri.parse(ringtoneUri), ringtoneTitle, ringtoneType);
-                isLocked = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_IS_LOCKED)) == 1;
 
                 Alarm alarm = new Alarm(id, alarmTitle, triggerTime, ringtone, volume, vibrates,
                         isReminder, isOn, repetition, snooze);
-                alarm.setLocked(isLocked);
                 activeAlarms.add(alarm);
             }
             while (cursor.moveToNext());

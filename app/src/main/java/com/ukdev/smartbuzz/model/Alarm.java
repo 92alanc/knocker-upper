@@ -24,7 +24,7 @@ public class Alarm
     private String title;
     private RingtoneWrapper ringtone;
     private int id, volume, snooze;
-    private boolean on, reminder, vibrate, locked;
+    private boolean on, reminder, vibrate;
     private int[] repetition;
     private Calendar triggerTime;
     private MediaPlayer player;
@@ -57,7 +57,6 @@ public class Alarm
         this.on = on;
         this.repetition = repetition;
         this.snooze = snooze;
-        locked = false;
     }
 
     /**
@@ -240,24 +239,6 @@ public class Alarm
     public boolean isReminder()
     {
         return reminder;
-    }
-
-    /**
-     * Locks/unlocks the alarm
-     * @param locked - boolean
-     */
-    public void setLocked(boolean locked)
-    {
-        this.locked = locked;
-    }
-
-    /**
-     * Tells if the alarm is locked
-     * @return locked
-     */
-    public boolean isLocked()
-    {
-        return locked;
     }
 
     /**

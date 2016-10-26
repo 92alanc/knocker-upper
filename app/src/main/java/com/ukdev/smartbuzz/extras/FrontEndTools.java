@@ -141,7 +141,7 @@ public class FrontEndTools
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
             stackBuilder.addParentStack(HomeActivity.class);
             stackBuilder.addNextIntent(resultIntent);
-            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_CANCEL_CURRENT);
             builder.setContentIntent(resultPendingIntent);
             builder.setOngoing(false);
             manager.notify(AppConstants.NOTIFICATION_ID, builder.build());

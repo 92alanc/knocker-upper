@@ -117,9 +117,9 @@ public class HomeActivity extends AppCompatActivity
             PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
             String version = info.versionName;
             FrontEndTools.showDialogue(this, getString(R.string.app_name) + " "
-                            + version,
-                    getString(R.string.info), R.drawable.app_icon,
-                    getString(R.string.ok), new DialogInterface.OnClickListener()
+                                             + version,
+                                       getString(R.string.info), R.drawable.app_icon,
+                                       getString(R.string.ok), new DialogInterface.OnClickListener()
                     {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i)
@@ -158,7 +158,7 @@ public class HomeActivity extends AppCompatActivity
                             hideButtons();
                     }
                 }
-        );
+                                    );
     }
 
     /**
@@ -293,7 +293,7 @@ public class HomeActivity extends AppCompatActivity
                     actionMode.setTitle(getString(R.string.item_selected));
                 else
                     actionMode.setTitle(String.format(getString(R.string.items_selected),
-                            selectedItems.size()));
+                                                      selectedItems.size()));
             }
 
             @Override
@@ -346,18 +346,11 @@ public class HomeActivity extends AppCompatActivity
                                     long l)
             {
                 Alarm alarm = (Alarm)listView.getItemAtPosition(i);
-                if (alarm.isLocked())
-                    FrontEndTools.showToast(getBaseContext(),
-                            String.format(getString(R.string.alarm_locked),
-                            alarm.getTitle()), Toast.LENGTH_LONG);
-                else
-                {
-                    Intent intent = new Intent(HomeActivity.this, AlarmCreatorActivity.class);
-                    intent.setAction(AppConstants.ACTION_EDIT_ALARM);
-                    intent.putExtra(AppConstants.EXTRA_EDIT, alarm.getId());
-                    intent.putExtra(AppConstants.EXTRA_REMINDER, alarm.isReminder());
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(HomeActivity.this, AlarmCreatorActivity.class);
+                intent.setAction(AppConstants.ACTION_EDIT_ALARM);
+                intent.putExtra(AppConstants.EXTRA_EDIT, alarm.getId());
+                intent.putExtra(AppConstants.EXTRA_REMINDER, alarm.isReminder());
+                startActivity(intent);
             }
         });
         FrontEndTools.showNotification(this);
@@ -372,31 +365,24 @@ public class HomeActivity extends AppCompatActivity
         for (int position : selectedItems)
         {
             alarm = (Alarm)listView.getItemAtPosition(position);
-            if (alarm.isLocked())
-                FrontEndTools.showToast(this, String.format(getString(R.string.alarm_locked),
-                        alarm.getTitle()),
-                        Toast.LENGTH_LONG);
-            else
-            {
-                AlarmHandler.cancelAlarm(getBaseContext(), alarm);
-                database.delete(alarm.getId());
-            }
+            AlarmHandler.cancelAlarm(getBaseContext(), alarm);
+            database.delete(alarm.getId());
         }
-        if (alarm != null && !alarm.isLocked())
+        if (alarm != null)
         {
             listView.invalidate();
             FrontEndTools.adaptAlarmsListView(HomeActivity.this,
-                    listView, AppConstants.ORDER_BY_ID);
+                                              listView, AppConstants.ORDER_BY_ID);
             FrontEndTools.showNotification(this);
             String toastText;
             if (selectedItems.size() == 1)
                 toastText = getString(R.string.alarm_deleted);
             else
                 toastText = String.format(getString(R.string.alarms_deleted),
-                        selectedItems.size());
+                                          selectedItems.size());
             FrontEndTools.showToast(getBaseContext(),
-                    toastText,
-                    Toast.LENGTH_SHORT);
+                                    toastText,
+                                    Toast.LENGTH_SHORT);
         }
     }
 

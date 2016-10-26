@@ -11,7 +11,6 @@
     <!-- Default language (English) -->
     <string name="about">About</string>
     <string name="alarm_deleted">Alarm deleted</string>
-    <string name="alarm_locked">\"%1$s\" will remain locked until you dismiss Sleep Checker</string>
     <string name="alarms_deleted">%1$s alarms deleted</string>
     <string name="cancel">Cancel</string>
     <string name="cancelled">Cancelled</string>

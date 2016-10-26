@@ -34,7 +34,6 @@ public class AlarmHandler
      */
     public static void scheduleAlarm(Context context, Alarm alarm)
     {
-        alarm.setLocked(false);
         AlarmRepository.getInstance(context).update(context, alarm.getId(), alarm);
         AlarmManager manager = (AlarmManager)context
                 .getSystemService(Context.ALARM_SERVICE);
@@ -243,7 +242,6 @@ public class AlarmHandler
         if (!alarm.isReminder())
         {
             callSleepChecker(context, alarm);
-            alarm.setLocked(true);
             AlarmRepository.getInstance(context).update(context, alarm.getId(), alarm);
         }
         if (alarm.isReminder() && !alarm.repeats())

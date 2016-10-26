@@ -31,7 +31,6 @@
     <string name="help">Ajuda</string>
     <string name="sort_time">Ordenar por hora</string>
     <string name="sort_title">Ordenar por título</string>
-    <string name="alarm_locked">\ "%1$s\" vai continuar bloqueado até você dispensar o Sleep Checker</string>
     <string name="snooze">Soneca</string>
     <string name="invalid_ringtone_file">%1$s não é um arquivo de toque válido.</string>
     <string name="new_reminder">Novo Lembrete</string>

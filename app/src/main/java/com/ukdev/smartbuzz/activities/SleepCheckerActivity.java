@@ -86,7 +86,6 @@ public class SleepCheckerActivity extends AppCompatActivity
     private void stopCountdown()
     {
         countdownTimer.cancel();
-        alarm.setLocked(false);
         database.update(this, alarm.getId(), alarm);
         if (alarm != null && !alarm.repeats())
             AlarmHandler.killAlarm(getBaseContext(), alarm);
