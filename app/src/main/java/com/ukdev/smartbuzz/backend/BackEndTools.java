@@ -1,4 +1,4 @@
-package com.ukdev.smartbuzz.extras;
+package com.ukdev.smartbuzz.backend;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.support.v4.content.ContextCompat;
 import android.widget.GridLayout;
 import android.widget.ToggleButton;
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.extras.AppConstants;
+import com.ukdev.smartbuzz.frontend.FrontEndTools;
 import com.ukdev.smartbuzz.model.Alarm;
 
 import java.util.ArrayList;
@@ -222,7 +224,7 @@ public class BackEndTools
      * @param alarm - Alarm
      * @return an array containing the days, hours and minutes left
      */
-    static int[] getTimeLeftToTrigger(Alarm alarm)
+    public static int[] getTimeLeftToTrigger(Alarm alarm)
     {
         int[] timeLeft = new int[3];
         int[] repetition = alarm.getRepetition();

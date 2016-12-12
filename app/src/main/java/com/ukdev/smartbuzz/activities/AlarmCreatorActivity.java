@@ -15,9 +15,13 @@ import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.*;
 import android.widget.*;
+import com.ukdev.smartbuzz.backend.AlarmHandler;
+import com.ukdev.smartbuzz.backend.AudioFocusChangeListener;
+import com.ukdev.smartbuzz.backend.BackEndTools;
 import com.ukdev.smartbuzz.extras.*;
+import com.ukdev.smartbuzz.frontend.FrontEndTools;
 import com.ukdev.smartbuzz.model.*;
-import com.ukdev.smartbuzz.view.CustomTimePicker;
+import com.ukdev.smartbuzz.frontend.CustomTimePicker;
 import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.R;
 
@@ -182,7 +186,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
     {
         int volume = volumeSeekBar.getProgress();
         final AudioFocusChangeListener listener = new AudioFocusChangeListener(manager,
-                volume);
+                                                                               volume);
         final ImageButton ringtoneTestButton = (ImageButton)findViewById(
                 R.id.ringtoneTestButton);
         ringtoneTestButton.setOnClickListener(new View.OnClickListener()

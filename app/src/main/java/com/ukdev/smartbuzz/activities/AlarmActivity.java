@@ -11,10 +11,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.database.SnoozeCounter;
-import com.ukdev.smartbuzz.extras.AlarmHandler;
+import com.ukdev.smartbuzz.backend.AlarmHandler;
 import com.ukdev.smartbuzz.extras.AppConstants;
-import com.ukdev.smartbuzz.extras.BackEndTools;
-import com.ukdev.smartbuzz.extras.FrontEndTools;
+import com.ukdev.smartbuzz.backend.BackEndTools;
+import com.ukdev.smartbuzz.frontend.FrontEndTools;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.R;
 

@@ -1,4 +1,4 @@
-package com.ukdev.smartbuzz.extras;
+package com.ukdev.smartbuzz.backend;
 
 import android.media.AudioManager;
 

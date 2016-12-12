@@ -1,4 +1,4 @@
-package com.ukdev.smartbuzz.adapters;
+package com.ukdev.smartbuzz.frontend;
 
 import android.app.Activity;
 import android.content.Context;

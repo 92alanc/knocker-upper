@@ -1,9 +1,10 @@
-package com.ukdev.smartbuzz.extras;
+package com.ukdev.smartbuzz.backend;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import com.ukdev.smartbuzz.database.AlarmRepository;
+import com.ukdev.smartbuzz.extras.AppConstants;
 import com.ukdev.smartbuzz.model.Alarm;
 
 /**

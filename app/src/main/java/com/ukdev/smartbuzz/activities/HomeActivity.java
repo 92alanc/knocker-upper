@@ -14,11 +14,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 import com.ukdev.smartbuzz.database.AlarmRepository;
-import com.ukdev.smartbuzz.extras.AlarmHandler;
+import com.ukdev.smartbuzz.backend.AlarmHandler;
 import com.ukdev.smartbuzz.extras.AppConstants;
-import com.ukdev.smartbuzz.extras.FrontEndTools;
+import com.ukdev.smartbuzz.frontend.FrontEndTools;
 import com.ukdev.smartbuzz.R;
-import com.ukdev.smartbuzz.extras.BackEndTools;
+import com.ukdev.smartbuzz.backend.BackEndTools;
 import com.ukdev.smartbuzz.model.Alarm;
 
 import java.util.ArrayList;

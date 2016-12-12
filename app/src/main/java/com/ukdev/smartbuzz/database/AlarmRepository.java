@@ -7,7 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import com.ukdev.smartbuzz.model.*;
-import com.ukdev.smartbuzz.extras.BackEndTools;
+import com.ukdev.smartbuzz.backend.BackEndTools;
 
 import java.util.ArrayList;
 import java.util.Calendar;

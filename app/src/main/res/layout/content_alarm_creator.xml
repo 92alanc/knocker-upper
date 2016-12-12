@@ -30,7 +30,7 @@
                 android:maxLength="20"/>
 
         <!-- Time picker -->
-        <com.ukdev.smartbuzz.view.CustomTimePicker
+        <com.ukdev.smartbuzz.frontend.CustomTimePicker
                 android:id="@+id/timePicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

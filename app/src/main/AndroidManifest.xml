@@ -33,6 +33,13 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.RUN"/>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                        android:host="https://play.google.com/store/apps/details?id=com.ukdev.smartbuzz"
+                        android:pathPrefix="/home"
+                        android:scheme="http"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -83,7 +90,7 @@
 
         <!-- Alarm receiver -->
         <receiver
-                android:name=".extras.AlarmReceiver"
+                android:name=".backend.AlarmReceiver"
                 android:enabled="true"
                 android:exported="false">
             <intent-filter>
@@ -95,14 +102,18 @@
 
         <!-- Boot receiver -->
         <receiver
-                android:name=".extras.BootReceiver"
+                android:name=".backend.BootReceiver"
                 android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
-
                 <category android:name="android.intent.category.HOME"/>
             </intent-filter>
         </receiver>
+
+        <!-- Alarm service -->
+        <service android:name=".backend.AlarmService"
+                 android:exported="false"
+                 android:enabled="true"/>
 
     </application>
 

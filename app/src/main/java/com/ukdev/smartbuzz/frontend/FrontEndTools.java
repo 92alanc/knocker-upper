@@ -1,4 +1,4 @@
-package com.ukdev.smartbuzz.extras;
+package com.ukdev.smartbuzz.frontend;
 
 import android.app.*;
 import android.content.Context;
@@ -10,10 +10,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.activities.HomeActivity;
-import com.ukdev.smartbuzz.adapters.AlarmAdapter;
-import com.ukdev.smartbuzz.adapters.RingtoneAdapter;
-import com.ukdev.smartbuzz.adapters.SnoozeAdapter;
+import com.ukdev.smartbuzz.backend.BackEndTools;
 import com.ukdev.smartbuzz.database.AlarmRepository;
+import com.ukdev.smartbuzz.extras.AppConstants;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.RingtoneWrapper;
 

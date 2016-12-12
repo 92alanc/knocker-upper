@@ -7,7 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Vibrator;
 import com.ukdev.smartbuzz.extras.AppConstants;
-import com.ukdev.smartbuzz.extras.AudioFocusChangeListener;
+import com.ukdev.smartbuzz.backend.AudioFocusChangeListener;
 
 import java.io.IOException;
 import java.util.Calendar;

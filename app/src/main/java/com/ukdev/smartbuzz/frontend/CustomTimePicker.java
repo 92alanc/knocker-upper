@@ -1,4 +1,4 @@
-package com.ukdev.smartbuzz.view;
+package com.ukdev.smartbuzz.frontend;
 
 import android.content.Context;
 import android.util.AttributeSet;
