@@ -46,12 +46,7 @@ public class AlarmHandler
         intent.putExtra(AppConstants.EXTRA_ID, alarm.getId());
         PendingIntent pendingIntent =
                 PendingIntent.getBroadcast(context, alarm.getId(), intent, 0);
-        if (AppConstants.OS_VERSION < Build.VERSION_CODES.KITKAT)
-            manager.set(RTC_WAKEUP, triggerTime, pendingIntent);
-        else if (AppConstants.OS_VERSION >= Build.VERSION_CODES.M)
-            manager.setExactAndAllowWhileIdle(RTC_WAKEUP, triggerTime, pendingIntent);
-        else
-            manager.setExact(RTC_WAKEUP, triggerTime, pendingIntent);
+        startAlarmManager(manager, triggerTime, pendingIntent);
     }
 
     /**
@@ -172,11 +167,24 @@ public class AlarmHandler
             intent.setAction(AppConstants.ACTION_SLEEP_CHECKER);
             intent.putExtra(AppConstants.EXTRA_ID, alarm.getId());
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 999, intent, 0);
-            if (AppConstants.OS_VERSION >= Build.VERSION_CODES.KITKAT)
-                manager.setExact(AlarmManager.RTC_WAKEUP, callTime, pendingIntent);
-            else
-                manager.set(AlarmManager.RTC_WAKEUP, callTime, pendingIntent);
+            startAlarmManager(manager, callTime, pendingIntent);
         }
+    }
+
+    /**
+     * Starts AlarmManager
+     * @param manager - AlarmManager
+     * @param triggerTime - long
+     * @param pendingIntent - PendingIntent
+     */
+    private static void startAlarmManager(AlarmManager manager, long triggerTime, PendingIntent pendingIntent)
+    {
+        if (AppConstants.OS_VERSION < Build.VERSION_CODES.KITKAT)
+            manager.set(RTC_WAKEUP, triggerTime, pendingIntent);
+        else if (AppConstants.OS_VERSION >= Build.VERSION_CODES.LOLLIPOP)
+            manager.setAlarmClock(new AlarmManager.AlarmClockInfo(triggerTime, pendingIntent), pendingIntent);
+        else
+            manager.setExact(RTC_WAKEUP, triggerTime, pendingIntent);
     }
 
     /**
@@ -227,10 +235,7 @@ public class AlarmHandler
         intent.setAction(AppConstants.ACTION_SNOOZE);
         intent.putExtra(AppConstants.EXTRA_ID, alarm.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(), intent, 0);
-        if (AppConstants.OS_VERSION >= Build.VERSION_CODES.KITKAT)
-            manager.setExact(RTC_WAKEUP, snoozeTime, pendingIntent);
-        else
-            manager.set(RTC_WAKEUP, snoozeTime, pendingIntent);
+        startAlarmManager(manager, snoozeTime, pendingIntent);
     }
 
     /**

@@ -40,6 +40,7 @@ public class AlarmTable
                 COLUMN_IS_REMINDER,
                 COLUMN_VIBRATES,
                 COLUMN_RINGTONE_URI,
+                COLUMN_RINGTONE_TITLE,
                 COLUMN_VOLUME,
                 COLUMN_SNOOZE,
                 COLUMN_STATE);
@@ -62,9 +63,9 @@ public class AlarmTable
         query.append("%9$s INTEGER, ");
         query.append("%10$s VARCHAR(30), ");
         query.append("%11$s NVARCHAR(50), ");
+        query.append("%12$s INTEGER, ");
         query.append("%13$s INTEGER, ");
-        query.append("%14$s INTEGER, ");
-        query.append("%15$s INTEGER)");
+        query.append("%14$s INTEGER)");
         return query.toString();
     }
 
