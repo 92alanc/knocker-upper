@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.frontend.FrontEndTools;
 
 /**
  * Help activity
@@ -27,6 +28,7 @@ public class HelpActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setListView();
+        FrontEndTools.showAds(this, R.id.helpAdView);
     }
 
     /**

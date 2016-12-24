@@ -21,15 +21,14 @@
     <string name="weekends">Fine settimana</string>
     <string name="week_days">Giorni feriali</string>
     <string name="every_day">Quotidiano</string>
-    <string name="items_selected">%1$s elementi selezionati</string>
+    <string name="items_selected">%1$d elementi selezionati</string>
     <string name="item_selected">1 elemento selezionato</string>
     <string name="alarm_deleted">Sveglia eliminata</string>
-    <string name="alarms_deleted">%1$s sveglie eliminate</string>
+    <string name="alarms_deleted">%1$d sveglie eliminate</string>
     <string name="help">Aiuto</string>
     <string name="sort_time">Ordina per tempo</string>
     <string name="sort_title">Ordina per titolo</string>
     <string name="snooze">Snooze</string>
-    <string name="invalid_ringtone_file">%1$s non è un file suoneria valido.</string>
     <string name="new_reminder">Nuovo Promemoria</string>
     <string name="one_alarm_set">1 Sveglia impostata</string>
     <string name="x_alarms_set">%1$d Sveglie impostate</string>

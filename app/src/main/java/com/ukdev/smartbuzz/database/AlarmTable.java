@@ -11,7 +11,7 @@ public class AlarmTable
     static final String TABLE_NAME = "ALARMS";
     public static final String COLUMN_ID = "ID";
     public static final String COLUMN_TITLE = "TITLE";
-    public static final String COLUMN_TRIGGER_DAY = "TRIGGER_DAY";
+    static final String COLUMN_TRIGGER_DAY = "TRIGGER_DAY";
     public static final String COLUMN_TRIGGER_HOURS = "TRIGGER_HOURS";
     static final String COLUMN_TRIGGER_MINUTES = "TRIGGER_MINUTES";
     static final String COLUMN_REPETITION = "REPETITION";
@@ -19,7 +19,6 @@ public class AlarmTable
     static final String COLUMN_VIBRATES = "VIBRATES";
     static final String COLUMN_RINGTONE_URI = "RINGTONE_URI";
     static final String COLUMN_RINGTONE_TITLE = "RINGTONE_TITLE";
-    static final String COLUMN_RINGTONE_TYPE = "RINGTONE_TYPE";
     static final String COLUMN_VOLUME = "VOLUME";
     static final String COLUMN_SNOOZE = "SNOOZE";
     static final String COLUMN_STATE = "STATE";
@@ -41,8 +40,6 @@ public class AlarmTable
                 COLUMN_IS_REMINDER,
                 COLUMN_VIBRATES,
                 COLUMN_RINGTONE_URI,
-                COLUMN_RINGTONE_TITLE,
-                COLUMN_RINGTONE_TYPE,
                 COLUMN_VOLUME,
                 COLUMN_SNOOZE,
                 COLUMN_STATE);
@@ -65,7 +62,6 @@ public class AlarmTable
         query.append("%9$s INTEGER, ");
         query.append("%10$s VARCHAR(30), ");
         query.append("%11$s NVARCHAR(50), ");
-        query.append("%12$s INTEGER DEFAULT 0, ");
         query.append("%13$s INTEGER, ");
         query.append("%14$s INTEGER, ");
         query.append("%15$s INTEGER)");

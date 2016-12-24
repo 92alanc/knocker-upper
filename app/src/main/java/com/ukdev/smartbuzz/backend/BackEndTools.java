@@ -168,24 +168,6 @@ public class BackEndTools
     }
 
     /**
-     * Requests Android M+ permissions
-     * @param context - Context
-     * @param activity - Activity
-     */
-    public static void requestPermissions(Context context, Activity activity)
-    {
-        // First we'll check if the user has already granted the permissions
-        int readExternalStorage = ContextCompat.checkSelfPermission(context,
-                                                                    AppConstants.PERMISSION_READ_EXTERNAL_STORAGE);
-
-        // Request read external storage permission
-        if (readExternalStorage != PackageManager.PERMISSION_GRANTED)
-            ActivityCompat.requestPermissions(activity,
-                                              new String[] { AppConstants.PERMISSION_READ_EXTERNAL_STORAGE },
-                                              AppConstants.REQUEST_CODE);
-    }
-
-    /**
      * Gets the maximum volume available on the device
      * @param manager - AudioManager
      * @return max volume

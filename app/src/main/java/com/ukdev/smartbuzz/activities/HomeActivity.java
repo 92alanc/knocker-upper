@@ -50,8 +50,7 @@ public class HomeActivity extends AppCompatActivity
         setAddAlarmButton();
         setAddReminderButton();
         setListView();
-        if (AppConstants.OS_VERSION >= Build.VERSION_CODES.M)
-            BackEndTools.requestPermissions(this, HomeActivity.this);
+        FrontEndTools.showAds(this, R.id.homeAdView);
     }
 
     @Override

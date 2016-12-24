@@ -21,15 +21,14 @@
     <string name="week_days">Wochentage</string>
     <string name="every_day">Täglich</string>
     <string name="item_selected">1 Artikel ausgewählt</string>
-    <string name="items_selected">%1$s Artikel ausgewählt</string>
+    <string name="items_selected">%1$d Artikel ausgewählt</string>
     <string name="alarm_deleted">Wecker gelöscht</string>
-    <string name="alarms_deleted">%1$s Alarme gelöscht</string>
+    <string name="alarms_deleted">%1$d Alarme gelöscht</string>
     <string name="help">Hilfe</string>
     <string name="ringtone">Klingelton</string>
     <string name="sort_time">Sortieren nach Zeit</string>
     <string name="sort_title">Sortieren nach Titel</string>
     <string name="snooze">Schlummer</string>
-    <string name="invalid_ringtone_file">%1$s ist keine gültige Klingelton-Datei.</string>
     <string name="new_reminder">Neue Erinnerung</string>
     <string name="one_alarm_set">1 Wecker gesetzt</string>
     <string name="x_alarms_set">%1$d Alarme gesetzt</string>

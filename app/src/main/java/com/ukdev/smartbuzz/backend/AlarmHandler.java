@@ -48,6 +48,8 @@ public class AlarmHandler
                 PendingIntent.getBroadcast(context, alarm.getId(), intent, 0);
         if (AppConstants.OS_VERSION < Build.VERSION_CODES.KITKAT)
             manager.set(RTC_WAKEUP, triggerTime, pendingIntent);
+        else if (AppConstants.OS_VERSION >= Build.VERSION_CODES.M)
+            manager.setExactAndAllowWhileIdle(RTC_WAKEUP, triggerTime, pendingIntent);
         else
             manager.setExact(RTC_WAKEUP, triggerTime, pendingIntent);
     }

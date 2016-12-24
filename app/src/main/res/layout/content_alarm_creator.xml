@@ -3,6 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/activity_alarm_creator"
         android:layout_width="match_parent"
@@ -347,6 +348,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/dividerBottom"
                 android:weightSum="2"
+                android:layout_marginBottom="50dp"
                 android:orientation="horizontal">
             <!-- Cancel button -->
             <Button
@@ -373,6 +375,16 @@
                     android:textColor="@color/blue"
                     android:textSize="18sp"/>
         </LinearLayout>
+
+        <!-- Ad View -->
+        <com.google.android.gms.ads.AdView
+                android:id="@+id/alarmCreatorAdView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                ads:adSize="BANNER"
+                app:adUnitId="@string/adMobId"/>
 
     </RelativeLayout>
 

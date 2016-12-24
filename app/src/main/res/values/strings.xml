@@ -2,6 +2,7 @@
 <resources>
 
     <!-- Not translatable -->
+    <string name="adMobId" translatable="false">ca-app-pub-3993772572074236/8461240508</string>
     <string name="app_name" translatable="false">Smart Buzz</string>
     <string name="ok" translatable="false">OK</string>
     <string name="fifteen_min" translatable="false">15 min</string>
@@ -11,7 +12,7 @@
     <!-- Default language (English) -->
     <string name="about">About</string>
     <string name="alarm_deleted">Alarm deleted</string>
-    <string name="alarms_deleted">%1$s alarms deleted</string>
+    <string name="alarms_deleted">%1$d alarms deleted</string>
     <string name="cancel">Cancel</string>
     <string name="cancelled">Cancelled</string>
     <string name="delete">Delete alarm</string>
@@ -20,9 +21,8 @@
     <string name="fri">Fri</string>
     <string name="help">Help</string>
     <string name="info">Developed by Braincorp Apps\ne-mail: alcam.ukdev@gmail.com</string>
-    <string name="invalid_ringtone_file">%1$s is not a valid ringtone file.</string>
     <string name="item_selected">1 item selected</string>
-    <string name="items_selected">%1$s items selected</string>
+    <string name="items_selected">%1$d items selected</string>
     <string name="mon">Mon</string>
     <string name="new_alarm">New Alarm</string>
     <string name="new_reminder">New Reminder</string>

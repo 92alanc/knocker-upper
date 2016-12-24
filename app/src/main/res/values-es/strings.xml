@@ -23,15 +23,14 @@
     <string name="week_days">Días de la semana</string>
     <string name="every_day">Todos los días</string>
     <string name="item_selected">1 elemento seleccionado</string>
-    <string name="items_selected">%1$s elementos seleccionados</string>
+    <string name="items_selected">%1$d elementos seleccionados</string>
     <string name="alarm_deleted">Alarma borrada</string>
-    <string name="alarms_deleted">%1$s alarmas borradas</string>
+    <string name="alarms_deleted">%1$d alarmas borradas</string>
     <string name="help">Ayuda</string>
     <string name="ringtone">Tono de alarma</string>
     <string name="sort_time">Ordenar por hora</string>
     <string name="sort_title">Ordenar por titulo</string>
     <string name="snooze">Snooze</string>
-    <string name="invalid_ringtone_file">%1$s no es un archivo de tono válido.</string>
     <string name="new_reminder">Nuevo Recordatorio</string>
     <string name="one_alarm_set">1 alarma programada</string>
     <string name="x_alarms_set">%1$d alarmas programadas</string>

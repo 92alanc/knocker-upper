@@ -8,6 +8,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.NotificationCompat;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.activities.HomeActivity;
 import com.ukdev.smartbuzz.backend.BackEndTools;
@@ -253,6 +255,18 @@ public class FrontEndTools
                 break;
         }
         showToast(context, token, Toast.LENGTH_SHORT);
+    }
+
+    /**
+     * Shows ads
+     * @param activity - Activity
+     * @param resId - int
+     */
+    public static void showAds(Activity activity, int resId)
+    {
+        AdView adView = (AdView)activity.findViewById(resId);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
     }
 
 }
