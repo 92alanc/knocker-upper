@@ -36,7 +36,7 @@ public class AlarmHandler
      */
     public static void scheduleAlarm(Context context, Alarm alarm)
     {
-        AlarmRepository.getInstance(context).update(context, alarm.getId(), alarm);
+        AlarmRepository.getInstance(context).update(alarm.getId(), alarm);
         AlarmManager manager = (AlarmManager)context
                 .getSystemService(Context.ALARM_SERVICE);
         long triggerTime = BackEndTools
@@ -251,7 +251,7 @@ public class AlarmHandler
         if (!alarm.isReminder())
         {
             callSleepChecker(context, alarm);
-            AlarmRepository.getInstance(context).update(context, alarm.getId(), alarm);
+            AlarmRepository.getInstance(context).update(alarm.getId(), alarm);
         }
         if (alarm.isReminder() && !alarm.repeats())
             killAlarm(context, alarm);
@@ -268,7 +268,7 @@ public class AlarmHandler
     public static void killAlarm(Context context, Alarm alarm)
     {
         alarm.toggle(false);
-        AlarmRepository.getInstance(context).update(context, alarm.getId(), alarm);
+        AlarmRepository.getInstance(context).update(alarm.getId(), alarm);
         FrontEndTools.showNotification(context);
     }
 

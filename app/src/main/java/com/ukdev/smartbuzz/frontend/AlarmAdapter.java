@@ -123,7 +123,7 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
                     finalHolder.title.setTextColor(ContextCompat.getColor(context,
                                                                           R.color.red));
                 }
-                AlarmRepository.getInstance(context).update(context, alarm.getId(), alarm);
+                AlarmRepository.getInstance(context).update(alarm.getId(), alarm);
                 FrontEndTools.showNotification(context);
             }
         });

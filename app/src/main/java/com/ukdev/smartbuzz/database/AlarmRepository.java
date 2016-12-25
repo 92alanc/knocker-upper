@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * Alarm DAO
+ * Alarm repository class
  * Manages all database operations
  * Created by Alan Camargo - April 2016
  */
@@ -21,7 +21,6 @@ public class AlarmRepository
 {
 
     private static AlarmRepository instance;
-    private static SQLiteDatabase reader, writer;
 
     /**
      * Gets an instance of the database
@@ -31,21 +30,26 @@ public class AlarmRepository
     public static AlarmRepository getInstance(Context context)
     {
         if (instance == null)
-            instance = new AlarmRepository();
-        if (reader == null || !reader.isOpen())
-            reader = new DatabaseHelper(context).getReadableDatabase();
-        if (writer == null || !writer.isOpen())
-            writer = new DatabaseHelper(context).getWritableDatabase();
+            instance = new AlarmRepository(context);
         return instance;
     }
 
+    private AlarmRepository(Context context)
+    {
+        this.context = context;
+    }
+
+    private Context context;
+    private SQLiteDatabase reader, writer;
+
     /**
      * Inserts an alarm
-     * @param context - Context
      * @param alarm - Alarm
      */
-    public void insert(Context context, Alarm alarm)
+    public void insert(Alarm alarm)
     {
+        if (writer == null)
+            writer = new DatabaseHelper(context).getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(AlarmTable.COLUMN_TITLE, alarm.getTitle());
         values.put(AlarmTable.COLUMN_TRIGGER_DAY, alarm.getTriggerTime().get(Calendar.DAY_OF_MONTH));
@@ -68,18 +72,21 @@ public class AlarmRepository
      */
     public void delete(int id)
     {
+        if (writer == null)
+            writer = new DatabaseHelper(context).getWritableDatabase();
         writer.delete(AlarmTable.TABLE_NAME, AlarmTable.COLUMN_ID + " = ?",
                 new String[] { String.valueOf(id) });
     }
 
     /**
      * Updates an alarm
-     * @param context - Context
      * @param id - int
      * @param newAlarmValues - Alarm
      */
-    public void update(Context context, int id, Alarm newAlarmValues)
+    public void update(int id, Alarm newAlarmValues)
     {
+        if (writer == null)
+            writer = new DatabaseHelper(context).getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(AlarmTable.COLUMN_TITLE, newAlarmValues.getTitle());
         values.put(AlarmTable.COLUMN_TRIGGER_DAY, newAlarmValues.getTriggerTime().get(Calendar.DAY_OF_MONTH));
@@ -101,18 +108,19 @@ public class AlarmRepository
 
     /**
      * Gets an alarm by its ID
-     * @param context - Context
      * @param id - int
      * @return alarm
      */
-    public Alarm select(Context context, int id)
+    public Alarm select(int id)
     {
+        if (reader == null)
+            reader = new DatabaseHelper(context).getReadableDatabase();
         Alarm alarm = null;
         Cursor cursor = reader.query(AlarmTable.TABLE_NAME, null, AlarmTable.COLUMN_ID + " = ?",
                 new String[] { String.valueOf(id) }, null, null, null, "1");
+        cursor.moveToFirst();
         if (cursor.getCount() > 0)
         {
-            cursor.moveToFirst();
             String alarmTitle, ringtoneTitle, ringtoneUri;
             int day, hours, minutes, volume, snooze;
             boolean isOn, isReminder, vibrates;
@@ -121,7 +129,6 @@ public class AlarmRepository
 
             alarmTitle = cursor.getString(cursor.getColumnIndex(AlarmTable.COLUMN_TITLE));
 
-            id = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_ID));
             day = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TRIGGER_DAY));
             hours = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TRIGGER_HOURS));
             minutes = cursor.getInt(cursor.getColumnIndex(AlarmTable.COLUMN_TRIGGER_MINUTES));
@@ -151,12 +158,13 @@ public class AlarmRepository
 
     /**
      * Gets all alarms
-     * @param context - Context
      * @param orderBy - String
      * @return alarms
      */
-    public Alarm[] selectAll(Context context, String orderBy)
+    public Alarm[] selectAll(String orderBy)
     {
+        if (reader == null)
+            reader = new DatabaseHelper(context).getReadableDatabase();
         Cursor cursor = reader.query(AlarmTable.TABLE_NAME,
                 null, null, null, null, null, orderBy + " ASC");
         Alarm[] alarms = new Alarm[cursor.getCount()];
@@ -207,11 +215,12 @@ public class AlarmRepository
 
     /**
      * Gets the active alarms
-     * @param context - Context
      * @return active alarms
      */
-    public ArrayList<Alarm> getActiveAlarms(Context context)
+    public ArrayList<Alarm> getActiveAlarms()
     {
+        if (reader == null)
+            reader = new DatabaseHelper(context).getReadableDatabase();
         ArrayList<Alarm> activeAlarms = new ArrayList<>();
         Cursor cursor = reader.query(AlarmTable.TABLE_NAME, null, AlarmTable.COLUMN_STATE + " = ?",
                 new String[] { "1" }, null, null, null);
@@ -265,6 +274,8 @@ public class AlarmRepository
      */
     public int getLastId()
     {
+        if (reader == null)
+            reader = new DatabaseHelper(context).getReadableDatabase();
         Cursor cursor = reader.query(AlarmTable.TABLE_NAME, new String[] { AlarmTable.COLUMN_ID }, null, null,
                 null, null, AlarmTable.COLUMN_ID + " DESC", "1");
         int lastId = 0;
@@ -281,6 +292,8 @@ public class AlarmRepository
      */
     public int getRowCount()
     {
+        if (reader == null)
+            reader = new DatabaseHelper(context).getReadableDatabase();
         return (int) DatabaseUtils.queryNumEntries(reader, AlarmTable.TABLE_NAME);
     }
 

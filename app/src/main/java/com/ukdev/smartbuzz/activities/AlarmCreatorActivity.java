@@ -359,7 +359,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
 
         alarm = new Alarm(id, title, triggerTime, ringtone, volume, vibrate,
                 isReminder, true, repetition, snooze);
-        database.insert(this, alarm);
+        database.insert(alarm);
         AlarmHandler.scheduleAlarm(this, alarm);
         return true;
     }
@@ -371,7 +371,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private boolean update()
     {
-        alarm = database.select(this, idToEdit);
+        alarm = database.select(idToEdit);
         String title;
         if (isReminder)
             title = titleBox.getText().toString().equals("") ?
@@ -408,7 +408,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         if (player != null && player.isPlaying())
             player.stop();
 
-        database.update(this, alarm.getId(), alarm);
+        database.update(alarm.getId(), alarm);
         AlarmHandler.updateAlarm(this, alarm);
         return true;
     }
@@ -598,7 +598,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private void loadAlarmDataToEdit()
     {
-        Alarm alarmToEdit = database.select(this, idToEdit);
+        Alarm alarmToEdit = database.select(idToEdit);
         toolbarLayout =
                 (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
         titleBox = (EditText)findViewById(R.id.titleBox);

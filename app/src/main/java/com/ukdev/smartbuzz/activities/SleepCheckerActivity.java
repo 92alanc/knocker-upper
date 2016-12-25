@@ -48,7 +48,7 @@ public class SleepCheckerActivity extends AppCompatActivity
                 PowerManager.ACQUIRE_CAUSES_WAKEUP, "Tag");
         if (FrontEndTools.screenIsLocked(this))
             wakeLock.acquire();
-        alarm = database.select(this, getIntent()
+        alarm = database.select(getIntent()
                 .getIntExtra(AppConstants.EXTRA_ID, AppConstants.DEFAULT_INTENT_EXTRA));
         TextView alarmTitle = (TextView)findViewById(R.id.alarmTitle_SleepChecker);
         alarmTitle.setText(alarm.getTitle());
@@ -86,7 +86,7 @@ public class SleepCheckerActivity extends AppCompatActivity
     private void stopCountdown()
     {
         countdownTimer.cancel();
-        database.update(this, alarm.getId(), alarm);
+        database.update(alarm.getId(), alarm);
         if (alarm != null && !alarm.repeats())
             AlarmHandler.killAlarm(getBaseContext(), alarm);
         if (wakeLock.isHeld())

@@ -70,7 +70,7 @@ public class FrontEndTools
     public static void adaptAlarmsListView(Context context, ListView listView,
                                            String orderBy)
     {
-        Alarm[] alarms = AlarmRepository.getInstance(context).selectAll(context, orderBy);
+        Alarm[] alarms = AlarmRepository.getInstance(context).selectAll(orderBy);
         AlarmAdapter adapter = new AlarmAdapter(context, R.layout.alarm_listview_item, alarms);
         listView.setAdapter(adapter);
     }
@@ -121,7 +121,7 @@ public class FrontEndTools
      */
     public static void showNotification(Context context)
     {
-        int alarmCount = AlarmRepository.getInstance(context).getActiveAlarms(context).size();
+        int alarmCount = AlarmRepository.getInstance(context).getActiveAlarms().size();
         NotificationManager manager =
                 (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (alarmCount > 0)
