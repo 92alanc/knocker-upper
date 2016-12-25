@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.NotificationCompat;
+import android.support.v7.widget.AppCompatSpinner;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.google.android.gms.ads.AdRequest;
@@ -78,9 +79,9 @@ public class FrontEndTools
     /**
      * Adapts the snooze spinner
      * @param context - Context
-     * @param spinner - Spinner
+     * @param spinner - AppCompatSpinner
      */
-    public static void adaptSnoozeSpinner(Context context, Spinner spinner)
+    public static void adaptSnoozeSpinner(Context context, AppCompatSpinner spinner)
     {
         String[] values = new String[3];
         values[0] = context.getString(R.string.five_min);
@@ -105,9 +106,9 @@ public class FrontEndTools
     /**
      * Adapts the ringtone picker
      * @param context - Context
-     * @param ringtonePicker - Spinner
+     * @param ringtonePicker - AppCompatSpinner
      */
-    public static void adaptRingtonePicker(Context context, Spinner ringtonePicker)
+    public static void adaptRingtonePicker(Context context, AppCompatSpinner ringtonePicker)
     {
         ArrayList<RingtoneWrapper> ringtones = RingtoneWrapper.getAllRingtones(context);
         RingtoneAdapter adapter = new RingtoneAdapter(context, R.layout.ringtone_spinner_item,

@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.*;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -37,13 +38,13 @@ public class AlarmCreatorActivity extends AppCompatActivity
 {
 
     private CustomTimePicker timePicker;
-    private EditText titleBox;
+    private AppCompatEditText titleBox;
     private CollapsingToolbarLayout toolbarLayout;
-    private CheckBox repetitionCheckBox, reminderCheckBox, vibrateCheckBox;
+    private AppCompatCheckBox repetitionCheckBox, reminderCheckBox, vibrateCheckBox;
     private int idToEdit;
     private boolean isEditing, isReminder;
-    private Spinner ringtoneSpinner, snoozeSpinner;
-    private SeekBar volumeSeekBar;
+    private AppCompatSpinner ringtoneSpinner, snoozeSpinner;
+    private AppCompatSeekBar volumeSeekBar;
     private MediaPlayer player;
     private AudioManager manager;
     private AlarmRepository database;
@@ -58,7 +59,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         database = AlarmRepository.getInstance(this);
         manager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-        reminderCheckBox = (CheckBox)findViewById(R.id.reminderCheckBox);
+        reminderCheckBox = (AppCompatCheckBox)findViewById(R.id.reminderCheckBox);
         isReminder = getIntent().getBooleanExtra(AppConstants.EXTRA_REMINDER, false);
         setToolbarLayout();
         setSaveButton();
@@ -103,7 +104,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private void setSnoozeSpinner()
     {
-        snoozeSpinner = (Spinner)findViewById(R.id.snoozeSpinner);
+        snoozeSpinner = (AppCompatSpinner)findViewById(R.id.snoozeSpinner);
         FrontEndTools.adaptSnoozeSpinner(this, snoozeSpinner);
     }
 
@@ -150,7 +151,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private void setRingtoneSpinner()
     {
-        ringtoneSpinner = (Spinner)findViewById(R.id.ringtoneSpinner);
+        ringtoneSpinner = (AppCompatSpinner)findViewById(R.id.ringtoneSpinner);
         FrontEndTools.adaptRingtonePicker(this, ringtoneSpinner);
     }
 
@@ -287,7 +288,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
                 return false;
             }
         });
-        titleBox = (EditText)findViewById(R.id.titleBox);
+        titleBox = (AppCompatEditText)findViewById(R.id.titleBox);
         titleBox.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -392,7 +393,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         triggerTime.set(Calendar.HOUR_OF_DAY, hours);
         triggerTime.set(Calendar.MINUTE, minutes);
         alarm.setTriggerTime(triggerTime);
-        CheckBox reminderCheckBox = (CheckBox)findViewById(R.id.reminderCheckBox);
+        AppCompatCheckBox reminderCheckBox = (AppCompatCheckBox)findViewById(R.id.reminderCheckBox);
         alarm.setAsReminder(reminderCheckBox.isChecked());
         alarm.setRingtone(ringtone);
         int volume = volumeSeekBar.getProgress();
@@ -458,7 +459,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private void setRepetitionCheckBox()
     {
-        repetitionCheckBox = (CheckBox) findViewById(R.id.repetitionCheckBox);
+        repetitionCheckBox = (AppCompatCheckBox) findViewById(R.id.repetitionCheckBox);
         final HorizontalScrollView scrollView = (HorizontalScrollView)findViewById(R.id.horizontalScrollView);
         final ImageView imageView = (ImageView)findViewById(R.id.repetitionIcon);
         repetitionCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
@@ -576,7 +577,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private void setVolumeSeekBar()
     {
-        volumeSeekBar = (SeekBar)findViewById(R.id.volumeSeekBar);
+        volumeSeekBar = (AppCompatSeekBar)findViewById(R.id.volumeSeekBar);
         int limit = BackEndTools.getMaxVolume(manager);
         int progress = limit / 2;
         volumeSeekBar.setProgress(progress);
@@ -590,7 +591,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private void setVibrateCheckBox()
     {
-        vibrateCheckBox = (CheckBox)findViewById(R.id.vibrateCheckBox);
+        vibrateCheckBox = (AppCompatCheckBox)findViewById(R.id.vibrateCheckBox);
     }
 
     /**
@@ -601,7 +602,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         Alarm alarmToEdit = database.select(idToEdit);
         toolbarLayout =
                 (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
-        titleBox = (EditText)findViewById(R.id.titleBox);
+        titleBox = (AppCompatEditText)findViewById(R.id.titleBox);
         if (AppConstants.OS_VERSION >= Build.VERSION_CODES.M)
         {
             timePicker.setHour(alarmToEdit.getTriggerTime().get(Calendar.HOUR_OF_DAY));

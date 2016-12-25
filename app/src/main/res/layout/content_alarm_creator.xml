@@ -20,7 +20,7 @@
             android:layout_height="match_parent">
 
         <!-- Title -->
-        <EditText
+        <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/titleBox"
                 android:hint="@string/title_hint"
                 android:background="@color/white"
@@ -65,7 +65,7 @@
                 android:textColor="@color/blue"/>
 
         <!-- Snooze spinner -->
-        <Spinner
+        <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/snoozeSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -79,7 +79,7 @@
 
         <!-- Repetition -->
         <!-- Repetition checkbox -->
-        <CheckBox
+        <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/repetitionCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -258,7 +258,7 @@
                 android:textColor="@color/blue"/>
 
         <!-- Ringtone spinner -->
-        <Spinner
+        <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/ringtoneSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -301,7 +301,7 @@
                 android:layout_marginStart="10dp"/>
 
         <!-- Volume seek bar -->
-        <SeekBar
+        <android.support.v7.widget.AppCompatSeekBar
                 android:id="@+id/volumeSeekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -312,7 +312,7 @@
                 android:progress="5"/>
 
         <!-- Vibrate checkbox -->
-        <CheckBox
+        <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/vibrateCheckBox"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -323,7 +323,7 @@
                 android:textSize="15sp"/>
 
         <!-- Reminder checkbox -->
-        <CheckBox
+        <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/reminderCheckBox"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"

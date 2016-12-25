@@ -73,8 +73,6 @@
             android:textOn=""
             android:textOff=""
             android:layout_centerHorizontal="true"
-            android:thumb="@drawable/custom_switch_selector"
-            android:track="@drawable/custom_switch_track"
             android:gravity="top|end"
             android:focusable="false"/>
 
