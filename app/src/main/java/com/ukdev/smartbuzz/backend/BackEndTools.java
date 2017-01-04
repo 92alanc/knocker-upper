@@ -2,15 +2,11 @@ package com.ukdev.smartbuzz.backend;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Process;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.widget.GridLayout;
 import android.widget.ToggleButton;
 import com.ukdev.smartbuzz.R;
-import com.ukdev.smartbuzz.extras.AppConstants;
 import com.ukdev.smartbuzz.frontend.FrontEndTools;
 import com.ukdev.smartbuzz.model.Alarm;
 
