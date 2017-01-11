@@ -20,14 +20,14 @@
     <item
             android:id="@+id/sortTimeItem"
             android:title="@string/sort_time"
-            android:icon="@drawable/sort_time"
+            android:icon="@mipmap/ic_query_builder_white_24dp"
             app:showAsAction="ifRoom"/>
 
     <!-- Sort by title -->
     <item
             android:id="@+id/sortTitleItem"
             android:title="@string/sort_title"
-            android:icon="@drawable/sort_title"
+            android:icon="@mipmap/ic_sort_by_alpha_white_24dp"
             app:showAsAction="ifRoom"/>
 
 </menu>

@@ -12,7 +12,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             android:visibility="invisible"
-            android:src="@drawable/alarm"
+            android:src="@mipmap/ic_alarm_white_18dp"
             app:fabSize="mini"/>
 
     <!-- Add reminder -->
@@ -23,7 +23,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             android:visibility="invisible"
-            android:src="@drawable/reminder_white"
+            android:src="@mipmap/ic_notifications_white_18dp"
             app:fabSize="mini"/>
 
 </FrameLayout>

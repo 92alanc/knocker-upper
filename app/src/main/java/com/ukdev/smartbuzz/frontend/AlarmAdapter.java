@@ -76,9 +76,9 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
             holder.repetition.setVisibility(View.GONE);
         if (alarm.getTriggerTime().get(Calendar.HOUR_OF_DAY) >= 6 &&
             alarm.getTriggerTime().get(Calendar.HOUR_OF_DAY) < 18) // Day time
-            holder.sunMoonImg.setImageResource(R.drawable.sun);
+            holder.sunMoonImg.setImageResource(R.mipmap.ic_brightness_7_black_18dp);
         else // Night time
-            holder.sunMoonImg.setImageResource(R.drawable.moon);
+            holder.sunMoonImg.setImageResource(R.mipmap.ic_brightness_3_black_18dp);
         if (alarm.isReminder())
             holder.reminderIcon.setVisibility(View.VISIBLE);
         else
