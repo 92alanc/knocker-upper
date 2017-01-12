@@ -128,7 +128,7 @@ public class FrontEndTools
         if (alarmCount > 0)
         {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-            builder.setSmallIcon(R.mipmap.ic_alarm_white_18dp);
+            builder.setSmallIcon(R.mipmap.ic_alarm_white_24dp);
 
             builder.setContentTitle(context.getString(R.string.app_name));
             String text;

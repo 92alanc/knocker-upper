@@ -4,6 +4,19 @@
              android:layout_height="match_parent"
              xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!-- Add alarm text -->
+    <TextView
+            android:id="@+id/addAlarmButtonText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:visibility="invisible"
+            android:background="@color/red"
+            android:text="@string/new_alarm"
+            android:textColor="@color/white"/>
+
     <!-- Add alarm -->
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/addAlarmButton"
@@ -14,6 +27,19 @@
             android:visibility="invisible"
             android:src="@mipmap/ic_alarm_white_18dp"
             app:fabSize="mini"/>
+
+    <!-- Add reminder text -->
+    <TextView
+            android:id="@+id/addReminderButtonText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:visibility="invisible"
+            android:background="@color/red"
+            android:text="@string/new_reminder"
+            android:textColor="@color/white"/>
 
     <!-- Add reminder -->
     <android.support.design.widget.FloatingActionButton

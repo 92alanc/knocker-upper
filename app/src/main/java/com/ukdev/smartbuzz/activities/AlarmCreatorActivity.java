@@ -248,14 +248,14 @@ public class AlarmCreatorActivity extends AppCompatActivity
                         }
                     });
                     player.start();
-                    ringtoneTestButton.setImageResource(R.mipmap.ic_stop_black_18dp);
+                    ringtoneTestButton.setImageResource(R.mipmap.ic_stop_black_36dp);
                     player.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
                     {
                         @Override
                         public void onCompletion(MediaPlayer mediaPlayer)
                         {
                             manager.abandonAudioFocus(listener);
-                            ringtoneTestButton.setImageResource(R.mipmap.ic_play_arrow_black_18dp);
+                            ringtoneTestButton.setImageResource(R.mipmap.ic_play_arrow_black_36dp);
                         }
                     });
                 }
@@ -263,7 +263,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
                 {
                     manager.abandonAudioFocus(listener);
                     player.stop();
-                    ringtoneTestButton.setImageResource(R.mipmap.ic_play_arrow_black_18dp);
+                    ringtoneTestButton.setImageResource(R.mipmap.ic_play_arrow_black_36dp);
                 }
             }
         });

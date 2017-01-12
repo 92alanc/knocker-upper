@@ -59,7 +59,7 @@
             android:paddingLeft="10dp"
             android:paddingEnd="10dp"
             android:paddingRight="10dp"
-            android:src="@mipmap/ic_notifications_black_18dp"
+            android:src="@mipmap/ic_notifications_black_24dp"
             android:layout_below="@id/repetitionRow"
             android:focusable="false"/>
 
