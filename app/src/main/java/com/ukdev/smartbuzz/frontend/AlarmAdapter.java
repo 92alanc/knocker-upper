@@ -3,17 +3,18 @@ package com.ukdev.smartbuzz.frontend;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.ukdev.smartbuzz.database.AlarmRepository;
-import com.ukdev.smartbuzz.backend.AlarmHandler;
-import com.ukdev.smartbuzz.extras.AppConstants;
-import com.ukdev.smartbuzz.backend.BackEndTools;
-import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.backend.AlarmHandler;
+import com.ukdev.smartbuzz.backend.BackEndTools;
+import com.ukdev.smartbuzz.database.AlarmRepository;
+import com.ukdev.smartbuzz.extras.AppConstants;
+import com.ukdev.smartbuzz.model.Alarm;
 
 import java.util.Calendar;
 
@@ -22,14 +23,14 @@ import java.util.Calendar;
  * Enables the rendering of custom ListView items holding alarms
  * Created by Alan Camargo - April 2016
  */
-public class AlarmAdapter extends ArrayAdapter<Alarm>
+class AlarmAdapter extends ArrayAdapter<Alarm>
 {
 
     private Context context;
     private int layoutResourceId;
     private Alarm[] data = null;
 
-    public AlarmAdapter(Context context, int layoutResourceId, Alarm[] data)
+    AlarmAdapter(Context context, int layoutResourceId, Alarm[] data)
     {
         super(context, layoutResourceId, data);
         this.context = context;
@@ -37,26 +38,27 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
         this.data = data;
     }
 
+    @NonNull
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent)
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent)
     {
         AlarmHolder holder = new AlarmHolder();
         View row = convertView;
         if (row == null)
         {
             LayoutInflater inflater =
-                    ((Activity)context).getLayoutInflater();
+                    ((Activity) context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
-            holder.title = (TextView)row.findViewById(R.id.titleRow);
-            holder.triggerTime = (TextView)row.findViewById(R.id.triggerTimeRow);
-            holder.repetition = (TextView)row.findViewById(R.id.repetitionRow);
-            holder.reminderIcon = (ImageView)row.findViewById(R.id.reminderIcon);
-            holder.alarmSwitch = (Switch)row.findViewById(R.id.alarmSwitch);
-            holder.sunMoonImg = (ImageView)row.findViewById(R.id.sunMoonImg);
+            holder.title = (TextView) row.findViewById(R.id.titleRow);
+            holder.triggerTime = (TextView) row.findViewById(R.id.triggerTimeRow);
+            holder.repetition = (TextView) row.findViewById(R.id.repetitionRow);
+            holder.reminderIcon = (ImageView) row.findViewById(R.id.reminderIcon);
+            holder.alarmSwitch = (Switch) row.findViewById(R.id.alarmSwitch);
+            holder.sunMoonImg = (ImageView) row.findViewById(R.id.sunMoonImg);
             row.setTag(holder);
         }
         else
-            holder = (AlarmHolder)row.getTag();
+            holder = (AlarmHolder) row.getTag();
         final Alarm alarm = data[position];
         holder.title.setText(alarm.getTitle());
         int hours = alarm.getTriggerTime().get(Calendar.HOUR_OF_DAY);
@@ -71,11 +73,11 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
         holder.triggerTime.setText(triggerTime);
         if (alarm.repeats())
             holder.repetition.setText(BackEndTools.convertIntArrayToString(context,
-                                                                           alarm.getRepetition()));
+                    alarm.getRepetition()));
         else
             holder.repetition.setVisibility(View.GONE);
         if (alarm.getTriggerTime().get(Calendar.HOUR_OF_DAY) >= 6 &&
-            alarm.getTriggerTime().get(Calendar.HOUR_OF_DAY) < 18) // Day time
+                alarm.getTriggerTime().get(Calendar.HOUR_OF_DAY) < 18) // Day time
             holder.sunMoonImg.setImageResource(R.mipmap.ic_brightness_7_black_24dp);
         else // Night time
             holder.sunMoonImg.setImageResource(R.mipmap.ic_brightness_3_black_24dp);
@@ -83,7 +85,7 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
             holder.reminderIcon.setVisibility(View.VISIBLE);
         else
             holder.reminderIcon.setVisibility(View.GONE);
-        if (alarm.isOn())
+        if (alarm.isActive())
         {
             holder.alarmSwitch.setChecked(true);
             holder.title.setTextColor(ContextCompat.getColor(context, R.color.green));
@@ -94,9 +96,9 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
             holder.title.setTextColor(ContextCompat.getColor(context, R.color.red));
         }
         if (holder.alarmSwitch.isChecked())
-            alarm.toggle(true);
+            alarm.setActive(true);
         else
-            alarm.toggle(false);
+            alarm.setActive(false);
         final AlarmHolder finalHolder = holder;
         holder.alarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
@@ -105,22 +107,22 @@ public class AlarmAdapter extends ArrayAdapter<Alarm>
             {
                 if (isChecked)
                 {
-                    alarm.toggle(true);
+                    alarm.setActive(true);
                     AlarmHandler.scheduleAlarm(context, alarm);
                     compoundButton.setChecked(true);
                     finalHolder.title.setTextColor(ContextCompat.getColor(context,
-                                                                          R.color.green));
+                            R.color.green));
                 }
                 else
                 {
                     if (AppConstants.OS_VERSION < Build.VERSION_CODES.LOLLIPOP
-                        && compoundButton.getVisibility() == View.GONE)
+                            && compoundButton.getVisibility() == View.GONE)
                         compoundButton.setVisibility(View.VISIBLE);
-                    alarm.toggle(false);
+                    alarm.setActive(false);
                     AlarmHandler.cancelAlarm(context, alarm);
                     compoundButton.setChecked(false);
                     finalHolder.title.setTextColor(ContextCompat.getColor(context,
-                                                                          R.color.red));
+                            R.color.red));
                 }
                 AlarmRepository.getInstance(context).update(alarm.getId(), alarm);
                 FrontEndTools.showNotification(context);

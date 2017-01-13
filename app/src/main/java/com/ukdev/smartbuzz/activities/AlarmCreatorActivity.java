@@ -14,17 +14,20 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
-import android.view.*;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.*;
+import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.backend.AlarmHandler;
 import com.ukdev.smartbuzz.backend.AudioFocusChangeListener;
 import com.ukdev.smartbuzz.backend.BackEndTools;
-import com.ukdev.smartbuzz.extras.*;
-import com.ukdev.smartbuzz.frontend.FrontEndTools;
-import com.ukdev.smartbuzz.model.*;
-import com.ukdev.smartbuzz.frontend.CustomTimePicker;
 import com.ukdev.smartbuzz.database.AlarmRepository;
-import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.extras.AppConstants;
+import com.ukdev.smartbuzz.frontend.CustomTimePicker;
+import com.ukdev.smartbuzz.frontend.FrontEndTools;
+import com.ukdev.smartbuzz.model.Alarm;
+import com.ukdev.smartbuzz.model.RingtoneWrapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,8 +61,8 @@ public class AlarmCreatorActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         database = AlarmRepository.getInstance(this);
-        manager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-        reminderCheckBox = (AppCompatCheckBox)findViewById(R.id.reminderCheckBox);
+        manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        reminderCheckBox = (AppCompatCheckBox) findViewById(R.id.reminderCheckBox);
         isReminder = getIntent().getBooleanExtra(AppConstants.EXTRA_REMINDER, false);
         setToolbarLayout();
         setSaveButton();
@@ -104,7 +107,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private void setSnoozeSpinner()
     {
-        snoozeSpinner = (AppCompatSpinner)findViewById(R.id.snoozeSpinner);
+        snoozeSpinner = (AppCompatSpinner) findViewById(R.id.snoozeSpinner);
         FrontEndTools.adaptSnoozeSpinner(this, snoozeSpinner);
     }
 
@@ -151,12 +154,13 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private void setRingtoneSpinner()
     {
-        ringtoneSpinner = (AppCompatSpinner)findViewById(R.id.ringtoneSpinner);
+        ringtoneSpinner = (AppCompatSpinner) findViewById(R.id.ringtoneSpinner);
         FrontEndTools.adaptRingtonePicker(this, ringtoneSpinner);
     }
 
     /**
      * Gets the selected value at snoozeSpinner
+     *
      * @return value
      */
     private int getSnoozeSpinnerValue()
@@ -189,7 +193,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         int volume = volumeSeekBar.getProgress();
         final AudioFocusChangeListener listener = new AudioFocusChangeListener(manager,
                 volume);
-        final ImageButton ringtoneTestButton = (ImageButton)findViewById(
+        final ImageButton ringtoneTestButton = (ImageButton) findViewById(
                 R.id.ringtoneTestButton);
         ringtoneTestButton.setOnClickListener(new View.OnClickListener()
         {
@@ -219,8 +223,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
                         {
                             player.setDataSource(getBaseContext(), ringtone.getUri());
                             player.prepare();
-                        }
-                        catch (IOException e)
+                        } catch (IOException e)
                         {
                             e.printStackTrace();
                         }
@@ -274,7 +277,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private void setToolbarLayout()
     {
-        toolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
+        toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         if (isReminder)
             toolbarLayout.setTitle(getString(R.string.new_reminder));
         else
@@ -288,7 +291,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
                 return false;
             }
         });
-        titleBox = (AppCompatEditText)findViewById(R.id.titleBox);
+        titleBox = (AppCompatEditText) findViewById(R.id.titleBox);
         titleBox.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -324,6 +327,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
 
     /**
      * Saves the alarm
+     *
      * @return true if the operation has been successful,
      * otherwise false
      */
@@ -340,7 +344,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
                     titleBox.getText().toString();
         if (ringtoneSpinner.getSelectedItem() == null) // Something terribly wrong happened
             ringtoneSpinner.setSelection(0);
-        RingtoneWrapper ringtone = (RingtoneWrapper)ringtoneSpinner.getSelectedItem();
+        RingtoneWrapper ringtone = (RingtoneWrapper) ringtoneSpinner.getSelectedItem();
         int id = database.getLastId() + 1;
         timePicker.clearFocus();
         int hours, minutes;
@@ -353,7 +357,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
 
         int volume = volumeSeekBar.getProgress();
         boolean vibrate = vibrateCheckBox.isChecked();
-        GridLayout layout = (GridLayout)findViewById(R.id.repetitionLayout);
+        GridLayout layout = (GridLayout) findViewById(R.id.repetitionLayout);
         int[] repetition = BackEndTools.getSelectedRepetition(layout);
         if (player != null && player.isPlaying())
             player.stop();
@@ -367,6 +371,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
 
     /**
      * Updates an alarm
+     *
      * @return true if the operation has been successful,
      * otherwise false
      */
@@ -384,7 +389,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
                     titleBox.getText().toString();
         if (ringtoneSpinner.getSelectedItem() == null) // Something terribly wrong happened
             ringtoneSpinner.setSelection(0);
-        RingtoneWrapper ringtone = (RingtoneWrapper)ringtoneSpinner.getSelectedItem();
+        RingtoneWrapper ringtone = (RingtoneWrapper) ringtoneSpinner.getSelectedItem();
         alarm.setTitle(title);
         int hours, minutes;
         hours = getHours();
@@ -393,7 +398,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         triggerTime.set(Calendar.HOUR_OF_DAY, hours);
         triggerTime.set(Calendar.MINUTE, minutes);
         alarm.setTriggerTime(triggerTime);
-        AppCompatCheckBox reminderCheckBox = (AppCompatCheckBox)findViewById(R.id.reminderCheckBox);
+        AppCompatCheckBox reminderCheckBox = (AppCompatCheckBox) findViewById(R.id.reminderCheckBox);
         alarm.setAsReminder(reminderCheckBox.isChecked());
         alarm.setRingtone(ringtone);
         int volume = volumeSeekBar.getProgress();
@@ -402,10 +407,10 @@ public class AlarmCreatorActivity extends AppCompatActivity
         alarm.toggleVibration(vibrate);
         int snooze = getSnoozeSpinnerValue();
         alarm.setSnooze(snooze);
-        GridLayout layout = (GridLayout)findViewById(R.id.repetitionLayout);
+        GridLayout layout = (GridLayout) findViewById(R.id.repetitionLayout);
         int[] repetition = BackEndTools.getSelectedRepetition(layout);
         alarm.setRepetition(repetition);
-        alarm.toggle(true);
+        alarm.setActive(true);
         if (player != null && player.isPlaying())
             player.stop();
 
@@ -439,7 +444,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private void setTimePicker()
     {
-        timePicker = (CustomTimePicker)findViewById(R.id.timePicker);
+        timePicker = (CustomTimePicker) findViewById(R.id.timePicker);
         if (DateFormat.is24HourFormat(getBaseContext()))
             timePicker.setIs24HourView(true);
         timePicker.setHapticFeedbackEnabled(true);
@@ -460,8 +465,8 @@ public class AlarmCreatorActivity extends AppCompatActivity
     private void setRepetitionCheckBox()
     {
         repetitionCheckBox = (AppCompatCheckBox) findViewById(R.id.repetitionCheckBox);
-        final HorizontalScrollView scrollView = (HorizontalScrollView)findViewById(R.id.horizontalScrollView);
-        final ImageView imageView = (ImageView)findViewById(R.id.repetitionIcon);
+        final HorizontalScrollView scrollView = (HorizontalScrollView) findViewById(R.id.horizontalScrollView);
+        final ImageView imageView = (ImageView) findViewById(R.id.repetitionIcon);
         repetitionCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             @Override
@@ -577,7 +582,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private void setVolumeSeekBar()
     {
-        volumeSeekBar = (AppCompatSeekBar)findViewById(R.id.volumeSeekBar);
+        volumeSeekBar = (AppCompatSeekBar) findViewById(R.id.volumeSeekBar);
         int limit = BackEndTools.getMaxVolume(manager);
         int progress = limit / 2;
         volumeSeekBar.setProgress(progress);
@@ -591,7 +596,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private void setVibrateCheckBox()
     {
-        vibrateCheckBox = (AppCompatCheckBox)findViewById(R.id.vibrateCheckBox);
+        vibrateCheckBox = (AppCompatCheckBox) findViewById(R.id.vibrateCheckBox);
     }
 
     /**
@@ -601,8 +606,8 @@ public class AlarmCreatorActivity extends AppCompatActivity
     {
         Alarm alarmToEdit = database.select(idToEdit);
         toolbarLayout =
-                (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
-        titleBox = (AppCompatEditText)findViewById(R.id.titleBox);
+                (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        titleBox = (AppCompatEditText) findViewById(R.id.titleBox);
         if (AppConstants.OS_VERSION >= Build.VERSION_CODES.M)
         {
             timePicker.setHour(alarmToEdit.getTriggerTime().get(Calendar.HOUR_OF_DAY));
@@ -620,7 +625,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
         int progress = (alarmToEdit.getVolume());
         volumeSeekBar.setProgress(progress);
         ToggleButton[] repetitionButtons = FrontEndTools.getToggleButtons(
-                (GridLayout)findViewById(R.id.repetitionLayout));
+                (GridLayout) findViewById(R.id.repetitionLayout));
         int snooze = alarmToEdit.getSnooze();
         switch (snooze)
         {
@@ -669,7 +674,7 @@ public class AlarmCreatorActivity extends AppCompatActivity
      */
     private void setCancelButton()
     {
-        Button cancelButton = (Button)findViewById(R.id.cancelButton);
+        Button cancelButton = (Button) findViewById(R.id.cancelButton);
         cancelButton.setOnClickListener(
                 new View.OnClickListener()
                 {

@@ -8,7 +8,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
+import android.widget.GridLayout;
+import android.widget.ListView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.ukdev.smartbuzz.R;
@@ -32,8 +35,9 @@ public class FrontEndTools
 
     /**
      * Shows a toast
-     * @param context - Context
-     * @param text - String
+     *
+     * @param context  - Context
+     * @param text     - String
      * @param duration - int
      */
     public static void showToast(Context context, String text, int duration)
@@ -43,12 +47,13 @@ public class FrontEndTools
 
     /**
      * Shows a simple dialogue
-     * @param context - Context
-     * @param title - String
-     * @param message - String
-     * @param iconId - int
+     *
+     * @param context           - Context
+     * @param title             - String
+     * @param message           - String
+     * @param iconId            - int
      * @param neutralButtonText - String
-     * @param listener - OnClickListener
+     * @param listener          - OnClickListener
      */
     public static void showDialogue(Context context, String title, String message,
                                     int iconId, String neutralButtonText,
@@ -64,9 +69,10 @@ public class FrontEndTools
 
     /**
      * Adapts the alarms ListView
-     * @param context - Context
+     *
+     * @param context  - Context
      * @param listView - ListView
-     * @param orderBy - String
+     * @param orderBy  - String
      */
     public static void adaptAlarmsListView(Context context, ListView listView,
                                            String orderBy)
@@ -78,6 +84,7 @@ public class FrontEndTools
 
     /**
      * Adapts the snooze spinner
+     *
      * @param context - Context
      * @param spinner - AppCompatSpinner
      */
@@ -93,7 +100,8 @@ public class FrontEndTools
 
     /**
      * Starts an activity
-     * @param context - Context
+     *
+     * @param context        - Context
      * @param targetActivity - Class
      */
     public static void startActivity(Context context, Class<?> targetActivity)
@@ -105,7 +113,8 @@ public class FrontEndTools
 
     /**
      * Adapts the ringtone picker
-     * @param context - Context
+     *
+     * @param context        - Context
      * @param ringtonePicker - AppCompatSpinner
      */
     public static void adaptRingtonePicker(Context context, AppCompatSpinner ringtonePicker)
@@ -118,13 +127,14 @@ public class FrontEndTools
 
     /**
      * Shows a notification with the number of alarms set
+     *
      * @param context - Context
      */
     public static void showNotification(Context context)
     {
         int alarmCount = AlarmRepository.getInstance(context).getActiveAlarms().size();
         NotificationManager manager =
-                (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (alarmCount > 0)
         {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
@@ -154,6 +164,7 @@ public class FrontEndTools
 
     /**
      * Hides the keyboard
+     *
      * @param activity - Activity
      */
     public static void hideKeyboard(Activity activity)
@@ -166,18 +177,20 @@ public class FrontEndTools
 
     /**
      * Tells if the screen is locked
+     *
      * @param context - Context
      * @return screen is locked
      */
     public static boolean screenIsLocked(Context context)
     {
-        KeyguardManager manager = (KeyguardManager)context
+        KeyguardManager manager = (KeyguardManager) context
                 .getSystemService(Context.KEYGUARD_SERVICE);
         return manager.inKeyguardRestrictedInputMode();
     }
 
     /**
      * Gets all toggle buttons in a grid layout
+     *
      * @param layout - GridLayout
      * @return all toggle buttons
      */
@@ -202,8 +215,9 @@ public class FrontEndTools
 
     /**
      * Shows a toast containing the time left for an alarm to trigger
+     *
      * @param context - Context
-     * @param alarm - Alarm
+     * @param alarm   - Alarm
      */
     public static void showTimeLeftToTrigger(Context context, Alarm alarm)
     {
@@ -260,12 +274,13 @@ public class FrontEndTools
 
     /**
      * Shows ads
+     *
      * @param activity - Activity
-     * @param resId - int
+     * @param resId    - int
      */
     public static void showAds(Activity activity, int resId)
     {
-        AdView adView = (AdView)activity.findViewById(resId);
+        AdView adView = (AdView) activity.findViewById(resId);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
     }

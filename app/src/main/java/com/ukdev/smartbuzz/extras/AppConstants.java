@@ -1,7 +1,5 @@
 package com.ukdev.smartbuzz.extras;
 
-import android.Manifest;
-import android.content.Intent;
 import android.os.Build;
 import com.ukdev.smartbuzz.database.AlarmTable;
 
@@ -16,8 +14,6 @@ public class AppConstants
     public static final int DEFAULT_INTENT_EXTRA = 1;
 
     // --- INTENT ACTIONS ---
-    // When the device is booted
-    public static final String ACTION_BOOT_COMPLETED = Intent.ACTION_BOOT_COMPLETED;
     // Creates a new alarm
     public static final String ACTION_CREATE_ALARM = "com.ukdev.smartbuzz.ACTION_CREATE_ALARM";
     // Cancels an alarm
@@ -48,11 +44,7 @@ public class AppConstants
 
     // --- OUTPUT ---
     // Vibrates for 2s and stops for 1s
-    public static final long[] VIBRATION_PATTERN = new long[] { 1000, 2000 };
-
-    // --- PERMISSIONS ---
-    public static final String PERMISSION_READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE;
-    public static final int REQUEST_CODE = 1;
+    public static final long[] VIBRATION_PATTERN = new long[]{1000, 2000};
 
     // --- SYSTEM ---
     public static final int OS_VERSION = Build.VERSION.SDK_INT;

@@ -31,6 +31,7 @@ public class CustomTimePicker extends TimePicker
 
     /**
      * Prevents TimePicker from being scrolled
+     *
      * @param ev - MotionEvent
      * @return on intercept
      */

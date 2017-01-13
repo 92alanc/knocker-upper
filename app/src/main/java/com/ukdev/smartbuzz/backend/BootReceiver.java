@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import com.ukdev.smartbuzz.database.AlarmRepository;
-import com.ukdev.smartbuzz.extras.AppConstants;
 import com.ukdev.smartbuzz.frontend.FrontEndTools;
 import com.ukdev.smartbuzz.model.Alarm;
 
@@ -21,7 +20,7 @@ public class BootReceiver extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        if (intent.getAction().equals(AppConstants.ACTION_BOOT_COMPLETED))
+        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED))
         {
             ArrayList<Alarm> activeAlarms = AlarmRepository.getInstance(context).getActiveAlarms();
             if (activeAlarms.size() > 0)

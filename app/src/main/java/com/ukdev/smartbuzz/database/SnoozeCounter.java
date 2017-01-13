@@ -27,6 +27,7 @@ public class SnoozeCounter extends SQLiteOpenHelper
 
     /**
      * Initialises the database
+     *
      * @param context - Context
      */
     public SnoozeCounter(Context context)
@@ -70,6 +71,7 @@ public class SnoozeCounter extends SQLiteOpenHelper
 
     /**
      * Updates the count
+     *
      * @param n - int
      */
     public void update(int n)

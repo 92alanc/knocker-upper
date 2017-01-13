@@ -6,8 +6,8 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Vibrator;
-import com.ukdev.smartbuzz.extras.AppConstants;
 import com.ukdev.smartbuzz.backend.AudioFocusChangeListener;
+import com.ukdev.smartbuzz.extras.AppConstants;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -24,7 +24,7 @@ public class Alarm
     private String title;
     private RingtoneWrapper ringtone;
     private int id, volume, snooze;
-    private boolean on, reminder, vibrate;
+    private boolean active, reminder, vibrate;
     private int[] repetition;
     private Calendar triggerTime;
     private MediaPlayer player;
@@ -32,20 +32,21 @@ public class Alarm
 
     /**
      * Instantiates the class
-     * @param id - int
-     * @param title - String
+     *
+     * @param id          - int
+     * @param title       - String
      * @param triggerTime - Calendar
-     * @param ringtone - RingtoneWrapper
-     * @param volume - int
-     * @param vibrate - boolean
-     * @param reminder - boolean
-     * @param on - boolean
-     * @param repetition - int[]
-     * @param snooze - int
+     * @param ringtone    - RingtoneWrapper
+     * @param volume      - int
+     * @param vibrate     - boolean
+     * @param reminder    - boolean
+     * @param active          - boolean
+     * @param repetition  - int[]
+     * @param snooze      - int
      */
     public Alarm(int id, String title, Calendar triggerTime,
                  RingtoneWrapper ringtone, int volume, boolean vibrate,
-                 boolean reminder, boolean on, int[] repetition, int snooze)
+                 boolean reminder, boolean active, int[] repetition, int snooze)
     {
         this.id = id;
         this.title = title;
@@ -54,13 +55,14 @@ public class Alarm
         this.volume = volume;
         this.vibrate = vibrate;
         this.reminder = reminder;
-        this.on = on;
+        this.active = active;
         this.repetition = repetition;
         this.snooze = snooze;
     }
 
     /**
      * Gets the alarm as String
+     *
      * @return alarm
      */
     @Override
@@ -71,6 +73,7 @@ public class Alarm
 
     /**
      * Gets the title
+     *
      * @return title
      */
     public String getTitle()
@@ -80,6 +83,7 @@ public class Alarm
 
     /**
      * Sets the title
+     *
      * @param title - String
      */
     public void setTitle(String title)
@@ -89,6 +93,7 @@ public class Alarm
 
     /**
      * Gets the snooze duration
+     *
      * @return snooze
      */
     public int getSnooze()
@@ -98,6 +103,7 @@ public class Alarm
 
     /**
      * Sets the snooze duration
+     *
      * @param snooze - int
      */
     public void setSnooze(int snooze)
@@ -107,6 +113,7 @@ public class Alarm
 
     /**
      * Gets the trigger time
+     *
      * @return trigger time
      */
     public Calendar getTriggerTime()
@@ -116,6 +123,7 @@ public class Alarm
 
     /**
      * Sets the trigger time
+     *
      * @param triggerTime - TimeWrapper
      */
     public void setTriggerTime(Calendar triggerTime)
@@ -125,6 +133,7 @@ public class Alarm
 
     /**
      * Gets the repetition
+     *
      * @return repetition
      */
     public int[] getRepetition()
@@ -134,6 +143,7 @@ public class Alarm
 
     /**
      * Sets the repetition
+     *
      * @param repetition - int[]
      */
     public void setRepetition(int[] repetition)
@@ -143,6 +153,7 @@ public class Alarm
 
     /**
      * Tells if the alarm repeats
+     *
      * @return repeats
      */
     public boolean repeats()
@@ -152,6 +163,7 @@ public class Alarm
 
     /**
      * Gets the ringtone
+     *
      * @return ringtone
      */
     public RingtoneWrapper getRingtone()
@@ -161,6 +173,7 @@ public class Alarm
 
     /**
      * Sets the ringtone
+     *
      * @param ringtone - RingtoneWrapper
      */
     public void setRingtone(RingtoneWrapper ringtone)
@@ -170,6 +183,7 @@ public class Alarm
 
     /**
      * Gets the volume
+     *
      * @return volume
      */
     public int getVolume()
@@ -179,6 +193,7 @@ public class Alarm
 
     /**
      * Sets the volume
+     *
      * @param volume - the new volume value
      */
     public void setVolume(int volume)
@@ -188,6 +203,7 @@ public class Alarm
 
     /**
      * Tells if the alarm vibrates
+     *
      * @return vibrates
      */
     public boolean vibrates()
@@ -197,6 +213,7 @@ public class Alarm
 
     /**
      * Toggles vibration
+     *
      * @param vibrate - boolean
      */
     public void toggleVibration(boolean vibrate)
@@ -205,25 +222,28 @@ public class Alarm
     }
 
     /**
-     * Tells if the alarm is on or off
-     * @return isOn
+     * Determines whether the alarm is active
+     *
+     * @return true if active
      */
-    public boolean isOn()
+    public boolean isActive()
     {
-        return on;
+        return active;
     }
 
     /**
-     * Switches the alarm on/off
-     * @param on - boolean
+     * Toggles the alarm active/inactive
+     *
+     * @param active - boolean
      */
-    public void toggle(boolean on)
+    public void setActive(boolean active)
     {
-        this.on = on;
+        this.active = active;
     }
 
     /**
      * Sets the current alarm as a reminder
+     *
      * @param reminder - boolean
      */
     public void setAsReminder(boolean reminder)
@@ -234,6 +254,7 @@ public class Alarm
     /**
      * Tells if the current alarm is a reminder
      * If true, SleepCheckerActivity will not be triggered
+     *
      * @return is reminder
      */
     public boolean isReminder()
@@ -243,12 +264,17 @@ public class Alarm
 
     /**
      * Gets the ID
+     *
      * @return id
      */
-    public int getId() { return id; }
+    public int getId()
+    {
+        return id;
+    }
 
     /**
      * Gets the media player
+     *
      * @return player
      */
     public MediaPlayer getPlayer()
@@ -258,6 +284,7 @@ public class Alarm
 
     /**
      * Gets the vibrator
+     *
      * @return vibrator
      */
     public Vibrator getVibrator()
@@ -267,14 +294,15 @@ public class Alarm
 
     /**
      * Plays the ringtone
+     *
      * @param activity - Activity
-     * @param context - Context
+     * @param context  - Context
      */
     public void playRingtone(Activity activity, Context context)
     {
         AudioManager manager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
         player = new MediaPlayer();
-        vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         int volume;
         if (activity.getIntent().getAction().equals(AppConstants.ACTION_MAYHEM))
         {
@@ -289,16 +317,16 @@ public class Alarm
         }
         manager.setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
         int requestResult;
-        if ( AppConstants.OS_VERSION >= Build.VERSION_CODES.KITKAT)
+        if (AppConstants.OS_VERSION >= Build.VERSION_CODES.KITKAT)
             requestResult = manager.requestAudioFocus(new AudioFocusChangeListener(manager,
-                                                                                   this.getVolume()),
-                                                      AudioManager.STREAM_ALARM,
-                                                      AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
+                            this.getVolume()),
+                    AudioManager.STREAM_ALARM,
+                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
         else
             requestResult = manager.requestAudioFocus(new AudioFocusChangeListener(manager,
-                                                                                   this.getVolume()),
-                                                      AudioManager.STREAM_ALARM,
-                                                      AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+                            this.getVolume()),
+                    AudioManager.STREAM_ALARM,
+                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
         if (requestResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
         {
             player.setAudioStreamType(AudioManager.STREAM_ALARM);
@@ -307,8 +335,7 @@ public class Alarm
             {
                 player.setDataSource(context, this.getRingtone().getUri());
                 player.prepare();
-            }
-            catch (IOException e)
+            } catch (IOException e)
             {
                 e.printStackTrace();
             }

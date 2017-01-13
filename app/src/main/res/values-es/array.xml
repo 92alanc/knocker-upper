@@ -17,13 +17,24 @@
     <string-array name="helpContents">
         <item>Para crear una alarma, haga clic en el botón "+" en la esquina inferior derecha de la pantalla, después,
                          rellenar los campos que desee.
-                         \nPara guardar, haga clic en el botón "Guardar".</item>
-        <item>Para eliminar una alarma, mantenga pulsado un elemento de la lista, seleccione otras alarmas si lo desea, a continuación, haga clic en el botón de cubo de basura en la esquina superior derecha de la pantalla.</item>
+                         \nPara guardar, haga clic en el botón "Guardar".
+        </item>
+        <item>Para eliminar una alarma, mantenga pulsado un elemento de la lista, seleccione otras alarmas si lo desea,
+            a continuación, haga clic en el botón de cubo de basura en la esquina superior derecha de la pantalla.
+        </item>
         <item>Para editar una alarma, haga clic en el que desee, realice los cambios y guarde.</item>
-        <item>Los recordatorios son un poco diferente de las alarmas. No van a llamar Sleep Checker después de parar ellos.</item>
-        <item>Puede configurar las alarmas de repetir durante la semana.\nPara hacerlo, sólo haga clic en el "Repetir durante la semana", mientras que se crea una alarma.</item>
-        <item>Sleep Checker es un agente de silencio que se desencadena en un momento aleatorio entre 3 y 5 minutos después de descartar una alarma.\nSe asegura de no dormir más de lo que debe y perder sus citas.
-                     \nCuando es disparado, tendrá 15 segundos para demostrar que estás despierto, de lo contrario la alarma se activará de nuevo, pero con una ligera diferencia: el volumen se ajusta al máximo y su dispositivo vibrará.</item>
+        <item>Los recordatorios son un poco diferente de las alarmas. No van a llamar Sleep Checker después de parar
+            ellos.
+        </item>
+        <item>Puede configurar las alarmas de repetir durante la semana.\nPara hacerlo, sólo haga clic en el "Repetir
+            durante la semana", mientras que se crea una alarma.
+        </item>
+        <item>Sleep Checker es un agente de silencio que se desencadena en un momento aleatorio entre 3 y 5 minutos
+            después de descartar una alarma.\nSe asegura de no dormir más de lo que debe y perder sus citas.
+                     \nCuando es disparado, tendrá 15 segundos para demostrar que estás despierto, de lo contrario la
+            alarma se activará de nuevo, pero con una ligera diferencia: el volumen se ajusta al máximo y su dispositivo
+            vibrará.
+        </item>
     </string-array>
 
     <!-- Help topics -->

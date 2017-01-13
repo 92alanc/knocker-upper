@@ -1,13 +1,15 @@
 package com.ukdev.smartbuzz.database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import com.ukdev.smartbuzz.model.*;
 import com.ukdev.smartbuzz.backend.BackEndTools;
+import com.ukdev.smartbuzz.model.Alarm;
+import com.ukdev.smartbuzz.model.RingtoneWrapper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,10 +22,19 @@ import java.util.Calendar;
 public class AlarmRepository
 {
 
+    @SuppressLint("StaticFieldLeak")
     private static AlarmRepository instance;
+    private Context context;
+    private SQLiteDatabase reader, writer;
+
+    private AlarmRepository(Context context)
+    {
+        this.context = context;
+    }
 
     /**
      * Gets an instance of the database
+     *
      * @param context - Context
      * @return database instance
      */
@@ -34,16 +45,9 @@ public class AlarmRepository
         return instance;
     }
 
-    private AlarmRepository(Context context)
-    {
-        this.context = context;
-    }
-
-    private Context context;
-    private SQLiteDatabase reader, writer;
-
     /**
      * Inserts an alarm
+     *
      * @param alarm - Alarm
      */
     public void insert(Alarm alarm)
@@ -62,12 +66,13 @@ public class AlarmRepository
         values.put(AlarmTable.COLUMN_RINGTONE_TITLE, alarm.getRingtone().getTitle());
         values.put(AlarmTable.COLUMN_VOLUME, alarm.getVolume());
         values.put(AlarmTable.COLUMN_SNOOZE, alarm.getSnooze());
-        values.put(AlarmTable.COLUMN_STATE, alarm.isOn() ? 1 : 0);
+        values.put(AlarmTable.COLUMN_STATE, alarm.isActive() ? 1 : 0);
         writer.insert(AlarmTable.TABLE_NAME, null, values);
     }
 
     /**
      * Deletes an alarm
+     *
      * @param id - int
      */
     public void delete(int id)
@@ -75,12 +80,13 @@ public class AlarmRepository
         if (writer == null)
             writer = new DatabaseHelper(context).getWritableDatabase();
         writer.delete(AlarmTable.TABLE_NAME, AlarmTable.COLUMN_ID + " = ?",
-                new String[] { String.valueOf(id) });
+                new String[]{String.valueOf(id)});
     }
 
     /**
      * Updates an alarm
-     * @param id - int
+     *
+     * @param id             - int
      * @param newAlarmValues - Alarm
      */
     public void update(int id, Alarm newAlarmValues)
@@ -100,14 +106,15 @@ public class AlarmRepository
         values.put(AlarmTable.COLUMN_RINGTONE_TITLE, newAlarmValues.getRingtone().getTitle());
         values.put(AlarmTable.COLUMN_VOLUME, newAlarmValues.getVolume());
         values.put(AlarmTable.COLUMN_SNOOZE, newAlarmValues.getSnooze());
-        values.put(AlarmTable.COLUMN_STATE, newAlarmValues.isOn() ? 1 : 0);
+        values.put(AlarmTable.COLUMN_STATE, newAlarmValues.isActive() ? 1 : 0);
         writer.update(AlarmTable.TABLE_NAME, values,
                 AlarmTable.COLUMN_ID + " = ?",
-                new String[] { String.valueOf(id) });
+                new String[]{String.valueOf(id)});
     }
 
     /**
      * Gets an alarm by its ID
+     *
      * @param id - int
      * @return alarm
      */
@@ -117,7 +124,7 @@ public class AlarmRepository
             reader = new DatabaseHelper(context).getReadableDatabase();
         Alarm alarm = null;
         Cursor cursor = reader.query(AlarmTable.TABLE_NAME, null, AlarmTable.COLUMN_ID + " = ?",
-                new String[] { String.valueOf(id) }, null, null, null, "1");
+                new String[]{String.valueOf(id)}, null, null, null, "1");
         cursor.moveToFirst();
         if (cursor.getCount() > 0)
         {
@@ -158,6 +165,7 @@ public class AlarmRepository
 
     /**
      * Gets all alarms
+     *
      * @param orderBy - String
      * @return alarms
      */
@@ -215,6 +223,7 @@ public class AlarmRepository
 
     /**
      * Gets the active alarms
+     *
      * @return active alarms
      */
     public ArrayList<Alarm> getActiveAlarms()
@@ -223,7 +232,7 @@ public class AlarmRepository
             reader = new DatabaseHelper(context).getReadableDatabase();
         ArrayList<Alarm> activeAlarms = new ArrayList<>();
         Cursor cursor = reader.query(AlarmTable.TABLE_NAME, null, AlarmTable.COLUMN_STATE + " = ?",
-                new String[] { "1" }, null, null, null);
+                new String[]{"1"}, null, null, null);
         if (cursor.getCount() > 0)
         {
             cursor.moveToFirst();
@@ -270,13 +279,14 @@ public class AlarmRepository
 
     /**
      * Gets the last ID registered in the database
+     *
      * @return last ID
      */
     public int getLastId()
     {
         if (reader == null)
             reader = new DatabaseHelper(context).getReadableDatabase();
-        Cursor cursor = reader.query(AlarmTable.TABLE_NAME, new String[] { AlarmTable.COLUMN_ID }, null, null,
+        Cursor cursor = reader.query(AlarmTable.TABLE_NAME, new String[]{AlarmTable.COLUMN_ID}, null, null,
                 null, null, AlarmTable.COLUMN_ID + " DESC", "1");
         int lastId = 0;
         cursor.moveToFirst();
@@ -288,6 +298,7 @@ public class AlarmRepository
 
     /**
      * Gets the number of rows
+     *
      * @return row count
      */
     public int getRowCount()

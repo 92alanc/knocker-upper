@@ -3,19 +3,19 @@ package com.ukdev.smartbuzz.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import com.ukdev.smartbuzz.R;
-import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.backend.AlarmHandler;
-import com.ukdev.smartbuzz.extras.AppConstants;
 import com.ukdev.smartbuzz.backend.BackEndTools;
+import com.ukdev.smartbuzz.database.AlarmRepository;
+import com.ukdev.smartbuzz.extras.AppConstants;
 import com.ukdev.smartbuzz.frontend.FrontEndTools;
 import com.ukdev.smartbuzz.model.Alarm;
 
@@ -50,7 +50,7 @@ public class SleepCheckerActivity extends AppCompatActivity
             wakeLock.acquire();
         alarm = database.select(getIntent()
                 .getIntExtra(AppConstants.EXTRA_ID, AppConstants.DEFAULT_INTENT_EXTRA));
-        TextView alarmTitle = (TextView)findViewById(R.id.alarmTitle_SleepChecker);
+        TextView alarmTitle = (TextView) findViewById(R.id.alarmTitle_SleepChecker);
         alarmTitle.setText(alarm.getTitle());
         setYesButton();
         countdown();
@@ -67,7 +67,7 @@ public class SleepCheckerActivity extends AppCompatActivity
      */
     private void setYesButton()
     {
-        Button yesButton = (Button)findViewById(R.id.yesButton);
+        Button yesButton = (Button) findViewById(R.id.yesButton);
         yesButton.setOnClickListener(
                 new View.OnClickListener()
                 {
@@ -99,14 +99,14 @@ public class SleepCheckerActivity extends AppCompatActivity
      */
     private void countdown()
     {
-        final TextView countdownText = (TextView)findViewById(R.id.countdownText);
+        final TextView countdownText = (TextView) findViewById(R.id.countdownText);
         countdownTimer = new CountDownTimer(AppConstants.FIFTEEN_SECONDS,
                 AppConstants.ONE_SECOND)
         {
             @Override
             public void onTick(long millisecondsUntilFinished)
             {
-                int timeLeft = (int)(millisecondsUntilFinished / 1000);
+                int timeLeft = (int) (millisecondsUntilFinished / 1000);
                 switch (timeLeft)
                 {
                     case 14:

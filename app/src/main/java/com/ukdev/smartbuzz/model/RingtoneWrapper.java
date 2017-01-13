@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
+
 import java.util.ArrayList;
 
 /**
@@ -19,7 +20,8 @@ public class RingtoneWrapper
 
     /**
      * Instantiates the class
-     * @param uri - the ringtone URI
+     *
+     * @param uri   - the ringtone URI
      * @param title - the ringtone title
      */
     public RingtoneWrapper(Uri uri, String title)
@@ -29,34 +31,8 @@ public class RingtoneWrapper
     }
 
     /**
-     * Gets the ringtone as a String
-     */
-    @Override
-    public String toString()
-    {
-        return title;
-    }
-
-    /**
-     * Gets the URI
-     * @return uri
-     */
-    public Uri getUri()
-    {
-        return uri;
-    }
-
-    /**
-     * Gets the title
-     * @return title
-     */
-    public String getTitle()
-    {
-        return title;
-    }
-
-    /**
      * Gets all ringtones
+     *
      * @param context - Context
      * @return ringtones
      */
@@ -75,6 +51,35 @@ public class RingtoneWrapper
             ringtones.add(new RingtoneWrapper(uri, title));
         }
         return ringtones;
+    }
+
+    /**
+     * Gets the ringtone as a String
+     */
+    @Override
+    public String toString()
+    {
+        return title;
+    }
+
+    /**
+     * Gets the URI
+     *
+     * @return uri
+     */
+    public Uri getUri()
+    {
+        return uri;
+    }
+
+    /**
+     * Gets the title
+     *
+     * @return title
+     */
+    public String getTitle()
+    {
+        return title;
     }
 
 }

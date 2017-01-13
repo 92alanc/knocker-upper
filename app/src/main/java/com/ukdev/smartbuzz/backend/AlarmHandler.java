@@ -31,13 +31,14 @@ public class AlarmHandler
 
     /**
      * Schedules an alarm
+     *
      * @param context - Context
-     * @param alarm - Alarm
+     * @param alarm   - Alarm
      */
     public static void scheduleAlarm(Context context, Alarm alarm)
     {
         AlarmRepository.getInstance(context).update(alarm.getId(), alarm);
-        AlarmManager manager = (AlarmManager)context
+        AlarmManager manager = (AlarmManager) context
                 .getSystemService(Context.ALARM_SERVICE);
         long triggerTime = BackEndTools
                 .getNextValidTriggerTime(alarm);
@@ -51,12 +52,13 @@ public class AlarmHandler
 
     /**
      * Handles a received alarm
+     *
      * @param context - Context
-     * @param alarm - Alarm
+     * @param alarm   - Alarm
      */
     static void handleReceivedAlarm(Context context, Alarm alarm)
     {
-        if (alarm != null && alarm.isOn())
+        if (alarm != null && alarm.isActive())
         {
             Calendar now = Calendar.getInstance();
             int today = now.get(Calendar.DAY_OF_WEEK);
@@ -106,8 +108,9 @@ public class AlarmHandler
 
     /**
      * Cancels an alarm
+     *
      * @param context - Context
-     * @param alarm - Alarm
+     * @param alarm   - Alarm
      */
     public static void cancelAlarm(Context context, Alarm alarm)
     {
@@ -122,8 +125,9 @@ public class AlarmHandler
 
     /**
      * Updates an alarm
+     *
      * @param context - Context
-     * @param alarm - Alarm
+     * @param alarm   - Alarm
      */
     public static void updateAlarm(Context context, Alarm alarm)
     {
@@ -133,6 +137,7 @@ public class AlarmHandler
 
     /**
      * Handles a received Sleep checker intent
+     *
      * @param context - Context
      */
     static void handleReceivedSleepChecker(Context context, Alarm alarm)
@@ -150,14 +155,15 @@ public class AlarmHandler
     /**
      * Calls Sleep Checker in a
      * random time between 3 and 5 minutes
+     *
      * @param context - Context
-     * @param alarm - Alarm
+     * @param alarm   - Alarm
      */
     private static void callSleepChecker(Context context, Alarm alarm)
     {
         if (alarm != null)
         {
-            AlarmManager manager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+            AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             Random random = new Random();
             Calendar now = Calendar.getInstance();
             int upToTwoMinutes = random.nextInt(AppConstants.TWO_MINUTES);
@@ -173,8 +179,9 @@ public class AlarmHandler
 
     /**
      * Starts AlarmManager
-     * @param manager - AlarmManager
-     * @param triggerTime - long
+     *
+     * @param manager       - AlarmManager
+     * @param triggerTime   - long
      * @param pendingIntent - PendingIntent
      */
     private static void startAlarmManager(AlarmManager manager, long triggerTime, PendingIntent pendingIntent)
@@ -189,8 +196,9 @@ public class AlarmHandler
 
     /**
      * Handles a received snooze task
+     *
      * @param context - Context
-     * @param alarm - Alarm
+     * @param alarm   - Alarm
      */
     static void handleSnoozeTask(Context context, Alarm alarm)
     {
@@ -206,12 +214,13 @@ public class AlarmHandler
 
     /**
      * Snoozes the ongoing alarm
+     *
      * @param context - Context
-     * @param alarm - Alarm
+     * @param alarm   - Alarm
      */
     public static void snoozeAlarm(Context context, Alarm alarm)
     {
-        AlarmManager manager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Calendar now = Calendar.getInstance();
         long snoozeTime;
         switch (alarm.getSnooze())
@@ -262,12 +271,13 @@ public class AlarmHandler
 
     /**
      * Kills an alarm
+     *
      * @param context - Context
-     * @param alarm - Alarm
+     * @param alarm   - Alarm
      */
     public static void killAlarm(Context context, Alarm alarm)
     {
-        alarm.toggle(false);
+        alarm.setActive(false);
         AlarmRepository.getInstance(context).update(alarm.getId(), alarm);
         FrontEndTools.showNotification(context);
     }

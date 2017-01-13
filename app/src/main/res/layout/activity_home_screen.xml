@@ -67,7 +67,7 @@
             app:elevation="6dp"
             app:backgroundTint="@color/blue"
             app:pressedTranslationZ="12dp"
-            android:src="@mipmap/ic_notifications_white_18dp" />
+            android:src="@mipmap/ic_notifications_white_18dp"/>
 
     <!-- Add reminder text -->
     <TextView
@@ -95,6 +95,6 @@
             app:pressedTranslationZ="12dp"
             app:fabSize="normal"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@mipmap/ic_add_white_24dp" />
+            android:src="@mipmap/ic_add_white_24dp"/>
 
 </android.support.design.widget.CoordinatorLayout>

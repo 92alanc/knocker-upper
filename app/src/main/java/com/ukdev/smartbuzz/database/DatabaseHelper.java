@@ -19,6 +19,7 @@ class DatabaseHelper extends SQLiteOpenHelper
 
     /**
      * Instantiates the class
+     *
      * @param context - Context
      */
     DatabaseHelper(Context context)

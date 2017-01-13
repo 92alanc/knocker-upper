@@ -38,7 +38,7 @@ public class HelpActivity extends AppCompatActivity
     private void setListView()
     {
         // First, we'll populate the list view
-        ListView listView = (ListView)findViewById(R.id.helpListView);
+        ListView listView = (ListView) findViewById(R.id.helpListView);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1);
         final String[] helpTopics = getResources().getStringArray(R.array.helpTopics);

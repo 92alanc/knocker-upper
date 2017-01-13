@@ -9,14 +9,14 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.backend.AlarmHandler;
+import com.ukdev.smartbuzz.backend.BackEndTools;
 import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.database.SnoozeCounter;
-import com.ukdev.smartbuzz.backend.AlarmHandler;
 import com.ukdev.smartbuzz.extras.AppConstants;
-import com.ukdev.smartbuzz.backend.BackEndTools;
 import com.ukdev.smartbuzz.frontend.FrontEndTools;
 import com.ukdev.smartbuzz.model.Alarm;
-import com.ukdev.smartbuzz.R;
 
 /**
  * Alarm activity
@@ -25,9 +25,9 @@ import com.ukdev.smartbuzz.R;
 public class AlarmActivity extends AppCompatActivity
 {
 
+    private final SnoozeCounter snoozeCounter = new SnoozeCounter(this);
     private Alarm alarm;
     private PowerManager.WakeLock wakeLock;
-    private final SnoozeCounter snoozeCounter = new SnoozeCounter(this);
     private CountDownTimer timer;
 
     @Override
@@ -66,7 +66,7 @@ public class AlarmActivity extends AppCompatActivity
      */
     private void setTitle()
     {
-        TextView title = (TextView)findViewById(R.id.alarmTitle);
+        TextView title = (TextView) findViewById(R.id.alarmTitle);
         title.setText(alarm.getTitle());
     }
 
@@ -137,7 +137,7 @@ public class AlarmActivity extends AppCompatActivity
             public void onFinish()
             {
                 AlarmHandler.dismissAlarm(alarm, AlarmActivity.this, getBaseContext(),
-                                          alarm.getPlayer(), alarm.getVibrator(), wakeLock);
+                        alarm.getPlayer(), alarm.getVibrator(), wakeLock);
             }
         };
         timer.start();

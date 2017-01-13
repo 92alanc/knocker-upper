@@ -17,13 +17,23 @@
     <string-array name="helpContents">
         <item>Para criar um alarme, clique no botão "+" no canto inferior direito da tela, depois
             preencha os campos que quiser.
-            \nPara salvar, clique no botão "Salvar".</item>
-        <item>Para excluir um alarme, segure em um item da lista, selecione outros alarmes se quiser, depois clique no botão da lixeira no canto superior direito da tela.</item>
+            \nPara salvar, clique no botão "Salvar".
+        </item>
+        <item>Para excluir um alarme, segure em um item da lista, selecione outros alarmes se quiser, depois clique no
+            botão da lixeira no canto superior direito da tela.
+        </item>
         <item>Para editar um alarme, clique no que você quer, faça as mudanças, depois salve.</item>
-        <item>Lembretes são um pouco diferentes dos alarmes. Eles não vão ativar o Sleep Checker depois que são dispensados.</item>
-        <item>Você pode programar seus alarmes para repetir durante a semana.\nPara fazer isso, é só marcar a caixa "Repetir durante a semana" quando estiver criando um alarme.</item>
-        <item>Sleep Checker é um agente silencioso que é ativado em um tempo aleatório entre 3 e 5 minutos depois que você dispensa um alarme.\nAssim ele garante que você não vai dormir mais do que deve e perder seus compromissos.
-            \nQuando ele é ativado, você vai ter 15 segundos para provar que está acordado, ou então o alarme vai tocar de novo, mas com uma pequena diferença: o volume vai estar no máximo e seu dispositivo vai vibrar.
+        <item>Lembretes são um pouco diferentes dos alarmes. Eles não vão ativar o Sleep Checker depois que são
+            dispensados.
+        </item>
+        <item>Você pode programar seus alarmes para repetir durante a semana.\nPara fazer isso, é só marcar a caixa
+            "Repetir durante a semana" quando estiver criando um alarme.
+        </item>
+        <item>Sleep Checker é um agente silencioso que é ativado em um tempo aleatório entre 3 e 5 minutos depois que
+            você dispensa um alarme.\nAssim ele garante que você não vai dormir mais do que deve e perder seus
+            compromissos.
+            \nQuando ele é ativado, você vai ter 15 segundos para provar que está acordado, ou então o alarme vai tocar
+            de novo, mas com uma pequena diferença: o volume vai estar no máximo e seu dispositivo vai vibrar.
         </item>
     </string-array>
 

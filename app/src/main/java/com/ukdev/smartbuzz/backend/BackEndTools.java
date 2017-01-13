@@ -24,6 +24,7 @@ public class BackEndTools
 
     /**
      * Converts an int array to a comma-separated String like "1,2,3"
+     *
      * @param array - int[]
      * @return comma-separated String
      */
@@ -44,7 +45,7 @@ public class BackEndTools
                     if (array.length != 2 || (item != 1 && item != 7))
                         weekends = false;
                     if (array.length != 5 || (item != 2 && item != 3 && item != 4
-                                              && item != 5 && item != 6))
+                            && item != 5 && item != 6))
                         weekDays = false;
                 }
                 if (weekDays)
@@ -54,7 +55,7 @@ public class BackEndTools
                 else
                 {
                     String[] texts = context.getResources()
-                                            .getStringArray(R.array.daysOfTheWeek);
+                            .getStringArray(R.array.daysOfTheWeek);
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < array.length; i++)
                     {
@@ -77,8 +78,9 @@ public class BackEndTools
 
     /**
      * Converts a comma-separated String to an int array
+     *
      * @param context - Context
-     * @param str - String
+     * @param str     - String
      * @return int array
      */
     public static int[] convertStringToIntArray(Context context, String str)
@@ -109,7 +111,7 @@ public class BackEndTools
             else
             {
                 String[] texts = context.getResources()
-                                        .getStringArray(R.array.daysOfTheWeek);
+                        .getStringArray(R.array.daysOfTheWeek);
                 String[] split = str.split(", ");
                 values = new int[split.length];
                 for (int i = 0; i < split.length; i++)
@@ -130,6 +132,7 @@ public class BackEndTools
 
     /**
      * Gets all selected repetition button values
+     *
      * @param layout - GridLayout
      * @return values
      */
@@ -165,6 +168,7 @@ public class BackEndTools
 
     /**
      * Gets the maximum volume available on the device
+     *
      * @param manager - AudioManager
      * @return max volume
      */
@@ -175,6 +179,7 @@ public class BackEndTools
 
     /**
      * Gets the next valid trigger time, in milliseconds
+     *
      * @param alarm - Alarm
      * @return next valid trigger time
      */
@@ -190,8 +195,8 @@ public class BackEndTools
         Calendar now = Calendar.getInstance();
 
         if ((hours <= now.get(Calendar.HOUR_OF_DAY)
-             || minutes > now.get(Calendar.MINUTE))
-            && (hours < now.get(Calendar.HOUR_OF_DAY)
+                || minutes > now.get(Calendar.MINUTE))
+                && (hours < now.get(Calendar.HOUR_OF_DAY)
                 || minutes <= now.get(Calendar.MINUTE)))
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         return calendar.getTimeInMillis();
@@ -199,6 +204,7 @@ public class BackEndTools
 
     /**
      * Shows the time left to an alarm's trigger time
+     *
      * @param alarm - Alarm
      * @return an array containing the days, hours and minutes left
      */
@@ -229,7 +235,7 @@ public class BackEndTools
             else
                 tomorrow = 1;
             if ((repetition[0] == today)
-                && (now.getTimeInMillis() < triggerTime.getTimeInMillis()))
+                    && (now.getTimeInMillis() < triggerTime.getTimeInMillis()))
                 nextDay = repetition[0];
             else
             {
@@ -239,8 +245,8 @@ public class BackEndTools
                     if (day == today || day == tomorrow)
                     {
                         if ((day == today) && ((triggerTime.get(Calendar.HOUR_OF_DAY) < now.get(Calendar.HOUR_OF_DAY))
-                                               || (triggerTime.get(Calendar.HOUR_OF_DAY) == now.get(Calendar.HOUR_OF_DAY))
-                                                  && triggerTime.get(Calendar.MINUTE) <= now.get(Calendar.MINUTE)))
+                                || (triggerTime.get(Calendar.HOUR_OF_DAY) == now.get(Calendar.HOUR_OF_DAY))
+                                && triggerTime.get(Calendar.MINUTE) <= now.get(Calendar.MINUTE)))
                             continue;
                         else
                             break;
@@ -255,13 +261,14 @@ public class BackEndTools
             }
             daysDiff = nextDay - now.get(Calendar.DAY_OF_WEEK);
             if ((daysDiff == 1) && (triggerTime.get(Calendar.HOUR_OF_DAY) <= now.get(Calendar.HOUR_OF_DAY))
-                && (triggerTime.get(Calendar.MINUTE) <= now.get(Calendar.MINUTE)))
+                    && (triggerTime.get(Calendar.MINUTE) <= now.get(Calendar.MINUTE)))
                 daysDiff = 0;
             else if (((daysDiff == 0) && (nextDay != today) && (nextDay != tomorrow)))
                 daysDiff = 7;
-            else if (((daysDiff == 0) && (repetition.length == 1)) && ((triggerTime.get(Calendar.HOUR_OF_DAY) < now.get(Calendar.HOUR_OF_DAY))
-                                                                       || (triggerTime.get(Calendar.HOUR_OF_DAY) == now.get(Calendar.HOUR_OF_DAY))
-                                                                          && triggerTime.get(Calendar.MINUTE) <= now.get(Calendar.MINUTE)))
+            else if (((daysDiff == 0) && (repetition.length == 1)) && ((triggerTime.get(Calendar.HOUR_OF_DAY) < now.get(
+                    Calendar.HOUR_OF_DAY))
+                    || (triggerTime.get(Calendar.HOUR_OF_DAY) == now.get(Calendar.HOUR_OF_DAY))
+                    && triggerTime.get(Calendar.MINUTE) <= now.get(Calendar.MINUTE)))
                 daysDiff = 6;
             else if (daysDiff < 0)
                 daysDiff = 7 + daysDiff;
@@ -276,6 +283,7 @@ public class BackEndTools
 
     /**
      * Kills the app
+     *
      * @param activity - Activity
      */
     public static void killApp(Activity activity)

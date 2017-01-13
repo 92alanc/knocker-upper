@@ -8,16 +8,19 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
-import com.ukdev.smartbuzz.database.AlarmRepository;
+import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.backend.AlarmHandler;
+import com.ukdev.smartbuzz.backend.BackEndTools;
+import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.extras.AppConstants;
 import com.ukdev.smartbuzz.frontend.FrontEndTools;
-import com.ukdev.smartbuzz.R;
-import com.ukdev.smartbuzz.backend.BackEndTools;
 import com.ukdev.smartbuzz.model.Alarm;
 
 import java.util.ArrayList;
@@ -45,11 +48,11 @@ public class HomeActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
-        fab_close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
-        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_forward);
-        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_backward);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_backward);
         database = AlarmRepository.getInstance(this);
-        addAlarmButton = (FloatingActionButton)findViewById(R.id.addAlarmButton);
+        addAlarmButton = (FloatingActionButton) findViewById(R.id.addAlarmButton);
         addAlarmButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -58,7 +61,7 @@ public class HomeActivity extends AppCompatActivity
                 createAlarm(false);
             }
         });
-        addReminderButton = (FloatingActionButton)findViewById(R.id.addReminderButton);
+        addReminderButton = (FloatingActionButton) findViewById(R.id.addReminderButton);
         addReminderButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -145,8 +148,7 @@ public class HomeActivity extends AppCompatActivity
                             // Do nothing
                         }
                     });
-        }
-        catch (PackageManager.NameNotFoundException e)
+        } catch (PackageManager.NameNotFoundException e)
         {
             // Damn! Something really wrong happened here
             e.printStackTrace();
@@ -174,9 +176,9 @@ public class HomeActivity extends AppCompatActivity
 
     private void animateButton()
     {
-        TextView addAlarmText = (TextView)findViewById(R.id.addAlarmText);
-        TextView addReminderText = (TextView)findViewById(R.id.addReminderText);
-        if(isFabOpen)
+        TextView addAlarmText = (TextView) findViewById(R.id.addAlarmText);
+        TextView addReminderText = (TextView) findViewById(R.id.addReminderText);
+        if (isFabOpen)
         {
             addButton.startAnimation(rotate_backward);
             addAlarmButton.startAnimation(fab_close);
@@ -200,8 +202,6 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    // TODO: check https://www.learn2crack.com/2015/10/android-floating-action-button-animations.html
-
     /**
      * Creates an alarm or a reminder
      */
@@ -224,6 +224,7 @@ public class HomeActivity extends AppCompatActivity
         listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener()
         {
             int i = 0;
+
             @Override
             public void onItemCheckedStateChanged(android.view.ActionMode actionMode,
                                                   int position,
@@ -235,7 +236,8 @@ public class HomeActivity extends AppCompatActivity
                     if (!selectedItems.contains(position))
                         selectedItems.add(position);
                     if (listView.getChildAt(position) != null)
-                        listView.getChildAt(position).setBackgroundResource(R.drawable.alarm_listviewitem_shape_selected);
+                        listView.getChildAt(position).setBackgroundResource(
+                                R.drawable.alarm_listviewitem_shape_selected);
                 }
                 else
                 {
@@ -300,7 +302,7 @@ public class HomeActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> adapterView, View view, int i,
                                     long l)
             {
-                Alarm alarm = (Alarm)listView.getItemAtPosition(i);
+                Alarm alarm = (Alarm) listView.getItemAtPosition(i);
                 Intent intent = new Intent(HomeActivity.this, AlarmCreatorActivity.class);
                 intent.setAction(AppConstants.ACTION_EDIT_ALARM);
                 intent.putExtra(AppConstants.EXTRA_EDIT, alarm.getId());
@@ -319,7 +321,7 @@ public class HomeActivity extends AppCompatActivity
         Alarm alarm = null;
         for (int position : selectedItems)
         {
-            alarm = (Alarm)listView.getItemAtPosition(position);
+            alarm = (Alarm) listView.getItemAtPosition(position);
             AlarmHandler.cancelAlarm(getBaseContext(), alarm);
             database.delete(alarm.getId());
         }

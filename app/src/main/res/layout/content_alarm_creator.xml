@@ -15,7 +15,6 @@
         tools:context=".activities.AlarmCreatorActivity">
 
     <RelativeLayout
-            android:id="@+id/alarmCreatorLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -349,7 +348,6 @@
 
             <!-- Cancel/Save buttons -->
             <LinearLayout
-                    android:id="@+id/cancelSaveLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/dividerBottom"
@@ -394,7 +392,6 @@
                 app:adUnitId="@string/adMobId"/>
 
     </RelativeLayout>
-
 
 
 </android.support.v4.widget.NestedScrollView>
