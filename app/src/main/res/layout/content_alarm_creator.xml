@@ -104,7 +104,8 @@
                     android:foregroundGravity="center"
                     android:background="@color/white"
                     android:src="@android:drawable/ic_menu_my_calendar"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    tools:ignore="ContentDescription"/>
             <HorizontalScrollView
                     android:id="@+id/horizontalScrollView"
                     android:layout_width="wrap_content"
@@ -287,7 +288,8 @@
                     android:layout_marginTop="20dp"
                     android:layout_below="@id/horizontalScrollView"
                     android:src="@mipmap/ic_play_arrow_black_36dp"
-                    android:background="@color/white"/>
+                    android:background="@color/white"
+                    tools:ignore="ContentDescription"/>
 
             <!-- Volume text -->
             <TextView
@@ -352,6 +354,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/dividerBottom"
                     android:weightSum="2"
+                    style="?android:buttonBarButtonStyle"
                     android:orientation="horizontal">
                 <!-- Cancel button -->
                 <Button
@@ -359,6 +362,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        style="?android:buttonBarButtonStyle"
                         android:background="@color/white"
                         android:text="@string/cancel"
                         android:textStyle="bold"
@@ -371,6 +375,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        style="?android:buttonBarButtonStyle"
                         android:background="@color/white"
                         android:text="@string/save"
                         android:textStyle="bold"
