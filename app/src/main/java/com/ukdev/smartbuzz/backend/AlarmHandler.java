@@ -124,6 +124,23 @@ public class AlarmHandler
     }
 
     /**
+     * Cancels a snooze task
+     * @param context - the context
+     * @param alarm - the alarm
+     */
+    public static void cancelSnoozeTask(Context context, Alarm alarm)
+    {
+        AlarmManager alarmManager = (AlarmManager)
+                context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(AppConstants.ACTION_CANCEL_ALARM);
+        intent.setAction(AppConstants.ACTION_SNOOZE);
+        intent.putExtra(AppConstants.EXTRA_ID, alarm.getId());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
+                alarm.getId(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        alarmManager.cancel(pendingIntent);
+    }
+
+    /**
      * Updates an alarm
      *
      * @param context - Context
@@ -132,6 +149,7 @@ public class AlarmHandler
     public static void updateAlarm(Context context, Alarm alarm)
     {
         cancelAlarm(context, alarm);
+        cancelSnoozeTask(context, alarm);
         scheduleAlarm(context, alarm);
     }
 
@@ -153,7 +171,7 @@ public class AlarmHandler
     }
 
     /**
-     * Calls Sleep Checker in a
+     * Calls Sleep Checker at a
      * random time between 3 and 5 minutes
      *
      * @param context - Context

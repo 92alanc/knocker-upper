@@ -1,6 +1,7 @@
 package com.ukdev.smartbuzz.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -24,8 +25,8 @@ import com.ukdev.smartbuzz.backend.AudioFocusChangeListener;
 import com.ukdev.smartbuzz.backend.BackEndTools;
 import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.extras.AppConstants;
-import com.ukdev.smartbuzz.frontend.CustomTimePicker;
 import com.ukdev.smartbuzz.frontend.FrontEndTools;
+import com.ukdev.smartbuzz.frontend.TimePickerDialogue;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.RingtoneWrapper;
 
@@ -40,12 +41,13 @@ import java.util.Calendar;
 public class AlarmCreatorActivity extends AppCompatActivity
 {
 
-    private CustomTimePicker timePicker;
+    private Button timePickerButton;
+    private TimePickerDialogue timePickerDialogue;
     private AppCompatEditText titleBox;
     private CollapsingToolbarLayout toolbarLayout;
     private AppCompatCheckBox repetitionCheckBox, reminderCheckBox, vibrateCheckBox;
     private int idToEdit;
-    private boolean isEditing, isReminder;
+    private boolean isEditing, isReminder, timePickerOpened;
     private AppCompatSpinner ringtoneSpinner, snoozeSpinner;
     private AppCompatSeekBar volumeSeekBar;
     private MediaPlayer player;
@@ -64,9 +66,11 @@ public class AlarmCreatorActivity extends AppCompatActivity
         manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         reminderCheckBox = (AppCompatCheckBox) findViewById(R.id.reminderCheckBox);
         isReminder = getIntent().getBooleanExtra(AppConstants.EXTRA_REMINDER, false);
+        timePickerOpened = false;
+        timePickerButton = (Button)findViewById(R.id.timePickerButton);
+        setTimePickerButton();
         setToolbarLayout();
         setSaveButton();
-        setTimePicker();
         setRepetitionCheckBox();
         setSundayButton();
         setMondayButton();
@@ -346,15 +350,16 @@ public class AlarmCreatorActivity extends AppCompatActivity
             ringtoneSpinner.setSelection(0);
         RingtoneWrapper ringtone = (RingtoneWrapper) ringtoneSpinner.getSelectedItem();
         int id = database.getLastId() + 1;
-        timePicker.clearFocus();
         int hours, minutes;
-        hours = getHours();
-        minutes = getMinutes();
         Calendar triggerTime = Calendar.getInstance();
-        triggerTime.set(Calendar.HOUR_OF_DAY, hours);
-        triggerTime.set(Calendar.MINUTE, minutes);
+        if (timePickerOpened)
+        {
+            hours = getHours();
+            minutes = getMinutes();
+            triggerTime.set(Calendar.HOUR_OF_DAY, hours);
+            triggerTime.set(Calendar.MINUTE, minutes);
+        }
         int snooze = getSnoozeSpinnerValue();
-
         int volume = volumeSeekBar.getProgress();
         boolean vibrate = vibrateCheckBox.isChecked();
         GridLayout layout = (GridLayout) findViewById(R.id.repetitionLayout);
@@ -391,12 +396,14 @@ public class AlarmCreatorActivity extends AppCompatActivity
             ringtoneSpinner.setSelection(0);
         RingtoneWrapper ringtone = (RingtoneWrapper) ringtoneSpinner.getSelectedItem();
         alarm.setTitle(title);
-        int hours, minutes;
-        hours = getHours();
-        minutes = getMinutes();
         Calendar triggerTime = Calendar.getInstance();
-        triggerTime.set(Calendar.HOUR_OF_DAY, hours);
-        triggerTime.set(Calendar.MINUTE, minutes);
+        if (timePickerOpened)
+        {
+            int hours = getHours();
+            int minutes = getMinutes();
+            triggerTime.set(Calendar.HOUR_OF_DAY, hours);
+            triggerTime.set(Calendar.MINUTE, minutes);
+        }
         alarm.setTriggerTime(triggerTime);
         AppCompatCheckBox reminderCheckBox = (AppCompatCheckBox) findViewById(R.id.reminderCheckBox);
         alarm.setAsReminder(reminderCheckBox.isChecked());
@@ -421,42 +428,74 @@ public class AlarmCreatorActivity extends AppCompatActivity
 
     private int getHours()
     {
-        int hours;
-        if (AppConstants.OS_VERSION >= Build.VERSION_CODES.M)
-            hours = timePicker.getHour();
-        else
-            hours = timePicker.getCurrentHour();
-        return hours;
+        return timePickerDialogue.getHourOfDay();
     }
 
     private int getMinutes()
     {
-        int minutes;
-        if (AppConstants.OS_VERSION >= Build.VERSION_CODES.M)
-            minutes = timePicker.getMinute();
-        else
-            minutes = timePicker.getCurrentMinute();
-        return minutes;
+        return timePickerDialogue.getMinute();
     }
 
-    /**
-     * Sets functions to timePicker
-     */
-    private void setTimePicker()
+    private void setTimePickerButton()
     {
-        timePicker = (CustomTimePicker) findViewById(R.id.timePicker);
-        if (DateFormat.is24HourFormat(getBaseContext()))
-            timePicker.setIs24HourView(true);
-        timePicker.setHapticFeedbackEnabled(true);
-        timePicker.setOnTouchListener(new View.OnTouchListener()
+        Calendar now = Calendar.getInstance();
+        final int hour = now.get(Calendar.HOUR_OF_DAY);
+        final int minute = now.get(Calendar.MINUTE);
+        setTimePickerButtonText(hour, minute);
+        timePickerButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent)
+            public void onClick(View view)
             {
-                FrontEndTools.hideKeyboard(AlarmCreatorActivity.this);
-                return false;
+                timePickerDialogue = createTimePicker(hour, minute);
+                showTimePickerDialogue(timePickerDialogue);
             }
         });
+    }
+
+    private TimePickerDialogue createTimePicker(final int hour, final int minute)
+    {
+        boolean is24H = DateFormat.is24HourFormat(this);
+        TimePickerDialogue dialogue = new TimePickerDialogue(this, hour, minute, is24H);
+        dialogue.setCanceledOnTouchOutside(true);
+        dialogue.setOnDismissListener(new DialogInterface.OnDismissListener()
+        {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface)
+            {
+                setTimePickerButtonText(hour, minute);
+                timePickerOpened = true;
+            }
+        });
+        dialogue.setOnCancelListener(new DialogInterface.OnCancelListener()
+        {
+            @Override
+            public void onCancel(DialogInterface dialogInterface)
+            {
+                setTimePickerButtonText(hour, minute);
+            }
+        });
+        return dialogue;
+    }
+
+    private void showTimePickerDialogue(TimePickerDialogue dialogue)
+    {
+        dialogue.show();
+    }
+
+    private void setTimePickerButtonText(int hour, int minute)
+    {
+        String h, m;
+        if (hour < 10)
+            h = "0" + hour;
+        else
+            h = String.valueOf(hour);
+        if (minute < 10)
+            m = "0" + minute;
+        else
+            m = String.valueOf(minute);
+        String text = String.format("%1$s:%2$s", h, m);
+        timePickerButton.setText(text);
     }
 
     /**
@@ -608,16 +647,10 @@ public class AlarmCreatorActivity extends AppCompatActivity
         toolbarLayout =
                 (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         titleBox = (AppCompatEditText) findViewById(R.id.titleBox);
-        if (AppConstants.OS_VERSION >= Build.VERSION_CODES.M)
-        {
-            timePicker.setHour(alarmToEdit.getTriggerTime().get(Calendar.HOUR_OF_DAY));
-            timePicker.setMinute(alarmToEdit.getTriggerTime().get(Calendar.MINUTE));
-        }
-        else
-        {
-            timePicker.setCurrentHour(alarmToEdit.getTriggerTime().get(Calendar.HOUR_OF_DAY));
-            timePicker.setCurrentMinute(alarmToEdit.getTriggerTime().get(Calendar.MINUTE));
-        }
+        int hour = alarmToEdit.getTriggerTime().get(Calendar.HOUR_OF_DAY);
+        int minute = alarmToEdit.getTriggerTime().get(Calendar.MINUTE);
+        timePickerDialogue = createTimePicker(hour, minute);
+        setTimePickerButtonText(hour, minute);
         titleBox.setText(alarmToEdit.getTitle());
         toolbarLayout.setTitle(alarmToEdit.getTitle() + "*");
         reminderCheckBox.setChecked(alarmToEdit.isReminder());

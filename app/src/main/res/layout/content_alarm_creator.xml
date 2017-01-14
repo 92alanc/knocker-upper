@@ -34,23 +34,22 @@
                     android:inputType="textCapSentences"
                     android:maxLength="20"/>
 
-            <!-- Time picker -->
-            <com.ukdev.smartbuzz.frontend.CustomTimePicker
-                    android:id="@+id/timePicker"
+            <!-- Time picker button -->
+            <Button
+                    android:id="@+id/timePickerButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/titleBox"
-                    android:headerBackground="@color/black"
-                    android:background="@color/white"
-                    android:hapticFeedbackEnabled="true"
-                    android:soundEffectsEnabled="true"/>
+                    android:background="@color/black"
+                    android:textColor="@color/white"
+                    android:textSize="50sp"/>
 
             <!-- Divider -->
             <View
                     android:id="@+id/dividerTimePicker"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@id/timePicker"
+                    android:layout_below="@id/timePickerButton"
                     android:background="@android:color/darker_gray"/>
 
             <!-- Snooze text -->
