@@ -44,4 +44,11 @@
         <item>The Sleep Checker feature</item>
     </string-array>
 
+    <!-- Snooze durations -->
+    <string-array name="snoozeDurations">
+        <item>@string/five_min</item>
+        <item>@string/ten_min</item>
+        <item>@string/fifteen_min</item>
+    </string-array>
+
 </resources>

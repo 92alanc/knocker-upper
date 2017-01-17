@@ -8,10 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.GridLayout;
-import android.widget.ListView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
+import android.widget.*;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.ukdev.smartbuzz.R;
@@ -90,11 +87,9 @@ public class FrontEndTools
      */
     public static void adaptSnoozeSpinner(Context context, AppCompatSpinner spinner)
     {
-        String[] values = new String[3];
-        values[0] = context.getString(R.string.five_min);
-        values[1] = context.getString(R.string.ten_min);
-        values[2] = context.getString(R.string.fifteen_min);
-        SnoozeAdapter adapter = new SnoozeAdapter(context, values);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.snoozeDurations,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
         spinner.setAdapter(adapter);
     }
 
@@ -120,8 +115,9 @@ public class FrontEndTools
     public static void adaptRingtonePicker(Context context, AppCompatSpinner ringtonePicker)
     {
         ArrayList<RingtoneWrapper> ringtones = RingtoneWrapper.getAllRingtones(context);
-        RingtoneAdapter adapter = new RingtoneAdapter(context, R.layout.ringtone_spinner_item,
-                ringtones);
+        ArrayAdapter<RingtoneWrapper> adapter = new ArrayAdapter<>(context,
+                android.R.layout.simple_spinner_item, ringtones);
+        adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
         ringtonePicker.setAdapter(adapter);
     }
 

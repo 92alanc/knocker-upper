@@ -125,8 +125,9 @@ public class AlarmHandler
 
     /**
      * Cancels a snooze task
+     *
      * @param context - the context
-     * @param alarm - the alarm
+     * @param alarm   - the alarm
      */
     public static void cancelSnoozeTask(Context context, Alarm alarm)
     {

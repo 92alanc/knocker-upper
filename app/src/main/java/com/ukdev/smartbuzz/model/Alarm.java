@@ -40,7 +40,7 @@ public class Alarm
      * @param volume      - int
      * @param vibrate     - boolean
      * @param reminder    - boolean
-     * @param active          - boolean
+     * @param active      - boolean
      * @param repetition  - int[]
      * @param snooze      - int
      */
