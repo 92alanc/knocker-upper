@@ -69,6 +69,10 @@ public class Alarm {
         this.repetition = repetition;
     }
 
+    public boolean repeats() {
+        return repetition != null && repetition.length > 0;
+    }
+
     public RingtoneWrapper getRingtone() {
         return ringtone;
     }

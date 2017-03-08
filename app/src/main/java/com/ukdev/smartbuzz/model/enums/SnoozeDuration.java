@@ -4,18 +4,18 @@ import android.util.SparseArray;
 
 public enum SnoozeDuration {
 
-    FIVE_MINUTES(5),
-    TEN_MINUTES(10),
-    FIFTEEN_MINUTES(15),
-    THIRTY_MINUTES(30);
+    FIVE_MINUTES(5 * 60 * 1000),
+    TEN_MINUTES(10 * 60 * 1000),
+    FIFTEEN_MINUTES(15 * 60 * 1000),
+    THIRTY_MINUTES(30 * 60 * 1000);
 
-    private final int value;
+    private final long value;
 
-    SnoozeDuration(int value) {
+    SnoozeDuration(long value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public long getValue() {
         return value;
     }
 
@@ -23,11 +23,11 @@ public enum SnoozeDuration {
 
     static {
         for (SnoozeDuration duration : SnoozeDuration.values())
-            sparseArray.append(duration.getValue(), duration);
+            sparseArray.append((int)duration.getValue(), duration);
     }
 
-    public static SnoozeDuration fromInt(int i) {
-        return sparseArray.get(i);
+    public static SnoozeDuration fromInt(long i) {
+        return sparseArray.get((int)i);
     }
 
 }
