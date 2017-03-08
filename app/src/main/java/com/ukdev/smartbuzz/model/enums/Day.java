@@ -1,4 +1,4 @@
-package com.ukdev.smartbuzz.model;
+package com.ukdev.smartbuzz.model.enums;
 
 import android.util.SparseArray;
 

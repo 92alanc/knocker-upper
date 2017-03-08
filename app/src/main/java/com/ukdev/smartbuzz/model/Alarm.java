@@ -1,5 +1,8 @@
 package com.ukdev.smartbuzz.model;
 
+import com.ukdev.smartbuzz.model.enums.Day;
+import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
+
 import java.util.Calendar;
 
 public class Alarm {
@@ -7,7 +10,7 @@ public class Alarm {
     private int id;
     private String title;
     private Calendar triggerTime;
-    private int snoozeDuration;
+    private SnoozeDuration snoozeDuration;
     private Day[] repetition;
     private RingtoneWrapper ringtone;
     private String text;
@@ -15,10 +18,10 @@ public class Alarm {
     private boolean active;
 
     public Alarm() {
-        this(0, "", Calendar.getInstance(), 0, null, null, "", true);
+        this(0, "", Calendar.getInstance(), SnoozeDuration.FIVE_MINUTES, null, null, "", true);
     }
 
-    public Alarm(int id, String title, Calendar triggerTime, int snoozeDuration, Day[] repetition,
+    public Alarm(int id, String title, Calendar triggerTime, SnoozeDuration snoozeDuration, Day[] repetition,
                  RingtoneWrapper ringtone, String text, boolean sleepCheckerOn) {
         this.id = id;
         this.title = title;
@@ -50,11 +53,11 @@ public class Alarm {
         this.triggerTime = triggerTime;
     }
 
-    public int getSnoozeDuration() {
+    public SnoozeDuration getSnoozeDuration() {
         return snoozeDuration;
     }
 
-    public void setSnoozeDuration(int snoozeDuration) {
+    public void setSnoozeDuration(SnoozeDuration snoozeDuration) {
         this.snoozeDuration = snoozeDuration;
     }
 
