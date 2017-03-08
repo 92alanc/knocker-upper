@@ -2,8 +2,7 @@
 <resources>
 
     <!-- Not translatable -->
-    <string name="adMobId" translatable="false">ca-app-pub-3993772572074236/8461240508</string>
+    <string name="adUnitId" translatable="false">ca-app-pub-3993772572074236/8461240508</string>
     <string name="app_name" translatable="false">Smart Buzz</string>
-    <string name="title_activity_main">MainActivity</string>
 
 </resources>
