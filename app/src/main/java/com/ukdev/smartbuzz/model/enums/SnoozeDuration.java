@@ -4,6 +4,7 @@ import android.util.SparseArray;
 
 public enum SnoozeDuration {
 
+    OFF(0),
     FIVE_MINUTES(5 * 60 * 1000),
     TEN_MINUTES(10 * 60 * 1000),
     FIFTEEN_MINUTES(15 * 60 * 1000),

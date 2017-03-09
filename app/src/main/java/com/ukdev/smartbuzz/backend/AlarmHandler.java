@@ -11,6 +11,7 @@ import android.provider.AlarmClock;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.backend.enums.Action;
 import com.ukdev.smartbuzz.backend.enums.Extra;
+import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.exception.NullAlarmException;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.enums.Day;
@@ -24,6 +25,7 @@ public class AlarmHandler {
     private Alarm alarm;
     private AlarmManager manager;
     private Context context;
+    private AlarmRepository database;
 
     private static final int TWO_MINUTES = 2 * 60 * 1000;
     private static final int THREE_MINUTES = 3 * 60 * 1000;
@@ -34,6 +36,7 @@ public class AlarmHandler {
         this.alarm = alarm;
         this.context = context;
         manager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        database = AlarmRepository.getInstance(context);
     }
 
     public void callSleepChecker() {
@@ -86,13 +89,13 @@ public class AlarmHandler {
             alarm.setActive(false);
         if (wakeLock.isHeld())
             wakeLock.release();
-        // TODO: update alarm in database
-        // TODO: kill app
+        database.update(alarm);
+        Utils.killApp(context);
     }
 
     public void setAlarm() {
-        // TODO: update alarm in database
-        long triggerTime = alarm.getTriggerTime().getTimeInMillis(); // TODO: implement getNextValidTriggerTime
+        database.update(alarm);
+        long triggerTime = Utils.getNextValidTriggerTime(alarm);
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.setAction(Action.SCHEDULE_ALARM.toString());
         intent.putExtra(Extra.ID.toString(), alarm.getId());
@@ -108,8 +111,7 @@ public class AlarmHandler {
             context.startActivity(i);
             return;
         }
-        //AlarmRepository database = AlarmRepository.getInstance(context);
-        //int id = database.getLastId() + 1;
+        int id = database.getLastId() + 1;
         String title = context.getString(R.string.new_alarm);
         if (intent.hasExtra(AlarmClock.EXTRA_MESSAGE))
             title = intent.getStringExtra(AlarmClock.EXTRA_MESSAGE);
@@ -122,9 +124,9 @@ public class AlarmHandler {
         triggerTime.set(Calendar.MINUTE, minutes);
         //RingtoneWrapper ringtone = RingtoneWrapper.getAllRingtones(context).get(0);
         //int volume = Alarm.getDefaultVolume(context);
-        Alarm alarm = new Alarm(context, 0, title, triggerTime, SnoozeDuration.FIVE_MINUTES,
+        Alarm alarm = new Alarm(context, id, title, triggerTime, SnoozeDuration.FIVE_MINUTES,
                 null, null, null, true, true, 4);
-        // TODO: insert alarm into database
+        database.insert(alarm);
         setAlarm();
     }
 
