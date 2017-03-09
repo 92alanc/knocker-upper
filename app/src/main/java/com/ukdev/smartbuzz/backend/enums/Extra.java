@@ -2,7 +2,8 @@ package com.ukdev.smartbuzz.backend.enums;
 
 public enum Extra {
 
-    ID("ID");
+    ID("ID"),
+    SLEEP_CHECKER_ON("SLEEP_CHECKER_ON");
 
     private final String value;
 

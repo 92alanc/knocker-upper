@@ -1,15 +1,20 @@
 package com.ukdev.smartbuzz.backend;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.PowerManager;
+import android.provider.AlarmClock;
+import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.backend.enums.Action;
 import com.ukdev.smartbuzz.backend.enums.Extra;
 import com.ukdev.smartbuzz.exception.NullAlarmException;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.enums.Day;
+import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 
 import java.util.Calendar;
 import java.util.Random;
@@ -71,7 +76,67 @@ public class AlarmHandler {
         startAlarmManager(triggerTime, pendingIntent);
     }
 
-    public void handleReceivedAlarm() {
+    public void dismissAlarm(Activity activity, PowerManager.WakeLock wakeLock) {
+        if (alarm.vibrates() || activity.getIntent().getAction().equals(Action.WAKE_UP.toString()))
+            alarm.getVibrator().cancel();
+        alarm.getMediaPlayer().release();
+        if (alarm.isSleepCheckerOn())
+            callSleepChecker();
+        if (!alarm.isSleepCheckerOn() && !alarm.repeats())
+            alarm.setActive(false);
+        if (wakeLock.isHeld())
+            wakeLock.release();
+        // TODO: update alarm in database
+        // TODO: kill app
+    }
+
+    public void setAlarm() {
+        // TODO: update alarm in database
+        long triggerTime = alarm.getTriggerTime().getTimeInMillis(); // TODO: implement getNextValidTriggerTime
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.setAction(Action.SCHEDULE_ALARM.toString());
+        intent.putExtra(Extra.ID.toString(), alarm.getId());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(), intent, 0);
+        startAlarmManager(triggerTime, pendingIntent);
+    }
+
+    public void setAlarmByVoice(Context context, Intent intent) {
+        if (!intent.hasExtra(AlarmClock.EXTRA_HOUR)) {
+            Intent i = new Intent(context, null); // TODO: replace null with AlarmCreatorActivity.class
+            i.setAction(Action.CREATE_ALARM.toString());
+            i.putExtra(Extra.SLEEP_CHECKER_ON.toString(), true);
+            context.startActivity(i);
+            return;
+        }
+        //AlarmRepository database = AlarmRepository.getInstance(context);
+        //int id = database.getLastId() + 1;
+        String title = context.getString(R.string.new_alarm);
+        if (intent.hasExtra(AlarmClock.EXTRA_MESSAGE))
+            title = intent.getStringExtra(AlarmClock.EXTRA_MESSAGE);
+        int hour = intent.getIntExtra(AlarmClock.EXTRA_HOUR, 0);
+        int minutes = 0;
+        if (intent.hasExtra(AlarmClock.EXTRA_MINUTES))
+            minutes = intent.getIntExtra(AlarmClock.EXTRA_MINUTES, 0);
+        Calendar triggerTime = Calendar.getInstance();
+        triggerTime.set(Calendar.HOUR_OF_DAY, hour);
+        triggerTime.set(Calendar.MINUTE, minutes);
+        //RingtoneWrapper ringtone = RingtoneWrapper.getAllRingtones(context).get(0);
+        //int volume = Alarm.getDefaultVolume(context);
+        Alarm alarm = new Alarm(context, 0, title, triggerTime, SnoozeDuration.FIVE_MINUTES,
+                null, null, null, true, true, 4);
+        // TODO: insert alarm into database
+        setAlarm();
+    }
+
+    public void startAlarmActivity() {
+        Intent activityIntent = new Intent(context, null); // TODO: replace null with AlarmActivity.class
+        activityIntent.putExtra(Extra.ID.toString(), alarm.getId());
+        activityIntent.setAction(Action.TRIGGER_ALARM.toString());
+        activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(activityIntent);
+    }
+
+    public void triggerAlarm() {
         if (alarm.isActive()) {
             Calendar now = Calendar.getInstance();
             Day today = Day.fromInt(now.get(Calendar.DAY_OF_WEEK));
@@ -94,7 +159,7 @@ public class AlarmHandler {
                             triggerFlags[1] = true;
                     }
                     if (triggerFlags[1]) // If the alarm should trigger tomorrow
-                        scheduleAlarm();
+                        setAlarm();
                     if (repetition[i] == today) {
                         triggerFlags[0] = true;
                         break;
@@ -103,34 +168,26 @@ public class AlarmHandler {
             }
             else
                 triggerFlags[0] = true;
-            if (triggerFlags[0]) { // If the alarm should trigger today
-                Intent activityIntent = new Intent(context, null); // TODO: replace null with AlarmActivity.class
-                activityIntent.putExtra(Extra.ID.toString(), alarm.getId());
-                activityIntent.setAction(Action.TRIGGER_ALARM.toString());
-                activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(activityIntent);
-            }
+            if (triggerFlags[0]) // If the alarm should trigger today
+                startAlarmActivity();
         }
     }
 
-    public void scheduleAlarm() {
-        // TODO: update alarm in database
-        long triggerTime = alarm.getTriggerTime().getTimeInMillis(); // TODO: implement getNextValidTriggerTime
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.setAction(Action.SCHEDULE_ALARM.toString());
-        intent.putExtra(Extra.ID.toString(), alarm.getId());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(), intent, 0);
-        startAlarmManager(triggerTime, pendingIntent);
+    public void triggerSleepChecker() {
+        Intent activityIntent = new Intent(context, null); // TODO: replace null with SleepCheckerActivity.class
+        activityIntent.putExtra(Extra.ID.toString(), alarm.getId());
+        activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activityIntent.setAction(Action.TRIGGER_SLEEP_CHECKER.toString());
+        context.startActivity(activityIntent);
     }
 
     public void updateAlarm() {
         cancelAlarm();
         cancelDelay();
-        scheduleAlarm();
+        setAlarm();
     }
 
-    private void startAlarmManager(long triggerTime, PendingIntent pendingIntent)
-    {
+    private void startAlarmManager(long triggerTime, PendingIntent pendingIntent) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
             manager.set(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
         else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)

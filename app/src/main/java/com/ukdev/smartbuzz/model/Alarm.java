@@ -1,5 +1,8 @@
 package com.ukdev.smartbuzz.model;
 
+import android.content.Context;
+import android.media.MediaPlayer;
+import android.os.Vibrator;
 import com.ukdev.smartbuzz.model.enums.Day;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 
@@ -7,6 +10,7 @@ import java.util.Calendar;
 
 public class Alarm {
 
+    private Context context;
     private int id;
     private String title;
     private Calendar triggerTime;
@@ -16,13 +20,20 @@ public class Alarm {
     private String text;
     private boolean sleepCheckerOn;
     private boolean active;
+    private boolean vibrate;
+    private Vibrator vibrator;
+    private int volume;
+    private MediaPlayer mediaPlayer;
 
-    public Alarm() {
-        this(0, "", Calendar.getInstance(), SnoozeDuration.FIVE_MINUTES, null, null, "", true);
+    public Alarm(Context context) {
+        this(context, 0, "", Calendar.getInstance(), SnoozeDuration.FIVE_MINUTES, null, null,
+                "", true, true, 4);
     }
 
-    public Alarm(int id, String title, Calendar triggerTime, SnoozeDuration snoozeDuration, Day[] repetition,
-                 RingtoneWrapper ringtone, String text, boolean sleepCheckerOn) {
+    public Alarm(Context context, int id, String title, Calendar triggerTime, SnoozeDuration snoozeDuration,
+                 Day[] repetition, RingtoneWrapper ringtone, String text, boolean sleepCheckerOn,
+                 boolean vibrate, int volume) {
+        this.context = context;
         this.id = id;
         this.title = title;
         this.triggerTime = triggerTime;
@@ -31,6 +42,9 @@ public class Alarm {
         this.ringtone = ringtone;
         this.text = text;
         this.sleepCheckerOn = sleepCheckerOn;
+        this.vibrate = vibrate;
+        this.volume = volume;
+        vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     public int getId() {
@@ -103,6 +117,26 @@ public class Alarm {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean vibrates() {
+        return vibrate;
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
+    public void setVolume(int volume) {
+        this.volume = volume;
+    }
+
+    public Vibrator getVibrator() {
+        return vibrator;
+    }
+
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
     }
 
 }
