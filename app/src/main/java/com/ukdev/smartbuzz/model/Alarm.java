@@ -36,12 +36,12 @@ public class Alarm {
 
     public Alarm(Context context) {
         this(context, 0, "", Calendar.getInstance(), SnoozeDuration.FIVE_MINUTES, null, null,
-                "", true, true, 4);
+                "", true, true, Utils.getDefaultVolume(context), true);
     }
 
     public Alarm(Context context, int id, String title, Calendar triggerTime, SnoozeDuration snoozeDuration,
                  Day[] repetition, RingtoneWrapper ringtone, String text, boolean sleepCheckerOn,
-                 boolean vibrate, int volume) {
+                 boolean vibrate, int volume, boolean active) {
         this.context = context;
         this.id = id;
         this.title = title;
@@ -53,6 +53,7 @@ public class Alarm {
         this.sleepCheckerOn = sleepCheckerOn;
         this.vibrate = vibrate;
         this.volume = volume;
+        this.active = active;
         vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
@@ -63,6 +64,10 @@ public class Alarm {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
