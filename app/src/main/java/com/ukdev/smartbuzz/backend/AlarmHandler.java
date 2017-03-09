@@ -14,6 +14,7 @@ import com.ukdev.smartbuzz.backend.enums.Extra;
 import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.exception.NullAlarmException;
 import com.ukdev.smartbuzz.model.Alarm;
+import com.ukdev.smartbuzz.model.RingtoneWrapper;
 import com.ukdev.smartbuzz.model.enums.Day;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 
@@ -81,8 +82,8 @@ public class AlarmHandler {
 
     public void dismissAlarm(Activity activity, PowerManager.WakeLock wakeLock) {
         if (alarm.vibrates() || activity.getIntent().getAction().equals(Action.WAKE_UP.toString()))
-            alarm.getVibrator().cancel();
-        alarm.getMediaPlayer().release();
+            alarm.stopVibration();
+        alarm.stopRingtone();
         if (alarm.isSleepCheckerOn())
             callSleepChecker();
         if (!alarm.isSleepCheckerOn() && !alarm.repeats())
@@ -122,10 +123,10 @@ public class AlarmHandler {
         Calendar triggerTime = Calendar.getInstance();
         triggerTime.set(Calendar.HOUR_OF_DAY, hour);
         triggerTime.set(Calendar.MINUTE, minutes);
-        //RingtoneWrapper ringtone = RingtoneWrapper.getAllRingtones(context).get(0);
-        //int volume = Alarm.getDefaultVolume(context);
+        RingtoneWrapper ringtone = RingtoneWrapper.getAllRingtones(context).get(0);
+        int volume = Utils.getDefaultVolume(context);
         Alarm alarm = new Alarm(context, id, title, triggerTime, SnoozeDuration.FIVE_MINUTES,
-                null, null, null, true, true, 4);
+                null, ringtone, null, true, true, volume);
         database.insert(alarm);
         setAlarm();
     }

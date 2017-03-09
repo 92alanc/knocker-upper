@@ -1,11 +1,18 @@
 package com.ukdev.smartbuzz.model;
 
+import android.app.Activity;
 import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Vibrator;
+import com.ukdev.smartbuzz.backend.AudioFocusChangeListener;
+import com.ukdev.smartbuzz.backend.Utils;
+import com.ukdev.smartbuzz.backend.enums.Action;
 import com.ukdev.smartbuzz.model.enums.Day;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 
+import java.io.IOException;
 import java.util.Calendar;
 
 public class Alarm {
@@ -23,7 +30,9 @@ public class Alarm {
     private boolean vibrate;
     private Vibrator vibrator;
     private int volume;
-    private MediaPlayer mediaPlayer;
+    private MediaPlayer player;
+
+    private static final long[] VIBRATION_PATTERN = {};
 
     public Alarm(Context context) {
         this(context, 0, "", Calendar.getInstance(), SnoozeDuration.FIVE_MINUTES, null, null,
@@ -45,6 +54,11 @@ public class Alarm {
         this.vibrate = vibrate;
         this.volume = volume;
         vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
+    }
+
+    @Override
+    public String toString() {
+        return title;
     }
 
     public int getId() {
@@ -131,12 +145,57 @@ public class Alarm {
         this.volume = volume;
     }
 
-    public Vibrator getVibrator() {
-        return vibrator;
+    public void playRingtone(Activity activity) {
+        AudioManager manager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        player = new MediaPlayer();
+        vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        int volume;
+        if (activity.getIntent().getAction().equals(Action.WAKE_UP.toString())) {
+            volume = Utils.getMaxVolume(context);
+            vibrator.vibrate(VIBRATION_PATTERN, 0);
+        }
+        else {
+            volume = this.getVolume();
+            if (this.vibrates())
+                vibrator.vibrate(VIBRATION_PATTERN, 0);
+        }
+        manager.setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
+        int requestResult;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            requestResult = manager.requestAudioFocus(new AudioFocusChangeListener(manager,
+                            this.getVolume()),
+                    AudioManager.STREAM_ALARM,
+                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
+        }
+        else {
+            requestResult = manager.requestAudioFocus(new AudioFocusChangeListener(manager,
+                            this.getVolume()),
+                    AudioManager.STREAM_ALARM,
+                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+        }
+        if (requestResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            player.setAudioStreamType(AudioManager.STREAM_ALARM);
+            player.setLooping(true);
+            try {
+                player.setDataSource(context, this.getRingtone().getUri());
+                player.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            player.start();
+        }
     }
 
-    public MediaPlayer getMediaPlayer() {
-        return mediaPlayer;
+    public void stopRingtone() {
+        player.release();
+    }
+
+    public void startVibration() {
+
+    }
+
+    public void stopVibration() {
+        vibrator.cancel();
     }
 
 }
