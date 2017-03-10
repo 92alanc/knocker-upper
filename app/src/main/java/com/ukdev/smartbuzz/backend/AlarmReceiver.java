@@ -7,6 +7,7 @@ import com.ukdev.smartbuzz.backend.enums.Action;
 import com.ukdev.smartbuzz.backend.enums.Extra;
 import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.exception.NullAlarmException;
+import com.ukdev.smartbuzz.misc.LogTool;
 import com.ukdev.smartbuzz.model.Alarm;
 
 public class AlarmReceiver extends WakefulBroadcastReceiver {
@@ -24,7 +25,8 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
             else if (intent.getAction().equals(Action.DELAY_ALARM.toString()))
                 handler.startAlarmActivity();
         } catch (NullAlarmException e) {
-            e.printStackTrace();
+            LogTool log = new LogTool(context);
+            log.exception(e);
         }
     }
 

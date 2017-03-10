@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import com.ukdev.smartbuzz.database.AlarmRepository;
 import com.ukdev.smartbuzz.exception.NullAlarmException;
+import com.ukdev.smartbuzz.misc.LogTool;
 import com.ukdev.smartbuzz.model.Alarm;
 
 import java.util.ArrayList;
@@ -21,7 +22,8 @@ public class BootReceiver extends BroadcastReceiver {
                         AlarmHandler handler = new AlarmHandler(context, alarm);
                         handler.setAlarm();
                     } catch (NullAlarmException e) {
-                        e.printStackTrace();
+                        LogTool log = new LogTool(context);
+                        log.exception(e);
                     }
                 }
                 // TODO: show notification
