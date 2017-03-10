@@ -10,5 +10,6 @@
     <string name="every_day">Every day</string>
     <string name="week_days">Week days</string>
     <string name="weekends">Weekends</string>
+    <string name="exception_null_alarm">An error has occurred (NullAlarmException). Please restart the application or report the problem to Braincorp.</string>
 
 </resources>

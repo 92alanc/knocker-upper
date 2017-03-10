@@ -28,12 +28,12 @@ public class AlarmHandler {
     private Context context;
     private AlarmRepository database;
 
-    private static final int TWO_MINUTES = 2 * 60 * 1000;
-    private static final int THREE_MINUTES = 3 * 60 * 1000;
+    private static final int TWO_MINUTES = 120000;
+    private static final int THREE_MINUTES = 180000;
 
     public AlarmHandler(Context context, Alarm alarm) throws NullAlarmException {
         if (alarm == null)
-            throw new NullAlarmException();
+            throw new NullAlarmException(context);
         this.alarm = alarm;
         this.context = context;
         manager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
@@ -193,7 +193,8 @@ public class AlarmHandler {
     private void startAlarmManager(long triggerTime, PendingIntent pendingIntent) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
             manager.set(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+                && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
             manager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
         else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             manager.setAlarmClock(new AlarmManager.AlarmClockInfo(triggerTime, pendingIntent), pendingIntent);

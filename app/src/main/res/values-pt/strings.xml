@@ -4,4 +4,8 @@
     <string name="every_day">Todo dia</string>
     <string name="week_days">Dias da semana</string>
     <string name="weekends">Fins de semana</string>
+    <string name="every_day">Todo dia</string>
+    <string name="exception_null_alarm">Ocorreu um erro (NullAlarmException). Por favor reinicie o aplicativo ou reporte o problema para a Braincorp.</string>
+    <string name="week_days">Dias da semana</string>
+    <string name="weekends">Fins de semana</string>
 </resources>
