@@ -7,5 +7,8 @@
 
     <!-- Translatable -->
     <string name="new_alarm">New alarm</string>
+    <string name="every_day">Every day</string>
+    <string name="week_days">Week days</string>
+    <string name="weekends">Weekends</string>
 
 </resources>

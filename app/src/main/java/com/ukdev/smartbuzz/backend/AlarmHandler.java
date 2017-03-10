@@ -126,7 +126,7 @@ public class AlarmHandler {
         RingtoneWrapper ringtone = RingtoneWrapper.getAllRingtones(context).get(0);
         int volume = Utils.getDefaultVolume(context);
         Alarm alarm = new Alarm(context, id, title, triggerTime, SnoozeDuration.FIVE_MINUTES,
-                null, ringtone, null, true, true, volume);
+                null, ringtone, null, true, true, volume, true);
         database.insert(alarm);
         setAlarm();
     }

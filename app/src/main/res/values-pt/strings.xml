@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="new_alarm">Novo alarme</string>
+    <string name="every_day">Todo dia</string>
+    <string name="week_days">Dias da semana</string>
+    <string name="weekends">Fins de semana</string>
 </resources>
