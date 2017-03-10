@@ -8,15 +8,13 @@ import java.util.ArrayList;
 
 abstract class BaseRepository {
 
-    protected SQLiteDatabase reader;
-    protected SQLiteDatabase writer;
-
+    SQLiteDatabase reader;
+    SQLiteDatabase writer;
     Context context;
-    DatabaseHelper helper;
 
     BaseRepository(Context context) {
         this.context = context;
-        helper = new DatabaseHelper(context);
+        DatabaseHelper helper = new DatabaseHelper(context);
         reader = helper.getReadableDatabase();
         writer = helper.getWritableDatabase();
     }

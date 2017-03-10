@@ -91,7 +91,7 @@ public class AlarmHandler {
         if (wakeLock.isHeld())
             wakeLock.release();
         database.update(alarm);
-        Utils.killApp(context);
+        Utils.killApp(activity);
     }
 
     public void setAlarm() {
