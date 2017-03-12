@@ -11,11 +11,12 @@ public class LogTool {
 
     public LogTool(Context context) {
         dialogue = new AlertDialog.Builder(context);
+        dialogue.setTitle(R.string.app_name);
     }
 
     public void exception(Exception e) {
-        dialogue.setTitle(R.string.app_name);
         dialogue.setMessage(e.getMessage());
+        dialogue.setIcon(R.mipmap.ic_sentiment_very_dissatisfied_white_24dp);
         dialogue.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -26,8 +27,8 @@ public class LogTool {
     }
 
     public void info(String text) {
-        dialogue.setTitle(R.string.info);
         dialogue.setMessage(text);
+        dialogue.setIcon(R.mipmap.ic_priority_high_white_24dp);
         dialogue.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
