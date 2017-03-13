@@ -5,4 +5,14 @@
     <string name="week_days">Dias da semana</string>
     <string name="weekends">Fins de semana</string>
     <string name="exception_null_alarm">Ocorreu um erro (NullAlarmException). Por favor reinicie o aplicativo ou reporte o problema para a Braincorp.</string>
+    <string name="snooze_duration">Duração da soneca</string>
+    <string name="name">Nome</string>
+    <string name="repeat">Repetir</string>
+    <string name="fri">Sex</string>
+    <string name="mon">Seg</string>
+    <string name="sat">Sáb</string>
+    <string name="sun">Dom</string>
+    <string name="thu">Qui</string>
+    <string name="tue">Ter</string>
+    <string name="wed">Qua</string>
 </resources>

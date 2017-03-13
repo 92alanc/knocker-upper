@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.PowerManager;
 import android.provider.AlarmClock;
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.activities.AlarmCreatorActivity;
 import com.ukdev.smartbuzz.backend.enums.Action;
 import com.ukdev.smartbuzz.backend.enums.Extra;
 import com.ukdev.smartbuzz.database.AlarmRepository;
@@ -106,7 +107,7 @@ public class AlarmHandler {
 
     public void setAlarmByVoice(Context context, Intent intent) {
         if (!intent.hasExtra(AlarmClock.EXTRA_HOUR)) {
-            Intent i = new Intent(context, null); // TODO: replace null with AlarmCreatorActivity.class
+            Intent i = new Intent(context, AlarmCreatorActivity.class);
             i.setAction(Action.CREATE_ALARM.toString());
             i.putExtra(Extra.SLEEP_CHECKER_ON.toString(), true);
             context.startActivity(i);

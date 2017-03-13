@@ -10,7 +10,19 @@
     <string name="every_day">Every day</string>
     <string name="week_days">Week days</string>
     <string name="weekends">Weekends</string>
-    <string name="exception_null_alarm">An error has occurred (NullAlarmException). Please restart the application or report the problem to Braincorp.</string>
+    <string name="exception_null_alarm">An error has occurred (NullAlarmException). Please restart the application or
+        report the problem to Braincorp.
+    </string>
     <string name="ok" translatable="false">OK</string>
+    <string name="snooze_duration">Snooze duration</string>
+    <string name="name">Name</string>
+    <string name="repeat">Repeat</string>
+    <string name="mon">Mon</string>
+    <string name="sun">Sun</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
 
 </resources>
