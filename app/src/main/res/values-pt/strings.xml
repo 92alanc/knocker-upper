@@ -15,4 +15,6 @@
     <string name="thu">Qui</string>
     <string name="tue">Ter</string>
     <string name="wed">Qua</string>
+    <string name="menuItem_Settings">Configurações</string>
+    <string name="menuItem_About">Sobre</string>
 </resources>

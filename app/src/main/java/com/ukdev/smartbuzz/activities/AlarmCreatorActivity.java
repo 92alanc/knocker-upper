@@ -13,6 +13,7 @@ public class AlarmCreatorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_alarm_creator);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
