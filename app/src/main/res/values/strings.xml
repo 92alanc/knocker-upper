@@ -26,5 +26,6 @@
     <string name="sat">Sat</string>
     <string name="menuItem_Settings">Settings</string>
     <string name="menuItem_About">About</string>
+    <string name="about">Developed by Braincorp Apps\ne-mail: alcam.ukdev@gmail.com</string>
 
 </resources>
