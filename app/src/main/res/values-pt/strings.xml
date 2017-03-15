@@ -15,7 +15,8 @@
     <string name="thu">Qui</string>
     <string name="tue">Ter</string>
     <string name="wed">Qua</string>
-    <string name="menuItem_Settings">Configurações</string>
+    <string name="settings">Configurações</string>
     <string name="menuItem_About">Sobre</string>
     <string name="about">Desenvolvido por Braincorp Apps\ne-mail: alcam.ukdev@gmail.com</string>
+    <string name="theme">Tema</string>
 </resources>

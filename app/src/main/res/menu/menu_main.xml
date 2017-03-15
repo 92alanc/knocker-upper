@@ -4,7 +4,7 @@
     <!-- Settings -->
     <item
             android:id="@+id/menuItem_Settings"
-            android:title="@string/menuItem_Settings"
+            android:title="@string/settings"
             app:showAsAction="never"/>
     <!-- About -->
     <item
