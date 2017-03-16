@@ -35,6 +35,8 @@ proguard/
 *.iml
 .idea/
 play_store_files/
+projectFilesBackup/
+projectFilesBackup1/
 
 # Promotion files
 *.csv
