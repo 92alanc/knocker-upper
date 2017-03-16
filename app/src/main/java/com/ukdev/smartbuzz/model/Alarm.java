@@ -33,8 +33,6 @@ public class Alarm {
     private int volume;
     private MediaPlayer player;
 
-    private static final long[] VIBRATION_PATTERN = {};
-
     public Alarm(Context context) {
         this(context, 0, "", Calendar.getInstance(), SnoozeDuration.FIVE_MINUTES, null, null,
                 "", true, true, Utils.getDefaultVolume(context), true);
@@ -55,6 +53,7 @@ public class Alarm {
         this.vibrate = vibrate;
         this.volume = volume;
         this.active = active;
+        player = new MediaPlayer();
         vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
@@ -153,29 +152,27 @@ public class Alarm {
 
     public void playRingtone(Activity activity) {
         AudioManager manager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        player = new MediaPlayer();
-        vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         int volume;
         if (activity.getIntent().getAction().equals(Action.WAKE_UP.toString())) {
             volume = Utils.getMaxVolume(context);
-            vibrator.vibrate(VIBRATION_PATTERN, 0);
+            startVibration();
         }
         else {
-            volume = this.getVolume();
-            if (this.vibrates())
-                vibrator.vibrate(VIBRATION_PATTERN, 0);
+            volume = getVolume();
+            if (vibrates())
+                startVibration();
         }
         manager.setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
         int requestResult;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             requestResult = manager.requestAudioFocus(new AudioFocusChangeListener(manager,
-                            this.getVolume()),
+                            getVolume()),
                     AudioManager.STREAM_ALARM,
                     AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
         }
         else {
             requestResult = manager.requestAudioFocus(new AudioFocusChangeListener(manager,
-                            this.getVolume()),
+                            getVolume()),
                     AudioManager.STREAM_ALARM,
                     AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
         }
@@ -183,7 +180,7 @@ public class Alarm {
             player.setAudioStreamType(AudioManager.STREAM_ALARM);
             player.setLooping(true);
             try {
-                player.setDataSource(context, this.getRingtone().getUri());
+                player.setDataSource(context, getRingtone().getUri());
                 player.prepare();
             } catch (IOException e) {
                 LogTool log = new LogTool(context);
@@ -195,10 +192,13 @@ public class Alarm {
 
     public void stopRingtone() {
         player.release();
+        if (vibrates())
+            stopVibration();
     }
 
     public void startVibration() {
-
+        long[] pattern = { 1000, 2000 };
+        vibrator.vibrate(pattern, 0);
     }
 
     public void stopVibration() {
