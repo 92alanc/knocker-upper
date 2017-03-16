@@ -9,6 +9,7 @@ import android.os.Vibrator;
 import com.ukdev.smartbuzz.backend.AudioFocusChangeListener;
 import com.ukdev.smartbuzz.backend.Utils;
 import com.ukdev.smartbuzz.backend.enums.Action;
+import com.ukdev.smartbuzz.misc.LogTool;
 import com.ukdev.smartbuzz.model.enums.Day;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 
@@ -185,7 +186,8 @@ public class Alarm {
                 player.setDataSource(context, this.getRingtone().getUri());
                 player.prepare();
             } catch (IOException e) {
-                e.printStackTrace();
+                LogTool log = new LogTool(context);
+                log.exception(e);
             }
             player.start();
         }
