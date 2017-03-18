@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.frontend.Utils;
 
 public class AlarmCreatorActivity extends AppCompatActivity {
 
@@ -15,6 +16,7 @@ public class AlarmCreatorActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Utils.showAds(this, R.id.adView_AlarmCreator);
     }
 
 }

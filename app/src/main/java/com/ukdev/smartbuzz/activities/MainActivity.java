@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.frontend.Utils;
 import com.ukdev.smartbuzz.misc.LogTool;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Utils.showAds(this, R.id.adView_Main);
     }
 
     @Override
