@@ -6,12 +6,12 @@ import android.support.v7.widget.Toolbar;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.frontend.Utils;
 
-public class AlarmCreatorActivity extends AppCompatActivity {
+public class SetupActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_alarm_creator);
+        setContentView(R.layout.activity_setup);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //noinspection ConstantConditions

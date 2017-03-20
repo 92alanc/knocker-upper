@@ -7,8 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/activity_alarm_creator"
-        tools:context="com.ukdev.smartbuzz.activities.AlarmCreatorActivity">
+        tools:showIn="@layout/activity_setup"
+        tools:context="com.ukdev.smartbuzz.activities.SetupActivity">
 
     <RelativeLayout
             android:layout_width="match_parent"

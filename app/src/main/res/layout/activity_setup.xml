@@ -5,7 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.ukdev.smartbuzz.activities.AlarmCreatorActivity">
+        tools:context="com.ukdev.smartbuzz.activities.SetupActivity">
 
     <android.support.design.widget.AppBarLayout
             android:layout_height="wrap_content"
@@ -21,6 +21,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_alarm_creator"/>
+    <include layout="@layout/content_setup"/>
 
 </android.support.design.widget.CoordinatorLayout>
