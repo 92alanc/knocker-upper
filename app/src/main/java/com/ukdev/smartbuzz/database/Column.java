@@ -1,6 +1,6 @@
 package com.ukdev.smartbuzz.database;
 
-public enum Column {
+enum Column {
 
     ID("_id"),
     TITLE("TITLE"),

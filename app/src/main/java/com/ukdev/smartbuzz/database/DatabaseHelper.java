@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+class DatabaseHelper extends SQLiteOpenHelper {
 
     @SuppressLint("SdCardPath")
     private static final String DB_PATH = "/data/data/com.ukdev.smartbuzz/databases/";
