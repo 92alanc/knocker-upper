@@ -19,4 +19,9 @@
     <string name="menuItem_About">Sobre</string>
     <string name="about">Desenvolvido por Braincorp Apps\ne-mail: alcam.ukdev@gmail.com</string>
     <string name="theme">Tema</string>
+    <string name="behaviour">Funcionamento</string>
+    <string name="summary_behaviour">Como os alarmes devem funcionar</string>
+    <string name="summary_theme">Como o visual do aplicativo deve ser</string>
+    <string name="enable_sleep_checker">Ativar Sleep Checker</string>
+    <string name="summary_enable_sleep_checker">Depois que você dispensar um alarme, seu dispositivo vai acender a tela em um tempo aleatório entre 3 e 5 minutos e te perguntar se você está acordado. Se você não apertar o botão \"Sim, estou acordado\" em 15 segundos, o alarme volta a tocar.</string>
 </resources>

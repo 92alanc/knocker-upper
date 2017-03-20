@@ -28,5 +28,10 @@
     <string name="menuItem_About">About</string>
     <string name="about">Developed by Braincorp Apps\ne-mail: alcam.ukdev@gmail.com</string>
     <string name="theme">Theme</string>
+    <string name="behaviour">Behaviour</string>
+    <string name="summary_behaviour">How alarms should behave</string>
+    <string name="summary_theme">How the app should look like</string>
+    <string name="enable_sleep_checker">Enable Sleep Checker</string>
+    <string name="summary_enable_sleep_checker">After you dismiss an alarm, your device will silently turn on the screen at a random time between 3 and 5 minutes and ask you if you\'re awake. If you don\'t press the \'Yes, I\'m awake\' button in 15 seconds the alarm will go off again.</string>
 
 </resources>

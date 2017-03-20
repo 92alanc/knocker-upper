@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
     <PreferenceCategory
-            android:title="@string/theme">
-
+            android:title="@string/behaviour"
+            android:summary="@string/summary_behaviour"
+            android:icon="@mipmap/ic_settings_white_24dp">
+        <CheckBoxPreference
+                android:title="@string/enable_sleep_checker"
+                android:summary="@string/summary_enable_sleep_checker"
+                android:icon="@mipmap/ic_alarm_white_24dp"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+            android:title="@string/theme"
+            android:summary="@string/summary_theme">
+        <ListPreference
+            android:entries="@array/themes"/>
     </PreferenceCategory>
 </PreferenceScreen>

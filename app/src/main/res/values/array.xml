@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="daysOfTheWeek">
-
-    </array>
+    <string-array name="daysOfTheWeek">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
+    <string-array name="themes">
+        <item>Dark</item>
+        <item>Light</item>
+    </string-array>
 </resources>
