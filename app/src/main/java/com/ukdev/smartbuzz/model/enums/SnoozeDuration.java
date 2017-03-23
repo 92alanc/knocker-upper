@@ -1,14 +1,16 @@
 package com.ukdev.smartbuzz.model.enums;
 
-import android.util.SparseArray;
+import android.util.LongSparseArray;
 
 public enum SnoozeDuration {
 
-    OFF(0),
-    FIVE_MINUTES(5 * 60 * 1000),
-    TEN_MINUTES(10 * 60 * 1000),
-    FIFTEEN_MINUTES(15 * 60 * 1000),
-    THIRTY_MINUTES(30 * 60 * 1000);
+    OFF(0L),
+    FIVE_MINUTES(300000L),
+    TEN_MINUTES(600000L),
+    FIFTEEN_MINUTES(900000L),
+    TWENTY_MINUTES(1200000L),
+    TWENTY_FIVE_MINUTES(1500000L),
+    THIRTY_MINUTES(1800000L);
 
     private final long value;
 
@@ -20,15 +22,15 @@ public enum SnoozeDuration {
         return value;
     }
 
-    private static SparseArray<SnoozeDuration> sparseArray = new SparseArray<>();
+    private static LongSparseArray<SnoozeDuration> sparseArray = new LongSparseArray<>();
 
     static {
         for (SnoozeDuration duration : SnoozeDuration.values())
-            sparseArray.append((int)duration.getValue(), duration);
+            sparseArray.append(duration.getValue(), duration);
     }
 
-    public static SnoozeDuration fromInt(long i) {
-        return sparseArray.get((int)i);
+    public static SnoozeDuration fromLong(long l) {
+        return sparseArray.get(l);
     }
 
 }

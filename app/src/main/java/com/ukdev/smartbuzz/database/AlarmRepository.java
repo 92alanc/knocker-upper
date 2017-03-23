@@ -96,8 +96,8 @@ public class AlarmRepository extends BaseRepository {
     private Alarm assembleAlarm(Cursor cursor) {
         cursor.moveToFirst();
         String title, ringtoneTitle, ringtoneUri, text;
-        long trigger;
-        int volume, snooze;
+        long trigger, snooze;
+        int volume;
         SnoozeDuration snoozeDuration;
         boolean active, sleepCheckerOn, vibrate;
         Day[] repetition;
@@ -114,8 +114,8 @@ public class AlarmRepository extends BaseRepository {
         ringtoneUri = cursor.getString(cursor.getColumnIndex(Column.RINGTONE_URI.toString()));
         ringtoneTitle = cursor.getString(cursor.getColumnIndex(Column.RINGTONE_TITLE.toString()));
         volume = cursor.getInt(cursor.getColumnIndex(Column.VOLUME.toString()));
-        snooze = cursor.getInt(cursor.getColumnIndex(Column.SNOOZE_DURATION.toString()));
-        snoozeDuration = SnoozeDuration.fromInt(snooze);
+        snooze = cursor.getLong(cursor.getColumnIndex(Column.SNOOZE_DURATION.toString()));
+        snoozeDuration = SnoozeDuration.fromLong(snooze);
         vibrate = cursor.getInt(cursor.getColumnIndex(Column.VIBRATE.toString())) == 1;
 
         repetition = Utils.convertStringToDayArray(context,
