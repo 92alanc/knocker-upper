@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import com.ukdev.smartbuzz.backend.enums.Action;
 import com.ukdev.smartbuzz.backend.enums.Extra;
-import com.ukdev.smartbuzz.database.AlarmRepository;
+import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.exception.NullAlarmException;
 import com.ukdev.smartbuzz.misc.LogTool;
 import com.ukdev.smartbuzz.model.Alarm;
@@ -15,7 +15,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         int id = intent.getIntExtra(Extra.ID.toString(), 0);
-        Alarm alarm = AlarmRepository.getInstance(context).select(id);
+        Alarm alarm = AlarmDao.getInstance(context).select(id);
         try {
             AlarmHandler handler = new AlarmHandler(context, alarm);
             if (intent.getAction().equals(Action.TRIGGER_ALARM.toString()))

@@ -6,13 +6,13 @@ import com.ukdev.smartbuzz.model.Alarm;
 
 import java.util.ArrayList;
 
-abstract class BaseRepository {
+abstract class BaseDao {
 
     SQLiteDatabase reader;
     SQLiteDatabase writer;
     Context context;
 
-    BaseRepository(Context context) {
+    BaseDao(Context context) {
         this.context = context;
         DatabaseHelper helper = new DatabaseHelper(context);
         reader = helper.getReadableDatabase();

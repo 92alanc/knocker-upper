@@ -12,7 +12,7 @@ import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.activities.SetupActivity;
 import com.ukdev.smartbuzz.backend.enums.Action;
 import com.ukdev.smartbuzz.backend.enums.Extra;
-import com.ukdev.smartbuzz.database.AlarmRepository;
+import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.exception.NullAlarmException;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.RingtoneWrapper;
@@ -27,7 +27,7 @@ public class AlarmHandler {
     private Alarm alarm;
     private AlarmManager manager;
     private Context context;
-    private AlarmRepository database;
+    private AlarmDao database;
 
     private static final int TWO_MINUTES = 120000;
     private static final int THREE_MINUTES = 180000;
@@ -38,7 +38,7 @@ public class AlarmHandler {
         this.alarm = alarm;
         this.context = context;
         manager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        database = AlarmRepository.getInstance(context);
+        database = AlarmDao.getInstance(context);
     }
 
     public void callSleepChecker() {

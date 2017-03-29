@@ -14,20 +14,20 @@ import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AlarmRepository extends BaseRepository {
+public class AlarmDao extends BaseDao {
 
     private static final String TABLE_NAME = "ALARMS";
 
     @SuppressLint("StaticFieldLeak")
-    private static AlarmRepository instance;
+    private static AlarmDao instance;
 
-    public static AlarmRepository getInstance(Context context) {
+    public static AlarmDao getInstance(Context context) {
         if (instance == null)
-            instance = new AlarmRepository(context);
+            instance = new AlarmDao(context);
         return instance;
     }
 
-    private AlarmRepository(Context context) {
+    private AlarmDao(Context context) {
         super(context);
     }
 
