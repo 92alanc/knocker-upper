@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.backend.enums.Action;
 import com.ukdev.smartbuzz.frontend.Utils;
 import com.ukdev.smartbuzz.misc.LogTool;
 
@@ -21,6 +24,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        FloatingActionButton addButton = (FloatingActionButton)findViewById(R.id.addButton_Main);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SetupActivity.class);
+                intent.setAction(Action.CREATE_ALARM.toString());
+                startActivity(intent);
+            }
+        });
         Utils.showAds(this, R.id.adView_Main);
     }
 
