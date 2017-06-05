@@ -22,7 +22,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     @SuppressLint("SdCardPath")
     private static final String DB_PATH = "/data/data/com.ukdev.smartbuzz/databases/";
-    private static final String DB_NAME = "database.db";
+    private static final String DB_NAME = "database.sqlite";
     private SQLiteDatabase database;
     private Context context;
     private LogTool log;
