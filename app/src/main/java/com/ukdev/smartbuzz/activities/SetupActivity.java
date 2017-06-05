@@ -5,6 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import com.ukdev.smartbuzz.R;
 
+/**
+ * The activity where alarms are set
+ *
+ * @author Alan Camargo
+ */
 public class SetupActivity extends AppCompatActivity {
 
     @Override

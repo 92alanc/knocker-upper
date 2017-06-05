@@ -10,6 +10,11 @@ import com.ukdev.smartbuzz.exception.NullAlarmException;
 import com.ukdev.smartbuzz.misc.LogTool;
 import com.ukdev.smartbuzz.model.Alarm;
 
+/**
+ * A {@link WakefulBroadcastReceiver} for alarms
+ *
+ * @author Alan Camargo
+ */
 public class AlarmReceiver extends WakefulBroadcastReceiver {
 
     @Override

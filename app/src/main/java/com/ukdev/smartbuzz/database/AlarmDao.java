@@ -13,7 +13,13 @@ import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
+/**
+ * Data access object for {@link Alarm} objects
+ *
+ * @author Alan Camargo
+ */
 public class AlarmDao extends BaseDao {
 
     private static final String TABLE_NAME = "ALARMS";
@@ -21,6 +27,11 @@ public class AlarmDao extends BaseDao {
     @SuppressLint("StaticFieldLeak")
     private static AlarmDao instance;
 
+    /**
+     * Default constructor for {@code AlarmDao}
+     * @param context the Android context
+     * @return the singleton instance of {@code AlarmDao}
+     */
     public static AlarmDao getInstance(Context context) {
         if (instance == null)
             instance = new AlarmDao(context);
@@ -31,12 +42,20 @@ public class AlarmDao extends BaseDao {
         super(context);
     }
 
+    /**
+     * Deletes an instance of {@link Alarm}
+     * @param alarm the alarm to delete
+     */
     @Override
     public void delete(Alarm alarm) {
         writer.delete(TABLE_NAME,
                 Column.ID.toString() + " = ?", new String[]{String.valueOf(alarm.getId())});
     }
 
+    /**
+     * Inserts a new instance of {@link Alarm}
+     * @param alarm the alarm to insert
+     */
     @Override
     public void insert(Alarm alarm) {
         ContentValues values = new ContentValues();
@@ -44,13 +63,38 @@ public class AlarmDao extends BaseDao {
         writer.insert(TABLE_NAME, null, values);
     }
 
+    /**
+     * Gets all active instances of {@link Alarm}.
+     * Active can be understood as scheduled.
+     * @see Alarm#isActive()
+     * @return all active alarms
+     */
+    @Override
+    public List<Alarm> getActiveAlarms() {
+        Cursor cursor = reader.query(TABLE_NAME, null, Column.ACTIVE.toString() + " = ?",
+                                     new String[]{"1"}, null, null, null);
+        ArrayList<Alarm> alarms = new ArrayList<>(cursor.getCount());
+        if (cursor.getCount() > 0)
+            alarms = queryAlarms(cursor);
+        cursor.close();
+        return alarms;
+    }
+
+    /**
+     * Gets the last {@link Alarm} database ID
+     * @return the last ID
+     */
     @Override
     public int getLastId() {
         return 0;
     }
 
+    /**
+     * Gets all instances of {@link Alarm}
+     * @return all alarms
+     */
     @Override
-    public ArrayList<Alarm> select() {
+    public List<Alarm> select() {
         Cursor cursor = reader.query(TABLE_NAME,
                 null, null, null, null, null,
                 Column.ID.toString() + " ASC");
@@ -61,6 +105,12 @@ public class AlarmDao extends BaseDao {
         return alarms;
     }
 
+    /**
+     * Gets an instance of {@link Alarm} by
+     * its database ID
+     * @param id the ID
+     * @return the alarm found
+     */
     @Override
     public Alarm select(int id) {
         Cursor cursor = reader.query(TABLE_NAME, null, Column.ID.toString() + " = ?",
@@ -74,17 +124,10 @@ public class AlarmDao extends BaseDao {
             return null;
     }
 
-    @Override
-    public ArrayList<Alarm> getActiveAlarms() {
-        Cursor cursor = reader.query(TABLE_NAME, null, Column.ACTIVE.toString() + " = ?",
-                new String[]{"1"}, null, null, null);
-        ArrayList<Alarm> alarms = new ArrayList<>(cursor.getCount());
-        if (cursor.getCount() > 0)
-            alarms = queryAlarms(cursor);
-        cursor.close();
-        return alarms;
-    }
-
+    /**
+     * Updates an instance of {@link Alarm}
+     * @param alarm the alarm to be updated
+     */
     @Override
     public void update(Alarm alarm) {
         ContentValues values = new ContentValues();

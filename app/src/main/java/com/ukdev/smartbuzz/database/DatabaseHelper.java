@@ -13,6 +13,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * A helper to access SQLite databases
+ *
+ * @author Alan Camargo
+ */
 class DatabaseHelper extends SQLiteOpenHelper {
 
     @SuppressLint("SdCardPath")
@@ -22,6 +27,10 @@ class DatabaseHelper extends SQLiteOpenHelper {
     private Context context;
     private LogTool log;
 
+    /**
+     * Default constructor for {@code DatabaseHelper}
+     * @param context the Android context
+     */
     DatabaseHelper(Context context) {
         super(context, DB_NAME, null, 1);
         this.context = context;
@@ -33,6 +42,19 @@ class DatabaseHelper extends SQLiteOpenHelper {
             log.exception(e);
         }
     }
+
+    @Override
+    public synchronized void close() {
+        if (database != null)
+            database.close();
+        super.close();
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) { }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { }
 
     private void createDatabase() throws IOException {
         boolean dbExists = checkDatabase();
@@ -78,19 +100,5 @@ class DatabaseHelper extends SQLiteOpenHelper {
         String path = DB_PATH + DB_NAME;
         database = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
     }
-
-    @Override
-    public synchronized void close() {
-        if (database != null)
-            database.close();
-        super.close();
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) { }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { }
-
 
 }

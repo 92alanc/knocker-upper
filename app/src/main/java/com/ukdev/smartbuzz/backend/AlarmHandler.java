@@ -22,6 +22,12 @@ import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 import java.util.Calendar;
 import java.util.Random;
 
+/**
+ * Controls various operations related to
+ * an {@link Alarm}
+ *
+ * @author Alan Camargo
+ */
 public class AlarmHandler {
 
     private Alarm alarm;
@@ -32,6 +38,12 @@ public class AlarmHandler {
     private static final int TWO_MINUTES = 120000;
     private static final int THREE_MINUTES = 180000;
 
+    /**
+     * Default constructor for {@code AlarmHandler}
+     * @param context the Android context
+     * @param alarm the alarm
+     * @throws NullAlarmException if the alarm is {@code null}
+     */
     public AlarmHandler(Context context, Alarm alarm) throws NullAlarmException {
         if (alarm == null)
             throw new NullAlarmException(context);
@@ -41,6 +53,9 @@ public class AlarmHandler {
         database = AlarmDao.getInstance(context);
     }
 
+    /**
+     * Calls Sleep checker
+     */
     public void callSleepChecker() {
         Random random = new Random();
         Calendar now = Calendar.getInstance();
@@ -54,6 +69,9 @@ public class AlarmHandler {
         startAlarmManager(callTime, pendingIntent);
     }
 
+    /**
+     * Cancels an ongoing alarm
+     */
     public void cancelAlarm() {
         Intent intent = new Intent(Action.CANCEL_ALARM.toString());
         intent.putExtra(Extra.ID.toString(), alarm.getId());
@@ -62,6 +80,9 @@ public class AlarmHandler {
         manager.cancel(pendingIntent);
     }
 
+    /**
+     * Cancels a delay
+     */
     public void cancelDelay() {
         Intent intent = new Intent(Action.CANCEL_ALARM.toString());
         intent.setAction(Action.DELAY_ALARM.toString());
@@ -71,6 +92,9 @@ public class AlarmHandler {
         manager.cancel(pendingIntent);
     }
 
+    /**
+     * Delays an alarm
+     */
     public void delayAlarm() {
         Calendar now = Calendar.getInstance();
         long triggerTime = alarm.getSnoozeDuration().getValue() + now.getTimeInMillis();
@@ -81,6 +105,11 @@ public class AlarmHandler {
         startAlarmManager(triggerTime, pendingIntent);
     }
 
+    /**
+     * Dismisses an alarm
+     * @param activity the activity receiving the intent
+     * @param wakeLock the wake lock to be released
+     */
     public void dismissAlarm(Activity activity, PowerManager.WakeLock wakeLock) {
         if (alarm.vibrates() || activity.getIntent().getAction().equals(Action.WAKE_UP.toString()))
             alarm.stopVibration();
@@ -95,6 +124,9 @@ public class AlarmHandler {
         Utils.killApp(activity);
     }
 
+    /**
+     * Sets a new alarm
+     */
     public void setAlarm() {
         database.update(alarm);
         long triggerTime = Utils.getNextValidTriggerTime(alarm);
@@ -105,6 +137,12 @@ public class AlarmHandler {
         startAlarmManager(triggerTime, pendingIntent);
     }
 
+    /**
+     * Sets a new alarm by voice
+     * @param context the Android context
+     * @param intent the intent received from
+     *               the voice command
+     */
     public void setAlarmByVoice(Context context, Intent intent) {
         if (!intent.hasExtra(AlarmClock.EXTRA_HOUR)) {
             Intent i = new Intent(context, SetupActivity.class);
@@ -132,6 +170,10 @@ public class AlarmHandler {
         setAlarm();
     }
 
+    /**
+     * Starts the target activity to display
+     * the alarm being triggered
+     */
     public void startAlarmActivity() {
         Intent activityIntent = new Intent(context, null); // TODO: replace null with AlarmActivity.class
         activityIntent.putExtra(Extra.ID.toString(), alarm.getId());
@@ -140,6 +182,9 @@ public class AlarmHandler {
         context.startActivity(activityIntent);
     }
 
+    /**
+     * Triggers an alarm
+     */
     public void triggerAlarm() {
         if (alarm.isActive()) {
             Calendar now = Calendar.getInstance();
@@ -157,8 +202,7 @@ public class AlarmHandler {
                     if (i < repetition.length - 1) {
                         if (repetition[i + 1] == tomorrow)
                             triggerFlags[1] = true;
-                    }
-                    else {
+                    } else {
                         if (repetition[0] == tomorrow)
                             triggerFlags[1] = true;
                     }
@@ -169,14 +213,16 @@ public class AlarmHandler {
                         break;
                     }
                 }
-            }
-            else
+            } else
                 triggerFlags[0] = true;
             if (triggerFlags[0]) // If the alarm should trigger today
                 startAlarmActivity();
         }
     }
 
+    /**
+     * Triggers Sleep Checker
+     */
     public void triggerSleepChecker() {
         Intent activityIntent = new Intent(context, null); // TODO: replace null with SleepCheckerActivity.class
         activityIntent.putExtra(Extra.ID.toString(), alarm.getId());
@@ -185,6 +231,9 @@ public class AlarmHandler {
         context.startActivity(activityIntent);
     }
 
+    /**
+     * Updates an alarm
+     */
     public void updateAlarm() {
         cancelAlarm();
         cancelDelay();

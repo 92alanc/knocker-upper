@@ -16,6 +16,11 @@ import com.ukdev.smartbuzz.backend.enums.Action;
 import com.ukdev.smartbuzz.frontend.Utils;
 import com.ukdev.smartbuzz.misc.LogTool;
 
+/**
+ * The main activity
+ *
+ * @author Alan Camargo
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
