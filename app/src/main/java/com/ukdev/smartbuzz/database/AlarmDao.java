@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import com.ukdev.smartbuzz.backend.Utils;
 import com.ukdev.smartbuzz.model.Alarm;
-import com.ukdev.smartbuzz.model.RingtoneWrapper;
+import com.ukdev.smartbuzz.model.Ringtone;
 import com.ukdev.smartbuzz.model.enums.Day;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 
@@ -163,7 +163,7 @@ public class AlarmDao extends BaseDao {
 
         repetition = Utils.convertStringToDayArray(context,
                 cursor.getString(cursor.getColumnIndex(Column.REPETITION.toString())));
-        RingtoneWrapper ringtone = new RingtoneWrapper(ringtoneTitle, Uri.parse(ringtoneUri));
+        Ringtone ringtone = new Ringtone(ringtoneTitle, Uri.parse(ringtoneUri));
 
         return new Alarm(context, 0, title, triggerTime, snoozeDuration, repetition, ringtone,
                 text, sleepCheckerOn, vibrate, volume, active);

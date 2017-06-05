@@ -71,11 +71,11 @@ public enum Day {
 
     /**
      * Gets the {@code Day} value from an {@code int} key
-     * @param i the {@code int} key
+     * @param key the {@code int} key
      * @return the {@code Day}
      */
-    public static Day fromInt(int i) {
-        return sparseArray.get(i);
+    public static Day fromInt(int key) {
+        return sparseArray.get(key);
     }
 
 }

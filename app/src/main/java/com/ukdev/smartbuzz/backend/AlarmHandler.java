@@ -15,7 +15,7 @@ import com.ukdev.smartbuzz.backend.enums.Extra;
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.exception.NullAlarmException;
 import com.ukdev.smartbuzz.model.Alarm;
-import com.ukdev.smartbuzz.model.RingtoneWrapper;
+import com.ukdev.smartbuzz.model.Ringtone;
 import com.ukdev.smartbuzz.model.enums.Day;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 
@@ -162,7 +162,7 @@ public class AlarmHandler {
         Calendar triggerTime = Calendar.getInstance();
         triggerTime.set(Calendar.HOUR_OF_DAY, hour);
         triggerTime.set(Calendar.MINUTE, minutes);
-        RingtoneWrapper ringtone = RingtoneWrapper.getAllRingtones(context).get(0);
+        Ringtone ringtone = Ringtone.getAllRingtones(context).get(0);
         int volume = Utils.getDefaultVolume(context);
         Alarm alarm = new Alarm(context, id, title, triggerTime, SnoozeDuration.FIVE_MINUTES,
                 null, ringtone, null, true, true, volume, true);
