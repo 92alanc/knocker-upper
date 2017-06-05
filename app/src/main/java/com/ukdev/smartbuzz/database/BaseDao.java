@@ -13,8 +13,6 @@ import java.util.List;
  */
 abstract class BaseDao {
 
-    // TODO: make methods return boolean
-
     SQLiteDatabase reader;
     SQLiteDatabase writer;
     Context context;
@@ -33,14 +31,20 @@ abstract class BaseDao {
     /**
      * Deletes an instance of {@link Alarm}
      * @param alarm the alarm to delete
+     * @return {@code true} if the operation
+     *         has been successful, otherwise
+     *         {@code false}
      */
-    public abstract void delete(Alarm alarm);
+    public abstract boolean delete(Alarm alarm);
 
     /**
      * Inserts a new instance of {@link Alarm}
      * @param alarm the alarm to insert
+     * @return {@code true} if the operation
+     *         has been successful, otherwise
+     *         {@code false}
      */
-    public abstract void insert(Alarm alarm);
+    public abstract boolean insert(Alarm alarm);
 
     /**
      * Gets all active instances of {@link Alarm}.
@@ -73,7 +77,10 @@ abstract class BaseDao {
     /**
      * Updates an instance of {@link Alarm}
      * @param alarm the alarm to be updated
+     * @return {@code true} if the operation
+     *         has been successful, otherwise
+     *         {@code false}
      */
-    public abstract void update(Alarm alarm);
+    public abstract boolean update(Alarm alarm);
 
 }

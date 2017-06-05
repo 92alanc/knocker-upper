@@ -45,22 +45,28 @@ public class AlarmDao extends BaseDao {
     /**
      * Deletes an instance of {@link Alarm}
      * @param alarm the alarm to delete
+     * @return {@code true} if the operation
+     *         has been successful, otherwise
+     *         {@code false}
      */
     @Override
-    public void delete(Alarm alarm) {
-        writer.delete(TABLE_NAME,
-                Column.ID.toString() + " = ?", new String[]{String.valueOf(alarm.getId())});
+    public boolean delete(Alarm alarm) {
+        return writer.delete(TABLE_NAME,
+                Column.ID.toString() + " = ?", new String[]{String.valueOf(alarm.getId())}) > 0;
     }
 
     /**
      * Inserts a new instance of {@link Alarm}
      * @param alarm the alarm to insert
+     * @return {@code true} if the operation
+     *         has been successful, otherwise
+     *         {@code false}
      */
     @Override
-    public void insert(Alarm alarm) {
+    public boolean insert(Alarm alarm) {
         ContentValues values = new ContentValues();
         fillFields(alarm, values);
-        writer.insert(TABLE_NAME, null, values);
+        return writer.insert(TABLE_NAME, null, values) > 0;
     }
 
     /**
@@ -127,13 +133,16 @@ public class AlarmDao extends BaseDao {
     /**
      * Updates an instance of {@link Alarm}
      * @param alarm the alarm to be updated
+     * @return {@code true} if the operation
+     *         has been successful, otherwise
+     *         {@code false}
      */
     @Override
-    public void update(Alarm alarm) {
+    public boolean update(Alarm alarm) {
         ContentValues values = new ContentValues();
         fillFields(alarm, values);
-        writer.update(TABLE_NAME, values,
-                Column.ID.toString() + " = ?", new String[]{String.valueOf(alarm.getId())});
+        return writer.update(TABLE_NAME, values,
+                Column.ID.toString() + " = ?", new String[]{String.valueOf(alarm.getId())}) > 0;
     }
 
     private Alarm assembleAlarm(Cursor cursor) {

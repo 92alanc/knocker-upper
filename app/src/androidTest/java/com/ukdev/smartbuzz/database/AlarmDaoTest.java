@@ -5,6 +5,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.ObjectMocker;
+import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +40,18 @@ public class AlarmDaoTest {
     @Test
     public void shouldInsert() {
         Alarm alarm = objectMocker.alarm();
-        alarmDao.insert(alarm);
+        Assert.assertTrue(alarmDao.insert(alarm));
+    }
+
+    /**
+     * Validates the delete method
+     * @see AlarmDao#delete(Alarm)
+     */
+    @Test
+    public void shouldDelete() {
+        int lastId = alarmDao.getLastId();
+        Alarm alarmToDelete = alarmDao.select(lastId);
+        Assert.assertTrue(alarmDao.delete(alarmToDelete));
     }
 
 }
