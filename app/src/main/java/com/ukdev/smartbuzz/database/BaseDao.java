@@ -13,6 +13,8 @@ import java.util.List;
  */
 abstract class BaseDao {
 
+    // TODO: make methods return boolean
+
     SQLiteDatabase reader;
     SQLiteDatabase writer;
     Context context;
