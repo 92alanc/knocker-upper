@@ -15,6 +15,7 @@ import com.ukdev.smartbuzz.backend.enums.Extra;
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.exception.NullAlarmException;
 import com.ukdev.smartbuzz.model.Alarm;
+import com.ukdev.smartbuzz.model.AlarmBuilder;
 import com.ukdev.smartbuzz.model.Ringtone;
 import com.ukdev.smartbuzz.model.enums.Day;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
@@ -65,7 +66,9 @@ public class AlarmHandler {
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.setAction(Action.CALL_SLEEP_CHECKER.toString());
         intent.putExtra(Extra.ID.toString(), alarm.getId());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 999, intent, 0);
+        final int requestCode = 999;
+        final int flags = 0;
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, flags);
         startAlarmManager(callTime, pendingIntent);
     }
 
@@ -147,25 +150,35 @@ public class AlarmHandler {
         if (!intent.hasExtra(AlarmClock.EXTRA_HOUR)) {
             Intent i = new Intent(context, SetupActivity.class);
             i.setAction(Action.CREATE_ALARM.toString());
-            i.putExtra(Extra.SLEEP_CHECKER_ON.toString(), true);
+            boolean sleepCheckerOn = true;
+            i.putExtra(Extra.SLEEP_CHECKER_ON.toString(), sleepCheckerOn);
             context.startActivity(i);
             return;
         }
-        int id = database.getLastId() + 1;
+        int nextAvailableId = database.getLastId() + 1;
+        final int defaultValue = 0;
+        final int firstRingtoneIndex = 0;
         String title = context.getString(R.string.new_alarm);
         if (intent.hasExtra(AlarmClock.EXTRA_MESSAGE))
             title = intent.getStringExtra(AlarmClock.EXTRA_MESSAGE);
-        int hour = intent.getIntExtra(AlarmClock.EXTRA_HOUR, 0);
+        int hour = intent.getIntExtra(AlarmClock.EXTRA_HOUR, defaultValue);
         int minutes = 0;
         if (intent.hasExtra(AlarmClock.EXTRA_MINUTES))
-            minutes = intent.getIntExtra(AlarmClock.EXTRA_MINUTES, 0);
+            minutes = intent.getIntExtra(AlarmClock.EXTRA_MINUTES, defaultValue);
         Calendar triggerTime = Calendar.getInstance();
         triggerTime.set(Calendar.HOUR_OF_DAY, hour);
         triggerTime.set(Calendar.MINUTE, minutes);
-        Ringtone ringtone = Ringtone.getAllRingtones(context).get(0);
+        Ringtone ringtone = Ringtone.getAllRingtones(context).get(firstRingtoneIndex);
         int volume = Utils.getDefaultVolume(context);
-        Alarm alarm = new Alarm(context, id, title, triggerTime, SnoozeDuration.FIVE_MINUTES,
-                null, ringtone, null, true, true, volume, true);
+
+        AlarmBuilder alarmBuilder = new AlarmBuilder(context);
+        alarmBuilder.setId(nextAvailableId)
+                    .setTitle(title)
+                    .setTriggerTime(triggerTime)
+                    .setSnoozeDuration(SnoozeDuration.FIVE_MINUTES)
+                    .setRingtone(ringtone)
+                    .setVolume(volume);
+        Alarm alarm = alarmBuilder.build();
         database.insert(alarm);
         setAlarm();
     }
@@ -194,28 +207,28 @@ public class AlarmHandler {
                 tomorrow = Day.SUNDAY;
             else
                 tomorrow = Day.fromInt(today.getValue() + 1);
-            // triggerFlags[0] = trigger today, triggerFlags[1] = trigger tomorrow
-            boolean[] triggerFlags = new boolean[2];
+            boolean triggerToday = false;
+            boolean triggerTomorrow = false;
             if (alarm.repeats()) {
                 Day[] repetition = alarm.getRepetition();
                 for (int i = 0; i < repetition.length; i++) {
                     if (i < repetition.length - 1) {
                         if (repetition[i + 1] == tomorrow)
-                            triggerFlags[1] = true;
+                            triggerTomorrow = true;
                     } else {
                         if (repetition[0] == tomorrow)
-                            triggerFlags[1] = true;
+                            triggerTomorrow = true;
                     }
-                    if (triggerFlags[1]) // If the alarm should trigger tomorrow
+                    if (triggerTomorrow)
                         setAlarm();
                     if (repetition[i] == today) {
-                        triggerFlags[0] = true;
+                        triggerToday = true;
                         break;
                     }
                 }
             } else
-                triggerFlags[0] = true;
-            if (triggerFlags[0]) // If the alarm should trigger today
+                triggerToday = true;
+            if (triggerToday)
                 startAlarmActivity();
         }
     }

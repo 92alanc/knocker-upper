@@ -8,7 +8,7 @@ import com.ukdev.smartbuzz.exception.NullAlarmException;
 import com.ukdev.smartbuzz.misc.LogTool;
 import com.ukdev.smartbuzz.model.Alarm;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A {@link BroadcastReceiver} triggered when the device boots
@@ -20,7 +20,7 @@ public class BootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
-            ArrayList<Alarm> activeAlarms = AlarmDao.getInstance(context).getActiveAlarms();
+            List<Alarm> activeAlarms = AlarmDao.getInstance(context).getActiveAlarms();
             if (activeAlarms.size() > 0) {
                 for (Alarm alarm : activeAlarms) {
                     try {

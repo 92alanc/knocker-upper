@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import com.ukdev.smartbuzz.backend.Utils;
 import com.ukdev.smartbuzz.model.Alarm;
+import com.ukdev.smartbuzz.model.AlarmBuilder;
 import com.ukdev.smartbuzz.model.Ringtone;
 import com.ukdev.smartbuzz.model.enums.Day;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
@@ -23,6 +24,12 @@ import java.util.List;
 public class AlarmDao extends BaseDao {
 
     private static final String TABLE_NAME = "ALARMS";
+    private static final String WHERE_CLAUSE = String.format("%1$s = ?", Column.ID.toString());
+    private static final String[] COLUMNS = null;
+    private static final String GROUP_BY = null;
+    private static final String HAVING = null;
+    private static final String ACTIVE_STRING = "1";
+    private static final String LIMIT = "1";
 
     @SuppressLint("StaticFieldLeak")
     private static AlarmDao instance;
@@ -38,8 +45,11 @@ public class AlarmDao extends BaseDao {
         return instance;
     }
 
+    private AlarmBuilder alarmBuilder;
+
     private AlarmDao(Context context) {
         super(context);
+        alarmBuilder = new AlarmBuilder(context);
     }
 
     /**
@@ -51,8 +61,8 @@ public class AlarmDao extends BaseDao {
      */
     @Override
     public boolean delete(Alarm alarm) {
-        return writer.delete(TABLE_NAME,
-                Column.ID.toString() + " = ?", new String[]{String.valueOf(alarm.getId())}) > 0;
+        String[] whereArgs = new String[] {String.valueOf(alarm.getId())};
+        return writer.delete(TABLE_NAME, WHERE_CLAUSE, whereArgs) > 0;
     }
 
     /**
@@ -64,9 +74,10 @@ public class AlarmDao extends BaseDao {
      */
     @Override
     public boolean insert(Alarm alarm) {
+        final String nullColumnHack = null;
         ContentValues values = new ContentValues();
         fillFields(alarm, values);
-        return writer.insert(TABLE_NAME, null, values) > 0;
+        return writer.insert(TABLE_NAME, nullColumnHack, values) > 0;
     }
 
     /**
@@ -77,8 +88,10 @@ public class AlarmDao extends BaseDao {
      */
     @Override
     public List<Alarm> getActiveAlarms() {
-        Cursor cursor = reader.query(TABLE_NAME, null, Column.ACTIVE.toString() + " = ?",
-                                     new String[]{"1"}, null, null, null);
+        String selection = String.format("%1$s = ?", Column.ACTIVE.toString());
+        String[] selectionArgs = new String[] {ACTIVE_STRING};
+        final String orderBy = null;
+        Cursor cursor = reader.query(TABLE_NAME, COLUMNS, selection, selectionArgs, GROUP_BY, HAVING, orderBy);
         ArrayList<Alarm> alarms = new ArrayList<>(cursor.getCount());
         if (cursor.getCount() > 0)
             alarms = queryAlarms(cursor);
@@ -101,9 +114,10 @@ public class AlarmDao extends BaseDao {
      */
     @Override
     public List<Alarm> select() {
-        Cursor cursor = reader.query(TABLE_NAME,
-                null, null, null, null, null,
-                Column.ID.toString() + " ASC");
+        final String selection = null;
+        final String[] selectionArgs = null;
+        String orderBy = String.format("%1$s ASC", Column.ID.toString());
+        Cursor cursor = reader.query(TABLE_NAME, COLUMNS, selection, selectionArgs, GROUP_BY, HAVING, orderBy);
         ArrayList<Alarm> alarms = new ArrayList<>();
         if (cursor.getCount() > 0)
             alarms = queryAlarms(cursor);
@@ -119,13 +133,16 @@ public class AlarmDao extends BaseDao {
      */
     @Override
     public Alarm select(int id) {
-        Cursor cursor = reader.query(TABLE_NAME, null, Column.ID.toString() + " = ?",
-                new String[]{String.valueOf(id)}, null, null, null, "1");
+        String selection = String.format("%1$s = ?", Column.ID.toString());
+        String[] selectionArgs = new String[] {String.valueOf(id)};
+        final String orderBy = null;
+        Cursor cursor = reader.query(TABLE_NAME, COLUMNS, selection, selectionArgs,
+                                     GROUP_BY, HAVING, orderBy, LIMIT);
         if (cursor.getCount() > 0) {
-            Alarm alarm = assembleAlarm(cursor);
-            alarm.setId(id);
+            AlarmBuilder alarmBuilder = assembleAlarm(cursor);
+            alarmBuilder.setId(id);
             cursor.close();
-            return alarm;
+            return alarmBuilder.build();
         } else
             return null;
     }
@@ -141,11 +158,11 @@ public class AlarmDao extends BaseDao {
     public boolean update(Alarm alarm) {
         ContentValues values = new ContentValues();
         fillFields(alarm, values);
-        return writer.update(TABLE_NAME, values,
-                Column.ID.toString() + " = ?", new String[]{String.valueOf(alarm.getId())}) > 0;
+        String[] whereArgs = new String[] {String.valueOf(alarm.getId())};
+        return writer.update(TABLE_NAME, values, WHERE_CLAUSE, whereArgs) > 0;
     }
 
-    private Alarm assembleAlarm(Cursor cursor) {
+    private AlarmBuilder assembleAlarm(Cursor cursor) {
         cursor.moveToFirst();
         String title, ringtoneTitle, ringtoneUri, text;
         long trigger, snooze;
@@ -171,11 +188,19 @@ public class AlarmDao extends BaseDao {
         vibrate = cursor.getInt(cursor.getColumnIndex(Column.VIBRATE.toString())) == 1;
 
         repetition = Utils.convertStringToDayArray(context,
-                cursor.getString(cursor.getColumnIndex(Column.REPETITION.toString())));
+                                                   cursor.getString(cursor.getColumnIndex(Column.REPETITION.toString())));
         Ringtone ringtone = new Ringtone(ringtoneTitle, Uri.parse(ringtoneUri));
 
-        return new Alarm(context, 0, title, triggerTime, snoozeDuration, repetition, ringtone,
-                text, sleepCheckerOn, vibrate, volume, active);
+        return alarmBuilder.setTitle(title)
+                           .setTriggerTime(triggerTime)
+                           .setSnoozeDuration(snoozeDuration)
+                           .setRepetition(repetition)
+                           .setRingtone(ringtone)
+                           .setText(text)
+                           .setSleepCheckerOn(sleepCheckerOn)
+                           .setVibrate(vibrate)
+                           .setVolume(volume)
+                           .setActive(active);
     }
 
     private void fillFields(Alarm alarm, ContentValues values) {
@@ -195,10 +220,10 @@ public class AlarmDao extends BaseDao {
     private ArrayList<Alarm> queryAlarms(Cursor cursor) {
         ArrayList<Alarm> alarms = new ArrayList<>();
         do {
-            Alarm alarm = assembleAlarm(cursor);
+            AlarmBuilder alarmBuilder = assembleAlarm(cursor);
             int id = cursor.getInt(cursor.getColumnIndex(Column.ID.toString()));
-            alarm.setId(id);
-            alarms.add(alarm);
+            alarmBuilder.setId(id);
+            alarms.add(alarmBuilder.build());
         } while (cursor.moveToNext());
         return alarms;
     }

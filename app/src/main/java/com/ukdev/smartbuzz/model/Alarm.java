@@ -23,8 +23,6 @@ import java.util.Calendar;
  */
 public class Alarm {
 
-    // TODO: implement AlarmBuilder
-
     private Context context;
     private int id;
     private String title;
@@ -36,51 +34,18 @@ public class Alarm {
     private boolean sleepCheckerOn;
     private boolean active;
     private boolean vibrate;
-    private Vibrator vibrator;
     private int volume;
+    private Vibrator vibrator;
     private MediaPlayer player;
 
     /**
      * Simplified constructor for {@code Alarm}
      * @param context the Android context
      */
-    public Alarm(Context context) {
-        this(context, 0, "", Calendar.getInstance(), SnoozeDuration.FIVE_MINUTES, null, null,
-                "", true, true, Utils.getDefaultVolume(context), true);
-    }
-
-    /**
-     * Default constructor for Alarm
-     * @param context the Android context
-     * @param id the database ID
-     * @param title the title
-     * @param triggerTime the trigger time
-     * @param snoozeDuration the snooze duration
-     * @param repetition the repetition
-     * @param ringtone the ringtone
-     * @param text the text
-     * @param sleepCheckerOn whether Sleep Checker should be called
-     * @param vibrate whether the alarm vibrates
-     * @param volume the volume
-     * @param active whether the alarm should be scheduled
-     */
-    public Alarm(Context context, int id, String title, Calendar triggerTime, SnoozeDuration snoozeDuration,
-                 Day[] repetition, Ringtone ringtone, String text, boolean sleepCheckerOn,
-                 boolean vibrate, int volume, boolean active) {
+    Alarm(Context context) {
         this.context = context;
-        this.id = id;
-        this.title = title;
-        this.triggerTime = triggerTime;
-        this.snoozeDuration = snoozeDuration;
-        this.repetition = repetition;
-        this.ringtone = ringtone;
-        this.text = text;
-        this.sleepCheckerOn = sleepCheckerOn;
-        this.vibrate = vibrate;
-        this.volume = volume;
-        this.active = active;
         player = new MediaPlayer();
-        vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     @Override
@@ -100,7 +65,7 @@ public class Alarm {
      * Sets the database ID
      * @param id the database ID
      */
-    public void setId(int id) {
+    void setId(int id) {
         this.id = id;
     }
 
@@ -116,7 +81,7 @@ public class Alarm {
      * Sets the title
      * @param title the title
      */
-    public void setTitle(String title) {
+    void setTitle(String title) {
         this.title = title;
     }
 
@@ -132,7 +97,7 @@ public class Alarm {
      * Sets the trigger time
      * @param triggerTime the trigger time
      */
-    public void setTriggerTime(Calendar triggerTime) {
+    void setTriggerTime(Calendar triggerTime) {
         this.triggerTime = triggerTime;
     }
 
@@ -148,7 +113,7 @@ public class Alarm {
      * Sets the snooze duration
      * @param snoozeDuration the snooze duration
      */
-    public void setSnoozeDuration(SnoozeDuration snoozeDuration) {
+    void setSnoozeDuration(SnoozeDuration snoozeDuration) {
         this.snoozeDuration = snoozeDuration;
     }
 
@@ -164,7 +129,7 @@ public class Alarm {
      * Sets the repetition
      * @param repetition the repetition
      */
-    public void setRepetition(Day[] repetition) {
+    void setRepetition(Day[] repetition) {
         this.repetition = repetition;
     }
 
@@ -190,7 +155,7 @@ public class Alarm {
      * Sets the ringtone
      * @param ringtone the ringtone
      */
-    public void setRingtone(Ringtone ringtone) {
+    void setRingtone(Ringtone ringtone) {
         this.ringtone = ringtone;
     }
 
@@ -206,7 +171,7 @@ public class Alarm {
      * Sets the text
      * @param text the text
      */
-    public void setText(String text) {
+    void setText(String text) {
         this.text = text;
     }
 
@@ -223,7 +188,7 @@ public class Alarm {
      * Sets the {@code sleepCheckerOn} flag
      * @param sleepCheckerOn the flag value
      */
-    public void setSleepCheckerOn(boolean sleepCheckerOn) {
+    void setSleepCheckerOn(boolean sleepCheckerOn) {
         this.sleepCheckerOn = sleepCheckerOn;
     }
 
@@ -259,7 +224,7 @@ public class Alarm {
      * Sets the {@code vibrate} flag
      * @param vibrate the flag value
      */
-    public void setVibrate(boolean vibrate) {
+    void setVibrate(boolean vibrate) {
         this.vibrate = vibrate;
     }
 
@@ -275,7 +240,7 @@ public class Alarm {
      * Sets the volume
      * @param volume the volume
      */
-    public void setVolume(int volume) {
+    void setVolume(int volume) {
         this.volume = volume;
     }
 
