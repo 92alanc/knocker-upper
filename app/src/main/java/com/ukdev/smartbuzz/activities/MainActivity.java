@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.backend.enums.Action;
-import com.ukdev.smartbuzz.frontend.Utils;
+import com.ukdev.smartbuzz.view.ViewUtils;
 import com.ukdev.smartbuzz.misc.LogTool;
 
 /**
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        Utils.showAds(this, R.id.adView_Main);
+        ViewUtils.showAds(this, R.id.ad_view_main);
     }
 
     @Override

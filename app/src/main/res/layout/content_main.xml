@@ -15,8 +15,15 @@
         tools:showIn="@layout/activity_main"
         tools:context="com.ukdev.smartbuzz.activities.MainActivity">
 
+    <!-- Recycler view -->
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <!-- Ad view -->
     <com.google.android.gms.ads.AdView
-            android:id="@+id/adView_Main"
+            android:id="@+id/ad_view_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
