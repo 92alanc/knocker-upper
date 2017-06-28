@@ -47,7 +47,7 @@
 
         <!-- BROADCAST RECEIVERS -->
         <receiver
-                android:name=".backend.AlarmReceiver"
+                android:name=".system.AlarmReceiver"
                 android:enabled="true">
             <intent-filter>
                 <action android:name="com.ukdev.smartbuzz.ACTION_TRIGGER_ALARM"/>
@@ -56,7 +56,7 @@
             </intent-filter>
         </receiver>
         <receiver
-                android:name=".backend.BootReceiver"
+                android:name=".system.BootReceiver"
                 android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>

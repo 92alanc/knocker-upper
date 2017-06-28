@@ -1,11 +1,11 @@
-package com.ukdev.smartbuzz.backend.enums;
+package com.ukdev.smartbuzz.misc;
 
 /**
  * An intent action
  *
  * @author Alan Camargo
  */
-public enum Action {
+public enum IntentAction {
 
     /**
      * Calls Sleep Checker
@@ -50,10 +50,10 @@ public enum Action {
     private final String value;
 
     /**
-     * Default constructor for {@code Action}
+     * Default constructor for {@code IntentAction}
      * @param value the string value
      */
-    Action(String value) {
+    IntentAction(String value) {
         this.value = value;
     }
 

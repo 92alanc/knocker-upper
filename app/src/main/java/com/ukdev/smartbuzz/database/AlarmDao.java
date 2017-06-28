@@ -5,7 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import com.ukdev.smartbuzz.backend.Utils;
+import com.ukdev.smartbuzz.util.Utils;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.AlarmBuilder;
 import com.ukdev.smartbuzz.model.Ringtone;
@@ -184,7 +184,7 @@ public class AlarmDao extends BaseDao {
         ringtoneTitle = cursor.getString(cursor.getColumnIndex(Column.RINGTONE_TITLE.toString()));
         volume = cursor.getInt(cursor.getColumnIndex(Column.VOLUME.toString()));
         snooze = cursor.getLong(cursor.getColumnIndex(Column.SNOOZE_DURATION.toString()));
-        snoozeDuration = SnoozeDuration.fromLong(snooze);
+        snoozeDuration = SnoozeDuration.valueOf(snooze);
         vibrate = cursor.getInt(cursor.getColumnIndex(Column.VIBRATE.toString())) == 1;
 
         repetition = Utils.convertStringToDayArray(context,

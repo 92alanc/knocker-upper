@@ -10,7 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.ukdev.smartbuzz.R;
-import com.ukdev.smartbuzz.backend.Utils;
+import com.ukdev.smartbuzz.util.Utils;
 import com.ukdev.smartbuzz.listeners.RecyclerViewClickListener;
 import com.ukdev.smartbuzz.model.Alarm;
 

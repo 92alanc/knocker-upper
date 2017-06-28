@@ -16,12 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.adapters.AlarmAdapter;
-import com.ukdev.smartbuzz.backend.enums.Action;
-import com.ukdev.smartbuzz.backend.enums.Extra;
+import com.ukdev.smartbuzz.misc.IntentAction;
+import com.ukdev.smartbuzz.misc.IntentExtra;
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.listeners.RecyclerViewClickListener;
 import com.ukdev.smartbuzz.model.Alarm;
-import com.ukdev.smartbuzz.view.ViewUtils;
+import com.ukdev.smartbuzz.util.ViewUtils;
 import com.ukdev.smartbuzz.misc.LogTool;
 
 import java.util.List;
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, SetupActivity.class);
-                intent.setAction(Action.CREATE_ALARM.toString());
+                intent.setAction(IntentAction.CREATE_ALARM.toString());
                 startActivity(intent);
             }
         });
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     public void onItemClick(View view, int position) {
         Alarm alarm = alarms.get(position);
         Intent intent = new Intent(context, SetupActivity.class);
-        intent.putExtra(Extra.ID.toString(), alarm.getId());
+        intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         startActivity(intent);
     }
 

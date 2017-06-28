@@ -74,7 +74,7 @@ public enum SnoozeDuration {
      * @param key the {@code long} key
      * @return the {@code SnoozeDuration}
      */
-    public static SnoozeDuration fromLong(long key) {
+    public static SnoozeDuration valueOf(long key) {
         return sparseArray.get(key);
     }
 

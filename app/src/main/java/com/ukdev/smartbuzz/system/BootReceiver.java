@@ -1,4 +1,4 @@
-package com.ukdev.smartbuzz.backend;
+package com.ukdev.smartbuzz.system;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,7 +11,7 @@ import com.ukdev.smartbuzz.model.Alarm;
 import java.util.List;
 
 /**
- * A {@link BroadcastReceiver} triggered when the device boots
+ * A {@code BroadcastReceiver} triggered when the device boots
  *
  * @author Alan Camargo
  */

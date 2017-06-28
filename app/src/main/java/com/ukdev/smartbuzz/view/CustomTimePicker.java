@@ -7,7 +7,7 @@ import android.view.ViewParent;
 import android.widget.TimePicker;
 
 /**
- * A custom {@link TimePicker} where the scrolling
+ * A custom {@code TimePicker} where the scrolling
  * function is disabled
  *
  * @author Alan Camargo
@@ -15,8 +15,7 @@ import android.widget.TimePicker;
 public class CustomTimePicker extends TimePicker {
 
     /**
-     * Constructor inherited from {@link TimePicker}.
-     * @see TimePicker#TimePicker(Context)
+     * Constructor inherited from {@code TimePicker}
      * @param context the Android context
      */
     public CustomTimePicker(Context context) {
@@ -24,8 +23,7 @@ public class CustomTimePicker extends TimePicker {
     }
 
     /**
-     * Constructor inherited from {@link TimePicker}.
-     * @see TimePicker#TimePicker(Context, AttributeSet)
+     * Constructor inherited from {@code TimePicker}
      * @param context the Android context
      * @param attrs the attributes
      */
@@ -34,8 +32,7 @@ public class CustomTimePicker extends TimePicker {
     }
 
     /**
-     * Constructor inherited from {@link TimePicker}.
-     * @see TimePicker#TimePicker(Context, AttributeSet, int)
+     * Constructor inherited from {@code TimePicker}
      * @param context the Android context
      * @param attrs the attributes
      * @param defStyleAttr the default style attribute

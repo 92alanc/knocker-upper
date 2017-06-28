@@ -1,4 +1,4 @@
-package com.ukdev.smartbuzz.backend;
+package com.ukdev.smartbuzz.util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,7 +11,7 @@ import com.ukdev.smartbuzz.model.enums.Day;
 import java.util.Calendar;
 
 /**
- * General backend utilities
+ * General utilities
  *
  * @author Alan Camargo
  */
@@ -89,11 +89,11 @@ public class Utils {
             if (string.equals(context.getResources().getString(R.string.every_day))) {
                 values = new Day[LENGTH_WHOLE_WEEK];
                 for (int i = 0; i < values.length; i++)
-                    values[i] = Day.fromInt(i + 1);
+                    values[i] = Day.valueOf(i + 1);
             } else if (string.equals(context.getResources().getString(R.string.week_days))) {
                 values = new Day[LENGTH_WEEK_DAYS];
                 for (int i = 0; i < values.length; i++)
-                    values[i] = Day.fromInt(i + 2);
+                    values[i] = Day.valueOf(i + 2);
             } else if (string.equals(context.getResources().getString(R.string.weekends))) {
                 values = new Day[LENGTH_WEEKEND];
                 values[0] = Day.SUNDAY;
@@ -106,7 +106,7 @@ public class Utils {
                 for (int i = 0; i < split.length; i++) {
                     for (int j = 0; j < texts.length; j++) {
                         if (split[i].equalsIgnoreCase(texts[j])) {
-                            values[i] = Day.fromInt(j + 1);
+                            values[i] = Day.valueOf(j + 1);
                             break;
                         }
                     }
@@ -175,7 +175,8 @@ public class Utils {
      * @param activity the running activity
      */
     public static void killApp(Activity activity) {
-        activity.moveTaskToBack(true);
+        final boolean nonRoot = true;
+        activity.moveTaskToBack(nonRoot);
         activity.finish();
         Process.killProcess(Process.myPid());
         System.exit(STATUS_SUCCESS);

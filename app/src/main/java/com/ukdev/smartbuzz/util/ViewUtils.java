@@ -1,4 +1,4 @@
-package com.ukdev.smartbuzz.view;
+package com.ukdev.smartbuzz.util;
 
 import android.app.Activity;
 import android.support.annotation.IdRes;
@@ -13,9 +13,9 @@ import com.google.android.gms.ads.AdView;
 public class ViewUtils {
 
     /**
-     * Shows ads into an {@link AdView}
+     * Shows ads into an {@code AdView}
      * @param activity the target activity
-     * @param resId the {@link AdView} resource ID
+     * @param resId the {@code AdView} resource ID
      */
     public static void showAds(Activity activity, @IdRes int resId) {
         AdView adView = (AdView) activity.findViewById(resId);

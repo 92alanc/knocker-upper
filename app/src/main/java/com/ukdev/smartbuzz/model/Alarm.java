@@ -6,9 +6,9 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Vibrator;
-import com.ukdev.smartbuzz.backend.AudioFocusChangeListener;
-import com.ukdev.smartbuzz.backend.Utils;
-import com.ukdev.smartbuzz.backend.enums.Action;
+import com.ukdev.smartbuzz.misc.IntentAction;
+import com.ukdev.smartbuzz.listeners.AudioFocusChangeListener;
+import com.ukdev.smartbuzz.util.Utils;
 import com.ukdev.smartbuzz.misc.LogTool;
 import com.ukdev.smartbuzz.model.enums.Day;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
@@ -251,7 +251,7 @@ public class Alarm {
     public void playRingtone(Activity activity) {
         AudioManager manager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         int volume;
-        if (activity.getIntent().getAction().equals(Action.WAKE_UP.toString())) {
+        if (activity.getIntent().getAction().equals(IntentAction.WAKE_UP.toString())) {
             volume = Utils.getMaxVolume(context);
             startVibration();
         }

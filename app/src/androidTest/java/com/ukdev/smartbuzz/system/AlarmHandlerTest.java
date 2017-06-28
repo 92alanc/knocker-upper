@@ -1,4 +1,4 @@
-package com.ukdev.smartbuzz.backend;
+package com.ukdev.smartbuzz.system;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

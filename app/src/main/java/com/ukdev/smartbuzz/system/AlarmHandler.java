@@ -1,4 +1,4 @@
-package com.ukdev.smartbuzz.backend;
+package com.ukdev.smartbuzz.system;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -10,8 +10,8 @@ import android.os.PowerManager;
 import android.provider.AlarmClock;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.activities.SetupActivity;
-import com.ukdev.smartbuzz.backend.enums.Action;
-import com.ukdev.smartbuzz.backend.enums.Extra;
+import com.ukdev.smartbuzz.misc.IntentAction;
+import com.ukdev.smartbuzz.misc.IntentExtra;
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.exception.NullAlarmException;
 import com.ukdev.smartbuzz.model.Alarm;
@@ -19,6 +19,7 @@ import com.ukdev.smartbuzz.model.AlarmBuilder;
 import com.ukdev.smartbuzz.model.Ringtone;
 import com.ukdev.smartbuzz.model.enums.Day;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
+import com.ukdev.smartbuzz.util.Utils;
 
 import java.util.Calendar;
 import java.util.Random;
@@ -64,8 +65,8 @@ public class AlarmHandler {
         int randomTime = THREE_MINUTES + upToTwoMinutes;
         long callTime = now.getTimeInMillis() + randomTime;
         Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.setAction(Action.CALL_SLEEP_CHECKER.toString());
-        intent.putExtra(Extra.ID.toString(), alarm.getId());
+        intent.setAction(IntentAction.CALL_SLEEP_CHECKER.toString());
+        intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         final int requestCode = 999;
         final int flags = 0;
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, flags);
@@ -76,8 +77,8 @@ public class AlarmHandler {
      * Cancels an ongoing alarm
      */
     public void cancelAlarm() {
-        Intent intent = new Intent(Action.CANCEL_ALARM.toString());
-        intent.putExtra(Extra.ID.toString(), alarm.getId());
+        Intent intent = new Intent(IntentAction.CANCEL_ALARM.toString());
+        intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(), intent,
                 PendingIntent.FLAG_CANCEL_CURRENT);
         manager.cancel(pendingIntent);
@@ -87,9 +88,9 @@ public class AlarmHandler {
      * Cancels a delay
      */
     public void cancelDelay() {
-        Intent intent = new Intent(Action.CANCEL_ALARM.toString());
-        intent.setAction(Action.DELAY_ALARM.toString());
-        intent.putExtra(Extra.ID.toString(), alarm.getId());
+        Intent intent = new Intent(IntentAction.CANCEL_ALARM.toString());
+        intent.setAction(IntentAction.DELAY_ALARM.toString());
+        intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
                 alarm.getId(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
         manager.cancel(pendingIntent);
@@ -102,8 +103,8 @@ public class AlarmHandler {
         Calendar now = Calendar.getInstance();
         long triggerTime = alarm.getSnoozeDuration().getValue() + now.getTimeInMillis();
         Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.setAction(Action.DELAY_ALARM.toString());
-        intent.putExtra(Extra.ID.toString(), alarm.getId());
+        intent.setAction(IntentAction.DELAY_ALARM.toString());
+        intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(), intent, 0);
         startAlarmManager(triggerTime, pendingIntent);
     }
@@ -114,7 +115,7 @@ public class AlarmHandler {
      * @param wakeLock the wake lock to be released
      */
     public void dismissAlarm(Activity activity, PowerManager.WakeLock wakeLock) {
-        if (alarm.vibrates() || activity.getIntent().getAction().equals(Action.WAKE_UP.toString()))
+        if (alarm.vibrates() || activity.getIntent().getAction().equals(IntentAction.WAKE_UP.toString()))
             alarm.stopVibration();
         alarm.stopRingtone();
         if (alarm.isSleepCheckerOn())
@@ -134,8 +135,8 @@ public class AlarmHandler {
         database.update(alarm);
         long triggerTime = Utils.getNextValidTriggerTime(alarm);
         Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.setAction(Action.SCHEDULE_ALARM.toString());
-        intent.putExtra(Extra.ID.toString(), alarm.getId());
+        intent.setAction(IntentAction.SCHEDULE_ALARM.toString());
+        intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(), intent, 0);
         startAlarmManager(triggerTime, pendingIntent);
     }
@@ -149,9 +150,9 @@ public class AlarmHandler {
     public void setAlarmByVoice(Context context, Intent intent) {
         if (!intent.hasExtra(AlarmClock.EXTRA_HOUR)) {
             Intent i = new Intent(context, SetupActivity.class);
-            i.setAction(Action.CREATE_ALARM.toString());
+            i.setAction(IntentAction.CREATE_ALARM.toString());
             boolean sleepCheckerOn = true;
-            i.putExtra(Extra.SLEEP_CHECKER_ON.toString(), sleepCheckerOn);
+            i.putExtra(IntentExtra.SLEEP_CHECKER_ON.toString(), sleepCheckerOn);
             context.startActivity(i);
             return;
         }
@@ -189,8 +190,8 @@ public class AlarmHandler {
      */
     public void startAlarmActivity() {
         Intent activityIntent = new Intent(context, null); // TODO: replace null with AlarmActivity.class
-        activityIntent.putExtra(Extra.ID.toString(), alarm.getId());
-        activityIntent.setAction(Action.TRIGGER_ALARM.toString());
+        activityIntent.putExtra(IntentExtra.ID.toString(), alarm.getId());
+        activityIntent.setAction(IntentAction.TRIGGER_ALARM.toString());
         activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(activityIntent);
     }
@@ -201,12 +202,12 @@ public class AlarmHandler {
     public void triggerAlarm() {
         if (alarm.isActive()) {
             Calendar now = Calendar.getInstance();
-            Day today = Day.fromInt(now.get(Calendar.DAY_OF_WEEK));
+            Day today = Day.valueOf(now.get(Calendar.DAY_OF_WEEK));
             Day tomorrow;
             if (today == Day.SATURDAY)
                 tomorrow = Day.SUNDAY;
             else
-                tomorrow = Day.fromInt(today.getValue() + 1);
+                tomorrow = Day.valueOf(today.getValue() + 1);
             boolean triggerToday = false;
             boolean triggerTomorrow = false;
             if (alarm.repeats()) {
@@ -238,9 +239,9 @@ public class AlarmHandler {
      */
     public void triggerSleepChecker() {
         Intent activityIntent = new Intent(context, null); // TODO: replace null with SleepCheckerActivity.class
-        activityIntent.putExtra(Extra.ID.toString(), alarm.getId());
+        activityIntent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        activityIntent.setAction(Action.TRIGGER_SLEEP_CHECKER.toString());
+        activityIntent.setAction(IntentAction.TRIGGER_SLEEP_CHECKER.toString());
         context.startActivity(activityIntent);
     }
 
