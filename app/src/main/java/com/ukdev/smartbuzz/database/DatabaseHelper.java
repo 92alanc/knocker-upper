@@ -1,6 +1,5 @@
 package com.ukdev.smartbuzz.database;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,12 +19,10 @@ import java.io.OutputStream;
  */
 class DatabaseHelper extends SQLiteOpenHelper {
 
-    @SuppressLint("SdCardPath")
     private static final String DB_PATH = "/data/data/com.ukdev.smartbuzz/databases/";
-    private static final String DB_NAME = "database.sqlite";
+    private static final String DB_NAME = "database.db";
     private SQLiteDatabase database;
     private Context context;
-    private LogTool log;
 
     /**
      * Default constructor for {@code DatabaseHelper}
@@ -34,7 +31,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
     DatabaseHelper(Context context) {
         super(context, DB_NAME, null, 1);
         this.context = context;
-        log = new LogTool(context);
+        LogTool log = new LogTool(context);
         try {
             createDatabase();
             openDatabase();
@@ -43,19 +40,6 @@ class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    @Override
-    public synchronized void close() {
-        if (database != null)
-            database.close();
-        super.close();
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) { }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { }
-
     private void createDatabase() throws IOException {
         boolean dbExists = checkDatabase();
         if (!dbExists) {
@@ -63,7 +47,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
             try {
                 copyDatabase();
             } catch (IOException e) {
-                log.exception(e);
+                throw new Error("Error copying database");
             }
         }
     }
@@ -74,7 +58,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
             String path = DB_PATH + DB_NAME;
             db = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
         } catch (SQLiteException e) {
-            log.exception(e);
+            e.printStackTrace();
         }
         if (db != null)
             db.close();
@@ -100,5 +84,18 @@ class DatabaseHelper extends SQLiteOpenHelper {
         String path = DB_PATH + DB_NAME;
         database = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
     }
+
+    @Override
+    public synchronized void close() {
+        if (database != null)
+            database.close();
+        super.close();
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) { }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { }
 
 }

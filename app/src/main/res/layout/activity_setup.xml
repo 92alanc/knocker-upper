@@ -24,12 +24,4 @@
 
     <include layout="@layout/content_setup"/>
 
-    <com.google.android.gms.ads.AdView
-            android:id="@+id/adview_Setup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            ads:adUnitId="@string/adUnitId"
-            ads:adSize="BANNER"/>
-
 </android.support.design.widget.CoordinatorLayout>

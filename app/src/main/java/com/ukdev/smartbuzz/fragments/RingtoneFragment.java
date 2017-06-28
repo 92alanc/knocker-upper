@@ -7,8 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.listeners.OnFragmentInteractionListener;
 
 /**
  * Fragment containing ringtone information
@@ -48,11 +48,6 @@ public class RingtoneFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 
 }
