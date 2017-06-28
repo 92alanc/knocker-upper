@@ -1,0 +1,31 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+              android:orientation="vertical"
+             tools:context="com.ukdev.smartbuzz.fragments.SnoozeDurationFragment">
+
+    <!-- Snooze duration text -->
+    <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/snoozeDurationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/snooze_duration"
+            android:textSize="18sp"
+            android:textColor="@color/red"/>
+
+    <!-- Snooze duration spinner -->
+    <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/snoozeDurationSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2.5dp"
+            android:spinnerMode="dialog"
+            android:prompt="@string/snooze_duration"/>
+
+</LinearLayout>

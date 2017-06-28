@@ -1,0 +1,102 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+              android:orientation="vertical"
+             tools:context="com.ukdev.smartbuzz.fragments.RepetitionFragment">
+
+    <!-- Repetition text -->
+    <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:text="@string/repeat"
+            android:textSize="18sp"
+            android:textColor="@color/red"/>
+
+    <!-- Repetition layout -->
+    <LinearLayout
+            android:id="@+id/repetitionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal"
+            android:weightSum="7">
+        <!-- Sunday button -->
+        <ToggleButton
+                android:id="@+id/sundayToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/black"
+                android:textOff="@string/sun"
+                android:textOn="@string/sun"
+                android:textAllCaps="false"/>
+        <!-- Monday button -->
+        <ToggleButton
+                android:id="@+id/mondayToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/black"
+                android:textOff="@string/mon"
+                android:textOn="@string/mon"
+                android:textAllCaps="false"/>
+        <!-- Tuesday button -->
+        <ToggleButton
+                android:id="@+id/tuesdayToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/black"
+                android:textOff="@string/tue"
+                android:textOn="@string/tue"
+                android:textAllCaps="false"/>
+        <!-- Wednesday button -->
+        <ToggleButton
+                android:id="@+id/wednesdayToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/black"
+                android:textOff="@string/wed"
+                android:textOn="@string/wed"
+                android:textAllCaps="false"/>
+        <!-- Thursday button -->
+        <ToggleButton
+                android:id="@+id/thursdayToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/black"
+                android:textOff="@string/thu"
+                android:textOn="@string/thu"
+                android:textAllCaps="false"/>
+        <!-- Friday button -->
+        <ToggleButton
+                android:id="@+id/fridayToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/black"
+                android:textOff="@string/fri"
+                android:textOn="@string/fri"
+                android:textAllCaps="false"/>
+        <!-- Saturday button -->
+        <ToggleButton
+                android:id="@+id/saturdayToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/black"
+                android:textOff="@string/sat"
+                android:textOn="@string/sat"
+                android:textAllCaps="false"/>
+    </LinearLayout>
+
+</LinearLayout>
