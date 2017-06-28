@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="5dp">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:orientation="horizontal">
+        <!-- Day/night -->
+        <ImageView
+                android:id="@+id/image_view_day_night"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:contentDescription="@string/description_day_night"
+                android:src="@mipmap/ic_brightness_7_white_24dp"/>
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:padding="5dp">
+            <!-- Title -->
+            <TextView
+                    android:id="@+id/text_view_alarm_title_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+            <!-- Trigger time -->
+            <TextView
+                    android:id="@+id/text_view_trigger_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_view_alarm_title_card"
+                    android:layout_marginBottom="5dp"
+                    android:textStyle="bold"
+                    android:textSize="26sp"/>
+            <!-- Repetition -->
+            <TextView
+                    android:id="@+id/text_view_repetition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_view_trigger_time"
+                    android:textSize="14sp"/>
+        </RelativeLayout>
+        <!-- Switch -->
+        <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_alarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"/>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
