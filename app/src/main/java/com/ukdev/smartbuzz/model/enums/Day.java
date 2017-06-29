@@ -12,43 +12,44 @@ public enum Day {
     /**
      * Sunday
      */
-    SUNDAY(1),
+    SUNDAY(0),
 
     /**
      * Monday
      */
-    MONDAY(2),
+    MONDAY(1),
 
     /**
      * Tuesday
      */
-    TUESDAY(3),
+    TUESDAY(2),
 
     /**
      * Wednesday
      */
-    WEDNESDAY(4),
+    WEDNESDAY(3),
 
     /**
      * Thursday
      */
-    THURSDAY(5),
+    THURSDAY(4),
 
     /**
      * Friday
      */
-    FRIDAY(6),
+    FRIDAY(5),
 
     /**
      * Saturday
      */
-    SATURDAY(7);
+    SATURDAY(6);
 
     private final int value;
 
     /**
      * Default constructor for {@code Day}
-     * @param value the {@code int} value
+     * @param value the index of the {@code daysOfTheWeek}
+     *              string array located at res/array
      */
     Day(int value) {
         this.value = value;
