@@ -82,9 +82,9 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmHolder>
     private int getImageViewSrc(Calendar calendar) {
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         if (hour >= 6 && hour <= 18)
-            return R.mipmap.ic_brightness_7_white_24dp;
+            return R.drawable.ic_day;
         else
-            return R.mipmap.ic_brightness_3_white_24dp;
+            return R.drawable.ic_night;
     }
 
     /**

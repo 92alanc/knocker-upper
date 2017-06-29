@@ -28,7 +28,7 @@
                 android:orientation="vertical">
             <!-- Title -->
             <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/titleEditText"
+                    android:id="@+id/edit_text_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/name"

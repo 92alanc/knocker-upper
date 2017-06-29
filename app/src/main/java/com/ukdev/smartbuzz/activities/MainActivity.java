@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     }
 
     private void setAddButton() {
-        FloatingActionButton addButton = (FloatingActionButton)findViewById(R.id.addButton_Main);
+        FloatingActionButton addButton = (FloatingActionButton)findViewById(R.id.fab_main);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,6 +128,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     public void onItemClick(View view, int position) {
         Alarm alarm = alarms.get(position);
         Intent intent = new Intent(context, SetupActivity.class);
+        final boolean editMode = true;
+        intent.putExtra(IntentExtra.EDIT_MODE.toString(), editMode);
         intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         startActivity(intent);
     }

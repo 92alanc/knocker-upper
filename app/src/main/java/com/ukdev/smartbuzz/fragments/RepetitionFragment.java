@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.listeners.OnFragmentAttachListener;
+import com.ukdev.smartbuzz.model.enums.Day;
 
 /**
  * Fragment containing repetition information
@@ -45,8 +46,8 @@ public class RepetitionFragment extends Fragment {
         listener = null;
     }
 
-    public void onButtonPressed() {
-
+    public Day[] getSelectedRepetition() {
+        return null;
     }
 
 }

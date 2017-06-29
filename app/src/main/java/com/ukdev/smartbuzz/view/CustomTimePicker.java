@@ -1,6 +1,7 @@
 package com.ukdev.smartbuzz.view;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewParent;
@@ -49,6 +50,52 @@ public class CustomTimePicker extends TimePicker {
                 p.requestDisallowInterceptTouchEvent(true);
         }
         return false;
+    }
+
+    /**
+     * Gets the hour
+     */
+    @Override
+    public int getHour() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            return super.getHour();
+        else
+            return super.getCurrentHour();
+    }
+
+    /**
+     * Gets the minute
+     */
+    @Override
+    public int getMinute() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            return super.getMinute();
+        else
+            return super.getCurrentMinute();
+    }
+
+    /**
+     * Sets the hour
+     * @param hour the hour
+     */
+    @Override
+    public void setHour(int hour) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            super.setHour(hour);
+        else
+            super.setCurrentHour(hour);
+    }
+
+    /**
+     * Sets the minute
+     * @param minute the minute
+     */
+    @Override
+    public void setMinute(int minute) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            super.setMinute(minute);
+        else
+            super.setCurrentMinute(minute);
     }
 
 }

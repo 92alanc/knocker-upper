@@ -46,6 +46,9 @@ public class Alarm {
         this.context = context;
         player = new MediaPlayer();
         vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        active = true;
+        vibrate = true;
+        volume = Utils.getDefaultVolume(context);
     }
 
     @Override
@@ -254,21 +257,20 @@ public class Alarm {
         if (activity.getIntent().getAction().equals(IntentAction.WAKE_UP.toString())) {
             volume = Utils.getMaxVolume(context);
             startVibration();
-        }
-        else {
+        } else {
             volume = getVolume();
             if (vibrates())
                 startVibration();
         }
-        manager.setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
+        final int flags = 0;
+        manager.setStreamVolume(AudioManager.STREAM_ALARM, volume, flags);
         int requestResult;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             requestResult = manager.requestAudioFocus(new AudioFocusChangeListener(manager,
                             getVolume()),
                     AudioManager.STREAM_ALARM,
                     AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
-        }
-        else {
+        } else {
             requestResult = manager.requestAudioFocus(new AudioFocusChangeListener(manager,
                             getVolume()),
                     AudioManager.STREAM_ALARM,
@@ -302,7 +304,8 @@ public class Alarm {
      */
     public void startVibration() {
         long[] pattern = { 1000, 2000 };
-        vibrator.vibrate(pattern, 0);
+        final int repeat = 0;
+        vibrator.vibrate(pattern, repeat);
     }
 
     /**

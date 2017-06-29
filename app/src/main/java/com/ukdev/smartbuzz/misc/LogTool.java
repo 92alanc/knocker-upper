@@ -32,7 +32,7 @@ public class LogTool {
      */
     public void exception(Exception e) {
         dialogue.setMessage(e.getMessage());
-        dialogue.setIcon(R.mipmap.ic_sentiment_very_dissatisfied_white_24dp);
+        dialogue.setIcon(R.drawable.ic_error);
         dialogue.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -48,7 +48,7 @@ public class LogTool {
      */
     public void info(String text) {
         dialogue.setMessage(text);
-        dialogue.setIcon(R.drawable.app_icon);
+        dialogue.setIcon(R.drawable.ic_launcher);
         dialogue.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
