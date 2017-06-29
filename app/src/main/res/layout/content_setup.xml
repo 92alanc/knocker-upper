@@ -10,60 +10,73 @@
         tools:showIn="@layout/activity_setup"
         tools:context="com.ukdev.smartbuzz.activities.SetupActivity">
 
-    <LinearLayout
+    <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-        <!-- Title -->
-        <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/titleEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/name"
-                android:textSize="18sp"/>
-
-        <!-- Time picker -->
-        <com.ukdev.smartbuzz.view.CustomTimePicker
-                android:id="@+id/timePicker"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        <!-- Repetition -->
-        <FrameLayout
-                android:id="@+id/placeholder_repetition"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        <!-- Snooze duration -->
-        <FrameLayout
-                android:id="@+id/placeholder_snooze_duration"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        <!-- Ringtone -->
-        <FrameLayout
-                android:id="@+id/placeholder_ringtone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        <!-- Volume -->
-        <!-- TODO: implement volume -->
-
-        <!-- Vibrate -->
-        <!-- TODO: implement vibrate -->
-
-        <!-- Text -->
-        <!-- TODO: implement text -->
-
-        <!-- Ad view -->
-        <com.google.android.gms.ads.AdView
-                android:id="@+id/ad_view_setup"
+            android:layout_height="wrap_content">
+        <!-- Progress bar -->
+        <ProgressBar
+                android:id="@+id/progress_bar_setup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                ads:adSize="BANNER"
-                ads:adUnitId="@string/adUnitId"/>
+                android:layout_centerInParent="true"
+                android:indeterminate="true"
+                android:visibility="gone"/>
 
-    </LinearLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <!-- Title -->
+            <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/titleEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/name"
+                    android:textSize="18sp"/>
+
+            <!-- Time picker -->
+            <com.ukdev.smartbuzz.view.CustomTimePicker
+                    android:id="@+id/timePicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <!-- Repetition -->
+            <FrameLayout
+                    android:id="@+id/placeholder_repetition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <!-- Snooze duration -->
+            <FrameLayout
+                    android:id="@+id/placeholder_snooze_duration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <!-- Ringtone -->
+            <FrameLayout
+                    android:id="@+id/placeholder_ringtone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <!-- Volume -->
+            <!-- TODO: implement volume -->
+
+            <!-- Vibrate -->
+            <!-- TODO: implement vibrate -->
+
+            <!-- Text -->
+            <!-- TODO: implement text -->
+
+            <!-- Ad view -->
+            <com.google.android.gms.ads.AdView
+                    android:id="@+id/ad_view_setup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    ads:adSize="BANNER"
+                    ads:adUnitId="@string/adUnitId"/>
+
+        </LinearLayout>
+    </RelativeLayout>
 
 </ScrollView>

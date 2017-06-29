@@ -34,8 +34,6 @@
     <string name="enable_sleep_checker">Enable Sleep Checker</string>
     <string name="summary_enable_sleep_checker">After you dismiss an alarm, your device will silently turn on the screen at a random time between 3 and 5 minutes and ask you if you\'re awake. If you don\'t press the \'Yes, I\'m awake\' button in 15 seconds the alarm will go off again.</string>
     <string name="description_day_night">Whether the alarm will ring at day or night time</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ringtone">Ringtone</string>
 
 </resources>

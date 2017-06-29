@@ -29,6 +29,11 @@ public class Ringtone {
         this.uri = uri;
     }
 
+    @Override
+    public String toString() {
+        return title;
+    }
+
     /**
      * Gets the title
      * @return the title
