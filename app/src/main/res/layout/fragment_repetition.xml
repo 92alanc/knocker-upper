@@ -19,7 +19,7 @@
             android:textColor="@color/red"/>
 
     <!-- Spinner -->
-    <android.support.v7.widget.AppCompatSpinner
+    <com.ukdev.smartbuzz.view.MultiChoiceSpinner
             android:id="@+id/spinner_repetition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
