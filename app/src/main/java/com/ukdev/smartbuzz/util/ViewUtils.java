@@ -7,6 +7,7 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.widget.ArrayAdapter;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.model.Ringtone;
 
 import java.util.List;
@@ -28,6 +29,20 @@ public class ViewUtils {
         ArrayAdapter<Ringtone> adapter = new ArrayAdapter<>(context,
                                                             android.R.layout.simple_spinner_item,
                                                             ringtones);
+        adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
+        spinner.setAdapter(adapter);
+    }
+
+    /**
+     * Populates the snooze duration spinner
+     * @param context the Android context
+     * @param spinner the spinner
+     */
+    public static void populateSnoozeDurationSpinner(Context context, AppCompatSpinner spinner) {
+        String[] itemTexts = context.getResources().getStringArray(R.array.snooze_durations);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
+                                                          android.R.layout.simple_spinner_item,
+                                                          itemTexts);
         adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
         spinner.setAdapter(adapter);
     }

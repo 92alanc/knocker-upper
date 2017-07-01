@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="daysOfTheWeek">
+    <string-array name="days_of_the_week">
         <item>Domingo</item>
         <item>Segunda</item>
         <item>Terça</item>
@@ -8,6 +8,15 @@
         <item>Quinta</item>
         <item>Sexta</item>
         <item>Sábado</item>
+    </string-array>
+    <string-array name="snooze_durations">
+        <item>0 min</item>
+        <item>5 min</item>
+        <item>10 min</item>
+        <item>15 min</item>
+        <item>20 min</item>
+        <item>25 min</item>
+        <item>30 min</item>
     </string-array>
     <string-array name="themes">
         <item>Escuro</item>

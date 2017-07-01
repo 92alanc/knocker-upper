@@ -37,5 +37,6 @@
     <string name="ringtone">Ringtone</string>
     <string name="error_save_alarm">Error saving alarm</string>
     <string name="retry">Retry</string>
+    <string name="alarm_saved">Alarm saved</string>
 
 </resources>

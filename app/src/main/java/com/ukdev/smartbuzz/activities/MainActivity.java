@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.adapters.AlarmAdapter;
 import com.ukdev.smartbuzz.misc.IntentAction;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     private Context context;
     private AlarmDao dao;
     private List<Alarm> alarms;
+    private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private RecyclerViewClickListener listener;
 
@@ -53,6 +55,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     protected void onResume() {
         super.onResume();
         populateRecyclerView();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -80,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         context = this;
         dao = AlarmDao.getInstance(context);
         listener = this;
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar_main);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_main);
         ViewUtils.showAds(this, R.id.ad_view_main);
     }
@@ -89,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 Intent intent = new Intent(context, SetupActivity.class);
                 intent.setAction(IntentAction.CREATE_ALARM.toString());
                 startActivity(intent);

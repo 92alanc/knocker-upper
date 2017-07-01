@@ -2,6 +2,7 @@ package com.ukdev.smartbuzz.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,12 +16,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.fragments.RepetitionFragment;
 import com.ukdev.smartbuzz.fragments.RingtoneFragment;
 import com.ukdev.smartbuzz.fragments.SnoozeDurationFragment;
-import com.ukdev.smartbuzz.listeners.OnFragmentAttachListener;
 import com.ukdev.smartbuzz.misc.IntentExtra;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.AlarmBuilder;
@@ -37,7 +38,7 @@ import java.util.Calendar;
  *
  * @author Alan Camargo
  */
-public class SetupActivity extends AppCompatActivity implements OnFragmentAttachListener {
+public class SetupActivity extends AppCompatActivity {
 
     private Alarm alarm;
     private AlarmDao dao;
@@ -67,22 +68,6 @@ public class SetupActivity extends AppCompatActivity implements OnFragmentAttach
     protected void onResume() {
         super.onResume();
         loadFragments();
-    }
-
-    /**
-     * Method called when a fragment starts loading
-     */
-    @Override
-    public void onLoadFragment() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    /**
-     * Method called when a fragment is fully attached
-     */
-    @Override
-    public void onAttachFragment() {
-        progressBar.setVisibility(View.GONE);
     }
 
     private void initialiseComponents() {
@@ -149,6 +134,7 @@ public class SetupActivity extends AppCompatActivity implements OnFragmentAttach
     }
 
     private boolean save() {
+        progressBar.setVisibility(View.VISIBLE);
         AlarmBuilder alarmBuilder = new AlarmBuilder(context);
         alarmBuilder.setTitle(getAlarmTitle());
         alarmBuilder.setTriggerTime(getTriggerTime());
@@ -157,6 +143,7 @@ public class SetupActivity extends AppCompatActivity implements OnFragmentAttach
         alarmBuilder.setSnoozeDuration(getSnoozeDuration());
 
         Alarm alarm = alarmBuilder.build();
+        progressBar.setVisibility(View.GONE);
         if (editMode)
             return dao.update(alarm);
         else
@@ -203,6 +190,10 @@ public class SetupActivity extends AppCompatActivity implements OnFragmentAttach
                             save();
                         }
                     });
+                } else {
+                    Toast.makeText(context, R.string.alarm_saved, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, MainActivity.class);
+                    startActivity(intent);
                 }
             }
         });

@@ -21,7 +21,7 @@
 
     <!-- Snooze duration spinner -->
     <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/snoozeDurationSpinner"
+            android:id="@+id/spinner_snooze_duration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2.5dp"

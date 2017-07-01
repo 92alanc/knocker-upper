@@ -57,7 +57,7 @@ public class Utils {
                     return context.getResources().getString(R.string.weekends);
                 else {
                     String[] texts = context.getResources()
-                            .getStringArray(R.array.daysOfTheWeek);
+                            .getStringArray(R.array.days_of_the_week);
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < array.length; i++) {
                         for (int j = 0; j < texts.length; j++) {
@@ -100,7 +100,7 @@ public class Utils {
                 values[1] = Day.SATURDAY;
             } else {
                 String[] texts = context.getResources()
-                        .getStringArray(R.array.daysOfTheWeek);
+                        .getStringArray(R.array.days_of_the_week);
                 String[] split = string.split(", ");
                 values = new Day[split.length];
                 for (int i = 0; i < split.length; i++) {

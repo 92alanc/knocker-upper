@@ -1,13 +1,11 @@
 package com.ukdev.smartbuzz.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.ukdev.smartbuzz.R;
-import com.ukdev.smartbuzz.listeners.OnFragmentAttachListener;
 import com.ukdev.smartbuzz.listeners.OnItemsSelectedListener;
 import com.ukdev.smartbuzz.model.enums.Day;
 import com.ukdev.smartbuzz.view.MultiChoiceSpinner;
@@ -23,7 +21,6 @@ import java.util.List;
 public class RepetitionFragment extends Fragment implements OnItemsSelectedListener {
 
     private Day[] selectedRepetition;
-    private OnFragmentAttachListener onFragmentAttachListener;
     private OnItemsSelectedListener onItemsSelectedListener;
 
     /**
@@ -43,27 +40,7 @@ public class RepetitionFragment extends Fragment implements OnItemsSelectedListe
     @Override
     public void onResume() {
         super.onResume();
-        onFragmentAttachListener.onLoadFragment();
         initialiseComponents();
-        onFragmentAttachListener.onAttachFragment();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentAttachListener)
-            onFragmentAttachListener = (OnFragmentAttachListener) context;
-        else {
-            String message = String.format("%s must implement the OnFragmentAttachedListener interface.",
-                                           context.toString());
-            throw new RuntimeException(message);
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        onFragmentAttachListener = null;
     }
 
     /**
@@ -97,7 +74,7 @@ public class RepetitionFragment extends Fragment implements OnItemsSelectedListe
         View view = getView();
         if (view != null) {
             MultiChoiceSpinner spinner = (MultiChoiceSpinner) view.findViewById(R.id.spinner_repetition);
-            spinner.populate(R.array.daysOfTheWeek, onItemsSelectedListener);
+            spinner.populate(R.array.days_of_the_week, onItemsSelectedListener);
         }
     }
 
