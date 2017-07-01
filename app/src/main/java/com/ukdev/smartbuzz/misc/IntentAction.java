@@ -18,11 +18,6 @@ public enum IntentAction {
     CANCEL_ALARM("com.ukdev.smartbuzz.ACTION_CANCEL_ALARM"),
 
     /**
-     * Creates a new alarm
-     */
-    CREATE_ALARM("com.ukdev.smartbuzz.ACTION_CREATE_ALARM"),
-
-    /**
      * Delays an alarm (snooze operation)
      */
     DELAY_ALARM("com.ukdev.smartbuzz.ACTION_DELAY_ALARM"),

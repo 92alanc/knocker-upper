@@ -10,6 +10,8 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.database.AlarmDao;
+import com.ukdev.smartbuzz.system.AlarmHandler;
 import com.ukdev.smartbuzz.util.Utils;
 import com.ukdev.smartbuzz.listeners.RecyclerViewClickListener;
 import com.ukdev.smartbuzz.model.Alarm;
@@ -24,6 +26,7 @@ import java.util.List;
  */
 public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmHolder> {
 
+    private AlarmDao dao;
     private Context context;
     private List<Alarm> objects;
     private RecyclerViewClickListener listener;
@@ -38,6 +41,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmHolder>
         this.context = context;
         this.objects = objects;
         this.listener = listener;
+        dao = AlarmDao.getInstance(context);
     }
 
     @Override
@@ -70,6 +74,12 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmHolder>
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 alarm.setActive(isChecked);
+                dao.update(alarm);
+                AlarmHandler alarmHandler = new AlarmHandler(context, alarm);
+                if (isChecked)
+                    alarmHandler.setAlarm();
+                else
+                    alarmHandler.cancelAlarm();
             }
         });
     }

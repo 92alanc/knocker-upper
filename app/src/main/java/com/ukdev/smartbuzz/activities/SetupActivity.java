@@ -28,6 +28,7 @@ import com.ukdev.smartbuzz.model.AlarmBuilder;
 import com.ukdev.smartbuzz.model.Ringtone;
 import com.ukdev.smartbuzz.model.enums.Day;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
+import com.ukdev.smartbuzz.system.AlarmHandler;
 import com.ukdev.smartbuzz.util.ViewUtils;
 import com.ukdev.smartbuzz.view.CustomTimePicker;
 
@@ -134,8 +135,12 @@ public class SetupActivity extends AppCompatActivity {
     }
 
     private boolean save() {
+        boolean success;
         progressBar.setVisibility(View.VISIBLE);
         AlarmBuilder alarmBuilder = new AlarmBuilder(context);
+        int nextAvailableId = dao.getLastId() + 1;
+        int id = getIntent().getIntExtra(IntentExtra.ID.toString(), nextAvailableId);
+        alarmBuilder.setId(id);
         alarmBuilder.setTitle(getAlarmTitle());
         alarmBuilder.setTriggerTime(getTriggerTime());
         alarmBuilder.setRepetition(getRepetition());
@@ -143,11 +148,16 @@ public class SetupActivity extends AppCompatActivity {
         alarmBuilder.setSnoozeDuration(getSnoozeDuration());
 
         Alarm alarm = alarmBuilder.build();
+        AlarmHandler alarmHandler = new AlarmHandler(context, alarm);
         progressBar.setVisibility(View.GONE);
-        if (editMode)
-            return dao.update(alarm);
-        else
-            return dao.insert(alarm);
+        if (editMode) {
+            alarmHandler.updateAlarm();
+            success = dao.update(alarm);
+        } else {
+            alarmHandler.setAlarm();
+            success = dao.insert(alarm);
+        }
+        return success;
     }
 
     private String getAlarmTitle() {

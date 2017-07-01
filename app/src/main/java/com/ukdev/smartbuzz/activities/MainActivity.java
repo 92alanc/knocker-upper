@@ -2,8 +2,6 @@ package com.ukdev.smartbuzz.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -17,13 +15,11 @@ import android.view.View;
 import android.widget.ProgressBar;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.adapters.AlarmAdapter;
-import com.ukdev.smartbuzz.misc.IntentAction;
-import com.ukdev.smartbuzz.misc.IntentExtra;
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.listeners.RecyclerViewClickListener;
+import com.ukdev.smartbuzz.misc.IntentExtra;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.util.ViewUtils;
-import com.ukdev.smartbuzz.misc.LogTool;
 
 import java.util.List;
 
@@ -78,55 +74,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
                 startActivity(intent);
                 break;
             case R.id.menuItem_About:
-                showInfo();
+                ViewUtils.showAppInfo(context);
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void initialiseComponents() {
-        context = this;
-        dao = AlarmDao.getInstance(context);
-        listener = this;
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar_main);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_main);
-        ViewUtils.showAds(this, R.id.ad_view_main);
-    }
-
-    private void setAddButton() {
-        FloatingActionButton addButton = (FloatingActionButton)findViewById(R.id.fab_main);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                Intent intent = new Intent(context, SetupActivity.class);
-                intent.setAction(IntentAction.CREATE_ALARM.toString());
-                startActivity(intent);
-            }
-        });
-    }
-
-    private void populateRecyclerView() {
-        alarms = dao.select();
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(layoutManager);
-        AlarmAdapter adapter = new AlarmAdapter(context, alarms, listener);
-        recyclerView.setAdapter(adapter);
-    }
-
-    private void showInfo() {
-        try {
-            PackageManager manager = getPackageManager();
-            PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
-            String version = info.versionName;
-            String appName = getString(R.string.app_name);
-            String about = getString(R.string.about);
-            String text = String.format("%1$s %2$s\n%3$s", appName, version, about);
-            LogTool log = new LogTool(this);
-            log.info(text);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -138,10 +89,38 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     public void onItemClick(View view, int position) {
         Alarm alarm = alarms.get(position);
         Intent intent = new Intent(context, SetupActivity.class);
-        final boolean editMode = true;
-        intent.putExtra(IntentExtra.EDIT_MODE.toString(), editMode);
+        intent.putExtra(IntentExtra.EDIT_MODE.toString(), true);
         intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         startActivity(intent);
+    }
+
+    private void initialiseComponents() {
+        context = this;
+        dao = AlarmDao.getInstance(context);
+        listener = this;
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar_main);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_main);
+    }
+
+    private void setAddButton() {
+        FloatingActionButton addButton = (FloatingActionButton)findViewById(R.id.fab_main);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
+                Intent intent = new Intent(context, SetupActivity.class);
+                intent.putExtra(IntentExtra.EDIT_MODE.toString(), false);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void populateRecyclerView() {
+        alarms = dao.select();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(layoutManager);
+        AlarmAdapter adapter = new AlarmAdapter(context, alarms, listener);
+        recyclerView.setAdapter(adapter);
     }
 
 }

@@ -10,10 +10,9 @@ import android.os.PowerManager;
 import android.provider.AlarmClock;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.activities.SetupActivity;
+import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.misc.IntentAction;
 import com.ukdev.smartbuzz.misc.IntentExtra;
-import com.ukdev.smartbuzz.database.AlarmDao;
-import com.ukdev.smartbuzz.exception.NullAlarmException;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.AlarmBuilder;
 import com.ukdev.smartbuzz.model.Ringtone;
@@ -44,11 +43,8 @@ public class AlarmHandler {
      * Default constructor for {@code AlarmHandler}
      * @param context the Android context
      * @param alarm the alarm
-     * @throws NullAlarmException if the alarm is {@code null}
      */
-    public AlarmHandler(Context context, Alarm alarm) throws NullAlarmException {
-        if (alarm == null)
-            throw new NullAlarmException(context);
+    public AlarmHandler(Context context, Alarm alarm) {
         this.alarm = alarm;
         this.context = context;
         manager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
@@ -150,9 +146,8 @@ public class AlarmHandler {
     public void setAlarmByVoice(Context context, Intent intent) {
         if (!intent.hasExtra(AlarmClock.EXTRA_HOUR)) {
             Intent i = new Intent(context, SetupActivity.class);
-            i.setAction(IntentAction.CREATE_ALARM.toString());
-            boolean sleepCheckerOn = true;
-            i.putExtra(IntentExtra.SLEEP_CHECKER_ON.toString(), sleepCheckerOn);
+            i.putExtra(IntentExtra.EDIT_MODE.toString(), false);
+            i.putExtra(IntentExtra.SLEEP_CHECKER_ON.toString(), true);
             context.startActivity(i);
             return;
         }

@@ -2,12 +2,15 @@ package com.ukdev.smartbuzz.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.AppCompatSpinner;
 import android.widget.ArrayAdapter;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.misc.LogTool;
 import com.ukdev.smartbuzz.model.Ringtone;
 
 import java.util.List;
@@ -56,6 +59,26 @@ public class ViewUtils {
         AdView adView = (AdView) activity.findViewById(resId);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
+    }
+
+    /**
+     * Shows app info
+     * @param context the Android context
+     */
+    public static void showAppInfo(Context context) {
+        LogTool log = new LogTool(context);
+        try {
+            PackageManager manager = context.getPackageManager();
+            final int flags = 0;
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(), flags);
+            String version = info.versionName;
+            String appName = context.getString(R.string.app_name);
+            String about = context.getString(R.string.about);
+            String text = String.format("%1$s %2$s\n%3$s", appName, version, about);
+            log.info(text);
+        } catch (PackageManager.NameNotFoundException e) {
+            log.exception(e);
+        }
     }
 
 }
