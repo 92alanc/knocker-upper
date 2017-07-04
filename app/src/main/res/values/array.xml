@@ -9,6 +9,15 @@
         <item>Friday</item>
         <item>Saturday</item>
     </string-array>
+    <string-array name="days_of_the_week_short">
+        <item>Sun</item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+    </string-array>
     <string-array name="snooze_durations">
         <item>0 min</item>
         <item>5 min</item>

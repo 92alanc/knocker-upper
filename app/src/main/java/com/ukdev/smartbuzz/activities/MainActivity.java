@@ -16,7 +16,7 @@ import android.widget.ProgressBar;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.adapters.AlarmAdapter;
 import com.ukdev.smartbuzz.database.AlarmDao;
-import com.ukdev.smartbuzz.listeners.RecyclerViewClickListener;
+import com.ukdev.smartbuzz.listeners.OnItemClickListener;
 import com.ukdev.smartbuzz.misc.IntentExtra;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.util.ViewUtils;
@@ -28,14 +28,14 @@ import java.util.List;
  *
  * @author Alan Camargo
  */
-public class MainActivity extends AppCompatActivity implements RecyclerViewClickListener {
+public class MainActivity extends AppCompatActivity implements OnItemClickListener {
 
     private Context context;
     private AlarmDao dao;
     private List<Alarm> alarms;
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
-    private RecyclerViewClickListener listener;
+    private OnItemClickListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -7,7 +7,7 @@ import android.view.View;
  *
  * @author Alan Camargo
  */
-public interface RecyclerViewClickListener {
+public interface OnItemClickListener {
 
     /**
      * Method called when a recycler view item is clicked

@@ -13,7 +13,7 @@ import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.system.AlarmHandler;
 import com.ukdev.smartbuzz.util.Utils;
-import com.ukdev.smartbuzz.listeners.RecyclerViewClickListener;
+import com.ukdev.smartbuzz.listeners.OnItemClickListener;
 import com.ukdev.smartbuzz.model.Alarm;
 
 import java.util.Calendar;
@@ -29,7 +29,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmHolder>
     private AlarmDao dao;
     private Context context;
     private List<Alarm> objects;
-    private RecyclerViewClickListener listener;
+    private OnItemClickListener listener;
 
     /**
      * Default constructor for {@code AlarmAdapter}
@@ -37,7 +37,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmHolder>
      * @param objects the objects
      * @param listener the click listener
      */
-    public AlarmAdapter(Context context, List<Alarm> objects, RecyclerViewClickListener listener) {
+    public AlarmAdapter(Context context, List<Alarm> objects, OnItemClickListener listener) {
         this.context = context;
         this.objects = objects;
         this.listener = listener;
@@ -102,21 +102,21 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmHolder>
      *
      * @author Alan Camargo
      */
-    static class AlarmHolder extends RecyclerView.ViewHolder implements RecyclerViewClickListener {
+    static class AlarmHolder extends RecyclerView.ViewHolder implements OnItemClickListener {
 
         ImageView dayNightImageView;
         TextView alarmTitleTextView;
         TextView triggerTimeTextView;
         TextView repetitionTextView;
         SwitchCompat alarmSwitch;
-        RecyclerViewClickListener listener;
+        OnItemClickListener listener;
 
         /**
          * The alarm holder
          * @param itemView the item view
          * @param listener the click listener
          */
-        AlarmHolder(View itemView, RecyclerViewClickListener listener) {
+        AlarmHolder(View itemView, OnItemClickListener listener) {
             super(itemView);
             this.listener = listener;
             dayNightImageView = (ImageView) itemView.findViewById(R.id.image_view_day_night);

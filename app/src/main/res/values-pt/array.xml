@@ -9,6 +9,15 @@
         <item>Sexta</item>
         <item>Sábado</item>
     </string-array>
+    <string-array name="days_of_the_week_short">
+        <item>Dom</item>
+        <item>Seg</item>
+        <item>Ter</item>
+        <item>Qua</item>
+        <item>Qui</item>
+        <item>Sex</item>
+        <item>Sáb</item>
+    </string-array>
     <string-array name="snooze_durations">
         <item>0 min</item>
         <item>5 min</item>
