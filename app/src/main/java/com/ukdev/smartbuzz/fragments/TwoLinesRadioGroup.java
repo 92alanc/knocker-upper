@@ -17,10 +17,10 @@ import java.util.Map;
  *
  * @author William Miranda
  */
-public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Integer> {
+public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Long> {
 
     private ViewGroup rootView;
-    private Map<Integer, String> mapOptionValue;
+    private Map<Long, String> mapOptionValue;
     private int selectedIndex = -1;
 
     @Override
@@ -28,7 +28,7 @@ public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Integer> {
         View view = inflater.inflate(R.layout.two_lines_default, container, ATTACH_TO_ROOT);
         rootView = (ViewGroup) view.findViewById(R.id.rootView);
         String[] optionsText = getArguments().getStringArray("options_text");
-        int[] optionsValue = getArguments().getIntArray("options_value");
+        long[] optionsValue = getArguments().getLongArray("options_value");
         selectedIndex = getArguments().getInt("selected_index", 0);
         mapOptionValue = new LinkedHashMap<>();
         for (int i = 0; i < optionsText.length; i++)
@@ -48,7 +48,7 @@ public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Integer> {
     }
 
     @Override
-    public void setValue(Integer value) {
+    public void setValue(Long value) {
         this.value = value;
         if (textSummary != null)
             textSummary.setText(mapOptionValue.get(value));
@@ -70,7 +70,7 @@ public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Integer> {
             @Override
             public void onClick(DialogInterface dialogueInterface, int which) {
                 int i = 0;
-                for (Map.Entry<Integer, String> entry : mapOptionValue.entrySet()) {
+                for (Map.Entry<Long, String> entry : mapOptionValue.entrySet()) {
                     if (i == selectedIndex)
                         setValue(entry.getKey());
                     i++;

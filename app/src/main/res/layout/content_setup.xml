@@ -10,23 +10,9 @@
         tools:showIn="@layout/activity_setup"
         tools:context="com.ukdev.smartbuzz.activities.SetupActivity">
 
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <!-- Progress bar -->
-        <ProgressBar
-                android:id="@+id/progress_bar_setup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:indeterminate="true"
-                android:visibility="gone"/>
-
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/progress_bar_setup"
                 android:orientation="vertical">
             <!-- Title -->
             <FrameLayout
@@ -87,6 +73,5 @@
                     ads:adUnitId="@string/adUnitId"/>
 
         </LinearLayout>
-    </RelativeLayout>
 
 </android.support.v4.widget.NestedScrollView>

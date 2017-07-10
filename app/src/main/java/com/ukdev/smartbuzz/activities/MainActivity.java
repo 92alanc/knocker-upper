@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuItem_Settings:
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                Intent intent = new Intent(context, SettingsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.menuItem_About:
