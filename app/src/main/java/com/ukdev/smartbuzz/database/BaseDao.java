@@ -13,6 +13,8 @@ import java.util.List;
  */
 abstract class BaseDao {
 
+    private DatabaseHelper helper;
+
     SQLiteDatabase reader;
     SQLiteDatabase writer;
     Context context;
@@ -23,7 +25,14 @@ abstract class BaseDao {
      */
     BaseDao(Context context) {
         this.context = context;
-        DatabaseHelper helper = new DatabaseHelper(context);
+        helper = new DatabaseHelper(context);
+        openDatabase();
+    }
+
+    /**
+     * Opens the database
+     */
+    void openDatabase() {
         reader = helper.getReadableDatabase();
         writer = helper.getWritableDatabase();
     }

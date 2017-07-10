@@ -56,8 +56,12 @@ public class AlarmDao extends BaseDao {
      */
     @Override
     public boolean delete(Alarm alarm) {
+        if (!writer.isOpen())
+            openDatabase();
         String[] whereArgs = new String[] {String.valueOf(alarm.getId())};
-        return writer.delete(TABLE_NAME, WHERE_CLAUSE, whereArgs) > 0;
+        boolean success = writer.delete(TABLE_NAME, WHERE_CLAUSE, whereArgs) > 0;
+        writer.close();
+        return success;
     }
 
     /**
@@ -69,10 +73,14 @@ public class AlarmDao extends BaseDao {
      */
     @Override
     public boolean insert(Alarm alarm) {
+        if (!writer.isOpen())
+            openDatabase();
         final String nullColumnHack = null;
         ContentValues values = new ContentValues();
         fillFields(alarm, values);
-        return writer.insert(TABLE_NAME, nullColumnHack, values) > 0;
+        boolean success = writer.insert(TABLE_NAME, nullColumnHack, values) > 0;
+        writer.close();
+        return success;
     }
 
     /**
@@ -83,6 +91,8 @@ public class AlarmDao extends BaseDao {
      */
     @Override
     public List<Alarm> getActiveAlarms() {
+        if (!reader.isOpen())
+            openDatabase();
         String selection = String.format("%1$s = ?", Column.ACTIVE.toString());
         String[] selectionArgs = new String[] {ACTIVE_STRING};
         final String orderBy = null;
@@ -93,6 +103,7 @@ public class AlarmDao extends BaseDao {
             alarms = queryAlarms(cursor);
         }
         cursor.close();
+        reader.close();
         return alarms;
     }
 
@@ -102,6 +113,8 @@ public class AlarmDao extends BaseDao {
      */
     @Override
     public int getLastId() {
+        if (!reader.isOpen())
+            openDatabase();
         final String selection = null;
         final String[] selectionArgs = null;
         final String groupBy = null;
@@ -117,6 +130,7 @@ public class AlarmDao extends BaseDao {
         if (cursor.getCount() > 0)
             lastId = cursor.getInt(cursor.getColumnIndex(Column.ID.toString()));
         cursor.close();
+        reader.close();
         return lastId;
     }
 
@@ -126,6 +140,8 @@ public class AlarmDao extends BaseDao {
      */
     @Override
     public List<Alarm> select() {
+        if (!reader.isOpen())
+            openDatabase();
         final String selection = null;
         final String[] selectionArgs = null;
         String orderBy = String.format("%1$s ASC", Column.ID.toString());
@@ -136,6 +152,7 @@ public class AlarmDao extends BaseDao {
             alarms = queryAlarms(cursor);
         }
         cursor.close();
+        reader.close();
         return alarms;
     }
 
@@ -147,6 +164,8 @@ public class AlarmDao extends BaseDao {
      */
     @Override
     public Alarm select(int id) {
+        if (!reader.isOpen())
+            openDatabase();
         String selection = String.format("%1$s = ?", Column.ID.toString());
         String[] selectionArgs = new String[] {String.valueOf(id)};
         final String orderBy = null;
@@ -191,9 +210,12 @@ public class AlarmDao extends BaseDao {
                                                                  .setActive(active);
             alarmBuilder.setId(id);
             cursor.close();
+            reader.close();
             return alarmBuilder.build();
-        } else
+        } else {
+            reader.close();
             return null;
+        }
     }
 
     /**
@@ -205,10 +227,14 @@ public class AlarmDao extends BaseDao {
      */
     @Override
     public boolean update(Alarm alarm) {
+        if (!writer.isOpen())
+            openDatabase();
         ContentValues values = new ContentValues();
         fillFields(alarm, values);
         String[] whereArgs = new String[] {String.valueOf(alarm.getId())};
-        return writer.update(TABLE_NAME, values, WHERE_CLAUSE, whereArgs) > 0;
+        boolean success = writer.update(TABLE_NAME, values, WHERE_CLAUSE, whereArgs) > 0;
+        writer.close();
+        return success;
     }
 
     private void fillFields(Alarm alarm, ContentValues values) {

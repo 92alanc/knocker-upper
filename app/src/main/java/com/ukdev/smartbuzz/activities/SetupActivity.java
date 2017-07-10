@@ -86,12 +86,26 @@ public class SetupActivity extends AppCompatActivity {
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.placeholder_title, titleFragment);
+        transaction.commit();
+        transaction = manager.beginTransaction();
         transaction.replace(R.id.placeholder_time_picker, timePickerFragment);
+        transaction.commit();
+        transaction = manager.beginTransaction();
         transaction.replace(R.id.placeholder_repetition, repetitionFragment);
+        transaction.commit();
+        transaction = manager.beginTransaction();
         transaction.replace(R.id.placeholder_snooze_duration, snoozeDurationFragment);
+        transaction.commit();
+        transaction = manager.beginTransaction();
         transaction.replace(R.id.placeholder_ringtone, ringtoneFragment);
+        transaction.commit();
+        transaction = manager.beginTransaction();
         transaction.replace(R.id.placeholder_volume, volumeFragment);
+        transaction.commit();
+        transaction = manager.beginTransaction();
         transaction.replace(R.id.placeholder_vibrate, vibrationFragment);
+        transaction.commit();
+        transaction = manager.beginTransaction();
         transaction.replace(R.id.placeholder_text, textFragment);
         transaction.commit();
     }
