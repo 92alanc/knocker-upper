@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rootView"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true">
+
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+    <TextView
+            android:id="@+id/summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_below="@id/title"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@id/summary"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+        <ToggleButton
+                style="@style/ToggleButton"
+                android:id="@+id/btSunday"
+                android:text="@string/sunday"
+                android:textOff="@string/sunday"
+                android:textOn="@string/sunday"/>
+
+        <ToggleButton
+                style="@style/ToggleButton"
+                android:id="@+id/btMonday"
+                android:text="@string/monday"
+                android:textOff="@string/monday"
+                android:textOn="@string/monday"/>
+
+        <ToggleButton
+                style="@style/ToggleButton"
+                android:id="@+id/btTuesday"
+                android:text="@string/tuesday"
+                android:textOff="@string/tuesday"
+                android:textOn="@string/tuesday"/>
+
+        <ToggleButton
+                style="@style/ToggleButton"
+                android:id="@+id/btWednesday"
+                android:text="@string/wednesday"
+                android:textOff="@string/wednesday"
+                android:textOn="@string/wednesday"/>
+
+        <ToggleButton
+                style="@style/ToggleButton"
+                android:id="@+id/btThursday"
+                android:text="@string/thursday"
+                android:textOff="@string/thursday"
+                android:textOn="@string/thursday"/>
+
+        <ToggleButton
+                style="@style/ToggleButton"
+                android:id="@+id/btFriday"
+                android:text="@string/friday"
+                android:textOff="@string/friday"
+                android:textOn="@string/friday"/>
+
+        <ToggleButton
+                style="@style/ToggleButton"
+                android:id="@+id/btSaturday"
+                android:text="@string/saturday"
+                android:textOff="@string/saturday"
+                android:textOn="@string/saturday"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

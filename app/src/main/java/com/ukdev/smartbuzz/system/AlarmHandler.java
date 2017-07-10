@@ -5,6 +5,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.AlarmClock;
@@ -15,8 +17,7 @@ import com.ukdev.smartbuzz.misc.IntentAction;
 import com.ukdev.smartbuzz.misc.IntentExtra;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.AlarmBuilder;
-import com.ukdev.smartbuzz.model.Ringtone;
-import com.ukdev.smartbuzz.model.enums.Day;
+import com.ukdev.smartbuzz.model.Time;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 import com.ukdev.smartbuzz.util.Utils;
 
@@ -111,9 +112,6 @@ public class AlarmHandler {
      * @param wakeLock the wake lock to be released
      */
     public void dismissAlarm(Activity activity, PowerManager.WakeLock wakeLock) {
-        if (alarm.vibrates() || activity.getIntent().getAction().equals(IntentAction.WAKE_UP.toString()))
-            alarm.stopVibration();
-        alarm.stopRingtone();
         if (alarm.isSleepCheckerOn())
             callSleepChecker();
         if (!alarm.isSleepCheckerOn() && !alarm.repeats())
@@ -153,7 +151,6 @@ public class AlarmHandler {
         }
         int nextAvailableId = database.getLastId() + 1;
         final int defaultValue = 0;
-        final int firstRingtoneIndex = 0;
         String title = context.getString(R.string.new_alarm);
         if (intent.hasExtra(AlarmClock.EXTRA_MESSAGE))
             title = intent.getStringExtra(AlarmClock.EXTRA_MESSAGE);
@@ -161,18 +158,16 @@ public class AlarmHandler {
         int minutes = 0;
         if (intent.hasExtra(AlarmClock.EXTRA_MINUTES))
             minutes = intent.getIntExtra(AlarmClock.EXTRA_MINUTES, defaultValue);
-        Calendar triggerTime = Calendar.getInstance();
-        triggerTime.set(Calendar.HOUR_OF_DAY, hour);
-        triggerTime.set(Calendar.MINUTE, minutes);
-        Ringtone ringtone = Ringtone.getAllRingtones(context).get(firstRingtoneIndex);
+        Time triggerTime = new Time(hour, minutes);
+        Uri ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         int volume = Utils.getDefaultVolume(context);
 
-        AlarmBuilder alarmBuilder = new AlarmBuilder(context);
+        AlarmBuilder alarmBuilder = new AlarmBuilder();
         alarmBuilder.setId(nextAvailableId)
                     .setTitle(title)
                     .setTriggerTime(triggerTime)
                     .setSnoozeDuration(SnoozeDuration.FIVE_MINUTES)
-                    .setRingtone(ringtone)
+                    .setRingtoneUri(ringtoneUri)
                     .setVolume(volume);
         Alarm alarm = alarmBuilder.build();
         database.insert(alarm);
@@ -197,16 +192,16 @@ public class AlarmHandler {
     public void triggerAlarm() {
         if (alarm.isActive()) {
             Calendar now = Calendar.getInstance();
-            Day today = Day.valueOf(now.get(Calendar.DAY_OF_WEEK));
-            Day tomorrow;
-            if (today == Day.SATURDAY)
-                tomorrow = Day.SUNDAY;
+            int today = now.get(Calendar.DAY_OF_WEEK);
+            int tomorrow;
+            if (today == Calendar.SATURDAY)
+                tomorrow = Calendar.SUNDAY;
             else
-                tomorrow = Day.valueOf(today.getValue() + 1);
+                tomorrow = today + 1;
             boolean triggerToday = false;
             boolean triggerTomorrow = false;
             if (alarm.repeats()) {
-                Day[] repetition = alarm.getRepetition();
+                int[] repetition = alarm.getRepetition();
                 for (int i = 0; i < repetition.length; i++) {
                     if (i < repetition.length - 1) {
                         if (repetition[i + 1] == tomorrow)

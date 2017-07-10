@@ -1,10 +1,7 @@
 package com.ukdev.smartbuzz.model;
 
-import android.content.Context;
-import com.ukdev.smartbuzz.model.enums.Day;
+import android.net.Uri;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
-
-import java.util.Calendar;
 
 /**
  * Alarm builder
@@ -17,10 +14,9 @@ public class AlarmBuilder {
 
     /**
      * Default constructor for {@code AlarmBuilder}
-     * @param context the Android context
      */
-    public AlarmBuilder(Context context) {
-        alarm = new Alarm(context);
+    public AlarmBuilder() {
+        alarm = new Alarm();
     }
 
     /**
@@ -48,7 +44,7 @@ public class AlarmBuilder {
      * @param triggerTime the trigger time
      * @return the alarm builder after being updated
      */
-    public AlarmBuilder setTriggerTime(Calendar triggerTime) {
+    public AlarmBuilder setTriggerTime(Time triggerTime) {
         alarm.setTriggerTime(triggerTime);
         return this;
     }
@@ -68,18 +64,18 @@ public class AlarmBuilder {
      * @param repetition the repetition
      * @return the alarm builder after being updated
      */
-    public AlarmBuilder setRepetition(Day[] repetition) {
+    public AlarmBuilder setRepetition(int[] repetition) {
         alarm.setRepetition(repetition);
         return this;
     }
 
     /**
-     * Sets the ringtone
-     * @param ringtone the ringtone
+     * Sets the ringtone URI
+     * @param ringtoneUri the ringtone URI
      * @return the alarm builder after being updated
      */
-    public AlarmBuilder setRingtone(Ringtone ringtone) {
-        alarm.setRingtone(ringtone);
+    public AlarmBuilder setRingtoneUri(Uri ringtoneUri) {
+        alarm.setRingtoneUri(ringtoneUri);
         return this;
     }
 

@@ -5,15 +5,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import com.ukdev.smartbuzz.util.Utils;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.AlarmBuilder;
-import com.ukdev.smartbuzz.model.Ringtone;
-import com.ukdev.smartbuzz.model.enums.Day;
+import com.ukdev.smartbuzz.model.Time;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
+import com.ukdev.smartbuzz.util.Utils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -156,38 +154,36 @@ public class AlarmDao extends BaseDao {
                                      GROUP_BY, HAVING, orderBy, LIMIT);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
-            String title, ringtoneTitle, ringtoneUri, text;
+            String title, ringtoneUri, text;
             long trigger, snooze;
             int volume;
             SnoozeDuration snoozeDuration;
             boolean active, sleepCheckerOn, vibrate;
-            Day[] repetition;
-            Calendar triggerTime = Calendar.getInstance();
+            int[] repetition;
 
             title = cursor.getString(cursor.getColumnIndex(Column.TITLE.toString()));
             text = cursor.getString(cursor.getColumnIndex(Column.TEXT.toString()));
 
             trigger = cursor.getLong(cursor.getColumnIndex(Column.TRIGGER_TIME.toString()));
-            triggerTime.setTimeInMillis(trigger);
+            Time triggerTime = Time.valueOf(trigger);
 
             active = cursor.getInt(cursor.getColumnIndex(Column.ACTIVE.toString())) == 1;
             sleepCheckerOn = cursor.getInt(cursor.getColumnIndex(Column.SLEEP_CHECKER_ON.toString())) == 1;
             ringtoneUri = cursor.getString(cursor.getColumnIndex(Column.RINGTONE_URI.toString()));
-            ringtoneTitle = cursor.getString(cursor.getColumnIndex(Column.RINGTONE_TITLE.toString()));
             volume = cursor.getInt(cursor.getColumnIndex(Column.VOLUME.toString()));
             snooze = cursor.getLong(cursor.getColumnIndex(Column.SNOOZE_DURATION.toString()));
             snoozeDuration = SnoozeDuration.valueOf(snooze);
             vibrate = cursor.getInt(cursor.getColumnIndex(Column.VIBRATE.toString())) == 1;
 
-            repetition = Utils.convertStringToDayArray(context,
+            repetition = Utils.convertStringToIntArray(context,
                                                        cursor.getString(cursor.getColumnIndex(Column.REPETITION.toString())));
-            Ringtone ringtone = new Ringtone(ringtoneTitle, Uri.parse(ringtoneUri));
+            Uri ringtone =  Uri.parse(ringtoneUri);
 
-            AlarmBuilder alarmBuilder = new AlarmBuilder(context).setTitle(title)
+            AlarmBuilder alarmBuilder = new AlarmBuilder().setTitle(title)
                                                                  .setTriggerTime(triggerTime)
                                                                  .setSnoozeDuration(snoozeDuration)
                                                                  .setRepetition(repetition)
-                                                                 .setRingtone(ringtone)
+                                                                 .setRingtoneUri(ringtone)
                                                                  .setText(text)
                                                                  .setSleepCheckerOn(sleepCheckerOn)
                                                                  .setVibrate(vibrate)
@@ -217,12 +213,11 @@ public class AlarmDao extends BaseDao {
 
     private void fillFields(Alarm alarm, ContentValues values) {
         values.put(Column.TITLE.toString(), alarm.getTitle());
-        values.put(Column.TRIGGER_TIME.toString(), alarm.getTriggerTime().getTimeInMillis());
-        values.put(Column.REPETITION.toString(), Utils.convertDayArrayToString(context, alarm.getRepetition()));
+        values.put(Column.TRIGGER_TIME.toString(), alarm.getTriggerTime().toCalendar().getTimeInMillis());
+        values.put(Column.REPETITION.toString(), Utils.convertIntArrayToString(context, alarm.getRepetition()));
         values.put(Column.SLEEP_CHECKER_ON.toString(), alarm.isSleepCheckerOn() ? 1 : 0);
         values.put(Column.VIBRATE.toString(), alarm.vibrates() ? 1 : 0);
-        values.put(Column.RINGTONE_URI.toString(), alarm.getRingtone().getUri().toString());
-        values.put(Column.RINGTONE_TITLE.toString(), alarm.getRingtone().getTitle());
+        values.put(Column.RINGTONE_URI.toString(), alarm.getRingtoneUri().toString());
         values.put(Column.VOLUME.toString(), alarm.getVolume());
         values.put(Column.TEXT.toString(), alarm.getText());
         values.put(Column.SNOOZE_DURATION.toString(), alarm.getSnoozeDuration().getValue());
@@ -232,38 +227,36 @@ public class AlarmDao extends BaseDao {
     private ArrayList<Alarm> queryAlarms(Cursor cursor) {
         ArrayList<Alarm> alarms = new ArrayList<>();
         do {
-            String title, ringtoneTitle, ringtoneUri, text;
+            String title, ringtoneUri, text;
             long trigger, snooze;
             int volume;
             SnoozeDuration snoozeDuration;
             boolean active, sleepCheckerOn, vibrate;
-            Day[] repetition;
-            Calendar triggerTime = Calendar.getInstance();
+            int[] repetition;
 
             title = cursor.getString(cursor.getColumnIndex(Column.TITLE.toString()));
             text = cursor.getString(cursor.getColumnIndex(Column.TEXT.toString()));
 
             trigger = cursor.getLong(cursor.getColumnIndex(Column.TRIGGER_TIME.toString()));
-            triggerTime.setTimeInMillis(trigger);
+            Time triggerTime = Time.valueOf(trigger);
 
             active = cursor.getInt(cursor.getColumnIndex(Column.ACTIVE.toString())) == 1;
             sleepCheckerOn = cursor.getInt(cursor.getColumnIndex(Column.SLEEP_CHECKER_ON.toString())) == 1;
             ringtoneUri = cursor.getString(cursor.getColumnIndex(Column.RINGTONE_URI.toString()));
-            ringtoneTitle = cursor.getString(cursor.getColumnIndex(Column.RINGTONE_TITLE.toString()));
             volume = cursor.getInt(cursor.getColumnIndex(Column.VOLUME.toString()));
             snooze = cursor.getLong(cursor.getColumnIndex(Column.SNOOZE_DURATION.toString()));
             snoozeDuration = SnoozeDuration.valueOf(snooze);
             vibrate = cursor.getInt(cursor.getColumnIndex(Column.VIBRATE.toString())) == 1;
 
-            repetition = Utils.convertStringToDayArray(context,
+            repetition = Utils.convertStringToIntArray(context,
                                                        cursor.getString(cursor.getColumnIndex(Column.REPETITION.toString())));
-            Ringtone ringtone = new Ringtone(ringtoneTitle, Uri.parse(ringtoneUri));
+            Uri ringtone = Uri.parse(ringtoneUri);
 
-            AlarmBuilder alarmBuilder = new AlarmBuilder(context).setTitle(title)
+            AlarmBuilder alarmBuilder = new AlarmBuilder().setTitle(title)
                                                                  .setTriggerTime(triggerTime)
                                                                  .setSnoozeDuration(snoozeDuration)
                                                                  .setRepetition(repetition)
-                                                                 .setRingtone(ringtone)
+                                                                 .setRingtoneUri(ringtone)
                                                                  .setText(text)
                                                                  .setSleepCheckerOn(sleepCheckerOn)
                                                                  .setVibrate(vibrate)

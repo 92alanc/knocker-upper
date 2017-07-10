@@ -28,7 +28,7 @@ public class AlarmDaoTest {
     public void init() {
         Context context = InstrumentationRegistry.getTargetContext();
         alarmDao = AlarmDao.getInstance(context);
-        objectMocker = new ObjectMocker(context);
+        objectMocker = new ObjectMocker();
         Alarm alarm = objectMocker.alarm();
         alarmDao.insert(alarm);
     }

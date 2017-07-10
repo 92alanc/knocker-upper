@@ -1,6 +1,8 @@
 package com.ukdev.smartbuzz.model;
 
-import android.content.Context;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 
 /**
  * Object mocker for use in unit tests
@@ -9,24 +11,19 @@ import android.content.Context;
  */
 public class ObjectMocker {
 
-    private Context context;
-
-    /**
-     * Default constructor for {@code ObjectMocker}
-     * @param context the Android context
-     */
-    public ObjectMocker(Context context) {
-        this.context = context;
-    }
-
     /**
      * Mocks an {@link Alarm}
      * @return the mocked instance
      *         of {@link Alarm}
      */
     public Alarm alarm() {
-        // TODO: use AlarmBuilder
-        return new Alarm(context);
+        Time triggerTime = new Time();
+        Uri ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        AlarmBuilder alarmBuilder = new AlarmBuilder().setTitle("Title")
+                                                      .setRingtoneUri(ringtoneUri)
+                                                      .setTriggerTime(triggerTime)
+                                                      .setSnoozeDuration(SnoozeDuration.FIVE_MINUTES);
+        return alarmBuilder.build();
     }
 
 }

@@ -11,12 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.database.AlarmDao;
-import com.ukdev.smartbuzz.system.AlarmHandler;
-import com.ukdev.smartbuzz.util.Utils;
 import com.ukdev.smartbuzz.listeners.OnItemClickListener;
 import com.ukdev.smartbuzz.model.Alarm;
+import com.ukdev.smartbuzz.system.AlarmHandler;
+import com.ukdev.smartbuzz.util.Utils;
 
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -56,17 +55,17 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmHolder>
     public void onBindViewHolder(AlarmHolder holder, int position) {
         final Alarm alarm = objects.get(position);
 
-        int src = getImageViewSrc(alarm.getTriggerTime());
+        int src = getImageViewSrc(alarm.getTriggerTime().getHour());
         holder.dayNightImageView.setImageResource(src);
 
         holder.alarmTitleTextView.setText(alarm.getTitle());
 
-        String hour = Utils.getFormattedTimeString(alarm.getTriggerTime(), Calendar.HOUR_OF_DAY);
-        String minute = Utils.getFormattedTimeString(alarm.getTriggerTime(), Calendar.MINUTE);
+        String hour = Utils.getFormattedTimeString(alarm.getTriggerTime().getHour());
+        String minute = Utils.getFormattedTimeString(alarm.getTriggerTime().getMinute());
         String triggerTime = String.format("%1$s:%2$s", hour, minute);
         holder.triggerTimeTextView.setText(triggerTime);
 
-        String repetition = Utils.convertDayArrayToString(context, alarm.getRepetition());
+        String repetition = Utils.convertIntArrayToString(context, alarm.getRepetition());
         holder.repetitionTextView.setText(repetition);
 
         holder.alarmSwitch.setChecked(alarm.isActive());
@@ -89,8 +88,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmHolder>
         return objects.size();
     }
 
-    private int getImageViewSrc(Calendar calendar) {
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+    private int getImageViewSrc(int hour) {
         if (hour >= 6 && hour <= 18)
             return R.drawable.ic_day;
         else

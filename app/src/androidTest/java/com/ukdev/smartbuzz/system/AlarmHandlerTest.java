@@ -24,7 +24,7 @@ public class AlarmHandlerTest {
     @Before
     public void init() {
         Context context = InstrumentationRegistry.getTargetContext();
-        ObjectMocker objectMocker = new ObjectMocker(context);
+        ObjectMocker objectMocker = new ObjectMocker();
         Alarm alarm = objectMocker.alarm();
         alarmHandler = new AlarmHandler(context, alarm);
     }

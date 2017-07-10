@@ -1,20 +1,8 @@
 package com.ukdev.smartbuzz.model;
 
-import android.app.Activity;
-import android.content.Context;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.os.Build;
-import android.os.Vibrator;
-import com.ukdev.smartbuzz.misc.IntentAction;
-import com.ukdev.smartbuzz.listeners.AudioFocusChangeListener;
-import com.ukdev.smartbuzz.util.Utils;
-import com.ukdev.smartbuzz.misc.LogTool;
-import com.ukdev.smartbuzz.model.enums.Day;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
-
-import java.io.IOException;
-import java.util.Calendar;
 
 /**
  * An alarm
@@ -23,32 +11,25 @@ import java.util.Calendar;
  */
 public class Alarm {
 
-    private Context context;
     private int id;
     private String title;
-    private Calendar triggerTime;
+    private Time triggerTime;
     private SnoozeDuration snoozeDuration;
-    private Day[] repetition;
-    private Ringtone ringtone;
+    private int[] repetition;
+    private Uri ringtoneUri;
     private String text;
     private boolean sleepCheckerOn;
     private boolean active;
     private boolean vibrate;
     private int volume;
-    private Vibrator vibrator;
-    private MediaPlayer player;
 
     /**
      * Simplified constructor for {@code Alarm}
-     * @param context the Android context
      */
-    Alarm(Context context) {
-        this.context = context;
-        player = new MediaPlayer();
-        vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+    Alarm() {
         active = true;
+        ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         vibrate = true;
-        volume = Utils.getDefaultVolume(context);
     }
 
     @Override
@@ -92,7 +73,7 @@ public class Alarm {
      * Gets the trigger time
      * @return the trigger time
      */
-    public Calendar getTriggerTime() {
+    public Time getTriggerTime() {
         return triggerTime;
     }
 
@@ -100,7 +81,7 @@ public class Alarm {
      * Sets the trigger time
      * @param triggerTime the trigger time
      */
-    void setTriggerTime(Calendar triggerTime) {
+    void setTriggerTime(Time triggerTime) {
         this.triggerTime = triggerTime;
     }
 
@@ -124,7 +105,7 @@ public class Alarm {
      * Gets the repetition
      * @return the repetition
      */
-    public Day[] getRepetition() {
+    public int[] getRepetition() {
         return repetition;
     }
 
@@ -132,7 +113,7 @@ public class Alarm {
      * Sets the repetition
      * @param repetition the repetition
      */
-    void setRepetition(Day[] repetition) {
+    void setRepetition(int[] repetition) {
         this.repetition = repetition;
     }
 
@@ -147,19 +128,19 @@ public class Alarm {
     }
 
     /**
-     * Gets the ringtone
-     * @return the ringtone
+     * Gets the ringtone URI
+     * @return the ringtone URI
      */
-    public Ringtone getRingtone() {
-        return ringtone;
+    public Uri getRingtoneUri() {
+        return ringtoneUri;
     }
 
     /**
-     * Sets the ringtone
-     * @param ringtone the ringtone
+     * Sets the ringtone URI
+     * @param ringtoneUri the ringtone URI
      */
-    void setRingtone(Ringtone ringtone) {
-        this.ringtone = ringtone;
+    void setRingtoneUri(Uri ringtoneUri) {
+        this.ringtoneUri = ringtoneUri;
     }
 
     /**
@@ -245,74 +226,6 @@ public class Alarm {
      */
     void setVolume(int volume) {
         this.volume = volume;
-    }
-
-    /**
-     * Plays the ringtone
-     * @param activity the target activity
-     */
-    public void playRingtone(Activity activity) {
-        AudioManager manager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        int volume;
-        if (activity.getIntent().getAction().equals(IntentAction.WAKE_UP.toString())) {
-            volume = Utils.getMaxVolume(context);
-            startVibration();
-        } else {
-            volume = getVolume();
-            if (vibrates())
-                startVibration();
-        }
-        final int flags = 0;
-        manager.setStreamVolume(AudioManager.STREAM_ALARM, volume, flags);
-        int requestResult;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            requestResult = manager.requestAudioFocus(new AudioFocusChangeListener(manager,
-                            getVolume()),
-                    AudioManager.STREAM_ALARM,
-                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
-        } else {
-            requestResult = manager.requestAudioFocus(new AudioFocusChangeListener(manager,
-                            getVolume()),
-                    AudioManager.STREAM_ALARM,
-                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
-        }
-        if (requestResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            player.setAudioStreamType(AudioManager.STREAM_ALARM);
-            player.setLooping(true);
-            try {
-                player.setDataSource(context, getRingtone().getUri());
-                player.prepare();
-            } catch (IOException e) {
-                LogTool log = new LogTool(context);
-                log.exception(e);
-            }
-            player.start();
-        }
-    }
-
-    /**
-     * Stops playing the ringtone
-     */
-    public void stopRingtone() {
-        player.release();
-        if (vibrates())
-            stopVibration();
-    }
-
-    /**
-     * Starts the vibration
-     */
-    public void startVibration() {
-        long[] pattern = { 1000, 2000 };
-        final int repeat = 0;
-        vibrator.vibrate(pattern, repeat);
-    }
-
-    /**
-     * Stops the vibration
-     */
-    public void stopVibration() {
-        vibrator.cancel();
     }
 
 }

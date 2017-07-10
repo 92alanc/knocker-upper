@@ -3,11 +3,18 @@ package com.ukdev.smartbuzz.util;
 import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Process;
+import android.os.Vibrator;
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.listeners.AudioFocusChangeListener;
+import com.ukdev.smartbuzz.misc.IntentAction;
+import com.ukdev.smartbuzz.misc.LogTool;
 import com.ukdev.smartbuzz.model.Alarm;
-import com.ukdev.smartbuzz.model.enums.Day;
 
+import java.io.IOException;
 import java.util.Calendar;
 
 /**
@@ -26,42 +33,42 @@ public class Utils {
     private static final int STATUS_SUCCESS = 0;
 
     /**
-     * Converts a {@link Day} array to string
+     * Converts a {@code int} array to string
      * @param context the Android context
      * @param array the array
      * @return the array as a string
      */
-    public static String convertDayArrayToString(Context context, Day[] array) {
+    public static String convertIntArrayToString(Context context, int[] array) {
         if (array == null)
             return null;
         else {
             if (array.length == LENGTH_WHOLE_WEEK)
-                return context.getResources().getString(R.string.every_day);
+                return context.getString(R.string.every_day);
             else {
                 boolean weekDays = true;
                 boolean weekends = true;
-                for (Day day : array) {
-                    if (array.length != LENGTH_WEEKEND || (day != Day.SUNDAY && day != Day.SATURDAY))
+                for (int day : array) {
+                    if (array.length != LENGTH_WEEKEND || (day != Calendar.SUNDAY && day != Calendar.SATURDAY))
                         weekends = false;
-                    if (array.length != LENGTH_WEEK_DAYS || (day != Day.MONDAY
-                            && day != Day.TUESDAY
-                            && day != Day.WEDNESDAY
-                            && day != Day.THURSDAY
-                            && day != Day.FRIDAY)) {
+                    if (array.length != LENGTH_WEEK_DAYS || (day != Calendar.MONDAY
+                            && day != Calendar.TUESDAY
+                            && day != Calendar.WEDNESDAY
+                            && day != Calendar.THURSDAY
+                            && day != Calendar.FRIDAY)) {
                         weekDays = false;
                     }
                 }
                 if (weekDays)
-                    return context.getResources().getString(R.string.week_days);
+                    return context.getString(R.string.week_days);
                 else if (weekends)
-                    return context.getResources().getString(R.string.weekends);
+                    return context.getString(R.string.weekends);
                 else {
                     String[] texts = context.getResources()
                                             .getStringArray(R.array.days_of_the_week_short);
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < array.length; i++) {
                         for (int j = 0; j < texts.length; j++) {
-                            if (j == (array[i].getValue() - 1)) {
+                            if (j == (array[i] - 1)) {
                                 sb.append(texts[j]);
                                 if (i < array.length - 1)
                                     sb.append(", ");
@@ -76,37 +83,37 @@ public class Utils {
     }
 
     /**
-     * Converts a string to a {@link Day} array
+     * Converts a string to an {@code int} array
      * @param context the Android context
      * @param string the string
-     * @return the string as a {@link Day} array
+     * @return the string as an {@code int} array
      */
-    public static Day[] convertStringToDayArray(Context context, String string) {
+    public static int[] convertStringToIntArray(Context context, String string) {
         if (string == null)
             return null;
         else {
-            Day[] values;
-            if (string.equals(context.getResources().getString(R.string.every_day))) {
-                values = new Day[LENGTH_WHOLE_WEEK];
-                for (int i = 0; i < values.length; i++)
-                    values[i] = Day.valueOf(i + 1);
-            } else if (string.equals(context.getResources().getString(R.string.week_days))) {
-                values = new Day[LENGTH_WEEK_DAYS];
-                for (int i = 0; i < values.length; i++)
-                    values[i] = Day.valueOf(i + 2);
-            } else if (string.equals(context.getResources().getString(R.string.weekends))) {
-                values = new Day[LENGTH_WEEKEND];
-                values[0] = Day.SUNDAY;
-                values[1] = Day.SATURDAY;
+            int[] values;
+            if (string.equals(context.getString(R.string.every_day))) {
+                values = new int[LENGTH_WHOLE_WEEK];
+                for (int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++)
+                    values[i] = i;
+            } else if (string.equals(context.getString(R.string.week_days))) {
+                values = new int[LENGTH_WEEK_DAYS];
+                for (int i = Calendar.MONDAY; i <= Calendar.FRIDAY; i++)
+                    values[i] = i;
+            } else if (string.equals(context.getString(R.string.weekends))) {
+                values = new int[LENGTH_WEEKEND];
+                values[0] = Calendar.SUNDAY;
+                values[1] = Calendar.SATURDAY;
             } else {
                 String[] texts = context.getResources()
                                         .getStringArray(R.array.days_of_the_week_short);
                 String[] split = string.split(", ");
-                values = new Day[split.length];
+                values = new int[split.length];
                 for (int i = 0; i < split.length; i++) {
                     for (int j = 0; j < texts.length; j++) {
                         if (split[i].equalsIgnoreCase(texts[j])) {
-                            values[i] = Day.valueOf(j + 1);
+                            values[i] = j + 1;
                             break;
                         }
                     }
@@ -132,8 +139,8 @@ public class Utils {
      * @return the next valid trigger time
      */
     public static long getNextValidTriggerTime(Alarm alarm) {
-        int hours = alarm.getTriggerTime().get(Calendar.HOUR_OF_DAY);
-        int minutes = alarm.getTriggerTime().get(Calendar.MINUTE);
+        int hours = alarm.getTriggerTime().getHour();
+        int minutes = alarm.getTriggerTime().getMinute();
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hours);
         calendar.set(Calendar.MINUTE, minutes);
@@ -187,16 +194,79 @@ public class Utils {
      * i.e.: if an hour value is 6 (less than 10,
      * the return will be 06, otherwise the return
      * is the value itself as string.
-     * @param calendar the {@code Calendar}
-     * @param field the {@code Calendar} field
+     * @param time the time
      * @return the formatted time string
      */
-    public static String getFormattedTimeString(Calendar calendar, int field) {
-        int time = calendar.get(field);
+    public static String getFormattedTimeString(int time) {
         String formatted = String.valueOf(time);
         if (time < 10)
             formatted = "0" + formatted;
         return formatted;
+    }
+
+    /**
+     * Plays a ringtone
+     * @param activity the activity
+     * @param player the media player
+     * @param volume the volume
+     * @param ringtoneUri the ringtone URI
+     */
+    public static void playRingtone(Activity activity, MediaPlayer player,
+                                    int volume, Uri ringtoneUri) {
+        Context context = activity.getBaseContext();
+        AudioManager manager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        if (activity.getIntent().getAction().equals(IntentAction.WAKE_UP.toString()))
+            volume = getMaxVolume(context);
+        final int flags = 0;
+        manager.setStreamVolume(AudioManager.STREAM_ALARM, volume, flags);
+        int requestResult;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            requestResult = manager.requestAudioFocus(new AudioFocusChangeListener(manager, volume),
+                                                      AudioManager.STREAM_ALARM,
+                                                      AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
+        } else {
+            requestResult = manager.requestAudioFocus(new AudioFocusChangeListener(manager, volume),
+                                                      AudioManager.STREAM_ALARM,
+                                                      AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+        }
+        if (requestResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            player.setAudioStreamType(AudioManager.STREAM_ALARM);
+            player.setLooping(true);
+            try {
+                player.setDataSource(context, ringtoneUri);
+                player.prepare();
+            } catch (IOException e) {
+                LogTool log = new LogTool(context);
+                log.exception(e);
+            }
+            player.start();
+        }
+    }
+
+    /**
+     * Stops a ringtone
+     * @param player the media player
+     */
+    public static void stopRingtone(MediaPlayer player) {
+        player.release();
+    }
+
+    /**
+     * Starts vibration
+     * @param vibrator the device's vibrator
+     */
+    public static void startVibration(Vibrator vibrator) {
+        long[] pattern = { 1000, 2000 };
+        final int repeat = 0;
+        vibrator.vibrate(pattern, repeat);
+    }
+
+    /**
+     * Stops a vibration
+     * @param vibrator the device's vibrator
+     */
+    public static void stopVibration(Vibrator vibrator) {
+        vibrator.cancel();
     }
 
 }

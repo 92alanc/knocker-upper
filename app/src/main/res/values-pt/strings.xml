@@ -18,8 +18,17 @@
     <string name="enable_sleep_checker">Ativar Sleep Checker</string>
     <string name="summary_enable_sleep_checker">Depois que você dispensar um alarme, seu dispositivo vai acender a tela em um tempo aleatório entre 3 e 5 minutos e te perguntar se você está acordado. Se você não apertar o botão \"Sim, estou acordado\" em 15 segundos, o alarme volta a tocar.</string>
     <string name="description_day_night">Se o alarme vai tocar de dia ou de noite</string>
-    <string name="ringtone">Toque</string>
+    <string name="ringtoneUri">Toque</string>
     <string name="error_save_alarm">Erro ao salvar o alarme</string>
     <string name="retry">Tentar novamente</string>
     <string name="alarm_saved">Alarme salvo</string>
+    <string name="sunday">Dom</string>
+    <string name="friday">Sex</string>
+    <string name="monday">Seg</string>
+    <string name="saturday">Sáb</string>
+    <string name="thursday">Qui</string>
+    <string name="tuesday">Ter</string>
+    <string name="wednesday">Qua</string>
+    <string name="cancel">Cancelar</string>
+    <string name="ringtone_none">Nenhum</string>
 </resources>
