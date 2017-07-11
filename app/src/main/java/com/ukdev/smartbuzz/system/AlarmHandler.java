@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.PowerManager;
 import android.provider.AlarmClock;
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.activities.AlarmActivity;
 import com.ukdev.smartbuzz.activities.SetupActivity;
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.misc.IntentAction;
@@ -179,7 +180,8 @@ public class AlarmHandler {
      * the alarm being triggered
      */
     public void startAlarmActivity() {
-        Intent activityIntent = new Intent(context, null); // TODO: replace null with AlarmActivity.class
+        Intent activityIntent = new Intent(context, AlarmActivity.class);
+        activityIntent.putExtra(IntentExtra.SLEEP_CHECKER_ON.toString(), false);
         activityIntent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         activityIntent.setAction(IntentAction.TRIGGER_ALARM.toString());
         activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -228,7 +230,7 @@ public class AlarmHandler {
      * Triggers Sleep Checker
      */
     public void triggerSleepChecker() {
-        Intent activityIntent = new Intent(context, null); // TODO: replace null with SleepCheckerActivity.class
+        Intent activityIntent = new Intent(context, null);
         activityIntent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activityIntent.setAction(IntentAction.TRIGGER_SLEEP_CHECKER.toString());

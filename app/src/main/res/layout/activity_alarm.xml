@@ -1,0 +1,21 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:keepScreenOn="true"
+                android:fitsSystemWindows="true"
+                tools:context="com.ukdev.smartbuzz.activities.AlarmActivity">
+
+    <FrameLayout
+            android:id="@+id/placeholder_dismiss_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+
+    <FrameLayout
+            android:id="@+id/placeholder_snooze_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/placeholder_dismiss_button"/>
+
+</RelativeLayout>
