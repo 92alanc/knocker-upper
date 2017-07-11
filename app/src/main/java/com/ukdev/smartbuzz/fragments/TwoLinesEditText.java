@@ -63,6 +63,8 @@ public class TwoLinesEditText extends TwoLinesDefaultFragment<String> {
                 if (editText != null) {
                     String value = editText.getText().toString();
                     setValue(value);
+                    if (changeListener != null)
+                        changeListener.onChange(value);
                 }
             }
         });

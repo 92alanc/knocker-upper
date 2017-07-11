@@ -86,26 +86,12 @@ public class SetupActivity extends AppCompatActivity {
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.placeholder_title, titleFragment);
-        transaction.commit();
-        transaction = manager.beginTransaction();
         transaction.replace(R.id.placeholder_time_picker, timePickerFragment);
-        transaction.commit();
-        transaction = manager.beginTransaction();
         transaction.replace(R.id.placeholder_repetition, repetitionFragment);
-        transaction.commit();
-        transaction = manager.beginTransaction();
         transaction.replace(R.id.placeholder_snooze_duration, snoozeDurationFragment);
-        transaction.commit();
-        transaction = manager.beginTransaction();
         transaction.replace(R.id.placeholder_ringtone, ringtoneFragment);
-        transaction.commit();
-        transaction = manager.beginTransaction();
         transaction.replace(R.id.placeholder_volume, volumeFragment);
-        transaction.commit();
-        transaction = manager.beginTransaction();
         transaction.replace(R.id.placeholder_vibrate, vibrationFragment);
-        transaction.commit();
-        transaction = manager.beginTransaction();
         transaction.replace(R.id.placeholder_text, textFragment);
         transaction.commit();
     }
@@ -140,7 +126,15 @@ public class SetupActivity extends AppCompatActivity {
     private void setTitleFragment() {
         titleFragment = new TwoLinesEditText();
         String title = getString(R.string.title);
+        String value = getString(R.string.new_alarm);
         titleFragment.setTitle(title);
+        titleFragment.setValue(value);
+        titleFragment.setChangeListener(new TwoLinesDefaultFragment.TwoLinesChangeListener<String>() {
+            @Override
+            public void onChange(String newValue) {
+                setTitle(newValue);
+            }
+        });
     }
 
     private void setTimePickerFragment() {
@@ -159,6 +153,8 @@ public class SetupActivity extends AppCompatActivity {
         snoozeDurationFragment = new TwoLinesRadioGroup();
         String title = getString(R.string.snooze_duration);
         snoozeDurationFragment.setTitle(title);
+        Bundle args = new Bundle();
+        snoozeDurationFragment.setArguments(args);
     }
 
     private void setRingtoneFragment() {
@@ -183,12 +179,6 @@ public class SetupActivity extends AppCompatActivity {
         textFragment = new TwoLinesMemo();
         String title = getString(R.string.text);
         textFragment.setTitle(title);
-        textFragment.setChangeListener(new TwoLinesDefaultFragment.TwoLinesChangeListener<String>() {
-            @Override
-            public void onChange(String newValue) {
-                getActionBar().setTitle(newValue);
-            }
-        });
     }
 
     private Alarm buildAlarm() {
@@ -227,6 +217,7 @@ public class SetupActivity extends AppCompatActivity {
 
         titleFragment.setSummary(alarm.getTitle());
         titleFragment.setValue(alarm.getTitle());
+        setTitle(alarm.getTitle());
 
         timePickerFragment.setSummary(alarm.getTriggerTime().toString());
         timePickerFragment.setValue(alarm.getTriggerTime());

@@ -37,49 +37,56 @@
                 android:id="@+id/btSunday"
                 android:text="@string/sunday"
                 android:textOff="@string/sunday"
-                android:textOn="@string/sunday"/>
+                android:textOn="@string/sunday"
+                android:textAllCaps="false"/>
 
         <ToggleButton
                 style="@style/ToggleButton"
                 android:id="@+id/btMonday"
                 android:text="@string/monday"
                 android:textOff="@string/monday"
-                android:textOn="@string/monday"/>
+                android:textOn="@string/monday"
+                android:textAllCaps="false"/>
 
         <ToggleButton
                 style="@style/ToggleButton"
                 android:id="@+id/btTuesday"
                 android:text="@string/tuesday"
                 android:textOff="@string/tuesday"
-                android:textOn="@string/tuesday"/>
+                android:textOn="@string/tuesday"
+                android:textAllCaps="false"/>
 
         <ToggleButton
                 style="@style/ToggleButton"
                 android:id="@+id/btWednesday"
                 android:text="@string/wednesday"
                 android:textOff="@string/wednesday"
-                android:textOn="@string/wednesday"/>
+                android:textOn="@string/wednesday"
+                android:textAllCaps="false"/>
 
         <ToggleButton
                 style="@style/ToggleButton"
                 android:id="@+id/btThursday"
                 android:text="@string/thursday"
                 android:textOff="@string/thursday"
-                android:textOn="@string/thursday"/>
+                android:textOn="@string/thursday"
+                android:textAllCaps="false"/>
 
         <ToggleButton
                 style="@style/ToggleButton"
                 android:id="@+id/btFriday"
                 android:text="@string/friday"
                 android:textOff="@string/friday"
-                android:textOn="@string/friday"/>
+                android:textOn="@string/friday"
+                android:textAllCaps="false"/>
 
         <ToggleButton
                 style="@style/ToggleButton"
                 android:id="@+id/btSaturday"
                 android:text="@string/saturday"
                 android:textOff="@string/saturday"
-                android:textOn="@string/saturday"/>
+                android:textOn="@string/saturday"
+                android:textAllCaps="false"/>
 
     </LinearLayout>
 

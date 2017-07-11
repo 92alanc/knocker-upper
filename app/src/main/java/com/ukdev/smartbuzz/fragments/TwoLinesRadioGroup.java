@@ -19,6 +19,10 @@ import java.util.Map;
  */
 public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Long> {
 
+    public static final String ARG_OPTIONS_TEXT = "options_text";
+    public static final String ARG_OPTIONS_VALUE = "options_value";
+    public static final String ARG_SELECTED_INDEX = "selected_index";
+
     private ViewGroup rootView;
     private Map<Long, String> mapOptionValue;
     private int selectedIndex = -1;
@@ -28,9 +32,9 @@ public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Long> {
         View view = inflater.inflate(R.layout.two_lines_default, container, ATTACH_TO_ROOT);
         rootView = (ViewGroup) view.findViewById(R.id.rootView);
         if (getArguments() != null) {
-            String[] optionsText = getArguments().getStringArray("options_text");
-            long[] optionsValue = getArguments().getLongArray("options_value");
-            selectedIndex = getArguments().getInt("selected_index", 0);
+            String[] optionsText = getArguments().getStringArray(ARG_OPTIONS_TEXT);
+            long[] optionsValue = getArguments().getLongArray(ARG_OPTIONS_VALUE);
+            selectedIndex = getArguments().getInt(ARG_SELECTED_INDEX, 0);
             mapOptionValue = new LinkedHashMap<>();
             if (optionsText != null) {
                 for (int i = 0; i < optionsText.length; i++) {
