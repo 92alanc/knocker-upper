@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -21,7 +22,6 @@ public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Long> {
 
     public static final String ARG_OPTIONS_TEXT = "options_text";
     public static final String ARG_OPTIONS_VALUE = "options_value";
-    public static final String ARG_SELECTED_INDEX = "selected_index";
 
     private ViewGroup rootView;
     private Map<Long, String> mapOptionValue;
@@ -32,14 +32,13 @@ public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Long> {
         View view = inflater.inflate(R.layout.two_lines_default, container, ATTACH_TO_ROOT);
         rootView = (ViewGroup) view.findViewById(R.id.rootView);
         if (getArguments() != null) {
-            String[] optionsText = getArguments().getStringArray(ARG_OPTIONS_TEXT);
-            long[] optionsValue = getArguments().getLongArray(ARG_OPTIONS_VALUE);
-            selectedIndex = getArguments().getInt(ARG_SELECTED_INDEX, 0);
+            String[] texts = getArguments().getStringArray(ARG_OPTIONS_TEXT);
+            long[] values = getArguments().getLongArray(ARG_OPTIONS_VALUE);
             mapOptionValue = new LinkedHashMap<>();
-            if (optionsText != null) {
-                for (int i = 0; i < optionsText.length; i++) {
-                    if (optionsValue != null)
-                        mapOptionValue.put(optionsValue[i], optionsText[i]);
+            if (texts != null) {
+                for (int i = 0; i < texts.length; i++) {
+                    if (values != null)
+                        mapOptionValue.put(values[i], texts[i]);
                 }
             }
         }
@@ -62,6 +61,18 @@ public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Long> {
         this.value = value;
         if (textSummary != null)
             textSummary.setText(mapOptionValue.get(value));
+    }
+
+    /**
+     * Gets the value
+     *
+     * @return the value
+     */
+    @Override
+    public Long getValue() {
+        if (value == null)
+            value = SnoozeDuration.FIVE_MINUTES.getValue();
+        return value;
     }
 
     private DialogInterface.OnClickListener clickListener = new DialogInterface.OnClickListener() {

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.util.Utils;
 
 /**
  * Fragment with a {@code SeekBar}
@@ -21,6 +22,8 @@ public class TwoLinesSeekBar extends TwoLinesDefaultFragment<Integer> {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.two_lines_seekbar, container, ATTACH_TO_ROOT);
         seekBar = (SeekBar) view.findViewById(R.id.seekbar);
+        seekBar.setMax(Utils.getMaxVolume(view.getContext()));
+        value = seekBar.getProgress();
         return view;
     }
 

@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseBooleanArray;
 import android.view.View;
+import android.widget.Toast;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.fragments.*;
@@ -22,11 +23,8 @@ import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.AlarmBuilder;
 import com.ukdev.smartbuzz.model.Time;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
+import com.ukdev.smartbuzz.system.AlarmHandler;
 import com.ukdev.smartbuzz.util.Utils;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  * The activity where alarms are set
@@ -36,6 +34,7 @@ import java.util.List;
 public class SetupActivity extends AppCompatActivity {
 
     private AlarmDao dao;
+    private AlarmHandler alarmHandler;
     private boolean editMode;
     private Context context;
     private TwoLinesEditText titleFragment;
@@ -102,6 +101,7 @@ public class SetupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final Alarm alarm = buildAlarm();
+                alarmHandler = new AlarmHandler(context, alarm);
                 boolean success;
                 if (editMode)
                     success = dao.update(alarm);
@@ -112,12 +112,27 @@ public class SetupActivity extends AppCompatActivity {
                             .setAction(R.string.retry, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    if (editMode)
-                                        dao.update(alarm);
-                                    else
-                                        dao.insert(alarm);
+                                    boolean success;
+                                    if (editMode) {
+                                        success = dao.update(alarm);
+                                        if (success)
+                                            alarmHandler.updateAlarm();
+                                    } else {
+                                        success = dao.insert(alarm);
+                                        if (success)
+                                            alarmHandler.setAlarm();
+                                    }
+                                    if (success)
+                                        Toast.makeText(context, R.string.alarm_saved, Toast.LENGTH_SHORT).show();
                                 }
                             }).show();
+                } else {
+                    if (editMode)
+                        alarmHandler.updateAlarm();
+                    else
+                        alarmHandler.setAlarm();
+                    Toast.makeText(context, R.string.alarm_saved, Toast.LENGTH_SHORT)
+                         .show();
                 }
             }
         });
@@ -154,6 +169,10 @@ public class SetupActivity extends AppCompatActivity {
         String title = getString(R.string.snooze_duration);
         snoozeDurationFragment.setTitle(title);
         Bundle args = new Bundle();
+        String[] snoozeDurations = getResources().getStringArray(R.array.snooze_durations);
+        args.putStringArray(TwoLinesRadioGroup.ARG_OPTIONS_TEXT, snoozeDurations);
+        long[] values = SnoozeDuration.getValues();
+        args.putLongArray(TwoLinesRadioGroup.ARG_OPTIONS_VALUE, values);
         snoozeDurationFragment.setArguments(args);
     }
 
@@ -184,17 +203,8 @@ public class SetupActivity extends AppCompatActivity {
     private Alarm buildAlarm() {
         String title = titleFragment.getValue();
         Time triggerTime = timePickerFragment.getValue();
-        SparseBooleanArray array = repetitionFragment.getValue();
-        List<Integer> days = new ArrayList<>();
-        for (int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++) {
-            if (array.get(i)) {
-                int index = i - 1;
-                days.add(array.keyAt(index));
-            }
-        }
-        int[] repetition = new int[days.size()];
-        for (int i = 0; i < repetition.length; i++)
-            repetition[i] = days.get(i);
+        SparseBooleanArray sparseBooleanArray = repetitionFragment.getValue();
+        int[] repetition = Utils.convertSparseBooleanArrayToIntArray(sparseBooleanArray);
         SnoozeDuration snoozeDuration = SnoozeDuration.valueOf(snoozeDurationFragment.getValue());
         Uri ringtoneUri = ringtoneFragment.getValue();
         int volume = volumeFragment.getValue();
@@ -223,7 +233,7 @@ public class SetupActivity extends AppCompatActivity {
         timePickerFragment.setValue(alarm.getTriggerTime());
 
         repetitionFragment.setSummary(Utils.convertIntArrayToString(context, alarm.getRepetition()));
-        // set value
+        repetitionFragment.setValue(Utils.convertIntArrayToSparseBooleanArray(alarm.getRepetition()));
 
         snoozeDurationFragment.setSummary(alarm.getSnoozeDuration().toString());
         snoozeDurationFragment.setValue(alarm.getSnoozeDuration().getValue());

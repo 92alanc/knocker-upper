@@ -29,6 +29,8 @@ public class Alarm {
     Alarm() {
         active = true;
         ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        snoozeDuration = SnoozeDuration.FIVE_MINUTES;
+        triggerTime = new Time();
         vibrate = true;
     }
 

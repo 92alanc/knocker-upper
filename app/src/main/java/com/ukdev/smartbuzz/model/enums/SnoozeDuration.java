@@ -62,11 +62,24 @@ public enum SnoozeDuration {
         return value;
     }
 
+    /**
+     * Gets the {@code long} values
+     * @return the values
+     */
+    public static long[] getValues() {
+        return values;
+    }
+
     private static LongSparseArray<SnoozeDuration> sparseArray = new LongSparseArray<>();
+    private static long[] values = new long[values().length];
 
     static {
-        for (SnoozeDuration duration : SnoozeDuration.values())
+        SnoozeDuration[] enumValues = SnoozeDuration.values();
+        for (int i = 0; i < enumValues.length; i++) {
+            SnoozeDuration duration = enumValues[i];
+            values[i] = enumValues[i].getValue();
             sparseArray.append(duration.getValue(), duration);
+        }
     }
 
     /**

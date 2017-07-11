@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Process;
 import android.os.Vibrator;
+import android.util.SparseBooleanArray;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.listeners.AudioFocusChangeListener;
 import com.ukdev.smartbuzz.misc.IntentAction;
@@ -15,7 +16,9 @@ import com.ukdev.smartbuzz.misc.LogTool;
 import com.ukdev.smartbuzz.model.Alarm;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * General utilities
@@ -121,6 +124,39 @@ public class Utils {
             }
             return values;
         }
+    }
+
+    /**
+     * Converts an {@code int} array to a
+     * {@code SparseBooleanArray}
+     * @param array the {@code int} array
+     * @return the converted array
+     */
+    public static SparseBooleanArray convertIntArrayToSparseBooleanArray(int[] array) {
+        SparseBooleanArray sparseBooleanArray = new SparseBooleanArray();
+        for (int i : array)
+            sparseBooleanArray.put(i, true);
+        return sparseBooleanArray;
+    }
+
+    /**
+     * Converts a {@code SparseBooleanArray} to
+     * an {@code int} array
+     * @param sparseBooleanArray the {@code SparseBooleanArray}
+     * @return the converted array
+     */
+    public static int[] convertSparseBooleanArrayToIntArray(SparseBooleanArray sparseBooleanArray) {
+        List<Integer> integerList = new ArrayList<>();
+        for (int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++) {
+            if (sparseBooleanArray.get(i)) {
+                int index = i - 1;
+                integerList.add(sparseBooleanArray.keyAt(index));
+            }
+        }
+        int[] intArray = new int[integerList.size()];
+        for (int i = 0; i < intArray.length; i++)
+            intArray[i] = integerList.get(i);
+        return intArray;
     }
 
     /**
