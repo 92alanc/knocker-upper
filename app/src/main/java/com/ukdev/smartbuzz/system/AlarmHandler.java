@@ -230,7 +230,7 @@ public class AlarmHandler {
      * Triggers Sleep Checker
      */
     public void triggerSleepChecker() {
-        Intent activityIntent = new Intent(context, null);
+        Intent activityIntent = new Intent(context, AlarmActivity.class);
         activityIntent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activityIntent.setAction(IntentAction.TRIGGER_SLEEP_CHECKER.toString());

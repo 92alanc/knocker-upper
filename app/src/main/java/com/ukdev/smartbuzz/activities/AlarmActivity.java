@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.fragments.DismissFragment;
 import com.ukdev.smartbuzz.fragments.SnoozeFragment;
+import com.ukdev.smartbuzz.misc.IntentAction;
 import com.ukdev.smartbuzz.misc.IntentExtra;
 
 /**
@@ -32,8 +33,8 @@ public class AlarmActivity extends AppCompatActivity {
     }
 
     private void initialiseComponents() {
-        String extraName = IntentExtra.SLEEP_CHECKER_ON.toString();
-        sleepCheckerMode = getIntent().getBooleanExtra(extraName, false);
+        String action = IntentAction.TRIGGER_SLEEP_CHECKER.toString();
+        sleepCheckerMode = getIntent().getAction().equals(action);
         context = this;
         setSnoozeButtonPlaceholder();
         setDismissFragment();
