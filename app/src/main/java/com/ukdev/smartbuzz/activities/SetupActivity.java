@@ -3,6 +3,7 @@ package com.ukdev.smartbuzz.activities;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -133,9 +134,15 @@ public class SetupActivity extends AppCompatActivity {
                         alarmHandler.setAlarm();
                     Toast.makeText(context, R.string.alarm_saved, Toast.LENGTH_SHORT)
                          .show();
+                    Intent intent = new Intent(context, MainActivity.class);
+                    startActivity(intent);
                 }
             }
         });
+    }
+
+    private void save() {
+
     }
 
     private void setTitleFragment() {

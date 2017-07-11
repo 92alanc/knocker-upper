@@ -77,4 +77,15 @@ public class TwoLinesRingtone extends TwoLinesDefaultFragment<Uri> {
         }
     }
 
+    /**
+     * Gets the value
+     * @return the value
+     */
+    @Override
+    public Uri getValue() {
+        if (value == null)
+            value = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        return value;
+    }
+
 }
