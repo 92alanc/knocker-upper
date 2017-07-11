@@ -34,7 +34,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmHolder>
      * Default constructor for {@code AlarmAdapter}
      * @param context the Android context
      * @param objects the objects
-     * @param listener the click listener
+     * @param listener the onItemClickListener
      */
     public AlarmAdapter(Context context, List<Alarm> objects, OnItemClickListener listener) {
         this.context = context;
@@ -100,23 +100,26 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmHolder>
      *
      * @author Alan Camargo
      */
-    static class AlarmHolder extends RecyclerView.ViewHolder implements OnItemClickListener {
+    static class AlarmHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView dayNightImageView;
         TextView alarmTitleTextView;
         TextView triggerTimeTextView;
         TextView repetitionTextView;
         SwitchCompat alarmSwitch;
-        OnItemClickListener listener;
+        View.OnClickListener onClickListener;
+        OnItemClickListener onItemClickListener;
 
         /**
          * The alarm holder
          * @param itemView the item view
-         * @param listener the click listener
+         * @param onItemClickListener the onItemClickListener
          */
-        AlarmHolder(View itemView, OnItemClickListener listener) {
+        AlarmHolder(View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
-            this.listener = listener;
+            this.onItemClickListener = onItemClickListener;
+            onClickListener = this;
+            itemView.setOnClickListener(onClickListener);
             dayNightImageView = (ImageView) itemView.findViewById(R.id.image_view_day_night);
             alarmTitleTextView = (TextView) itemView.findViewById(R.id.text_view_alarm_title_card);
             triggerTimeTextView = (TextView) itemView.findViewById(R.id.text_view_trigger_time);
@@ -124,14 +127,9 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmHolder>
             alarmSwitch = (SwitchCompat) itemView.findViewById(R.id.switch_alarm);
         }
 
-        /**
-         * Method called when a recycler view item is clicked
-         * @param view     the clicked view
-         * @param position the clicked position
-         */
         @Override
-        public void onItemClick(View view, int position) {
-            listener.onItemClick(view, getLayoutPosition());
+        public void onClick(View view) {
+            onItemClickListener.onItemClick(view, getLayoutPosition());
         }
 
     }

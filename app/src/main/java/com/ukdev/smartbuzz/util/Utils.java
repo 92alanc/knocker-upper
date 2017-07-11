@@ -42,7 +42,7 @@ public class Utils {
      * @return the array as a string
      */
     public static String convertIntArrayToString(Context context, int[] array) {
-        if (array == null)
+        if (array == null || array.length == 0)
             return null;
         else {
             if (array.length == LENGTH_WHOLE_WEEK)
@@ -92,7 +92,7 @@ public class Utils {
      * @return the string as an {@code int} array
      */
     public static int[] convertStringToIntArray(Context context, String string) {
-        if (string == null)
+        if (string == null || string.equals(""))
             return null;
         else {
             int[] values;
@@ -134,8 +134,10 @@ public class Utils {
      */
     public static SparseBooleanArray convertIntArrayToSparseBooleanArray(int[] array) {
         SparseBooleanArray sparseBooleanArray = new SparseBooleanArray();
-        for (int i : array)
-            sparseBooleanArray.put(i, true);
+        if (array != null) {
+            for (int i : array)
+                sparseBooleanArray.put(i, true);
+        }
         return sparseBooleanArray;
     }
 
