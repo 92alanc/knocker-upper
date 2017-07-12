@@ -240,21 +240,6 @@ public class Utils {
     }
 
     /**
-     * Gets a formatted time string.
-     * i.e.: if an hour value is 6 (less than 10,
-     * the return will be 06, otherwise the return
-     * is the value itself as string.
-     * @param time the time
-     * @return the formatted time string
-     */
-    public static String getFormattedTimeString(int time) {
-        String formatted = String.valueOf(time);
-        if (time < 10)
-            formatted = "0" + formatted;
-        return formatted;
-    }
-
-    /**
      * Plays a ringtone
      * @param activity the activity
      * @param player the media player

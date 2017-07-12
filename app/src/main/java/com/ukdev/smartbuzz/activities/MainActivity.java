@@ -3,6 +3,7 @@ package com.ukdev.smartbuzz.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.AlarmClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.listeners.OnItemClickListener;
 import com.ukdev.smartbuzz.misc.IntentExtra;
 import com.ukdev.smartbuzz.model.Alarm;
+import com.ukdev.smartbuzz.system.AlarmHandler;
 import com.ukdev.smartbuzz.util.ViewUtils;
 
 import java.util.List;
@@ -32,8 +34,9 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity implements OnItemClickListener {
 
-    private Context context;
     private AlarmDao dao;
+    private AlarmHandler alarmHandler;
+    private Context context;
     private ImageView noAlarmsImageView;
     private List<Alarm> alarms;
     private OnItemClickListener listener;
@@ -48,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initialiseComponents();
+        checkForVoiceCommand();
         setAddButton();
     }
 
@@ -108,6 +112,8 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     private void initialiseComponents() {
         context = this;
+        final Alarm alarm = null;
+        alarmHandler = new AlarmHandler(context, alarm);
         dao = AlarmDao.getInstance(context);
         listener = this;
         noAlarmsImageView = (ImageView) findViewById(R.id.image_view_no_alarms);
@@ -134,6 +140,12 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         recyclerView.setLayoutManager(layoutManager);
         AlarmAdapter adapter = new AlarmAdapter(context, alarms, listener);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void checkForVoiceCommand() {
+        Intent intent = getIntent();
+        if (AlarmClock.ACTION_SET_ALARM.equals(intent.getAction()))
+            alarmHandler.setAlarmByVoice(intent);
     }
 
 }

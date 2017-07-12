@@ -133,17 +133,19 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             snackbar.setAction(R.string.error_delete_alarm, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (dao.delete(alarm)) {
-                        Toast.makeText(context, R.string.alarm_deleted, Toast.LENGTH_SHORT)
-                             .show();
-                    }
+                    if (dao.delete(alarm))
+                        ackDelete();
                 }
             });
             snackbar.show();
-        } else {
-            Toast.makeText(context, R.string.alarm_deleted, Toast.LENGTH_SHORT)
-                 .show();
-        }
+        } else
+            ackDelete();
+    }
+
+    private void ackDelete() {
+        alarmHandler.cancelAlarm();
+        Toast.makeText(context, R.string.alarm_deleted, Toast.LENGTH_SHORT)
+             .show();
     }
 
     private void replaceFragmentPlaceholders() {

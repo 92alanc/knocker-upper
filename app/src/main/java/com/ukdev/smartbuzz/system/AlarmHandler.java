@@ -54,43 +54,14 @@ public class AlarmHandler {
     }
 
     /**
-     * Calls Sleep checker
-     */
-    public void callSleepChecker() {
-        Random random = new Random();
-        Calendar now = Calendar.getInstance();
-        int upToTwoMinutes = random.nextInt(TWO_MINUTES);
-        int randomTime = THREE_MINUTES + upToTwoMinutes;
-        long callTime = now.getTimeInMillis() + randomTime;
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.setAction(IntentAction.CALL_SLEEP_CHECKER.toString());
-        intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
-        final int requestCode = 999;
-        final int flags = 0;
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, flags);
-        startAlarmManager(callTime, pendingIntent);
-    }
-
-    /**
      * Cancels an ongoing alarm
      */
     public void cancelAlarm() {
+        cancelDelay();
         Intent intent = new Intent(IntentAction.CANCEL_ALARM.toString());
         intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(), intent,
                 PendingIntent.FLAG_CANCEL_CURRENT);
-        manager.cancel(pendingIntent);
-    }
-
-    /**
-     * Cancels a delay
-     */
-    public void cancelDelay() {
-        Intent intent = new Intent(IntentAction.CANCEL_ALARM.toString());
-        intent.setAction(IntentAction.DELAY_ALARM.toString());
-        intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                alarm.getId(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
         manager.cancel(pendingIntent);
     }
 
@@ -127,7 +98,7 @@ public class AlarmHandler {
      * Sets a new alarm
      */
     public void setAlarm() {
-        database.update(alarm);
+        database.update(alarm); // TODO: is this really necessary?
         long triggerTime = Utils.getNextValidTriggerTime(alarm);
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.setAction(IntentAction.SCHEDULE_ALARM.toString());
@@ -138,11 +109,10 @@ public class AlarmHandler {
 
     /**
      * Sets a new alarm by voice
-     * @param context the Android context
      * @param intent the intent received from
      *               the voice command
      */
-    public void setAlarmByVoice(Context context, Intent intent) {
+    public void setAlarmByVoice(Intent intent) {
         if (!intent.hasExtra(AlarmClock.EXTRA_HOUR)) {
             Intent i = new Intent(context, SetupActivity.class);
             i.putExtra(IntentExtra.EDIT_MODE.toString(), false);
@@ -170,8 +140,16 @@ public class AlarmHandler {
                     .setSnoozeDuration(SnoozeDuration.FIVE_MINUTES)
                     .setRingtoneUri(ringtoneUri)
                     .setVolume(volume);
-        Alarm alarm = alarmBuilder.build();
+        alarm = alarmBuilder.build();
         database.insert(alarm);
+        setAlarm();
+    }
+
+    /**
+     * Updates an alarm
+     */
+    public void updateAlarm() {
+        cancelAlarm();
         setAlarm();
     }
 
@@ -179,7 +157,7 @@ public class AlarmHandler {
      * Starts the target activity to display
      * the alarm being triggered
      */
-    public void startAlarmActivity() {
+    void startAlarmActivity() {
         Intent activityIntent = new Intent(context, AlarmActivity.class);
         activityIntent.putExtra(IntentExtra.SLEEP_CHECKER_ON.toString(), false);
         activityIntent.putExtra(IntentExtra.ID.toString(), alarm.getId());
@@ -191,7 +169,7 @@ public class AlarmHandler {
     /**
      * Triggers an alarm
      */
-    public void triggerAlarm() {
+    void triggerAlarm() {
         if (alarm.isActive()) {
             Calendar now = Calendar.getInstance();
             int today = now.get(Calendar.DAY_OF_WEEK);
@@ -229,7 +207,7 @@ public class AlarmHandler {
     /**
      * Triggers Sleep Checker
      */
-    public void triggerSleepChecker() {
+    void triggerSleepChecker() {
         Intent activityIntent = new Intent(context, AlarmActivity.class);
         activityIntent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -237,13 +215,27 @@ public class AlarmHandler {
         context.startActivity(activityIntent);
     }
 
-    /**
-     * Updates an alarm
-     */
-    public void updateAlarm() {
-        cancelAlarm();
-        cancelDelay();
-        setAlarm();
+    private void cancelDelay() {
+        Intent intent = new Intent(IntentAction.DELAY_ALARM.toString());
+        intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
+                                                                 alarm.getId(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        manager.cancel(pendingIntent);
+    }
+
+    private void callSleepChecker() {
+        Random random = new Random();
+        Calendar now = Calendar.getInstance();
+        int upToTwoMinutes = random.nextInt(TWO_MINUTES);
+        int randomTime = THREE_MINUTES + upToTwoMinutes;
+        long callTime = now.getTimeInMillis() + randomTime;
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.setAction(IntentAction.CALL_SLEEP_CHECKER.toString());
+        intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
+        final int requestCode = 999;
+        final int flags = 0;
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, flags);
+        startAlarmManager(callTime, pendingIntent);
     }
 
     private void startAlarmManager(long triggerTime, PendingIntent pendingIntent) {

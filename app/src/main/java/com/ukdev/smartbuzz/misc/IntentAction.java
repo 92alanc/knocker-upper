@@ -23,6 +23,12 @@ public enum IntentAction {
     DELAY_ALARM("com.ukdev.smartbuzz.ACTION_DELAY_ALARM"),
 
     /**
+     * Plays the ringtone at the maximum volume
+     * and vibrates the device
+     */
+    HELL("com.ukdev.smartbuzz.ACTION_HELL"),
+
+    /**
      * Schedules an alarm
      */
     SCHEDULE_ALARM("com.ukdev.smartbuzz.ACTION_SCHEDULE_ALARM"),

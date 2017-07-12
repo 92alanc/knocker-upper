@@ -19,16 +19,19 @@
             tools:ignore="GoogleAppIndexingWarning">
 
         <!-- ACTIVITIES -->
+        <!-- Main activity -->
         <activity
                 android:name=".activities.MainActivity"
                 android:label="@string/app_name"
-                android:theme="@style/SmartBuzz">
+                android:theme="@style/SmartBuzz"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
+                <action android:name="android.intent.action.SET_ALARM"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!-- Setup activity -->
         <activity
                 android:name=".activities.SetupActivity"
                 android:label="@string/new_alarm"
@@ -38,12 +41,14 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.ukdev.smartbuzz.activities.MainActivity"/>
         </activity>
+        <!-- Alarm activity -->
         <activity
                 android:name=".activities.AlarmActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize"
                 android:label="@string/app_name"
                 android:theme="@style/SmartBuzz">
         </activity>
+        <!-- Settings activity -->
         <activity
                 android:name=".activities.SettingsActivity"
                 android:label="@string/settings"
@@ -55,6 +60,7 @@
         </activity>
 
         <!-- BROADCAST RECEIVERS -->
+        <!-- Alarm receiver -->
         <receiver
                 android:name=".system.AlarmReceiver"
                 android:enabled="true"
@@ -65,6 +71,7 @@
                 <action android:name="com.ukdev.smartbuzz.ACTION_DELAY_ALARM"/>
             </intent-filter>
         </receiver>
+        <!-- Boot receiver -->
         <receiver
                 android:name=".system.BootReceiver"
                 android:enabled="true">
