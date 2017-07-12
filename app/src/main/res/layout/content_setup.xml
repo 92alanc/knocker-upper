@@ -56,6 +56,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
+            <!-- Sleep checker on -->
+            <FrameLayout
+                    android:id="@+id/placeholder_sleep_checker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
             <!-- Text -->
             <FrameLayout
                     android:id="@+id/placeholder_text"

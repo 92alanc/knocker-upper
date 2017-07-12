@@ -32,12 +32,13 @@ import com.ukdev.smartbuzz.util.Utils;
  *
  * @author Alan Camargo
  */
-public class SetupActivity extends AppCompatActivity {
+public class SetupActivity extends AppCompatActivity implements View.OnClickListener {
 
     private AlarmDao dao;
     private AlarmHandler alarmHandler;
     private boolean editMode;
     private Context context;
+    private int alarmId;
     private TwoLinesEditText titleFragment;
     private TwoLinesTimePicker timePickerFragment;
     private TwoLinesDayOfTheWeek repetitionFragment;
@@ -45,7 +46,9 @@ public class SetupActivity extends AppCompatActivity {
     private TwoLinesRingtone ringtoneFragment;
     private TwoLinesSeekBar volumeFragment;
     private TwoLinesSwitch vibrationFragment;
+    private TwoLinesSwitch sleepCheckerFragment;
     private TwoLinesMemo textFragment;
+    private View.OnClickListener onClickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +67,15 @@ public class SetupActivity extends AppCompatActivity {
         super.onResume();
         editMode = getIntent().getBooleanExtra(IntentExtra.EDIT_MODE.toString(), false);
         replaceFragmentPlaceholders();
-        if (editMode)
+        if (editMode) {
+            alarmId = getIntent().getIntExtra(IntentExtra.ID.toString(), 0);
             setFragmentValues();
+        }
     }
 
     private void initialiseComponents() {
         context = this;
+        onClickListener = this;
         dao = AlarmDao.getInstance(context);
         setSaveButton();
         setTitleFragment();
@@ -79,6 +85,7 @@ public class SetupActivity extends AppCompatActivity {
         setRingtoneFragment();
         setVolumeFragment();
         setVibrationFragment();
+        setSleepCheckerFragment();
         setTextFragment();
     }
 
@@ -92,65 +99,20 @@ public class SetupActivity extends AppCompatActivity {
         transaction.replace(R.id.placeholder_ringtone, ringtoneFragment);
         transaction.replace(R.id.placeholder_volume, volumeFragment);
         transaction.replace(R.id.placeholder_vibrate, vibrationFragment);
+        transaction.replace(R.id.placeholder_sleep_checker, sleepCheckerFragment);
         transaction.replace(R.id.placeholder_text, textFragment);
         transaction.commit();
     }
 
     private void setSaveButton() {
         FloatingActionButton saveButton = (FloatingActionButton) findViewById(R.id.fab_setup);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Alarm alarm = buildAlarm();
-                alarmHandler = new AlarmHandler(context, alarm);
-                boolean success;
-                if (editMode)
-                    success = dao.update(alarm);
-                else
-                    success = dao.insert(alarm);
-                if (!success) {
-                    Snackbar.make(view, R.string.error_save_alarm, Snackbar.LENGTH_LONG)
-                            .setAction(R.string.retry, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    boolean success;
-                                    if (editMode) {
-                                        success = dao.update(alarm);
-                                        if (success)
-                                            alarmHandler.updateAlarm();
-                                    } else {
-                                        success = dao.insert(alarm);
-                                        if (success)
-                                            alarmHandler.setAlarm();
-                                    }
-                                    if (success)
-                                        Toast.makeText(context, R.string.alarm_saved, Toast.LENGTH_SHORT).show();
-                                }
-                            }).show();
-                } else {
-                    if (editMode)
-                        alarmHandler.updateAlarm();
-                    else
-                        alarmHandler.setAlarm();
-                    Toast.makeText(context, R.string.alarm_saved, Toast.LENGTH_SHORT)
-                         .show();
-                    Intent intent = new Intent(context, MainActivity.class);
-                    startActivity(intent);
-                }
-            }
-        });
-    }
-
-    private void save() {
-
+        saveButton.setOnClickListener(onClickListener);
     }
 
     private void setTitleFragment() {
         titleFragment = new TwoLinesEditText();
         String title = getString(R.string.title);
-        String value = getString(R.string.new_alarm);
         titleFragment.setTitle(title);
-        titleFragment.setValue(value);
         titleFragment.setChangeListener(new TwoLinesDefaultFragment.TwoLinesChangeListener<String>() {
             @Override
             public void onChange(String newValue) {
@@ -201,6 +163,14 @@ public class SetupActivity extends AppCompatActivity {
         vibrationFragment.setTitle(title);
     }
 
+    private void setSleepCheckerFragment() {
+        sleepCheckerFragment = new TwoLinesSwitch();
+        String title = getString(R.string.enable_sleep_checker);
+        String summary = getString(R.string.summary_enable_sleep_checker);
+        sleepCheckerFragment.setTitle(title);
+        sleepCheckerFragment.setSummary(summary);
+    }
+
     private void setTextFragment() {
         textFragment = new TwoLinesMemo();
         String title = getString(R.string.text);
@@ -216,21 +186,23 @@ public class SetupActivity extends AppCompatActivity {
         Uri ringtoneUri = ringtoneFragment.getValue();
         int volume = volumeFragment.getValue();
         boolean vibrate = vibrationFragment.getValue();
+        boolean sleepCheckerOn = sleepCheckerFragment.getValue();
         String text = textFragment.getValue();
-        AlarmBuilder builder = new AlarmBuilder().setTitle(title)
+        AlarmBuilder builder = new AlarmBuilder().setId(alarmId)
+                                                 .setTitle(title)
                                                  .setTriggerTime(triggerTime)
                                                  .setRepetition(repetition)
                                                  .setSnoozeDuration(snoozeDuration)
                                                  .setRingtoneUri(ringtoneUri)
                                                  .setVolume(volume)
                                                  .setVibrate(vibrate)
+                                                 .setSleepCheckerOn(sleepCheckerOn)
                                                  .setText(text);
         return builder.build();
     }
 
     private void setFragmentValues() {
-        int id = getIntent().getIntExtra(IntentExtra.ID.toString(), 0);
-        Alarm alarm = dao.select(id);
+        Alarm alarm = dao.select(alarmId);
 
         titleFragment.setSummary(alarm.getTitle());
         titleFragment.setValue(alarm.getTitle());
@@ -255,8 +227,50 @@ public class SetupActivity extends AppCompatActivity {
 
         vibrationFragment.setValue(alarm.vibrates());
 
+        sleepCheckerFragment.setValue(alarm.isSleepCheckerOn());
+
         textFragment.setSummary(alarm.getText());
         textFragment.setValue(alarm.getText());
+    }
+
+    @Override
+    public void onClick(View view) {
+        final Alarm alarm = buildAlarm();
+        alarmHandler = new AlarmHandler(context, alarm);
+        boolean success;
+        if (editMode)
+            success = dao.update(alarm);
+        else
+            success = dao.insert(alarm);
+        if (!success) {
+            Snackbar.make(view, R.string.error_save_alarm, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            boolean success;
+                            if (editMode) {
+                                success = dao.update(alarm);
+                                if (success)
+                                    alarmHandler.updateAlarm();
+                            } else {
+                                success = dao.insert(alarm);
+                                if (success)
+                                    alarmHandler.setAlarm();
+                            }
+                            if (success)
+                                Toast.makeText(context, R.string.alarm_saved, Toast.LENGTH_SHORT).show();
+                        }
+                    }).show();
+        } else {
+            if (editMode)
+                alarmHandler.updateAlarm();
+            else
+                alarmHandler.setAlarm();
+            Toast.makeText(context, R.string.alarm_saved, Toast.LENGTH_SHORT)
+                 .show();
+            Intent intent = new Intent(context, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
 }

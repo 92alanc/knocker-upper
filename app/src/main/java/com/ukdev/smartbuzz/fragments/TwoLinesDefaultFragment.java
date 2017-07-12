@@ -17,17 +17,16 @@ public abstract class TwoLinesDefaultFragment<T> extends Fragment {
         void onChange(T newValue);
     }
 
-    protected TextView textTitle;
-    protected TextView textSummary;
+    TextView textSummary;
     protected T value;
     protected String title;
-    protected String summary;
-    protected TwoLinesChangeListener<T> changeListener;
+    String summary;
+    TwoLinesChangeListener<T> changeListener;
 
     @Override
     public void onStart() {
         super.onStart();
-        textTitle = (TextView) getView().findViewById(R.id.title);
+        TextView textTitle = (TextView) getView().findViewById(R.id.title);
         textSummary = (TextView) getView().findViewById(R.id.summary);
         textTitle.setText(title);
         textSummary.setText(summary);
