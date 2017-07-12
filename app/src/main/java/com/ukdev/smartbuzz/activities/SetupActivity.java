@@ -1,8 +1,10 @@
 package com.ukdev.smartbuzz.activities;
 
+import android.support.v7.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -14,6 +16,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseBooleanArray;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import com.ukdev.smartbuzz.R;
@@ -73,6 +78,36 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_setup, menu);
+        MenuItem item = menu.getItem(0);
+        if (editMode)
+            item.setVisible(true);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.item_delete) {
+            AlertDialog.Builder dialogueBuilder = new AlertDialog.Builder(context);
+            dialogueBuilder.setTitle(R.string.delete_alarm);
+            dialogueBuilder.setMessage(R.string.confirm_delete);
+            dialogueBuilder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    delete();
+                    Intent intent = new Intent(context, MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+            dialogueBuilder.setNegativeButton(R.string.no, null);
+            dialogueBuilder.show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void initialiseComponents() {
         context = this;
         onClickListener = this;
@@ -87,6 +122,28 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         setVibrationFragment();
         setSleepCheckerFragment();
         setTextFragment();
+    }
+
+    private void delete() {
+        final Alarm alarm = dao.select(alarmId);
+        if (!dao.delete(alarm)) {
+            Snackbar snackbar = Snackbar.make(getCurrentFocus(),
+                                              R.string.error_delete_alarm,
+                                              Snackbar.LENGTH_LONG);
+            snackbar.setAction(R.string.error_delete_alarm, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (dao.delete(alarm)) {
+                        Toast.makeText(context, R.string.alarm_deleted, Toast.LENGTH_SHORT)
+                             .show();
+                    }
+                }
+            });
+            snackbar.show();
+        } else {
+            Toast.makeText(context, R.string.alarm_deleted, Toast.LENGTH_SHORT)
+                 .show();
+        }
     }
 
     private void replaceFragmentPlaceholders() {
@@ -116,7 +173,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         titleFragment.setChangeListener(new TwoLinesDefaultFragment.TwoLinesChangeListener<String>() {
             @Override
             public void onChange(String newValue) {
-                setTitle(newValue);
+                setTitle(newValue); // FIXME: not setting activity title
             }
         });
     }
@@ -212,7 +269,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         timePickerFragment.setSummary(time.toString());
         timePickerFragment.setValue(time);
 
-        repetitionFragment.setSummary(Utils.convertIntArrayToString(context, alarm.getRepetition()));
         repetitionFragment.setValue(Utils.convertIntArrayToSparseBooleanArray(alarm.getRepetition()));
 
         snoozeDurationFragment.setSummary(alarm.getSnoozeDuration().toString());

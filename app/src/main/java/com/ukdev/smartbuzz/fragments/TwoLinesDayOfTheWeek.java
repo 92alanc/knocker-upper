@@ -62,28 +62,13 @@ public class TwoLinesDayOfTheWeek extends TwoLinesDefaultFragment<SparseBooleanA
     }
 
     /**
-     * Determines whether at least one of the
-     * buttons is selected
-     * @return {@code true} is positive, otherwise
-     *         {@code false}
-     */
-    public boolean isSelected() {
-        int size = value.size();
-        for (int i = 0; i < size; i++) {
-            if (value.valueAt(i))
-                return true;
-        }
-        return false;
-    }
-
-    /**
      * Sets the value
      *
      * @param value the value
      */
     @Override
     public void setValue(SparseBooleanArray value) {
-        value = value != null ? value : new SparseBooleanArray();
+        this.value = value != null ? value : new SparseBooleanArray();
         for (int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++) {
             CompoundButton compoundButton = getButtonFromIndex(i);
             if (compoundButton != null) {

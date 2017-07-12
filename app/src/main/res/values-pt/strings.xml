@@ -36,4 +36,12 @@
     <string name="volume">Volume</string>
     <string name="vibrate">Vibrar</string>
     <string name="text">Texto</string>
+    <string name="delete">Excluir</string>
+    <string name="alarm_deleted">Alarme excluído</string>
+    <string name="error_delete_alarm">Erro ao excluir o alarme</string>
+    <string name="delete_alarm">Excluir alarme</string>
+    <string name="confirm_delete">Tem certeza que você quer excluir este alarme?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="no_alarms">Nenhum alarme</string>
 </resources>

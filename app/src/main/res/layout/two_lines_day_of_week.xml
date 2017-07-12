@@ -38,6 +38,7 @@
                 android:text="@string/sunday"
                 android:textOff="@string/sunday"
                 android:textOn="@string/sunday"
+                android:textSize="12sp"
                 android:textAllCaps="false"/>
 
         <ToggleButton
@@ -46,6 +47,7 @@
                 android:text="@string/monday"
                 android:textOff="@string/monday"
                 android:textOn="@string/monday"
+                android:textSize="12sp"
                 android:textAllCaps="false"/>
 
         <ToggleButton
@@ -54,6 +56,7 @@
                 android:text="@string/tuesday"
                 android:textOff="@string/tuesday"
                 android:textOn="@string/tuesday"
+                android:textSize="12sp"
                 android:textAllCaps="false"/>
 
         <ToggleButton
@@ -62,6 +65,7 @@
                 android:text="@string/wednesday"
                 android:textOff="@string/wednesday"
                 android:textOn="@string/wednesday"
+                android:textSize="12sp"
                 android:textAllCaps="false"/>
 
         <ToggleButton
@@ -70,6 +74,7 @@
                 android:text="@string/thursday"
                 android:textOff="@string/thursday"
                 android:textOn="@string/thursday"
+                android:textSize="12sp"
                 android:textAllCaps="false"/>
 
         <ToggleButton
@@ -78,6 +83,7 @@
                 android:text="@string/friday"
                 android:textOff="@string/friday"
                 android:textOn="@string/friday"
+                android:textSize="12sp"
                 android:textAllCaps="false"/>
 
         <ToggleButton
@@ -86,6 +92,7 @@
                 android:text="@string/saturday"
                 android:textOff="@string/saturday"
                 android:textOn="@string/saturday"
+                android:textSize="12sp"
                 android:textAllCaps="false"/>
 
     </LinearLayout>

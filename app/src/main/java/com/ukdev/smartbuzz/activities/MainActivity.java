@@ -12,7 +12,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.adapters.AlarmAdapter;
 import com.ukdev.smartbuzz.database.AlarmDao;
@@ -32,10 +34,12 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     private Context context;
     private AlarmDao dao;
+    private ImageView noAlarmsImageView;
     private List<Alarm> alarms;
+    private OnItemClickListener listener;
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
-    private OnItemClickListener listener;
+    private TextView noAlarmsTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,14 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     @Override
     protected void onResume() {
         super.onResume();
+        alarms = dao.select();
+        if (alarms.isEmpty()) {
+            noAlarmsImageView.setVisibility(View.VISIBLE);
+            noAlarmsTextView.setVisibility(View.VISIBLE);
+        } else {
+            noAlarmsImageView.setVisibility(View.GONE);
+            noAlarmsTextView.setVisibility(View.GONE);
+        }
         populateRecyclerView();
     }
 
@@ -69,11 +81,11 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menuItem_Settings:
+            case R.id.item_settings:
                 Intent intent = new Intent(context, SettingsActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.menuItem_About:
+            case R.id.item_about:
                 ViewUtils.showAppInfo(context);
                 break;
         }
@@ -98,6 +110,8 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         context = this;
         dao = AlarmDao.getInstance(context);
         listener = this;
+        noAlarmsImageView = (ImageView) findViewById(R.id.image_view_no_alarms);
+        noAlarmsTextView = (TextView) findViewById(R.id.text_view_no_alarms);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar_main);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_main);
     }
@@ -116,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     }
 
     private void populateRecyclerView() {
-        alarms = dao.select();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         AlarmAdapter adapter = new AlarmAdapter(context, alarms, listener);
