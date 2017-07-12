@@ -158,10 +158,11 @@ public class Utils {
      */
     public static int[] convertSparseBooleanArrayToIntArray(SparseBooleanArray sparseBooleanArray) {
         List<Integer> integerList = new ArrayList<>();
+        int j = 0;
         for (int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++) {
             if (sparseBooleanArray.get(i)) {
-                int index = i - 1;
-                integerList.add(sparseBooleanArray.keyAt(index));
+                integerList.add(sparseBooleanArray.keyAt(j));
+                j++;
             }
         }
         int[] intArray = new int[integerList.size()];
