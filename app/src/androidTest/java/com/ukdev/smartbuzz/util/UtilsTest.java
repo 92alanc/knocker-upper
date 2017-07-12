@@ -64,25 +64,29 @@ public class UtilsTest {
     @Test
     public void shouldConvertWeekdaysStringToIntArray() {
         int[] result = Utils.convertStringToIntArray(context, weekdaysString);
-        Assert.assertEquals(WEEKDAYS, result);
+        for (int i = 0; i < result.length; i++)
+            Assert.assertEquals(WEEKDAYS[i], result[i]);
     }
 
     @Test
     public void shouldConvertWeekendsStringToIntArray() {
         int[] result = Utils.convertStringToIntArray(context, weekendsString);
-        Assert.assertEquals(WEEKENDS, result);
+        for (int i = 0; i < result.length; i++)
+            Assert.assertEquals(WEEKENDS[i], result[i]);
     }
 
     @Test
     public void shouldConvertMultipleDaysStringToIntArray() {
         int[] result = Utils.convertStringToIntArray(context, multipleDaysString);
-        Assert.assertEquals(MULTIPLE_DAYS, result);
+        for (int i = 0; i < result.length; i++)
+            Assert.assertEquals(MULTIPLE_DAYS[i], result[i]);
     }
 
     @Test
     public void shouldConvertSingleDayStringToIntArray() {
         int[] result = Utils.convertStringToIntArray(context, singleDayString);
-        Assert.assertEquals(SINGLE_DAY, result);
+        for (int i = 0; i < result.length; i++)
+            Assert.assertEquals(SINGLE_DAY[i], result[i]);
     }
 
     @Test

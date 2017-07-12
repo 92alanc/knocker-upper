@@ -50,15 +50,21 @@ public class Utils {
             else {
                 boolean weekDays = true;
                 boolean weekends = true;
-                for (int day : array) {
-                    if (array.length != LENGTH_WEEKEND || (day != Calendar.SUNDAY && day != Calendar.SATURDAY))
-                        weekends = false;
-                    if (array.length != LENGTH_WEEK_DAYS || (day != Calendar.MONDAY
-                            && day != Calendar.TUESDAY
-                            && day != Calendar.WEDNESDAY
-                            && day != Calendar.THURSDAY
-                            && day != Calendar.FRIDAY)) {
-                        weekDays = false;
+                if (array.length != LENGTH_WEEK_DAYS)
+                    weekDays = false;
+                if (array.length != LENGTH_WEEKEND)
+                    weekends = false;
+                if (array.length == LENGTH_WEEK_DAYS || array.length == LENGTH_WEEKEND) {
+                    for (int day : array) {
+                        if (day != Calendar.SUNDAY && day != Calendar.SATURDAY)
+                            weekends = false;
+                        if (day != Calendar.MONDAY
+                                && day != Calendar.TUESDAY
+                                && day != Calendar.WEDNESDAY
+                                && day != Calendar.THURSDAY
+                                && day != Calendar.FRIDAY) {
+                            weekDays = false;
+                        }
                     }
                 }
                 if (weekDays)
@@ -99,11 +105,14 @@ public class Utils {
             if (string.equals(context.getString(R.string.every_day))) {
                 values = new int[LENGTH_WHOLE_WEEK];
                 for (int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++)
-                    values[i] = i;
+                    values[i - 1] = i;
             } else if (string.equals(context.getString(R.string.week_days))) {
                 values = new int[LENGTH_WEEK_DAYS];
-                for (int i = Calendar.MONDAY; i <= Calendar.FRIDAY; i++)
-                    values[i] = i;
+                int j = 0;
+                for (int i = Calendar.MONDAY; i <= Calendar.FRIDAY; i++) {
+                    values[j] = i;
+                    j++;
+                }
             } else if (string.equals(context.getString(R.string.weekends))) {
                 values = new int[LENGTH_WEEKEND];
                 values[0] = Calendar.SUNDAY;
