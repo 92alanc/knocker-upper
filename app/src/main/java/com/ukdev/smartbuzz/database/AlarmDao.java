@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.AlarmBuilder;
-import com.ukdev.smartbuzz.model.Time;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 import com.ukdev.smartbuzz.util.Utils;
 
@@ -174,7 +173,7 @@ public class AlarmDao extends BaseDao {
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             String title, ringtoneUri, text;
-            long trigger, snooze;
+            long triggerTime, snooze;
             int volume;
             SnoozeDuration snoozeDuration;
             boolean active, sleepCheckerOn, vibrate;
@@ -183,8 +182,7 @@ public class AlarmDao extends BaseDao {
             title = cursor.getString(cursor.getColumnIndex(Column.TITLE.toString()));
             text = cursor.getString(cursor.getColumnIndex(Column.TEXT.toString()));
 
-            trigger = cursor.getLong(cursor.getColumnIndex(Column.TRIGGER_TIME.toString()));
-            Time triggerTime = Time.valueOf(trigger);
+            triggerTime = cursor.getLong(cursor.getColumnIndex(Column.TRIGGER_TIME.toString()));
 
             active = cursor.getInt(cursor.getColumnIndex(Column.ACTIVE.toString())) == 1;
             sleepCheckerOn = cursor.getInt(cursor.getColumnIndex(Column.SLEEP_CHECKER_ON.toString())) == 1;
@@ -239,7 +237,7 @@ public class AlarmDao extends BaseDao {
 
     private void fillFields(Alarm alarm, ContentValues values) {
         values.put(Column.TITLE.toString(), alarm.getTitle());
-        values.put(Column.TRIGGER_TIME.toString(), alarm.getTriggerTime().toCalendar().getTimeInMillis());
+        values.put(Column.TRIGGER_TIME.toString(), alarm.getTriggerTime());
         values.put(Column.REPETITION.toString(), Utils.convertIntArrayToString(context, alarm.getRepetition()));
         values.put(Column.SLEEP_CHECKER_ON.toString(), alarm.isSleepCheckerOn() ? 1 : 0);
         values.put(Column.VIBRATE.toString(), alarm.vibrates() ? 1 : 0);
@@ -254,7 +252,7 @@ public class AlarmDao extends BaseDao {
         ArrayList<Alarm> alarms = new ArrayList<>();
         do {
             String title, ringtoneUri, text;
-            long trigger, snooze;
+            long triggerTime, snooze;
             int volume;
             SnoozeDuration snoozeDuration;
             boolean active, sleepCheckerOn, vibrate;
@@ -263,8 +261,7 @@ public class AlarmDao extends BaseDao {
             title = cursor.getString(cursor.getColumnIndex(Column.TITLE.toString()));
             text = cursor.getString(cursor.getColumnIndex(Column.TEXT.toString()));
 
-            trigger = cursor.getLong(cursor.getColumnIndex(Column.TRIGGER_TIME.toString()));
-            Time triggerTime = Time.valueOf(trigger);
+            triggerTime = cursor.getLong(cursor.getColumnIndex(Column.TRIGGER_TIME.toString()));
 
             active = cursor.getInt(cursor.getColumnIndex(Column.ACTIVE.toString())) == 1;
             sleepCheckerOn = cursor.getInt(cursor.getColumnIndex(Column.SLEEP_CHECKER_ON.toString())) == 1;

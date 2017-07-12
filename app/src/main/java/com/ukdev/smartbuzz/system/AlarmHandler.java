@@ -159,7 +159,7 @@ public class AlarmHandler {
         int minutes = 0;
         if (intent.hasExtra(AlarmClock.EXTRA_MINUTES))
             minutes = intent.getIntExtra(AlarmClock.EXTRA_MINUTES, defaultValue);
-        Time triggerTime = new Time(hour, minutes);
+        long triggerTime = new Time(hour, minutes).toCalendar().getTimeInMillis();
         Uri ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         int volume = Utils.getDefaultVolume(context);
 

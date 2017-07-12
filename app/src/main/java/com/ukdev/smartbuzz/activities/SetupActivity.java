@@ -179,7 +179,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
     private Alarm buildAlarm() {
         String title = titleFragment.getValue();
-        Time triggerTime = timePickerFragment.getValue();
+        long triggerTime = timePickerFragment.getValue().toCalendar().getTimeInMillis();
         SparseBooleanArray sparseBooleanArray = repetitionFragment.getValue();
         int[] repetition = Utils.convertSparseBooleanArrayToIntArray(sparseBooleanArray);
         SnoozeDuration snoozeDuration = SnoozeDuration.valueOf(snoozeDurationFragment.getValue());
@@ -208,8 +208,9 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         titleFragment.setValue(alarm.getTitle());
         setTitle(alarm.getTitle());
 
-        timePickerFragment.setSummary(alarm.getTriggerTime().toString());
-        timePickerFragment.setValue(alarm.getTriggerTime());
+        Time time = Time.valueOf(alarm.getTriggerTime());
+        timePickerFragment.setSummary(time.toString());
+        timePickerFragment.setValue(time);
 
         repetitionFragment.setSummary(Utils.convertIntArrayToString(context, alarm.getRepetition()));
         repetitionFragment.setValue(Utils.convertIntArrayToSparseBooleanArray(alarm.getRepetition()));

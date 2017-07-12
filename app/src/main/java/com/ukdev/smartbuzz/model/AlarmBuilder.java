@@ -44,7 +44,7 @@ public class AlarmBuilder {
      * @param triggerTime the trigger time
      * @return the alarm builder after being updated
      */
-    public AlarmBuilder setTriggerTime(Time triggerTime) {
+    public AlarmBuilder setTriggerTime(long triggerTime) {
         alarm.setTriggerTime(triggerTime);
         return this;
     }

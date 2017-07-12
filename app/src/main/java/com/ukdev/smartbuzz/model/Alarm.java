@@ -4,6 +4,8 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 
+import java.util.Calendar;
+
 /**
  * An alarm
  *
@@ -13,7 +15,7 @@ public class Alarm {
 
     private int id;
     private String title;
-    private Time triggerTime;
+    private long triggerTime;
     private SnoozeDuration snoozeDuration;
     private int[] repetition;
     private Uri ringtoneUri;
@@ -30,7 +32,7 @@ public class Alarm {
         active = true;
         ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         snoozeDuration = SnoozeDuration.FIVE_MINUTES;
-        triggerTime = new Time();
+        triggerTime = Calendar.getInstance().getTimeInMillis();
         vibrate = true;
     }
 
@@ -75,7 +77,7 @@ public class Alarm {
      * Gets the trigger time
      * @return the trigger time
      */
-    public Time getTriggerTime() {
+    public long getTriggerTime() {
         return triggerTime;
     }
 
@@ -83,7 +85,7 @@ public class Alarm {
      * Sets the trigger time
      * @param triggerTime the trigger time
      */
-    void setTriggerTime(Time triggerTime) {
+    void setTriggerTime(long triggerTime) {
         this.triggerTime = triggerTime;
     }
 

@@ -14,6 +14,7 @@ import com.ukdev.smartbuzz.listeners.AudioFocusChangeListener;
 import com.ukdev.smartbuzz.misc.IntentAction;
 import com.ukdev.smartbuzz.misc.LogTool;
 import com.ukdev.smartbuzz.model.Alarm;
+import com.ukdev.smartbuzz.model.Time;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -187,8 +188,9 @@ public class Utils {
      * @return the next valid trigger time
      */
     public static long getNextValidTriggerTime(Alarm alarm) {
-        int hours = alarm.getTriggerTime().getHour();
-        int minutes = alarm.getTriggerTime().getMinute();
+        Time time = Time.valueOf(alarm.getTriggerTime());
+        int hours = time.getHour();
+        int minutes = time.getMinute();
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hours);
         calendar.set(Calendar.MINUTE, minutes);

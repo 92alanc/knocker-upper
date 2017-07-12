@@ -32,16 +32,6 @@ public class Time {
     }
 
     /**
-     * Creates an instance of {@code Time}
-     * with minutes
-     * @param totalMinutes the total minutes
-     */
-    public Time(int totalMinutes) {
-        hour = totalMinutes / 60;
-        minute = totalMinutes % 60;
-    }
-
-    /**
      * Converts the time to a {@code Calendar}
      * @return the time as a {@code Calendar}
      */

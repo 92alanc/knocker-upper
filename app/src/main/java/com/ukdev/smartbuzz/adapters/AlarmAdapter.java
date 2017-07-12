@@ -13,6 +13,7 @@ import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.listeners.OnItemClickListener;
 import com.ukdev.smartbuzz.model.Alarm;
+import com.ukdev.smartbuzz.model.Time;
 import com.ukdev.smartbuzz.system.AlarmHandler;
 import com.ukdev.smartbuzz.util.Utils;
 
@@ -55,14 +56,13 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmHolder>
     public void onBindViewHolder(AlarmHolder holder, int position) {
         final Alarm alarm = objects.get(position);
 
-        int src = getImageViewSrc(alarm.getTriggerTime().getHour());
+        Time time = Time.valueOf(alarm.getTriggerTime());
+        int src = getImageViewSrc(time.getHour());
         holder.dayNightImageView.setImageResource(src);
 
         holder.alarmTitleTextView.setText(alarm.getTitle());
 
-        String hour = Utils.getFormattedTimeString(alarm.getTriggerTime().getHour());
-        String minute = Utils.getFormattedTimeString(alarm.getTriggerTime().getMinute());
-        String triggerTime = String.format("%1$s:%2$s", hour, minute);
+        String triggerTime = time.toString();
         holder.triggerTimeTextView.setText(triggerTime);
 
         String repetition = Utils.convertIntArrayToString(context, alarm.getRepetition());
