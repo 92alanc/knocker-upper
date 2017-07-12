@@ -6,7 +6,10 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.os.Vibrator;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -36,6 +39,7 @@ public class AlarmActivity extends AppCompatActivity {
     private Context context;
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
+    private PowerManager.WakeLock wakeLock; // TODO: assign value
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,36 +51,45 @@ public class AlarmActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() { }
 
-    private void countdown() {
-        // TODO: implement Sleep Checker countdown
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (!sleepCheckerMode) {
+            stopCountdown();
+            Utils.killApp(activity);
+        } else {
+            Utils.stopRingtone(mediaPlayer);
+            if (alarm.vibrates() || hellMode)
+                Utils.stopVibration(vibrator);
+        }
     }
 
     private void initialiseComponents() {
         activity = this;
         context = this;
+        hellMode = false;
         String sleepCheckerAction = IntentAction.TRIGGER_SLEEP_CHECKER.toString();
         sleepCheckerMode = getIntent().getAction().equals(sleepCheckerAction);
-        String hellAction = IntentAction.HELL.toString();
-        hellMode = getIntent().getAction().equals(hellAction);
         AlarmDao dao = AlarmDao.getInstance(context);
         int alarmId = getIntent().getIntExtra(IntentExtra.ID.toString(), 0);
         alarm = dao.select(alarmId);
         alarmHandler = new AlarmHandler(context, alarm);
         mediaPlayer = new MediaPlayer();
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        if (hellMode)
-            raiseHell();
         if (!sleepCheckerMode) {
             Utils.playRingtone(activity, mediaPlayer, alarm.getVolume(), alarm.getRingtoneUri());
             if (alarm.vibrates())
                 Utils.startVibration(vibrator);
         } else
-            countdown();
+            startCountdown();
         setSnoozeButtonPlaceholder();
-        setDismissFragment();
+        setDismissFragment(sleepCheckerMode);
     }
 
     private void raiseHell() {
+        hellMode = true;
+        final boolean sleepCheckerOn = false;
+        setDismissFragment(sleepCheckerOn);
         Uri defaultRingtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         Uri ringtone = alarm.getRingtoneUri();
         if (ringtone.equals(defaultRingtoneUri))
@@ -105,26 +118,43 @@ public class AlarmActivity extends AppCompatActivity {
                 alarmHandler.delayAlarm();
             }
         });
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.placeholder_snooze_button, snoozeFragment);
+        transaction.commit();
     }
 
-    private void setDismissFragment() {
+    private void setDismissFragment(final boolean sleepCheckerOn) {
         DismissFragment dismissFragment = new DismissFragment();
         Bundle args = new Bundle();
-        args.putBoolean(IntentExtra.SLEEP_CHECKER_ON.toString(), sleepCheckerMode);
+        args.putBoolean(IntentExtra.SLEEP_CHECKER_ON.toString(), sleepCheckerOn);
         dismissFragment.setArguments(args);
         dismissFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (sleepCheckerMode)
+                if (sleepCheckerOn) {
+                    stopCountdown();
                     Utils.killApp(activity);
-                else {
+                } else {
                     Utils.stopRingtone(mediaPlayer);
                     if (alarm.vibrates() || hellMode)
                         Utils.stopVibration(vibrator);
-                    alarmHandler.dismissAlarm(activity, null); // TODO: replace null with wakeLock
+                    alarmHandler.dismissAlarm(activity, wakeLock);
                 }
             }
         });
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.placeholder_dismiss_button, dismissFragment);
+        transaction.commit();
+    }
+
+    private void startCountdown() {
+        // TODO: implement startCountdown
+    }
+
+    private void stopCountdown() {
+        // TODO: implement stopCountdown
     }
 
 }
