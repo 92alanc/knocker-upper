@@ -1,7 +1,6 @@
 package com.ukdev.smartbuzz.misc;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import com.ukdev.smartbuzz.R;
@@ -33,12 +32,7 @@ public class LogTool {
     public void exception(Exception e) {
         dialogue.setMessage(e.getMessage());
         dialogue.setIcon(R.drawable.ic_error);
-        dialogue.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                // Do nothing
-            }
-        });
+        dialogue.setNeutralButton(R.string.ok, null);
         dialogue.show();
     }
 
@@ -49,12 +43,7 @@ public class LogTool {
     public void info(String text) {
         dialogue.setMessage(text);
         dialogue.setIcon(R.drawable.ic_launcher);
-        dialogue.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                // Do nothing
-            }
-        });
+        dialogue.setNeutralButton(R.string.ok, null);
         dialogue.show();
     }
 

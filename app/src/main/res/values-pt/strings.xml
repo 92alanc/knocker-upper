@@ -44,4 +44,7 @@
     <string name="yes">Sim</string>
     <string name="no">Não</string>
     <string name="no_alarms">Nenhum alarme</string>
+    <string name="snooze">Soneca</string>
+    <string name="dismiss">Parar</string>
+    <string name="i_am_awake">Estou acordado(a)!</string>
 </resources>

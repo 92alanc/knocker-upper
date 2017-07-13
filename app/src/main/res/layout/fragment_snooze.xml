@@ -6,7 +6,12 @@
 
     <Button
             android:id="@+id/btSnooze"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_snooze"
+            android:text="@string/snooze"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:textSize="20sp"/>
 
 </RelativeLayout>

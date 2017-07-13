@@ -116,8 +116,10 @@ public class AlarmActivity extends AppCompatActivity {
         FrameLayout snoozeButtonPlaceholder = (FrameLayout) findViewById(R.id.placeholder_snooze_button);
         if (sleepCheckerMode || hellMode)
             snoozeButtonPlaceholder.setVisibility(View.GONE);
-        else
+        else {
+            snoozeButtonPlaceholder.setVisibility(View.VISIBLE);
             setSnoozeFragment();
+        }
     }
 
     private void setSnoozeFragment() {

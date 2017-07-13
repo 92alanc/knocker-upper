@@ -12,7 +12,6 @@ import android.util.SparseBooleanArray;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.listeners.AudioFocusChangeListener;
 import com.ukdev.smartbuzz.misc.IntentAction;
-import com.ukdev.smartbuzz.misc.LogTool;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.Time;
 
@@ -271,8 +270,9 @@ public class Utils {
                 player.setDataSource(context, ringtoneUri);
                 player.prepare();
             } catch (IOException e) {
-                LogTool log = new LogTool(context);
-                log.exception(e);
+                /*LogTool log = new LogTool(context);
+                log.exception(e);*/
+                e.printStackTrace();
             }
             player.start();
         }
