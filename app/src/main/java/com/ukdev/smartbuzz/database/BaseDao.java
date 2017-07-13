@@ -49,11 +49,9 @@ abstract class BaseDao {
     /**
      * Inserts a new instance of {@link Alarm}
      * @param alarm the alarm to insert
-     * @return {@code true} if the operation
-     *         has been successful, otherwise
-     *         {@code false}
+     * @return the ID of the newly created alarm
      */
-    public abstract boolean insert(Alarm alarm);
+    public abstract long insert(Alarm alarm);
 
     /**
      * Gets all active instances of {@link Alarm}.

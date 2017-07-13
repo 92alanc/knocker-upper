@@ -1,20 +1,15 @@
 package com.ukdev.smartbuzz.util;
 
 import android.app.Activity;
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.support.annotation.IdRes;
-import android.support.v7.widget.AppCompatSpinner;
-import android.widget.ArrayAdapter;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.misc.LogTool;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * View utilities
@@ -24,31 +19,14 @@ import java.util.List;
 public class ViewUtils {
 
     /**
-     * Populates the ringtone spinner
+     * Determines whether the screen is locked
      * @param context the Android context
-     * @param spinner the spinner
+     * @return {@code true} if positive,
+     *         otherwise {@code false}
      */
-    public static void populateRingtoneSpinner(Context context, AppCompatSpinner spinner) {
-        List<Uri> ringtones = new ArrayList<>();
-        ArrayAdapter<Uri> adapter = new ArrayAdapter<>(context,
-                                                            android.R.layout.simple_spinner_item,
-                                                            ringtones);
-        adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
-        spinner.setAdapter(adapter);
-    }
-
-    /**
-     * Populates the snooze duration spinner
-     * @param context the Android context
-     * @param spinner the spinner
-     */
-    public static void populateSnoozeDurationSpinner(Context context, AppCompatSpinner spinner) {
-        String[] itemTexts = context.getResources().getStringArray(R.array.snooze_durations);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
-                                                          android.R.layout.simple_spinner_item,
-                                                          itemTexts);
-        adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
-        spinner.setAdapter(adapter);
+    public static boolean screenIsLocked(Context context) {
+        KeyguardManager manager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+        return manager.inKeyguardRestrictedInputMode();
     }
 
     /**

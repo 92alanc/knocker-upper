@@ -6,6 +6,27 @@
                 android:fitsSystemWindows="true"
                 tools:context="com.ukdev.smartbuzz.activities.AlarmActivity">
 
+    <TextView
+            android:id="@+id/text_view_alarm_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+    <TextView
+            android:id="@+id/text_view_countdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_view_alarm_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="gone"/>
+
     <FrameLayout
             android:id="@+id/placeholder_dismiss_button"
             android:layout_width="match_parent"

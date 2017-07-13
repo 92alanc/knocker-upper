@@ -98,10 +98,9 @@ public class AlarmHandler {
      * Sets a new alarm
      */
     public void setAlarm() {
-        database.update(alarm); // TODO: is this really necessary?
         long triggerTime = Utils.getNextValidTriggerTime(alarm);
         Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.setAction(IntentAction.SCHEDULE_ALARM.toString());
+        intent.setAction(IntentAction.TRIGGER_ALARM.toString());
         intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(), intent, 0);
         startAlarmManager(triggerTime, pendingIntent);
@@ -159,9 +158,9 @@ public class AlarmHandler {
      */
     void startAlarmActivity() {
         Intent activityIntent = new Intent(context, AlarmActivity.class);
+        activityIntent.setAction(IntentAction.TRIGGER_ALARM.toString());
         activityIntent.putExtra(IntentExtra.SLEEP_CHECKER_ON.toString(), false);
         activityIntent.putExtra(IntentExtra.ID.toString(), alarm.getId());
-        activityIntent.setAction(IntentAction.TRIGGER_ALARM.toString());
         activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(activityIntent);
     }

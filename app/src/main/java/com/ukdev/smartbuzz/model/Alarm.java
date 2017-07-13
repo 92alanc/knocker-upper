@@ -53,7 +53,7 @@ public class Alarm {
      * Sets the database ID
      * @param id the database ID
      */
-    void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 

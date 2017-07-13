@@ -1,6 +1,6 @@
 package com.ukdev.smartbuzz.activities;
 
-import android.support.v7.app.AlertDialog;
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseBooleanArray;
@@ -31,6 +32,7 @@ import com.ukdev.smartbuzz.model.Time;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 import com.ukdev.smartbuzz.system.AlarmHandler;
 import com.ukdev.smartbuzz.util.Utils;
+import com.ukdev.smartbuzz.util.ViewUtils;
 
 /**
  * The activity where alarms are set
@@ -76,6 +78,8 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             alarmId = getIntent().getIntExtra(IntentExtra.ID.toString(), 0);
             setFragmentValues();
         }
+        Activity activity = this;
+        ViewUtils.showAds(activity, R.id.ad_view_setup);
     }
 
     @Override
@@ -127,23 +131,25 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     private void delete() {
         final Alarm alarm = dao.select(alarmId);
         if (!dao.delete(alarm)) {
-            Snackbar snackbar = Snackbar.make(getCurrentFocus(),
-                                              R.string.error_delete_alarm,
-                                              Snackbar.LENGTH_LONG);
-            snackbar.setAction(R.string.error_delete_alarm, new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (dao.delete(alarm))
-                        ackDelete();
-                }
-            });
-            snackbar.show();
+            View focus = getCurrentFocus();
+            if (focus != null) {
+                Snackbar snackbar = Snackbar.make(focus,
+                                                  R.string.error_delete_alarm,
+                                                  Snackbar.LENGTH_LONG);
+                snackbar.setAction(R.string.error_delete_alarm, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (dao.delete(alarm))
+                            ackDelete();
+                    }
+                });
+                snackbar.show();
+            }
         } else
             ackDelete();
     }
 
     private void ackDelete() {
-        alarmHandler.cancelAlarm();
         Toast.makeText(context, R.string.alarm_deleted, Toast.LENGTH_SHORT)
              .show();
     }
@@ -175,7 +181,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         titleFragment.setChangeListener(new TwoLinesDefaultFragment.TwoLinesChangeListener<String>() {
             @Override
             public void onChange(String newValue) {
-                setTitle(newValue); // FIXME: not setting activity title
+                setTitle(newValue);
             }
         });
     }
@@ -237,7 +243,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private Alarm buildAlarm() {
-        String title = titleFragment.getValue();
+        String title = titleFragment.getValue() != null ? titleFragment.getValue() : getString(R.string.new_alarm);
         long triggerTime = timePickerFragment.getValue().toCalendar().getTimeInMillis();
         SparseBooleanArray sparseBooleanArray = repetitionFragment.getValue();
         int[] repetition = Utils.convertSparseBooleanArrayToIntArray(sparseBooleanArray);
@@ -296,11 +302,15 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         final Alarm alarm = buildAlarm();
         alarmHandler = new AlarmHandler(context, alarm);
+        long id;
         boolean success;
         if (editMode)
             success = dao.update(alarm);
-        else
-            success = dao.insert(alarm);
+        else {
+            id = dao.insert(alarm);
+            alarm.setId((int) id);
+            success = id > 0;
+        }
         if (!success) {
             Snackbar.make(view, R.string.error_save_alarm, Snackbar.LENGTH_LONG)
                     .setAction(R.string.retry, new View.OnClickListener() {
@@ -312,7 +322,9 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                                 if (success)
                                     alarmHandler.updateAlarm();
                             } else {
-                                success = dao.insert(alarm);
+                                long id = dao.insert(alarm);
+                                alarm.setId((int) id);
+                                success = id > 0;
                                 if (success)
                                     alarmHandler.setAlarm();
                             }

@@ -9,6 +9,9 @@ import java.util.Calendar;
  */
 public class Time {
 
+    public static final long FIFTEEN_SECONDS = 15000;
+    public static final long ONE_SECOND = 1000;
+
     private int hour;
     private int minute;
 

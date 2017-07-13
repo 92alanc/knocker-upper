@@ -66,20 +66,16 @@ public class AlarmDao extends BaseDao {
     /**
      * Inserts a new instance of {@link Alarm}
      * @param alarm the alarm to insert
-     * @return {@code true} if the operation
-     *         has been successful, otherwise
-     *         {@code false}
+     * @return the ID of the newly created alarm
      */
     @Override
-    public boolean insert(Alarm alarm) {
+    public long insert(Alarm alarm) {
         if (!writer.isOpen())
             openDatabase();
         final String nullColumnHack = null;
         ContentValues values = new ContentValues();
         fillFields(alarm, values);
-        boolean success = writer.insert(TABLE_NAME, nullColumnHack, values) > 0;
-        writer.close();
-        return success;
+        return writer.insert(TABLE_NAME, nullColumnHack, values);
     }
 
     /**
