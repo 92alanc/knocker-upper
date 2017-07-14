@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.listeners.OnViewInflatedListener;
 import com.ukdev.smartbuzz.misc.IntentExtra;
 import com.ukdev.smartbuzz.misc.LogTool;
 
@@ -23,6 +24,7 @@ public class DismissFragment extends Fragment {
 
     private boolean sleepCheckerMode;
     private Button button;
+    private OnViewInflatedListener onViewInflatedListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,7 +35,17 @@ public class DismissFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dismiss, container, attachToRoot);
         button = (Button) view.findViewById(R.id.btDismiss);
         setButtonShape();
+        if (onViewInflatedListener != null)
+            onViewInflatedListener.onViewInflated(this);
         return view;
+    }
+
+    /**
+     * Sets the {@code OnViewInflatedListener}
+     * @param onViewInflatedListener the listener
+     */
+    public void setOnViewInflatedListener(OnViewInflatedListener onViewInflatedListener) {
+        this.onViewInflatedListener = onViewInflatedListener;
     }
 
     /**

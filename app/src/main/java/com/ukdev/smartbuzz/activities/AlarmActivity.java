@@ -1,6 +1,5 @@
 package com.ukdev.smartbuzz.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -10,6 +9,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.PowerManager;
 import android.os.Vibrator;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +20,7 @@ import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.fragments.DismissFragment;
 import com.ukdev.smartbuzz.fragments.SnoozeFragment;
+import com.ukdev.smartbuzz.listeners.OnViewInflatedListener;
 import com.ukdev.smartbuzz.misc.IntentAction;
 import com.ukdev.smartbuzz.misc.IntentExtra;
 import com.ukdev.smartbuzz.model.Alarm;
@@ -37,7 +38,7 @@ import com.ukdev.smartbuzz.util.ViewUtils;
  */
 public class AlarmActivity extends AppCompatActivity {
 
-    private Activity activity;
+    private AppCompatActivity activity;
     private Alarm alarm;
     private AlarmHandler alarmHandler;
     private boolean hellMode;
@@ -128,24 +129,47 @@ public class AlarmActivity extends AppCompatActivity {
 
     private void setSnoozeFragment() {
         SnoozeFragment snoozeFragment = new SnoozeFragment();
+        snoozeFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+            @Override
+            public void onViewInflated(Fragment fragment) {
+                ((SnoozeFragment) fragment).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Utils.stopRingtone(mediaPlayer);
+                        if (alarm.vibrates() || hellMode)
+                            Utils.stopVibration(vibrator);
+                        alarmHandler.delayAlarm();
+                    }
+                });
+            }
+        });
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.placeholder_snooze_button, snoozeFragment);
         transaction.commit();
-        // FIXME: NullPointerException
-        /*snoozeFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Utils.stopRingtone(mediaPlayer);
-                if (alarm.vibrates() || hellMode)
-                    Utils.stopVibration(vibrator);
-                alarmHandler.delayAlarm();
-            }
-        });*/
     }
 
     private void setDismissFragment(final boolean sleepCheckerOn) {
         DismissFragment dismissFragment = new DismissFragment();
+        dismissFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+            @Override
+            public void onViewInflated(Fragment fragment) {
+                ((DismissFragment) fragment).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (sleepCheckerOn) {
+                            stopCountdown();
+                            Utils.killApp(activity);
+                        } else {
+                            Utils.stopRingtone(mediaPlayer);
+                            if (alarm.vibrates() || hellMode)
+                                Utils.stopVibration(vibrator);
+                            alarmHandler.dismissAlarm(activity, wakeLock);
+                        }
+                    }
+                });
+            }
+        });
         Bundle args = new Bundle();
         args.putBoolean(IntentExtra.SLEEP_CHECKER_ON.toString(), sleepCheckerOn);
         dismissFragment.setArguments(args);
@@ -153,21 +177,6 @@ public class AlarmActivity extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.placeholder_dismiss_button, dismissFragment);
         transaction.commit();
-        // FIXME: NullPointerException
-        /*dismissFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (sleepCheckerOn) {
-                    stopCountdown();
-                    Utils.killApp(activity);
-                } else {
-                    Utils.stopRingtone(mediaPlayer);
-                    if (alarm.vibrates() || hellMode)
-                        Utils.stopVibration(vibrator);
-                    alarmHandler.dismissAlarm(activity, wakeLock);
-                }
-            }
-        });*/
     }
 
     private void startCountdown() {
