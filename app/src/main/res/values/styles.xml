@@ -18,7 +18,7 @@
         <item name="android:layout_weight">2</item>
         <item name="android:textSize">17sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background">@drawable/toggle_button_background</item>
+        <item name="android:background">@drawable/shape_toggle_button</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

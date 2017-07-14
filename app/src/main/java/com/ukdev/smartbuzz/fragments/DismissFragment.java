@@ -46,25 +46,23 @@ public class DismissFragment extends Fragment {
 
     private void setButtonBackground() {
         try {
-            Drawable drawable;
-            if (sleepCheckerMode) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    drawable = getResources().getDrawable(R.drawable.background_dismiss_sleep_checker,
-                                                          getActivity().getTheme());
-                } else
-                    drawable = getResources().getDrawable(R.drawable.background_dismiss_sleep_checker);
-            } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    drawable = getResources().getDrawable(R.drawable.background_dismiss_alarm,
-                                                          getActivity().getTheme());
-                } else
-                    drawable = getResources().getDrawable(R.drawable.background_dismiss_alarm);
-            }
-            button.setBackground(drawable);
+            if (sleepCheckerMode)
+                setShape(R.drawable.shape_dismiss_sleep_checker);
+            else
+                setShape(R.drawable.shape_dismiss_alarm);
         } catch (Resources.NotFoundException e) {
             LogTool logTool = new LogTool(getContext());
             logTool.exception(e);
         }
+    }
+
+    private void setShape(int shapeId) {
+        Drawable shape;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            shape = getResources().getDrawable(shapeId, getActivity().getTheme());
+        else
+            shape = getResources().getDrawable(shapeId);
+        button.setBackground(shape);
     }
 
 }

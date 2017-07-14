@@ -53,5 +53,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="no_alarms">No alarms</string>
+    <string name="snooze">Snooze</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="i_am_awake">I\'m awake!</string>
 
 </resources>
