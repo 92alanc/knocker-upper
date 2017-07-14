@@ -32,7 +32,7 @@ public class DismissFragment extends Fragment {
         sleepCheckerMode = args != null && args.getBoolean(IntentExtra.SLEEP_CHECKER_ON.toString());
         View view = inflater.inflate(R.layout.fragment_dismiss, container, attachToRoot);
         button = (Button) view.findViewById(R.id.btDismiss);
-        setButtonBackground();
+        setButtonShape();
         return view;
     }
 
@@ -44,25 +44,27 @@ public class DismissFragment extends Fragment {
         button.setOnClickListener(onClickListener);
     }
 
-    private void setButtonBackground() {
+    private void setButtonShape() {
         try {
-            if (sleepCheckerMode)
-                setShape(R.drawable.shape_dismiss_sleep_checker);
-            else
-                setShape(R.drawable.shape_dismiss_alarm);
+            if (sleepCheckerMode) {
+                button.setBackground(getShape(R.drawable.shape_dismiss_sleep_checker));
+                button.setText(R.string.i_am_awake);
+            } else {
+                button.setBackground(getShape(R.drawable.shape_dismiss_alarm));
+                button.setText(R.string.dismiss);
+            }
         } catch (Resources.NotFoundException e) {
             LogTool logTool = new LogTool(getContext());
             logTool.exception(e);
         }
     }
 
-    private void setShape(int shapeId) {
-        Drawable shape;
+    @SuppressWarnings("deprecation")
+    private Drawable getShape(int shapeId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            shape = getResources().getDrawable(shapeId, getActivity().getTheme());
+            return getResources().getDrawable(shapeId, getActivity().getTheme());
         else
-            shape = getResources().getDrawable(shapeId);
-        button.setBackground(shape);
+            return getResources().getDrawable(shapeId);
     }
 
 }

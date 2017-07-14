@@ -20,7 +20,6 @@ public class TwoLinesSwitch extends TwoLinesDefaultFragment<Boolean> {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.two_lines_switch, container, ATTACH_TO_ROOT);
         mSwitch = (CompoundButton) view.findViewById(R.id.switch_view);
-        setValue(true);
         return view;
     }
 
@@ -42,4 +41,10 @@ public class TwoLinesSwitch extends TwoLinesDefaultFragment<Boolean> {
             mSwitch.setChecked(value);
     }
 
+    @Override
+    public Boolean getValue() {
+        if (value == null)
+            setValue(true);
+        return value;
+    }
 }

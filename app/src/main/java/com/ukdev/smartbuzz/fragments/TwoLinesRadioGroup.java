@@ -71,7 +71,7 @@ public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Long> {
     @Override
     public Long getValue() {
         if (value == null)
-            value = SnoozeDuration.FIVE_MINUTES.getValue();
+            value = SnoozeDuration.OFF.getValue();
         return value;
     }
 

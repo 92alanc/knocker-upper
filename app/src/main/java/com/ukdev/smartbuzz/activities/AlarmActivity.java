@@ -24,6 +24,7 @@ import com.ukdev.smartbuzz.misc.IntentAction;
 import com.ukdev.smartbuzz.misc.IntentExtra;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.Time;
+import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 import com.ukdev.smartbuzz.system.AlarmHandler;
 import com.ukdev.smartbuzz.util.Utils;
 import com.ukdev.smartbuzz.util.ViewUtils;
@@ -75,8 +76,9 @@ public class AlarmActivity extends AppCompatActivity {
         context = this;
         hellMode = false;
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP,
-                                            "Tag");
+        final int levelAndFlags = PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP;
+        final String tag = "Tag";
+        wakeLock = powerManager.newWakeLock(levelAndFlags, tag);
         if (ViewUtils.screenIsLocked(context))
             wakeLock.acquire();
         String sleepCheckerAction = IntentAction.TRIGGER_SLEEP_CHECKER.toString();
@@ -85,6 +87,8 @@ public class AlarmActivity extends AppCompatActivity {
         int alarmId = getIntent().getIntExtra(IntentExtra.ID.toString(), 0);
         alarm = dao.select(alarmId);
         alarmHandler = new AlarmHandler(context, alarm);
+        TextView titleTextView = (TextView) findViewById(R.id.text_view_alarm_title);
+        titleTextView.setText(alarm.getTitle());
         mediaPlayer = new MediaPlayer();
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         if (!sleepCheckerMode) {
@@ -114,7 +118,7 @@ public class AlarmActivity extends AppCompatActivity {
 
     private void setSnoozeButtonPlaceholder() {
         FrameLayout snoozeButtonPlaceholder = (FrameLayout) findViewById(R.id.placeholder_snooze_button);
-        if (sleepCheckerMode || hellMode)
+        if (sleepCheckerMode || hellMode || alarm.getSnoozeDuration() == SnoozeDuration.OFF)
             snoozeButtonPlaceholder.setVisibility(View.GONE);
         else {
             snoozeButtonPlaceholder.setVisibility(View.VISIBLE);
@@ -124,7 +128,12 @@ public class AlarmActivity extends AppCompatActivity {
 
     private void setSnoozeFragment() {
         SnoozeFragment snoozeFragment = new SnoozeFragment();
-        snoozeFragment.setOnClickListener(new View.OnClickListener() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.placeholder_snooze_button, snoozeFragment);
+        transaction.commit();
+        // FIXME: NullPointerException
+        /*snoozeFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Utils.stopRingtone(mediaPlayer);
@@ -132,11 +141,7 @@ public class AlarmActivity extends AppCompatActivity {
                     Utils.stopVibration(vibrator);
                 alarmHandler.delayAlarm();
             }
-        });
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.placeholder_snooze_button, snoozeFragment);
-        transaction.commit();
+        });*/
     }
 
     private void setDismissFragment(final boolean sleepCheckerOn) {
@@ -144,7 +149,12 @@ public class AlarmActivity extends AppCompatActivity {
         Bundle args = new Bundle();
         args.putBoolean(IntentExtra.SLEEP_CHECKER_ON.toString(), sleepCheckerOn);
         dismissFragment.setArguments(args);
-        dismissFragment.setOnClickListener(new View.OnClickListener() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.placeholder_dismiss_button, dismissFragment);
+        transaction.commit();
+        // FIXME: NullPointerException
+        /*dismissFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (sleepCheckerOn) {
@@ -157,11 +167,7 @@ public class AlarmActivity extends AppCompatActivity {
                     alarmHandler.dismissAlarm(activity, wakeLock);
                 }
             }
-        });
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.placeholder_dismiss_button, dismissFragment);
-        transaction.commit();
+        });*/
     }
 
     private void startCountdown() {

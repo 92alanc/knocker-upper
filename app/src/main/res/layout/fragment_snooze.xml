@@ -10,6 +10,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_snooze"
             android:text="@string/snooze"
+            android:textAllCaps="false"
             android:textColor="@color/white"
             android:textAlignment="center"
             android:textSize="20sp"/>
