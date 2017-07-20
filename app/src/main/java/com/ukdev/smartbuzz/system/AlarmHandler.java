@@ -223,6 +223,7 @@ public class AlarmHandler {
     }
 
     private void callSleepChecker() {
+        // FIXME: callSleepChecker not working
         Random random = new Random();
         Calendar now = Calendar.getInstance();
         int upToTwoMinutes = random.nextInt(TWO_MINUTES);

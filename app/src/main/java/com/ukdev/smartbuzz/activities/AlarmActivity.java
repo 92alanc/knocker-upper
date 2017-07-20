@@ -62,7 +62,7 @@ public class AlarmActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (!sleepCheckerMode) {
+        if (sleepCheckerMode) {
             stopCountdown();
             Utils.killApp(activity);
         } else {
@@ -139,6 +139,7 @@ public class AlarmActivity extends AppCompatActivity {
                         if (alarm.vibrates() || hellMode)
                             Utils.stopVibration(vibrator);
                         alarmHandler.delayAlarm();
+                        Utils.killApp(activity);
                     }
                 });
             }
