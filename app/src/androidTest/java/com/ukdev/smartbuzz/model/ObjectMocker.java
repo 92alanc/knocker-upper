@@ -17,7 +17,7 @@ public class ObjectMocker {
      *         of {@link Alarm}
      */
     public Alarm alarm() {
-        Time triggerTime = new Time();
+        long triggerTime = new Time().toCalendar().getTimeInMillis();
         Uri ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         AlarmBuilder alarmBuilder = new AlarmBuilder().setTitle("Title")
                                                       .setRingtoneUri(ringtoneUri)

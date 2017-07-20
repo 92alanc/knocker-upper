@@ -40,7 +40,7 @@ public class AlarmDaoTest {
     @Test
     public void shouldInsert() {
         Alarm alarm = objectMocker.alarm();
-        Assert.assertTrue(alarmDao.insert(alarm));
+        Assert.assertTrue(alarmDao.insert(alarm) > 0);
     }
 
     /**
