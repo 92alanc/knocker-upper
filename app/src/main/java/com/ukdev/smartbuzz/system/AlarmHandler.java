@@ -109,7 +109,8 @@ public class AlarmHandler {
      * @param intent the intent received from
      *               the voice command
      */
-    public void setAlarmByVoice(Intent intent) {
+    public void setAlarmByVoice(Intent intent, Context context) {
+        // FIXME: this s*** is creating 2 damn alarms
         if (!intent.hasExtra(AlarmClock.EXTRA_HOUR)) {
             Intent i = new Intent(context, SetupActivity.class);
             i.putExtra(IntentExtra.EDIT_MODE.toString(), false);
@@ -117,7 +118,6 @@ public class AlarmHandler {
             context.startActivity(i);
             return;
         }
-        int nextAvailableId = database.getLastId() + 1;
         final int defaultValue = 0;
         String title = context.getString(R.string.new_alarm);
         if (intent.hasExtra(AlarmClock.EXTRA_MESSAGE))
@@ -131,14 +131,15 @@ public class AlarmHandler {
         int volume = Utils.getDefaultVolume(context);
 
         AlarmBuilder alarmBuilder = new AlarmBuilder();
-        alarmBuilder.setId(nextAvailableId)
-                    .setTitle(title)
+        alarmBuilder.setTitle(title)
                     .setTriggerTime(triggerTime)
                     .setSnoozeDuration(SnoozeDuration.FIVE_MINUTES)
                     .setRingtoneUri(ringtoneUri)
                     .setVolume(volume);
         alarm = alarmBuilder.build();
-        database.insert(alarm);
+        long id = database.insert(alarm);
+        alarm.setId((int) id);
+        database.update(alarm);
         setAlarm();
     }
 

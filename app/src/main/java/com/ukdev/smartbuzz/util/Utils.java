@@ -9,9 +9,11 @@ import android.os.Build;
 import android.os.Process;
 import android.os.Vibrator;
 import android.util.SparseBooleanArray;
+
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.listeners.AudioFocusChangeListener;
 import com.ukdev.smartbuzz.misc.IntentAction;
+import com.ukdev.smartbuzz.misc.LogTool;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.Time;
 
@@ -27,13 +29,9 @@ import java.util.List;
  */
 public class Utils {
 
-    private static final int DAY_OF_MONTH = 1;
     private static final int LENGTH_WEEK_DAYS = 5;
     private static final int LENGTH_WEEKEND = 2;
     private static final int LENGTH_WHOLE_WEEK = 7;
-    private static final int MILLISECOND = 0;
-    private static final int SECOND = 0;
-    private static final int STATUS_SUCCESS = 0;
 
     /**
      * Converts a {@code int} array to string
@@ -193,16 +191,12 @@ public class Utils {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hours);
         calendar.set(Calendar.MINUTE, minutes);
-        calendar.set(Calendar.SECOND, SECOND);
-        calendar.set(Calendar.MILLISECOND, MILLISECOND);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         Calendar now = Calendar.getInstance();
 
-        if ((hours <= now.get(Calendar.HOUR_OF_DAY)
-                || minutes > now.get(Calendar.MINUTE))
-                && (hours < now.get(Calendar.HOUR_OF_DAY)
-                || minutes <= now.get(Calendar.MINUTE))) {
-            calendar.add(Calendar.DAY_OF_MONTH, DAY_OF_MONTH);
-        }
+        if (calendar.compareTo(now) <= 0)
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
         return calendar.getTimeInMillis();
     }
 
@@ -235,7 +229,7 @@ public class Utils {
         activity.moveTaskToBack(nonRoot);
         activity.finish();
         Process.killProcess(Process.myPid());
-        System.exit(STATUS_SUCCESS);
+        System.exit(0);
     }
 
     /**
@@ -270,9 +264,8 @@ public class Utils {
                 player.setDataSource(context, ringtoneUri);
                 player.prepare();
             } catch (IOException e) {
-                /*LogTool log = new LogTool(context);
-                log.exception(e);*/
-                e.printStackTrace();
+                LogTool log = new LogTool(context);
+                log.exception(e);
             }
             player.start();
         }

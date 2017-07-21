@@ -24,12 +24,14 @@
         <activity
                 android:name=".activities.MainActivity"
                 android:label="@string/app_name"
-                android:theme="@style/SmartBuzz"
-                android:exported="true">
+                android:theme="@style/SmartBuzz">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-                <action android:name="android.intent.action.SET_ALARM"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SET_ALARM"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <!-- Setup activity -->

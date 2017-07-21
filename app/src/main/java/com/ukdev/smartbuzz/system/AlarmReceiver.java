@@ -3,6 +3,7 @@ package com.ukdev.smartbuzz.system;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
+
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.misc.IntentAction;
 import com.ukdev.smartbuzz.misc.IntentExtra;
@@ -13,6 +14,7 @@ import com.ukdev.smartbuzz.model.Alarm;
  *
  * @author Alan Camargo
  */
+@SuppressWarnings("deprecation")
 public class AlarmReceiver extends WakefulBroadcastReceiver {
 
     @Override
