@@ -61,7 +61,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
@@ -170,7 +170,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void setSaveButton() {
-        FloatingActionButton saveButton = (FloatingActionButton) findViewById(R.id.fab_setup);
+        FloatingActionButton saveButton = findViewById(R.id.fab_setup);
         saveButton.setOnClickListener(onClickListener);
     }
 

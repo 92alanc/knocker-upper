@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initialiseComponents();
         checkForVoiceCommand();
@@ -116,14 +116,14 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         alarmHandler = new AlarmHandler(context, alarm);
         dao = AlarmDao.getInstance(context);
         listener = this;
-        noAlarmsImageView = (ImageView) findViewById(R.id.image_view_no_alarms);
-        noAlarmsTextView = (TextView) findViewById(R.id.text_view_no_alarms);
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar_main);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_main);
+        noAlarmsImageView = findViewById(R.id.image_view_no_alarms);
+        noAlarmsTextView = findViewById(R.id.text_view_no_alarms);
+        progressBar = findViewById(R.id.progress_bar_main);
+        recyclerView = findViewById(R.id.recycler_view_main);
     }
 
     private void setAddButton() {
-        FloatingActionButton addButton = (FloatingActionButton)findViewById(R.id.fab_main);
+        FloatingActionButton addButton = findViewById(R.id.fab_main);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

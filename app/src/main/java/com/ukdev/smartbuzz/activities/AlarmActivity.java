@@ -30,6 +30,9 @@ import com.ukdev.smartbuzz.system.AlarmHandler;
 import com.ukdev.smartbuzz.util.Utils;
 import com.ukdev.smartbuzz.util.ViewUtils;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * The activity where alarms and
  * Sleep Checker are triggered
@@ -40,6 +43,7 @@ public class AlarmActivity extends AppCompatActivity {
 
     private AppCompatActivity activity;
     private Alarm alarm;
+    private AlarmDao dao;
     private AlarmHandler alarmHandler;
     private boolean hellMode;
     private boolean sleepCheckerMode;
@@ -84,11 +88,11 @@ public class AlarmActivity extends AppCompatActivity {
             wakeLock.acquire();
         String sleepCheckerAction = IntentAction.TRIGGER_SLEEP_CHECKER.toString();
         sleepCheckerMode = getIntent().getAction().equals(sleepCheckerAction);
-        AlarmDao dao = AlarmDao.getInstance(context);
+        dao = AlarmDao.getInstance(context);
         int alarmId = getIntent().getIntExtra(IntentExtra.ID.toString(), 0);
         alarm = dao.select(alarmId);
         alarmHandler = new AlarmHandler(context, alarm);
-        TextView titleTextView = (TextView) findViewById(R.id.text_view_alarm_title);
+        TextView titleTextView = findViewById(R.id.text_view_alarm_title);
         titleTextView.setText(alarm.getTitle());
         mediaPlayer = new MediaPlayer();
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -96,6 +100,14 @@ public class AlarmActivity extends AppCompatActivity {
             Utils.playRingtone(activity, mediaPlayer, alarm.getVolume(), alarm.getRingtoneUri());
             if (alarm.vibrates())
                 Utils.startVibration(vibrator);
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    alarmHandler.dismissAlarm(activity, wakeLock);
+                }
+            };
+            Timer timer = new Timer();
+            timer.schedule(task, Time.ONE_MINUTE);
         } else
             startCountdown();
         setSnoozeButtonPlaceholder();
@@ -118,7 +130,7 @@ public class AlarmActivity extends AppCompatActivity {
     }
 
     private void setSnoozeButtonPlaceholder() {
-        FrameLayout snoozeButtonPlaceholder = (FrameLayout) findViewById(R.id.placeholder_snooze_button);
+        FrameLayout snoozeButtonPlaceholder = findViewById(R.id.placeholder_snooze_button);
         if (sleepCheckerMode || hellMode || alarm.getSnoozeDuration() == SnoozeDuration.OFF)
             snoozeButtonPlaceholder.setVisibility(View.GONE);
         else {
@@ -160,6 +172,10 @@ public class AlarmActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         if (sleepCheckerOn) {
                             stopCountdown();
+                            if (!alarm.repeats()) {
+                                alarm.setActive(false);
+                                dao.update(alarm);
+                            }
                             Utils.killApp(activity);
                         } else {
                             Utils.stopRingtone(mediaPlayer);
@@ -181,7 +197,7 @@ public class AlarmActivity extends AppCompatActivity {
     }
 
     private void startCountdown() {
-        final TextView countdownTextView = (TextView) findViewById(R.id.text_view_countdown);
+        final TextView countdownTextView = findViewById(R.id.text_view_countdown);
         countdownTextView.setVisibility(View.VISIBLE);
         countDownTimer = new CountDownTimer(Time.FIFTEEN_SECONDS, Time.ONE_SECOND) {
             @Override
@@ -203,6 +219,7 @@ public class AlarmActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+                countdownTextView.setVisibility(View.GONE);
                 raiseHell();
             }
         };
@@ -213,7 +230,6 @@ public class AlarmActivity extends AppCompatActivity {
         countDownTimer.cancel();
         if (wakeLock.isHeld())
             wakeLock.release();
-        Utils.killApp(activity);
     }
 
 }

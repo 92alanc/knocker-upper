@@ -120,11 +120,11 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmHolder>
             this.onItemClickListener = onItemClickListener;
             onClickListener = this;
             itemView.setOnClickListener(onClickListener);
-            dayNightImageView = (ImageView) itemView.findViewById(R.id.image_view_day_night);
-            alarmTitleTextView = (TextView) itemView.findViewById(R.id.text_view_alarm_title_card);
-            triggerTimeTextView = (TextView) itemView.findViewById(R.id.text_view_trigger_time);
-            repetitionTextView = (TextView) itemView.findViewById(R.id.text_view_repetition);
-            alarmSwitch = (SwitchCompat) itemView.findViewById(R.id.switch_alarm);
+            dayNightImageView = itemView.findViewById(R.id.image_view_day_night);
+            alarmTitleTextView = itemView.findViewById(R.id.text_view_alarm_title_card);
+            triggerTimeTextView = itemView.findViewById(R.id.text_view_trigger_time);
+            repetitionTextView = itemView.findViewById(R.id.text_view_repetition);
+            alarmSwitch = itemView.findViewById(R.id.switch_alarm);
         }
 
         @Override

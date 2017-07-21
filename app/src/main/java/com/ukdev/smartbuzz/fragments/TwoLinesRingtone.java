@@ -30,7 +30,7 @@ public class TwoLinesRingtone extends TwoLinesDefaultFragment<Uri> {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.two_lines_default, container, ATTACH_TO_ROOT);
         context = view.getContext();
-        rootView = (ViewGroup) view.findViewById(R.id.rootView);
+        rootView = view.findViewById(R.id.rootView);
         return view;
     }
 

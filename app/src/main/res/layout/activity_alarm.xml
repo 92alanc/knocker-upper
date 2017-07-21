@@ -22,8 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/text_view_alarm_title"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:textSize="20sp"
+            android:layout_marginTop="30dp"
+            android:textSize="40sp"
             android:textStyle="bold"
             android:visibility="gone"/>
 

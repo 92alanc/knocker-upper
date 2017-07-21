@@ -30,7 +30,7 @@ public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Long> {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.two_lines_default, container, ATTACH_TO_ROOT);
-        rootView = (ViewGroup) view.findViewById(R.id.rootView);
+        rootView = view.findViewById(R.id.rootView);
         if (getArguments() != null) {
             String[] texts = getArguments().getStringArray(ARG_OPTIONS_TEXT);
             long[] values = getArguments().getLongArray(ARG_OPTIONS_VALUE);

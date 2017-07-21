@@ -35,7 +35,7 @@ public class ViewUtils {
      * @param resId the {@code AdView} resource ID
      */
     public static void showAds(Activity activity, @IdRes int resId) {
-        AdView adView = (AdView) activity.findViewById(resId);
+        AdView adView = activity.findViewById(resId);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
     }

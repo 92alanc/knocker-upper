@@ -26,8 +26,8 @@ public abstract class TwoLinesDefaultFragment<T> extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        TextView textTitle = (TextView) getView().findViewById(R.id.title);
-        textSummary = (TextView) getView().findViewById(R.id.summary);
+        TextView textTitle = getView().findViewById(R.id.title);
+        textSummary = getView().findViewById(R.id.summary);
         textTitle.setText(title);
         textSummary.setText(summary);
         if (value != null)

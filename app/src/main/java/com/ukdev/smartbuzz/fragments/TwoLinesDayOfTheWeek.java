@@ -37,13 +37,13 @@ public class TwoLinesDayOfTheWeek extends TwoLinesDefaultFragment<SparseBooleanA
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.two_lines_day_of_week, container, ATTACH_TO_ROOT);
-        sundayButton = (ToggleButton) view.findViewById(R.id.btSunday);
-        mondayButton = (ToggleButton) view.findViewById(R.id.btMonday);
-        tuesdayButton = (ToggleButton) view.findViewById(R.id.btTuesday);
-        wednesdayButton = (ToggleButton) view.findViewById(R.id.btWednesday);
-        thursdayButton = (ToggleButton) view.findViewById(R.id.btThursday);
-        fridayButton = (ToggleButton) view.findViewById(R.id.btFriday);
-        saturdayButton = (ToggleButton) view.findViewById(R.id.btSaturday);
+        sundayButton = view.findViewById(R.id.btSunday);
+        mondayButton = view.findViewById(R.id.btMonday);
+        tuesdayButton = view.findViewById(R.id.btTuesday);
+        wednesdayButton = view.findViewById(R.id.btWednesday);
+        thursdayButton = view.findViewById(R.id.btThursday);
+        fridayButton = view.findViewById(R.id.btFriday);
+        saturdayButton = view.findViewById(R.id.btSaturday);
         if (value == null)
             value = new SparseBooleanArray();
         return view;

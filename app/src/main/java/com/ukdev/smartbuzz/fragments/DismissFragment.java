@@ -33,7 +33,7 @@ public class DismissFragment extends Fragment {
         Bundle args = getArguments();
         sleepCheckerMode = args != null && args.getBoolean(IntentExtra.SLEEP_CHECKER_ON.toString());
         View view = inflater.inflate(R.layout.fragment_dismiss, container, attachToRoot);
-        button = (Button) view.findViewById(R.id.btDismiss);
+        button = view.findViewById(R.id.btDismiss);
         setButtonShape();
         if (onViewInflatedListener != null)
             onViewInflatedListener.onViewInflated(this);

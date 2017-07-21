@@ -25,7 +25,7 @@ public class TwoLinesMemo extends TwoLinesDefaultFragment<String> {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.two_lines_default, container, ATTACH_TO_ROOT);
-        rootView = (ViewGroup) view.findViewById(R.id.rootView);
+        rootView = view.findViewById(R.id.rootView);
         return view;
     }
 
@@ -60,7 +60,7 @@ public class TwoLinesMemo extends TwoLinesDefaultFragment<String> {
             @Override
             public void onClick(DialogInterface dialogueInterface, int which) {
                 AlertDialog dialogue = (AlertDialog) dialogueInterface;
-                EditText editText = (EditText) dialogue.findViewById(R.id.dialogue_edit_text);
+                EditText editText = dialogue.findViewById(R.id.dialogue_edit_text);
                 if (editText != null) {
                     String value = editText.getText().toString();
                     setValue(value);
@@ -69,7 +69,7 @@ public class TwoLinesMemo extends TwoLinesDefaultFragment<String> {
         });
         dialogBuilder.setNegativeButton(R.string.cancel, null);
         Dialog dialogue = dialogBuilder.show();
-        EditText editText = (EditText) dialogue.findViewById(R.id.dialogue_edit_text);
+        EditText editText = dialogue.findViewById(R.id.dialogue_edit_text);
         editText.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editText.setHint(title);
         if (value != null)

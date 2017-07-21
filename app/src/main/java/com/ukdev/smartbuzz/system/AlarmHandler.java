@@ -38,9 +38,6 @@ public class AlarmHandler {
     private Context context;
     private AlarmDao database;
 
-    private static final int TWO_MINUTES = 120000;
-    private static final int THREE_MINUTES = 180000;
-
     /**
      * Default constructor for {@code AlarmHandler}
      * @param context the Android context
@@ -86,11 +83,12 @@ public class AlarmHandler {
     public void dismissAlarm(Activity activity, PowerManager.WakeLock wakeLock) {
         if (alarm.isSleepCheckerOn())
             callSleepChecker();
-        if (!alarm.isSleepCheckerOn() && !alarm.repeats())
+        if (!alarm.isSleepCheckerOn() && !alarm.repeats()) {
             alarm.setActive(false);
+            database.update(alarm);
+        }
         if (wakeLock.isHeld())
             wakeLock.release();
-        database.update(alarm);
         Utils.killApp(activity);
     }
 
@@ -217,20 +215,19 @@ public class AlarmHandler {
     private void cancelDelay() {
         Intent intent = new Intent(IntentAction.DELAY_ALARM.toString());
         intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                                                                 alarm.getId(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(), intent,
+                                                                 PendingIntent.FLAG_CANCEL_CURRENT);
         manager.cancel(pendingIntent);
     }
 
     private void callSleepChecker() {
-        // FIXME: callSleepChecker not working
         Random random = new Random();
         Calendar now = Calendar.getInstance();
-        int upToTwoMinutes = random.nextInt(TWO_MINUTES);
-        int randomTime = THREE_MINUTES + upToTwoMinutes;
+        int upToTwoMinutes = random.nextInt(Time.TWO_MINUTES);
+        int randomTime = Time.THREE_MINUTES + upToTwoMinutes;
         long callTime = now.getTimeInMillis() + randomTime;
         Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.setAction(IntentAction.CALL_SLEEP_CHECKER.toString());
+        intent.setAction(IntentAction.TRIGGER_SLEEP_CHECKER.toString());
         intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         final int requestCode = 999;
         final int flags = 0;
@@ -239,13 +236,16 @@ public class AlarmHandler {
     }
 
     private void startAlarmManager(long triggerTime, PendingIntent pendingIntent) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             manager.set(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-                && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+                && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             manager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            manager.setAlarmClock(new AlarmManager.AlarmClockInfo(triggerTime, pendingIntent), pendingIntent);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(triggerTime,
+                                                                                         pendingIntent);
+            manager.setAlarmClock(alarmClockInfo, pendingIntent);
+        }
     }
 
 }

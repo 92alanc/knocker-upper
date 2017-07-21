@@ -8,11 +8,6 @@ package com.ukdev.smartbuzz.misc;
 public enum IntentAction {
 
     /**
-     * Calls Sleep Checker
-     */
-    CALL_SLEEP_CHECKER("com.ukdev.smartbuzz.ACTION_CALL_SLEEP_CHECKER"),
-
-    /**
      * Cancels an alarm
      */
     CANCEL_ALARM("com.ukdev.smartbuzz.ACTION_CANCEL_ALARM"),
@@ -21,17 +16,6 @@ public enum IntentAction {
      * Delays an alarm (snooze operation)
      */
     DELAY_ALARM("com.ukdev.smartbuzz.ACTION_DELAY_ALARM"),
-
-    /**
-     * Plays the ringtone at the maximum volume
-     * and vibrates the device
-     */
-    HELL("com.ukdev.smartbuzz.ACTION_HELL"),
-
-    /**
-     * Schedules an alarm
-     */
-    SCHEDULE_ALARM("com.ukdev.smartbuzz.ACTION_SCHEDULE_ALARM"),
 
     /**
      * Triggers an alarm
