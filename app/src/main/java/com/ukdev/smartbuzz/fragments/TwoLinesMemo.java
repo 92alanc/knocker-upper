@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.listeners.OnViewInflatedListener;
 
 /**
  * Fragment to enter multi-line texts
@@ -20,12 +21,15 @@ import com.ukdev.smartbuzz.R;
  */
 public class TwoLinesMemo extends TwoLinesDefaultFragment<String> {
 
+    private OnViewInflatedListener onViewInflatedListener;
     private ViewGroup rootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.two_lines_default, container, ATTACH_TO_ROOT);
         rootView = view.findViewById(R.id.rootView);
+        if (onViewInflatedListener != null)
+            onViewInflatedListener.onViewInflated(this);
         return view;
     }
 
@@ -74,6 +78,10 @@ public class TwoLinesMemo extends TwoLinesDefaultFragment<String> {
         editText.setHint(title);
         if (value != null)
             editText.setText(value);
+    }
+
+    public void setOnViewInflatedListener(OnViewInflatedListener onViewInflatedListener) {
+        this.onViewInflatedListener = onViewInflatedListener;
     }
 
 }

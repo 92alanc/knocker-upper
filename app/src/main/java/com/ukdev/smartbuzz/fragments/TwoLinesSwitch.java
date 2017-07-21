@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.listeners.OnViewInflatedListener;
 
 /**
  * Fragment with a {@code Switch}
@@ -15,11 +16,14 @@ import com.ukdev.smartbuzz.R;
 public class TwoLinesSwitch extends TwoLinesDefaultFragment<Boolean> {
 
     private CompoundButton mSwitch;
+    private OnViewInflatedListener onViewInflatedListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.two_lines_switch, container, ATTACH_TO_ROOT);
         mSwitch = view.findViewById(R.id.switch_view);
+        if (onViewInflatedListener != null)
+            onViewInflatedListener.onViewInflated(this);
         return view;
     }
 
@@ -47,4 +51,9 @@ public class TwoLinesSwitch extends TwoLinesDefaultFragment<Boolean> {
             setValue(true);
         return value;
     }
+
+    public void setOnViewInflatedListener(OnViewInflatedListener onViewInflatedListener) {
+        this.onViewInflatedListener = onViewInflatedListener;
+    }
+
 }

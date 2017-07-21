@@ -1,8 +1,6 @@
 package com.ukdev.smartbuzz.activities;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +10,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -22,9 +23,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.database.AlarmDao;
-import com.ukdev.smartbuzz.fragments.*;
+import com.ukdev.smartbuzz.fragments.TwoLinesDayOfTheWeek;
+import com.ukdev.smartbuzz.fragments.TwoLinesDefaultFragment;
+import com.ukdev.smartbuzz.fragments.TwoLinesEditText;
+import com.ukdev.smartbuzz.fragments.TwoLinesMemo;
+import com.ukdev.smartbuzz.fragments.TwoLinesRadioGroup;
+import com.ukdev.smartbuzz.fragments.TwoLinesRingtone;
+import com.ukdev.smartbuzz.fragments.TwoLinesSeekBar;
+import com.ukdev.smartbuzz.fragments.TwoLinesSwitch;
+import com.ukdev.smartbuzz.fragments.TwoLinesTimePicker;
+import com.ukdev.smartbuzz.listeners.OnViewInflatedListener;
 import com.ukdev.smartbuzz.misc.IntentExtra;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.AlarmBuilder;
@@ -66,6 +77,8 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
+        Activity activity = this;
+        ViewUtils.showAds(activity, R.id.ad_view_setup);
         initialiseComponents();
     }
 
@@ -77,9 +90,8 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         if (editMode) {
             alarmId = getIntent().getIntExtra(IntentExtra.ID.toString(), 0);
             setFragmentValues();
+            replaceFragmentPlaceholders();
         }
-        Activity activity = this;
-        ViewUtils.showAds(activity, R.id.ad_view_setup);
     }
 
     @Override
@@ -155,7 +167,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void replaceFragmentPlaceholders() {
-        FragmentManager manager = getFragmentManager();
+        FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.placeholder_title, titleFragment);
         transaction.replace(R.id.placeholder_time_picker, timePickerFragment);
@@ -267,7 +279,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void setFragmentValues() {
-        Alarm alarm = dao.select(alarmId);
+        final Alarm alarm = dao.select(alarmId);
 
         titleFragment.setSummary(alarm.getTitle());
         titleFragment.setValue(alarm.getTitle());
@@ -288,14 +300,34 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         ringtoneFragment.setSummary(ringtone.getTitle(context));
         ringtoneFragment.setValue(alarm.getRingtoneUri());
 
-        volumeFragment.setValue(alarm.getVolume());
+        volumeFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+            @Override
+            public void onViewInflated(Fragment fragment) {
+                volumeFragment.setValue(alarm.getVolume());
+            }
+        });
 
-        vibrationFragment.setValue(alarm.vibrates());
+        vibrationFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+            @Override
+            public void onViewInflated(Fragment fragment) {
+                vibrationFragment.setValue(alarm.vibrates());
+            }
+        });
 
-        sleepCheckerFragment.setValue(alarm.isSleepCheckerOn());
+        sleepCheckerFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+            @Override
+            public void onViewInflated(Fragment fragment) {
+                sleepCheckerFragment.setValue(alarm.isSleepCheckerOn());
+            }
+        });
 
-        textFragment.setSummary(alarm.getText());
-        textFragment.setValue(alarm.getText());
+        textFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+            @Override
+            public void onViewInflated(Fragment fragment) {
+                textFragment.setSummary(alarm.getText());
+                textFragment.setValue(alarm.getText());
+            }
+        });
     }
 
     @Override

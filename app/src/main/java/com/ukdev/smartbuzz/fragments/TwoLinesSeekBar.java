@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.listeners.OnViewInflatedListener;
 import com.ukdev.smartbuzz.util.Utils;
 
 /**
@@ -16,6 +17,7 @@ import com.ukdev.smartbuzz.util.Utils;
  */
 public class TwoLinesSeekBar extends TwoLinesDefaultFragment<Integer> {
 
+    private OnViewInflatedListener onViewInflatedListener;
     private SeekBar seekBar;
 
     @Override
@@ -24,6 +26,8 @@ public class TwoLinesSeekBar extends TwoLinesDefaultFragment<Integer> {
         seekBar = view.findViewById(R.id.seekbar);
         seekBar.setMax(Utils.getMaxVolume(view.getContext()));
         value = seekBar.getProgress();
+        if (onViewInflatedListener != null)
+            onViewInflatedListener.onViewInflated(this);
         return view;
     }
 
@@ -53,6 +57,10 @@ public class TwoLinesSeekBar extends TwoLinesDefaultFragment<Integer> {
         this.value = value;
         if (seekBar != null)
             seekBar.setProgress(value);
+    }
+
+    public void setOnViewInflatedListener(OnViewInflatedListener onViewInflatedListener) {
+        this.onViewInflatedListener = onViewInflatedListener;
     }
 
 }

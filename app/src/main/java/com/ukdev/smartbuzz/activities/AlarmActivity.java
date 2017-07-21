@@ -100,6 +100,8 @@ public class AlarmActivity extends AppCompatActivity {
             Utils.playRingtone(activity, mediaPlayer, alarm.getVolume(), alarm.getRingtoneUri());
             if (alarm.vibrates())
                 Utils.startVibration(vibrator);
+            TextView text = findViewById(R.id.text_view_alarm_text);
+            text.setText(alarm.getText());
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
