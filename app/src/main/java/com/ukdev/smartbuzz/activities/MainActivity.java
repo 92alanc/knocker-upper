@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     private void checkForVoiceCommand() {
         Intent intent = getIntent();
         if (AlarmClock.ACTION_SET_ALARM.equals(intent.getAction()))
-            alarmHandler.setAlarmByVoice(intent);
+            alarmHandler.setAlarmByVoice(intent, context);
     }
 
 }
