@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.listeners.OnViewInflatedListener;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -24,6 +25,7 @@ public class TwoLinesRingtone extends TwoLinesDefaultFragment<Uri> {
     private static final int RINGTONE_REQUEST_CODE = 4;
 
     private Context context;
+    private OnViewInflatedListener onViewInflatedListener;
     private ViewGroup rootView;
 
     @Override
@@ -31,6 +33,8 @@ public class TwoLinesRingtone extends TwoLinesDefaultFragment<Uri> {
         View view = inflater.inflate(R.layout.two_lines_default, container, ATTACH_TO_ROOT);
         context = view.getContext();
         rootView = view.findViewById(R.id.rootView);
+        if (onViewInflatedListener != null)
+            onViewInflatedListener.onViewInflated(this);
         return view;
     }
 
@@ -77,14 +81,16 @@ public class TwoLinesRingtone extends TwoLinesDefaultFragment<Uri> {
         }
     }
 
+    public void setOnViewInflatedListener(OnViewInflatedListener onViewInflatedListener) {
+        this.onViewInflatedListener = onViewInflatedListener;
+    }
+
     /**
      * Gets the value
      * @return the value
      */
     @Override
     public Uri getValue() {
-        if (value == null)
-            value = RingtoneManager.getValidRingtoneUri(context);
         return value;
     }
 

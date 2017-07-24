@@ -55,8 +55,7 @@ public class TwoLinesSeekBar extends TwoLinesDefaultFragment<Integer> {
     @Override
     public void setValue(Integer value) {
         this.value = value;
-        if (seekBar != null)
-            seekBar.setProgress(value);
+        seekBar.setProgress(value);
     }
 
     public void setOnViewInflatedListener(OnViewInflatedListener onViewInflatedListener) {

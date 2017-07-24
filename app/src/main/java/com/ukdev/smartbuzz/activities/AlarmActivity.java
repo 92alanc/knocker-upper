@@ -70,7 +70,8 @@ public class AlarmActivity extends AppCompatActivity {
             stopCountdown();
             Utils.killApp(activity);
         } else {
-            Utils.stopRingtone(mediaPlayer);
+            if (alarm.getRingtoneUri() != null)
+                Utils.stopRingtone(mediaPlayer);
             if (alarm.vibrates() || hellMode)
                 Utils.stopVibration(vibrator);
         }
@@ -97,7 +98,8 @@ public class AlarmActivity extends AppCompatActivity {
         mediaPlayer = new MediaPlayer();
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         if (!sleepCheckerMode) {
-            Utils.playRingtone(activity, mediaPlayer, alarm.getVolume(), alarm.getRingtoneUri());
+            if (alarm.getRingtoneUri() != null)
+                Utils.playRingtone(activity, mediaPlayer, alarm.getVolume(), alarm.getRingtoneUri());
             if (alarm.vibrates())
                 Utils.startVibration(vibrator);
             TextView text = findViewById(R.id.text_view_alarm_text);
@@ -122,9 +124,8 @@ public class AlarmActivity extends AppCompatActivity {
         setDismissFragment(sleepCheckerOn);
         if (wakeLock.isHeld())
             wakeLock.release();
-        Uri defaultRingtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         Uri ringtone = alarm.getRingtoneUri();
-        if (ringtone.equals(defaultRingtoneUri))
+        if (ringtone == null)
             ringtone = RingtoneManager.getValidRingtoneUri(context);
         int volume = Utils.getMaxVolume(context);
         Utils.playRingtone(activity, mediaPlayer, volume, ringtone);
@@ -146,10 +147,12 @@ public class AlarmActivity extends AppCompatActivity {
         snoozeFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
+                ((SnoozeFragment) fragment).setButtonText(alarm.getSnoozeDuration());
                 ((SnoozeFragment) fragment).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Utils.stopRingtone(mediaPlayer);
+                        if (alarm.getRingtoneUri() != null)
+                            Utils.stopRingtone(mediaPlayer);
                         if (alarm.vibrates() || hellMode)
                             Utils.stopVibration(vibrator);
                         alarmHandler.delayAlarm();
@@ -180,7 +183,8 @@ public class AlarmActivity extends AppCompatActivity {
                             }
                             Utils.killApp(activity);
                         } else {
-                            Utils.stopRingtone(mediaPlayer);
+                            if (alarm.getRingtoneUri() != null)
+                                Utils.stopRingtone(mediaPlayer);
                             if (alarm.vibrates() || hellMode)
                                 Utils.stopVibration(vibrator);
                             alarmHandler.dismissAlarm(activity, wakeLock);

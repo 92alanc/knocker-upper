@@ -41,15 +41,15 @@ public class TwoLinesSwitch extends TwoLinesDefaultFragment<Boolean> {
     @Override
     public void setValue(Boolean value) {
         this.value = value;
-        if (mSwitch != null)
-            mSwitch.setChecked(value);
+        mSwitch.setChecked(value);
     }
 
     @Override
     public Boolean getValue() {
         if (value == null)
-            setValue(true);
-        return value;
+            return mSwitch.isChecked();
+        else
+            return value;
     }
 
     public void setOnViewInflatedListener(OnViewInflatedListener onViewInflatedListener) {

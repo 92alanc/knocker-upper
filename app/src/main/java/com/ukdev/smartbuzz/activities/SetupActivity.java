@@ -294,11 +294,20 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         snoozeDurationFragment.setSummary(alarm.getSnoozeDuration().toString());
         snoozeDurationFragment.setValue(alarm.getSnoozeDuration().getValue());
 
-        RingtoneManager manager = new RingtoneManager(context);
-        int ringtonePosition = manager.getRingtonePosition(alarm.getRingtoneUri());
-        Ringtone ringtone = manager.getRingtone(ringtonePosition);
-        ringtoneFragment.setSummary(ringtone.getTitle(context));
-        ringtoneFragment.setValue(alarm.getRingtoneUri());
+        ringtoneFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+            @Override
+            public void onViewInflated(Fragment fragment) {
+                RingtoneManager manager = new RingtoneManager(context);
+                int ringtonePosition = manager.getRingtonePosition(alarm.getRingtoneUri());
+                if (alarm.getRingtoneUri() == null)
+                    ringtoneFragment.setSummary(getString(R.string.ringtone_none));
+                else {
+                    Ringtone ringtone = manager.getRingtone(ringtonePosition);
+                    ringtoneFragment.setSummary(ringtone.getTitle(context));
+                    ringtoneFragment.setValue(alarm.getRingtoneUri());
+                }
+            }
+        });
 
         volumeFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
             @Override

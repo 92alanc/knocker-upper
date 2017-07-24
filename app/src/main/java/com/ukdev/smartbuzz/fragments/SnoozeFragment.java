@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.listeners.OnViewInflatedListener;
+import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 
 /**
  * Fragment for the snooze operation
@@ -45,6 +47,38 @@ public class SnoozeFragment extends Fragment {
      */
     public void setOnClickListener(View.OnClickListener onClickListener) {
         button.setOnClickListener(onClickListener);
+    }
+
+    /**
+     * Sets the snooze button text based on
+     * the alarm snooze duration
+     * @param snoozeDuration the snooze duration
+     */
+    public void setButtonText(SnoozeDuration snoozeDuration) {
+        StringBuilder sb = new StringBuilder("+");
+        switch (snoozeDuration) {
+            case FIVE_MINUTES:
+                sb.append("5 min");
+                break;
+            case TEN_MINUTES:
+                sb.append("10 min");
+                break;
+            case FIFTEEN_MINUTES:
+                sb.append("15 min");
+                break;
+            case TWENTY_MINUTES:
+                sb.append("20 min");
+                break;
+            case TWENTY_FIVE_MINUTES:
+                sb.append("25 min");
+                break;
+            case THIRTY_MINUTES:
+                sb.append("30 min");
+                break;
+            default:
+                return;
+        }
+        button.setText(sb.toString());
     }
 
 }

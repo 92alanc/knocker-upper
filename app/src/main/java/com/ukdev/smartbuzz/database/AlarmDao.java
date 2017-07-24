@@ -237,7 +237,9 @@ public class AlarmDao extends BaseDao {
         values.put(Column.REPETITION.toString(), Utils.convertIntArrayToString(context, alarm.getRepetition()));
         values.put(Column.SLEEP_CHECKER_ON.toString(), alarm.isSleepCheckerOn() ? 1 : 0);
         values.put(Column.VIBRATE.toString(), alarm.vibrates() ? 1 : 0);
-        values.put(Column.RINGTONE_URI.toString(), alarm.getRingtoneUri().toString());
+        if (alarm.getRingtoneUri() != null)
+            values.put(Column.RINGTONE_URI.toString(), alarm.getRingtoneUri().toString());
+        // TODO: allow null ringtone URI
         values.put(Column.VOLUME.toString(), alarm.getVolume());
         values.put(Column.TEXT.toString(), alarm.getText());
         values.put(Column.SNOOZE_DURATION.toString(), alarm.getSnoozeDuration().getValue());
