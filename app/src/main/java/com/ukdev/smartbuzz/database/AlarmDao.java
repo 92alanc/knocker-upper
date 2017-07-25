@@ -190,18 +190,20 @@ public class AlarmDao extends BaseDao {
 
             repetition = Utils.convertStringToIntArray(context,
                                                        cursor.getString(cursor.getColumnIndex(Column.REPETITION.toString())));
-            Uri ringtone =  Uri.parse(ringtoneUri);
 
             AlarmBuilder alarmBuilder = new AlarmBuilder().setTitle(title)
                                                                  .setTriggerTime(triggerTime)
                                                                  .setSnoozeDuration(snoozeDuration)
                                                                  .setRepetition(repetition)
-                                                                 .setRingtoneUri(ringtone)
                                                                  .setText(text)
                                                                  .setSleepCheckerOn(sleepCheckerOn)
                                                                  .setVibrate(vibrate)
                                                                  .setVolume(volume)
                                                                  .setActive(active);
+            if (ringtoneUri != null) {
+                Uri ringtone =  Uri.parse(ringtoneUri);
+                alarmBuilder.setRingtoneUri(ringtone);
+            }
             alarmBuilder.setId(id);
             cursor.close();
             reader.close();
@@ -239,7 +241,6 @@ public class AlarmDao extends BaseDao {
         values.put(Column.VIBRATE.toString(), alarm.vibrates() ? 1 : 0);
         if (alarm.getRingtoneUri() != null)
             values.put(Column.RINGTONE_URI.toString(), alarm.getRingtoneUri().toString());
-        // TODO: allow null ringtone URI
         values.put(Column.VOLUME.toString(), alarm.getVolume());
         values.put(Column.TEXT.toString(), alarm.getText());
         values.put(Column.SNOOZE_DURATION.toString(), alarm.getSnoozeDuration().getValue());
@@ -271,18 +272,20 @@ public class AlarmDao extends BaseDao {
 
             repetition = Utils.convertStringToIntArray(context,
                                                        cursor.getString(cursor.getColumnIndex(Column.REPETITION.toString())));
-            Uri ringtone = Uri.parse(ringtoneUri);
 
             AlarmBuilder alarmBuilder = new AlarmBuilder().setTitle(title)
                                                                  .setTriggerTime(triggerTime)
                                                                  .setSnoozeDuration(snoozeDuration)
                                                                  .setRepetition(repetition)
-                                                                 .setRingtoneUri(ringtone)
                                                                  .setText(text)
                                                                  .setSleepCheckerOn(sleepCheckerOn)
                                                                  .setVibrate(vibrate)
                                                                  .setVolume(volume)
                                                                  .setActive(active);
+            if (ringtoneUri != null) {
+                Uri ringtone = Uri.parse(ringtoneUri);
+                alarmBuilder.setRingtoneUri(ringtone);
+            }
             int id = cursor.getInt(cursor.getColumnIndex(Column.ID.toString()));
             alarmBuilder.setId(id);
             alarms.add(alarmBuilder.build());

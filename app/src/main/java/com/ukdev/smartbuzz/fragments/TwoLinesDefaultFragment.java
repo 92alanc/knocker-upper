@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.widget.TextView;
 
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.listeners.OnViewInflatedListener;
 
 /**
  * Default two-line fragment
@@ -23,6 +24,7 @@ public abstract class TwoLinesDefaultFragment<T> extends Fragment {
     protected T value;
     protected String title;
     String summary;
+    OnViewInflatedListener onViewInflatedListener;
     TwoLinesChangeListener<T> changeListener;
 
     @Override
@@ -72,6 +74,14 @@ public abstract class TwoLinesDefaultFragment<T> extends Fragment {
      */
     public void setChangeListener(TwoLinesChangeListener<T> changeListener) {
         this.changeListener = changeListener;
+    }
+
+    /**
+     * Sets the {@code OnViewInflatedListener}
+     * @param onViewInflatedListener the listener
+     */
+    public void setOnViewInflatedListener(OnViewInflatedListener onViewInflatedListener) {
+        this.onViewInflatedListener = onViewInflatedListener;
     }
 
 }

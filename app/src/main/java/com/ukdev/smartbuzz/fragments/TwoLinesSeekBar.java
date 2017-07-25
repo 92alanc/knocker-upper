@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 
 import com.ukdev.smartbuzz.R;
-import com.ukdev.smartbuzz.listeners.OnViewInflatedListener;
 import com.ukdev.smartbuzz.util.Utils;
 
 /**
@@ -17,7 +16,6 @@ import com.ukdev.smartbuzz.util.Utils;
  */
 public class TwoLinesSeekBar extends TwoLinesDefaultFragment<Integer> {
 
-    private OnViewInflatedListener onViewInflatedListener;
     private SeekBar seekBar;
 
     @Override
@@ -56,10 +54,6 @@ public class TwoLinesSeekBar extends TwoLinesDefaultFragment<Integer> {
     public void setValue(Integer value) {
         this.value = value;
         seekBar.setProgress(value);
-    }
-
-    public void setOnViewInflatedListener(OnViewInflatedListener onViewInflatedListener) {
-        this.onViewInflatedListener = onViewInflatedListener;
     }
 
 }

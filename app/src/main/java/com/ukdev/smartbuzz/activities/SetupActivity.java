@@ -281,18 +281,38 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     private void setFragmentValues() {
         final Alarm alarm = dao.select(alarmId);
 
-        titleFragment.setSummary(alarm.getTitle());
-        titleFragment.setValue(alarm.getTitle());
+        titleFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+            @Override
+            public void onViewInflated(Fragment fragment) {
+                titleFragment.setSummary(alarm.getTitle());
+                titleFragment.setValue(alarm.getTitle());
+            }
+        });
         setTitle(alarm.getTitle());
 
-        Time time = Time.valueOf(alarm.getTriggerTime());
-        timePickerFragment.setSummary(time.toString());
-        timePickerFragment.setValue(time);
+        timePickerFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+            @Override
+            public void onViewInflated(Fragment fragment) {
+                Time time = Time.valueOf(alarm.getTriggerTime());
+                timePickerFragment.setSummary(time.toString());
+                timePickerFragment.setValue(time);
+            }
+        });
 
-        repetitionFragment.setValue(Utils.convertIntArrayToSparseBooleanArray(alarm.getRepetition()));
+        repetitionFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+            @Override
+            public void onViewInflated(Fragment fragment) {
+                repetitionFragment.setValue(Utils.convertIntArrayToSparseBooleanArray(alarm.getRepetition()));
+            }
+        });
 
-        snoozeDurationFragment.setSummary(alarm.getSnoozeDuration().toString());
-        snoozeDurationFragment.setValue(alarm.getSnoozeDuration().getValue());
+        snoozeDurationFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+            @Override
+            public void onViewInflated(Fragment fragment) {
+                snoozeDurationFragment.setSummary(alarm.getSnoozeDuration().toString());
+                snoozeDurationFragment.setValue(alarm.getSnoozeDuration().getValue());
+            }
+        });
 
         ringtoneFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
             @Override

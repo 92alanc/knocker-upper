@@ -7,8 +7,8 @@
     <Button
             android:id="@+id/btSnooze"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_snooze"
+            android:layout_height="80dp"
+            android:background="@drawable/background_snooze"
             android:text="@string/snooze"
             android:textAllCaps="false"
             android:textColor="@color/white"

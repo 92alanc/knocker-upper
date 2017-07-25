@@ -3,6 +3,7 @@ package com.ukdev.smartbuzz.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.AlarmClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -16,13 +17,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.adapters.AlarmAdapter;
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.listeners.OnItemClickListener;
 import com.ukdev.smartbuzz.misc.IntentExtra;
 import com.ukdev.smartbuzz.model.Alarm;
+import com.ukdev.smartbuzz.model.Time;
 import com.ukdev.smartbuzz.system.AlarmHandler;
+import com.ukdev.smartbuzz.util.Utils;
 import com.ukdev.smartbuzz.util.ViewUtils;
 
 import java.util.List;
@@ -38,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     private AlarmHandler alarmHandler;
     private Context context;
     private ImageView noAlarmsImageView;
+    private int backPressedCount;
     private List<Alarm> alarms;
     private OnItemClickListener listener;
     private ProgressBar progressBar;
@@ -58,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     @Override
     protected void onResume() {
         super.onResume();
+        backPressedCount = 0;
         alarms = dao.select();
         if (alarms.isEmpty()) {
             noAlarmsImageView.setVisibility(View.VISIBLE);
@@ -72,7 +79,24 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     @Override
     protected void onStop() {
         super.onStop();
+        backPressedCount = 0;
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        backPressedCount++;
+        if (backPressedCount == 2)
+            Utils.killApp(this);
+        else {
+            Toast.makeText(context, R.string.tap_back_again, Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    backPressedCount--;
+                }
+            }, Time.TWO_SECONDS);
+        }
     }
 
     @Override
@@ -96,11 +120,6 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Method called when a recycler view item is clicked
-     * @param view     the clicked view
-     * @param position the clicked position
-     */
     @Override
     public void onItemClick(View view, int position) {
         Alarm alarm = alarms.get(position);

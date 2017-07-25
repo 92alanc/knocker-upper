@@ -13,6 +13,7 @@ public class Time {
     public static final long ONE_MINUTE = 60000;
     public static final long ONE_SECOND = 1000;
     public static final int TWO_MINUTES = 120000;
+    public static final long TWO_SECONDS = 2000;
     public static final int THREE_MINUTES = 180000;
 
     private int hour;

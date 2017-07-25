@@ -2,14 +2,13 @@ package com.ukdev.smartbuzz.fragments;
 
 
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.listeners.OnViewInflatedListener;
 import com.ukdev.smartbuzz.misc.IntentExtra;
@@ -58,25 +57,14 @@ public class DismissFragment extends Fragment {
 
     private void setButtonShape() {
         try {
-            if (sleepCheckerMode) {
-                button.setBackground(getShape(R.drawable.shape_dismiss_sleep_checker));
+            if (sleepCheckerMode)
                 button.setText(R.string.i_am_awake);
-            } else {
-                button.setBackground(getShape(R.drawable.shape_dismiss_alarm));
+            else
                 button.setText(R.string.dismiss);
-            }
         } catch (Resources.NotFoundException e) {
             LogTool logTool = new LogTool(getContext());
             logTool.exception(e);
         }
-    }
-
-    @SuppressWarnings("deprecation")
-    private Drawable getShape(int shapeId) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            return getResources().getDrawable(shapeId, getActivity().getTheme());
-        else
-            return getResources().getDrawable(shapeId);
     }
 
 }

@@ -7,6 +7,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.fragments.DismissFragment;
@@ -29,9 +31,6 @@ import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 import com.ukdev.smartbuzz.system.AlarmHandler;
 import com.ukdev.smartbuzz.util.Utils;
 import com.ukdev.smartbuzz.util.ViewUtils;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * The activity where alarms and
@@ -104,14 +103,12 @@ public class AlarmActivity extends AppCompatActivity {
                 Utils.startVibration(vibrator);
             TextView text = findViewById(R.id.text_view_alarm_text);
             text.setText(alarm.getText());
-            TimerTask task = new TimerTask() {
+            new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     alarmHandler.dismissAlarm(activity, wakeLock);
                 }
-            };
-            Timer timer = new Timer();
-            timer.schedule(task, Time.ONE_MINUTE);
+            }, Time.ONE_MINUTE);
         } else
             startCountdown();
         setSnoozeButtonPlaceholder();

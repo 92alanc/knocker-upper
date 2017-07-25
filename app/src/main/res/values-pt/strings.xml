@@ -47,4 +47,5 @@
     <string name="snooze">Soneca</string>
     <string name="dismiss">Parar</string>
     <string name="i_am_awake">Estou acordado(a)!</string>
+    <string name="tap_back_again">Toque de novo para sair</string>
 </resources>
