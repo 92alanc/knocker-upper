@@ -46,8 +46,6 @@ import com.ukdev.smartbuzz.system.AlarmHandler;
 import com.ukdev.smartbuzz.util.Utils;
 import com.ukdev.smartbuzz.util.ViewUtils;
 
-import java.io.File;
-
 /**
  * The activity where alarms are set
  *
@@ -422,12 +420,8 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onViewInflated(Fragment fragment) {
                 Uri wallpaperUri = alarm.getWallpaperUri();
-                if (wallpaperUri != null) {
-                    File file = new File(wallpaperUri.getPath());
-                    String fileName = file.getName();
-                    wallpaperFragment.setSummary(fileName);
-                }
-                wallpaperFragment.setValue(wallpaperUri);
+                if (wallpaperUri != null)
+                    wallpaperFragment.setValue(wallpaperUri);
             }
         });
     }

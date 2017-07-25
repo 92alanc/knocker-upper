@@ -1,10 +1,9 @@
 package com.ukdev.smartbuzz.fragments;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.ukdev.smartbuzz.R;
-import com.ukdev.smartbuzz.misc.LogTool;
 import com.ukdev.smartbuzz.util.Utils;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -52,15 +47,17 @@ public class TwoLinesImagePicker extends TwoLinesDefaultFragment<Uri> {
             public void onClick(View view) {
                 Utils.requestStoragePermission(getActivity());
                 if (Utils.hasStoragePermission(getActivity())) {
-                    Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                    getContentIntent.setType("image/*");
-                    Intent pickIntent = new Intent(Intent.ACTION_PICK,
-                                                   MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    pickIntent.setType("image/*");
-                    String dialogueTitle = getContext().getString(R.string.select_image);
-                    Intent chooserIntent = Intent.createChooser(getContentIntent, dialogueTitle);
-                    chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
-                    startActivityForResult(chooserIntent, REQUEST_CODE_IMAGE);
+                    if (Build.VERSION.SDK_INT < 19) {
+                        Intent intent = new Intent();
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        intent.setType("*/*");
+                        startActivityForResult(intent, REQUEST_CODE_IMAGE);
+                    } else {
+                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        intent.setType("*/*");
+                        startActivityForResult(intent, REQUEST_CODE_IMAGE);
+                    }
                 }
             }
         });
@@ -75,16 +72,9 @@ public class TwoLinesImagePicker extends TwoLinesDefaultFragment<Uri> {
     @Override
     public void setValue(Uri value) {
         this.value = value;
-        if (imageView != null && value != null) {
-            try {
-                InputStream inputStream = getActivity().getContentResolver().openInputStream(value);
-                Drawable background = Drawable.createFromStream(inputStream, value.toString());
-                imageView.setBackground(background);
-            } catch (IOException e) {
-                LogTool logTool = new LogTool(getContext());
-                logTool.exception(e);
-            }
-        }
+        if (imageView != null && value != null)
+            imageView.setImageURI(value);
+        // FIXME: OutOfMemoryError when some muppet keeps on opening and closing this f***ing fragment
     }
 
 }
