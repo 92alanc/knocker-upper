@@ -168,7 +168,7 @@ public class AlarmDao extends BaseDao {
                                      GROUP_BY, HAVING, orderBy, LIMIT);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
-            String title, ringtoneUri, text;
+            String title, ringtoneUri, wallpaperUri, text;
             long triggerTime, snooze;
             int volume;
             SnoozeDuration snoozeDuration;
@@ -183,6 +183,7 @@ public class AlarmDao extends BaseDao {
             active = cursor.getInt(cursor.getColumnIndex(Column.ACTIVE.toString())) == 1;
             sleepCheckerOn = cursor.getInt(cursor.getColumnIndex(Column.SLEEP_CHECKER_ON.toString())) == 1;
             ringtoneUri = cursor.getString(cursor.getColumnIndex(Column.RINGTONE_URI.toString()));
+            wallpaperUri = cursor.getString(cursor.getColumnIndex(Column.WALLPAPER.toString()));
             volume = cursor.getInt(cursor.getColumnIndex(Column.VOLUME.toString()));
             snooze = cursor.getLong(cursor.getColumnIndex(Column.SNOOZE_DURATION.toString()));
             snoozeDuration = SnoozeDuration.valueOf(snooze);
@@ -203,6 +204,10 @@ public class AlarmDao extends BaseDao {
             if (ringtoneUri != null) {
                 Uri ringtone =  Uri.parse(ringtoneUri);
                 alarmBuilder.setRingtoneUri(ringtone);
+            }
+            if (wallpaperUri != null) {
+                Uri wallpaper = Uri.parse(wallpaperUri);
+                alarmBuilder.setWallpaperUri(wallpaper);
             }
             alarmBuilder.setId(id);
             cursor.close();
@@ -242,6 +247,8 @@ public class AlarmDao extends BaseDao {
         if (alarm.getRingtoneUri() != null)
             values.put(Column.RINGTONE_URI.toString(), alarm.getRingtoneUri().toString());
         values.put(Column.VOLUME.toString(), alarm.getVolume());
+        if (alarm.getWallpaperUri() != null)
+            values.put(Column.WALLPAPER.toString(), alarm.getWallpaperUri().toString());
         values.put(Column.TEXT.toString(), alarm.getText());
         values.put(Column.SNOOZE_DURATION.toString(), alarm.getSnoozeDuration().getValue());
         values.put(Column.ACTIVE.toString(), alarm.isActive() ? 1 : 0);
@@ -250,7 +257,7 @@ public class AlarmDao extends BaseDao {
     private ArrayList<Alarm> queryAlarms(Cursor cursor) {
         ArrayList<Alarm> alarms = new ArrayList<>();
         do {
-            String title, ringtoneUri, text;
+            String title, ringtoneUri, wallpaperUri, text;
             long triggerTime, snooze;
             int volume;
             SnoozeDuration snoozeDuration;
@@ -269,6 +276,7 @@ public class AlarmDao extends BaseDao {
             snooze = cursor.getLong(cursor.getColumnIndex(Column.SNOOZE_DURATION.toString()));
             snoozeDuration = SnoozeDuration.valueOf(snooze);
             vibrate = cursor.getInt(cursor.getColumnIndex(Column.VIBRATE.toString())) == 1;
+            wallpaperUri = cursor.getString(cursor.getColumnIndex(Column.WALLPAPER.toString()));
 
             repetition = Utils.convertStringToIntArray(context,
                                                        cursor.getString(cursor.getColumnIndex(Column.REPETITION.toString())));
@@ -285,6 +293,10 @@ public class AlarmDao extends BaseDao {
             if (ringtoneUri != null) {
                 Uri ringtone = Uri.parse(ringtoneUri);
                 alarmBuilder.setRingtoneUri(ringtone);
+            }
+            if (wallpaperUri != null) {
+                Uri wallpaper = Uri.parse(wallpaperUri);
+                alarmBuilder.setWallpaperUri(wallpaper);
             }
             int id = cursor.getInt(cursor.getColumnIndex(Column.ID.toString()));
             alarmBuilder.setId(id);

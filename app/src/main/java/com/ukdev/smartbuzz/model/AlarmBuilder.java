@@ -130,6 +130,16 @@ public class AlarmBuilder {
     }
 
     /**
+     * Sets the wallpaper URI
+     * @param wallpaperUri the wallpaper URI
+     * @return the alarm builder after being updated
+     */
+    public AlarmBuilder setWallpaperUri(Uri wallpaperUri) {
+        alarm.setWallpaperUri(wallpaperUri);
+        return this;
+    }
+
+    /**
      * Builds the {@link Alarm} object
      * @return the built object
      */

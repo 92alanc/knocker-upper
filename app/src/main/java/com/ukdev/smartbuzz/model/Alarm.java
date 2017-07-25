@@ -19,6 +19,7 @@ public class Alarm {
     private SnoozeDuration snoozeDuration;
     private int[] repetition;
     private Uri ringtoneUri;
+    private Uri wallpaperUri;
     private String text;
     private boolean sleepCheckerOn;
     private boolean active;
@@ -161,6 +162,22 @@ public class Alarm {
      */
     void setText(String text) {
         this.text = text;
+    }
+
+    /**
+     * Gets the wallpaper URI
+     * @return the wallpaper URI
+     */
+    public Uri getWallpaperUri() {
+        return wallpaperUri;
+    }
+
+    /**
+     * Sets the wallpaper URI
+     * @param wallpaperUri the wallpaper URI
+     */
+    public void setWallpaperUri(Uri wallpaperUri) {
+        this.wallpaperUri = wallpaperUri;
     }
 
     /**

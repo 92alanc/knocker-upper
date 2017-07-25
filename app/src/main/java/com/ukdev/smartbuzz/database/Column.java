@@ -65,7 +65,12 @@ enum Column {
     /**
      * The {@code VOLUME}
      */
-    VOLUME("VOLUME");
+    VOLUME("VOLUME"),
+
+    /**
+     * The {@code WALLPAPER}
+     */
+    WALLPAPER("WALLPAPER");
 
     private final String value;
 

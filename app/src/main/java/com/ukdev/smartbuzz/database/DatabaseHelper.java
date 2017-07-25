@@ -21,6 +21,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_PATH = "/data/data/com.ukdev.smartbuzz/databases/";
     private static final String DB_NAME = "database.db";
+    private static final int DB_VERSION = 10;
     private SQLiteDatabase database;
     private Context context;
 
@@ -29,7 +30,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
      * @param context the Android context
      */
     DatabaseHelper(Context context) {
-        super(context, DB_NAME, null, 1);
+        super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
         LogTool log = new LogTool(context);
         try {

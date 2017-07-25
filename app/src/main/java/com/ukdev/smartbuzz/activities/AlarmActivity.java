@@ -2,6 +2,7 @@ package com.ukdev.smartbuzz.activities;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ukdev.smartbuzz.R;
@@ -25,12 +27,16 @@ import com.ukdev.smartbuzz.fragments.SnoozeFragment;
 import com.ukdev.smartbuzz.listeners.OnViewInflatedListener;
 import com.ukdev.smartbuzz.misc.IntentAction;
 import com.ukdev.smartbuzz.misc.IntentExtra;
+import com.ukdev.smartbuzz.misc.LogTool;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.Time;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 import com.ukdev.smartbuzz.system.AlarmHandler;
 import com.ukdev.smartbuzz.util.Utils;
 import com.ukdev.smartbuzz.util.ViewUtils;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * The activity where alarms and
@@ -113,6 +119,18 @@ public class AlarmActivity extends AppCompatActivity {
             startCountdown();
         setSnoozeButtonPlaceholder();
         setDismissFragment(sleepCheckerMode);
+        Uri wallpaperUri = alarm.getWallpaperUri();
+        if (wallpaperUri != null && !sleepCheckerMode) {
+            RelativeLayout layout = findViewById(R.id.layout_alarm);
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(wallpaperUri);
+                Drawable background = Drawable.createFromStream(inputStream, wallpaperUri.toString());
+                layout.setBackground(background);
+            } catch (IOException e) {
+                LogTool logTool = new LogTool(context);
+                logTool.exception(e);
+            }
+        }
     }
 
     private void raiseHell() {

@@ -21,7 +21,7 @@ import static android.app.Activity.RESULT_OK;
  */
 public class TwoLinesRingtone extends TwoLinesDefaultFragment<Uri> {
 
-    private static final int RINGTONE_REQUEST_CODE = 4;
+    private static final int REQUEST_CODE_RINGTONE = 4;
 
     private Context context;
     private ViewGroup rootView;
@@ -48,7 +48,7 @@ public class TwoLinesRingtone extends TwoLinesDefaultFragment<Uri> {
                 intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
                 intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM);
                 intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, value);
-                startActivityForResult(intent, RINGTONE_REQUEST_CODE);
+                startActivityForResult(intent, REQUEST_CODE_RINGTONE);
             }
         });
         setValue(value);
@@ -56,7 +56,7 @@ public class TwoLinesRingtone extends TwoLinesDefaultFragment<Uri> {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RINGTONE_REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_RINGTONE && resultCode == RESULT_OK) {
             Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
             setValue(uri);
         }
@@ -78,15 +78,6 @@ public class TwoLinesRingtone extends TwoLinesDefaultFragment<Uri> {
             if (changeListener != null)
                 changeListener.onChange(value);
         }
-    }
-
-    /**
-     * Gets the value
-     * @return the value
-     */
-    @Override
-    public Uri getValue() {
-        return value;
     }
 
 }

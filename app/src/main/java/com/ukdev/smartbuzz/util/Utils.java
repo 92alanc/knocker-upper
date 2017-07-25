@@ -1,13 +1,17 @@
 package com.ukdev.smartbuzz.util;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Process;
 import android.os.Vibrator;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.SparseBooleanArray;
 
 import com.ukdev.smartbuzz.R;
@@ -269,6 +273,27 @@ public class Utils {
             }
             player.start();
         }
+    }
+
+    /**
+     * Determines whether the user has granted the read storage permission
+     * @param activity the activity
+     * @return {@code true} if positive, otherwise {@code false}
+     */
+    public static boolean hasStoragePermission(Activity activity) {
+        Context context = activity.getBaseContext();
+        String permission = Manifest.permission.READ_EXTERNAL_STORAGE;
+        return ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    /**
+     * Requests the read storage permission
+     */
+    public static void requestStoragePermission(Activity activity) {
+        String permission = Manifest.permission.READ_EXTERNAL_STORAGE;
+        final int requestCode = 123;
+        String[] permissions = {permission};
+        ActivityCompat.requestPermissions(activity, permissions, requestCode);
     }
 
     /**

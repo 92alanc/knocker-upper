@@ -29,6 +29,7 @@ import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.fragments.TwoLinesDayOfTheWeek;
 import com.ukdev.smartbuzz.fragments.TwoLinesDefaultFragment;
 import com.ukdev.smartbuzz.fragments.TwoLinesEditText;
+import com.ukdev.smartbuzz.fragments.TwoLinesImagePicker;
 import com.ukdev.smartbuzz.fragments.TwoLinesMemo;
 import com.ukdev.smartbuzz.fragments.TwoLinesRadioGroup;
 import com.ukdev.smartbuzz.fragments.TwoLinesRingtone;
@@ -44,6 +45,8 @@ import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 import com.ukdev.smartbuzz.system.AlarmHandler;
 import com.ukdev.smartbuzz.util.Utils;
 import com.ukdev.smartbuzz.util.ViewUtils;
+
+import java.io.File;
 
 /**
  * The activity where alarms are set
@@ -66,6 +69,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     private TwoLinesSwitch vibrationFragment;
     private TwoLinesSwitch sleepCheckerFragment;
     private TwoLinesMemo textFragment;
+    private TwoLinesImagePicker wallpaperFragment;
     private View.OnClickListener onClickListener;
 
     @Override
@@ -124,6 +128,52 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(View view) {
+        final Alarm alarm = buildAlarm();
+        alarmHandler = new AlarmHandler(context, alarm);
+        long id;
+        boolean success;
+        if (editMode)
+            success = dao.update(alarm);
+        else {
+            id = dao.insert(alarm);
+            alarm.setId((int) id);
+            success = id > 0;
+        }
+        if (!success) {
+            Snackbar.make(view, R.string.error_save_alarm, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            boolean success;
+                            if (editMode) {
+                                success = dao.update(alarm);
+                                if (success)
+                                    alarmHandler.updateAlarm();
+                            } else {
+                                long id = dao.insert(alarm);
+                                alarm.setId((int) id);
+                                success = id > 0;
+                                if (success)
+                                    alarmHandler.setAlarm();
+                            }
+                            if (success)
+                                Toast.makeText(context, R.string.alarm_saved, Toast.LENGTH_SHORT).show();
+                        }
+                    }).show();
+        } else {
+            if (editMode)
+                alarmHandler.updateAlarm();
+            else
+                alarmHandler.setAlarm();
+            Toast.makeText(context, R.string.alarm_saved, Toast.LENGTH_SHORT)
+                 .show();
+            Intent intent = new Intent(context, MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
     private void initialiseComponents() {
         context = this;
         onClickListener = this;
@@ -138,6 +188,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         setVibrationFragment();
         setSleepCheckerFragment();
         setTextFragment();
+        setWallpaperFragment();
     }
 
     private void delete() {
@@ -178,6 +229,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         transaction.replace(R.id.placeholder_vibrate, vibrationFragment);
         transaction.replace(R.id.placeholder_sleep_checker, sleepCheckerFragment);
         transaction.replace(R.id.placeholder_text, textFragment);
+        transaction.replace(R.id.placeholder_wallpaper, wallpaperFragment);
         transaction.commit();
     }
 
@@ -254,6 +306,12 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         textFragment.setTitle(title);
     }
 
+    private void setWallpaperFragment() {
+        wallpaperFragment = new TwoLinesImagePicker();
+        String title = getString(R.string.wallpaper);
+        wallpaperFragment.setTitle(title);
+    }
+
     private Alarm buildAlarm() {
         String title = titleFragment.getValue() != null ? titleFragment.getValue() : getString(R.string.new_alarm);
         long triggerTime = timePickerFragment.getValue().toCalendar().getTimeInMillis();
@@ -261,6 +319,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         int[] repetition = Utils.convertSparseBooleanArrayToIntArray(sparseBooleanArray);
         SnoozeDuration snoozeDuration = SnoozeDuration.valueOf(snoozeDurationFragment.getValue());
         Uri ringtoneUri = ringtoneFragment.getValue();
+        Uri wallpaperUri = wallpaperFragment.getValue();
         int volume = volumeFragment.getValue();
         boolean vibrate = vibrationFragment.getValue();
         boolean sleepCheckerOn = sleepCheckerFragment.getValue();
@@ -274,7 +333,8 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                                                  .setVolume(volume)
                                                  .setVibrate(vibrate)
                                                  .setSleepCheckerOn(sleepCheckerOn)
-                                                 .setText(text);
+                                                 .setText(text)
+                                                 .setWallpaperUri(wallpaperUri);
         return builder.build();
     }
 
@@ -357,52 +417,19 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 textFragment.setValue(alarm.getText());
             }
         });
-    }
 
-    @Override
-    public void onClick(View view) {
-        final Alarm alarm = buildAlarm();
-        alarmHandler = new AlarmHandler(context, alarm);
-        long id;
-        boolean success;
-        if (editMode)
-            success = dao.update(alarm);
-        else {
-            id = dao.insert(alarm);
-            alarm.setId((int) id);
-            success = id > 0;
-        }
-        if (!success) {
-            Snackbar.make(view, R.string.error_save_alarm, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.retry, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            boolean success;
-                            if (editMode) {
-                                success = dao.update(alarm);
-                                if (success)
-                                    alarmHandler.updateAlarm();
-                            } else {
-                                long id = dao.insert(alarm);
-                                alarm.setId((int) id);
-                                success = id > 0;
-                                if (success)
-                                    alarmHandler.setAlarm();
-                            }
-                            if (success)
-                                Toast.makeText(context, R.string.alarm_saved, Toast.LENGTH_SHORT).show();
-                        }
-                    }).show();
-        } else {
-            if (editMode)
-                alarmHandler.updateAlarm();
-            else
-                alarmHandler.setAlarm();
-            Toast.makeText(context, R.string.alarm_saved, Toast.LENGTH_SHORT)
-                 .show();
-            Intent intent = new Intent(context, MainActivity.class);
-            startActivity(intent);
-        }
+        wallpaperFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+            @Override
+            public void onViewInflated(Fragment fragment) {
+                Uri wallpaperUri = alarm.getWallpaperUri();
+                if (wallpaperUri != null) {
+                    File file = new File(wallpaperUri.getPath());
+                    String fileName = file.getName();
+                    wallpaperFragment.setSummary(fileName);
+                }
+                wallpaperFragment.setValue(wallpaperUri);
+            }
+        });
     }
 
 }

@@ -57,5 +57,8 @@
     <string name="dismiss">Dismiss</string>
     <string name="i_am_awake">I\'m awake!</string>
     <string name="tap_back_again">Tap again to exit</string>
+    <string name="select_image">Select an image</string>
+    <string name="wallpaper">Wallpaper</string>
+    <string name="loading">Loading...</string>
 
 </resources>

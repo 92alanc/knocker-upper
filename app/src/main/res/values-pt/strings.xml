@@ -48,4 +48,7 @@
     <string name="dismiss">Parar</string>
     <string name="i_am_awake">Estou acordado(a)!</string>
     <string name="tap_back_again">Toque de novo para sair</string>
+    <string name="select_image">Selecione uma imagem</string>
+    <string name="wallpaper">Papel de parede</string>
+    <string name="loading">Carregando...</string>
 </resources>
