@@ -6,8 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.ukdev.smartbuzz.misc.LogTool;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,12 +31,11 @@ class DatabaseHelper extends SQLiteOpenHelper {
     DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
-        LogTool log = new LogTool(context);
         try {
             createDatabase();
             openDatabase();
         } catch (IOException e) {
-            log.exception(e);
+            e.printStackTrace();
         }
     }
 
@@ -60,8 +57,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
             String path = DB_PATH + DB_NAME;
             db = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
         } catch (SQLiteException e) {
-            LogTool logTool = new LogTool(context);
-            logTool.exception(e);
+            e.printStackTrace();
         }
         if (db != null)
             db.close();

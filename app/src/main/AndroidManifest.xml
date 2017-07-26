@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
             android:allowBackup="true"
@@ -51,6 +52,8 @@
                 android:configChanges="orientation|keyboardHidden|screenSize"
                 android:label="@string/app_name"
                 android:noHistory="true"
+                android:finishOnTaskLaunch="true"
+                android:excludeFromRecents="true"
                 android:theme="@style/SmartBuzz.NoActionBar">
         </activity>
         <!-- Settings activity -->
@@ -67,9 +70,10 @@
         <!-- BROADCAST RECEIVERS -->
         <!-- Alarm receiver -->
         <receiver
-                android:name=".system.AlarmReceiver"
-                android:enabled="true"
-                android:exported="false">
+            android:name=".system.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.android.alarm.permission.SET_ALARM">
             <intent-filter>
                 <action android:name="com.ukdev.smartbuzz.ACTION_TRIGGER_ALARM"/>
                 <action android:name="com.ukdev.smartbuzz.ACTION_TRIGGER_SLEEP_CHECKER"/>

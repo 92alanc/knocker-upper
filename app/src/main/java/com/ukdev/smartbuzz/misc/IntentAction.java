@@ -25,12 +25,7 @@ public enum IntentAction {
     /**
      * Triggers Sleep Checker
      */
-    TRIGGER_SLEEP_CHECKER("com.ukdev.smartbuzz.ACTION_TRIGGER_SLEEP_CHECKER"),
-
-    /**
-     * Wakes up the device
-     */
-    WAKE_UP("com.ukdev.smartbuzz.ACTION_WAKE_UP");
+    TRIGGER_SLEEP_CHECKER("com.ukdev.smartbuzz.ACTION_TRIGGER_SLEEP_CHECKER");
 
     private final String value;
 

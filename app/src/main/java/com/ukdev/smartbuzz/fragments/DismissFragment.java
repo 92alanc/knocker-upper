@@ -12,7 +12,6 @@ import android.widget.Button;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.listeners.OnViewInflatedListener;
 import com.ukdev.smartbuzz.misc.IntentExtra;
-import com.ukdev.smartbuzz.misc.LogTool;
 
 /**
  * Fragment for the dismiss operation
@@ -62,8 +61,7 @@ public class DismissFragment extends Fragment {
             else
                 button.setText(R.string.dismiss);
         } catch (Resources.NotFoundException e) {
-            LogTool logTool = new LogTool(getContext());
-            logTool.exception(e);
+            e.printStackTrace();
         }
     }
 

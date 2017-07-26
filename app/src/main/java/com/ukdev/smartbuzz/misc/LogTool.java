@@ -26,17 +26,6 @@ public class LogTool {
     }
 
     /**
-     * Logs an exception
-     * @param e the exception
-     */
-    public void exception(Exception e) {
-        dialogue.setMessage(e.getMessage());
-        dialogue.setIcon(R.drawable.ic_error);
-        dialogue.setNeutralButton(R.string.ok, null);
-        dialogue.show();
-    }
-
-    /**
      * Logs simple information
      * @param text the information text
      */

@@ -5,9 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Process;
 import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
@@ -15,13 +12,9 @@ import android.support.v4.content.ContextCompat;
 import android.util.SparseBooleanArray;
 
 import com.ukdev.smartbuzz.R;
-import com.ukdev.smartbuzz.listeners.AudioFocusChangeListener;
-import com.ukdev.smartbuzz.misc.IntentAction;
-import com.ukdev.smartbuzz.misc.LogTool;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.Time;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -237,45 +230,6 @@ public class Utils {
     }
 
     /**
-     * Plays a ringtone
-     * @param activity the activity
-     * @param player the media player
-     * @param volume the volume
-     * @param ringtoneUri the ringtone URI
-     */
-    public static void playRingtone(Activity activity, MediaPlayer player,
-                                    int volume, Uri ringtoneUri) {
-        Context context = activity.getBaseContext();
-        AudioManager manager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        if (activity.getIntent().getAction().equals(IntentAction.WAKE_UP.toString()))
-            volume = getMaxVolume(context);
-        final int flags = 0;
-        manager.setStreamVolume(AudioManager.STREAM_ALARM, volume, flags);
-        int requestResult;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            requestResult = manager.requestAudioFocus(new AudioFocusChangeListener(manager, volume),
-                                                      AudioManager.STREAM_ALARM,
-                                                      AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
-        } else {
-            requestResult = manager.requestAudioFocus(new AudioFocusChangeListener(manager, volume),
-                                                      AudioManager.STREAM_ALARM,
-                                                      AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
-        }
-        if (requestResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            player.setAudioStreamType(AudioManager.STREAM_ALARM);
-            player.setLooping(true);
-            try {
-                player.setDataSource(context, ringtoneUri);
-                player.prepare();
-            } catch (IOException e) {
-                LogTool log = new LogTool(context);
-                log.exception(e);
-            }
-            player.start();
-        }
-    }
-
-    /**
      * Determines whether the user has granted the read storage permission
      * @param activity the activity
      * @return {@code true} if positive, otherwise {@code false}
@@ -297,19 +251,11 @@ public class Utils {
     }
 
     /**
-     * Stops a ringtone
-     * @param player the media player
-     */
-    public static void stopRingtone(MediaPlayer player) {
-        player.release();
-    }
-
-    /**
      * Starts vibration
      * @param vibrator the device's vibrator
      */
     public static void startVibration(Vibrator vibrator) {
-        long[] pattern = { 1000, 2000 };
+        long[] pattern = { Time.ONE_SECOND, Time.ONE_SECOND };
         final int repeat = 0;
         vibrator.vibrate(pattern, repeat);
     }

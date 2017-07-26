@@ -25,7 +25,7 @@ public class ViewUtils {
      * @return {@code true} if positive,
      *         otherwise {@code false}
      */
-    public static boolean screenIsLocked(Context context) {
+    public static boolean isScreenLocked(Context context) {
         KeyguardManager manager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
         return manager.inKeyguardRestrictedInputMode();
     }
@@ -57,7 +57,7 @@ public class ViewUtils {
             String text = String.format("%1$s %2$s\n%3$s", appName, version, about);
             log.info(text);
         } catch (PackageManager.NameNotFoundException e) {
-            log.exception(e);
+            e.printStackTrace();
         }
     }
 
