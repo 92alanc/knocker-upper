@@ -69,8 +69,8 @@ public class AlarmActivity extends AppCompatActivity {
     public void onBackPressed() { }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         if (sleepCheckerMode) {
             stopCountdown();
             Utils.killApp(activity);
@@ -100,9 +100,7 @@ public class AlarmActivity extends AppCompatActivity {
         TextView titleTextView = findViewById(R.id.text_view_alarm_title);
         titleTextView.setText(alarm.getTitle());
         if (!sleepCheckerMode) {
-            alarm.playRingtone(activity, hellMode); // FIXME: not playing ringtone after wake lock
-            if (alarm.vibrates())
-                alarm.getVibrator().cancel();
+            alarm.playRingtone(activity, hellMode);
             TextView text = findViewById(R.id.text_view_alarm_text);
             text.setText(alarm.getText());
             new Handler().postDelayed(new Runnable() {
