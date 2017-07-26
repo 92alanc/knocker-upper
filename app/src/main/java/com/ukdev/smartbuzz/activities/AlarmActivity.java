@@ -3,16 +3,11 @@ package com.ukdev.smartbuzz.activities;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.PowerManager;
-import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -27,7 +22,6 @@ import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.fragments.DismissFragment;
 import com.ukdev.smartbuzz.fragments.SnoozeFragment;
-import com.ukdev.smartbuzz.listeners.AudioFocusChangeListener;
 import com.ukdev.smartbuzz.listeners.OnViewInflatedListener;
 import com.ukdev.smartbuzz.misc.IntentAction;
 import com.ukdev.smartbuzz.misc.IntentExtra;
@@ -55,10 +49,7 @@ public class AlarmActivity extends AppCompatActivity {
     private AlarmHandler alarmHandler;
     private boolean hellMode;
     private boolean sleepCheckerMode;
-    private Context context;
     private CountDownTimer countDownTimer;
-    private MediaPlayer mediaPlayer;
-    private Vibrator vibrator;
     private PowerManager.WakeLock wakeLock;
 
     @Override
@@ -84,16 +75,15 @@ public class AlarmActivity extends AppCompatActivity {
             stopCountdown();
             Utils.killApp(activity);
         } else {
-            if (alarm.getRingtoneUri() != null && mediaPlayer != null)
-                mediaPlayer.release();
+            alarm.getMediaPlayer().release();
             if (alarm.vibrates() || hellMode)
-                Utils.stopVibration(vibrator);
+                alarm.getVibrator().cancel();
         }
     }
 
     private void initialiseComponents() {
         activity = this;
-        context = this;
+        Context context = this;
         hellMode = false;
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         final int levelAndFlags = PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP;
@@ -109,15 +99,10 @@ public class AlarmActivity extends AppCompatActivity {
         alarmHandler = new AlarmHandler(context, alarm);
         TextView titleTextView = findViewById(R.id.text_view_alarm_title);
         titleTextView.setText(alarm.getTitle());
-        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         if (!sleepCheckerMode) {
-            if (alarm.getRingtoneUri() != null) {
-                mediaPlayer = MediaPlayer.create(context, alarm.getRingtoneUri());
-                playRingtone(alarm.getRingtoneUri());
-                // FIXME: ringtone not playing
-            }
+            alarm.playRingtone(activity, hellMode); // FIXME: not playing ringtone after wake lock
             if (alarm.vibrates())
-                Utils.startVibration(vibrator);
+                alarm.getVibrator().cancel();
             TextView text = findViewById(R.id.text_view_alarm_text);
             text.setText(alarm.getText());
             new Handler().postDelayed(new Runnable() {
@@ -149,11 +134,7 @@ public class AlarmActivity extends AppCompatActivity {
         setDismissFragment(sleepCheckerOn);
         if (wakeLock.isHeld())
             wakeLock.release();
-        Uri ringtone = alarm.getRingtoneUri();
-        if (ringtone == null)
-            ringtone = RingtoneManager.getValidRingtoneUri(context);
-        playRingtone(ringtone);
-        Utils.startVibration(vibrator);
+        alarm.playRingtone(activity, hellMode);
     }
 
     private void setSnoozeButtonPlaceholder() {
@@ -175,10 +156,9 @@ public class AlarmActivity extends AppCompatActivity {
                 ((SnoozeFragment) fragment).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (alarm.getRingtoneUri() != null && mediaPlayer != null)
-                            mediaPlayer.release();
+                        alarm.getMediaPlayer().release();
                         if (alarm.vibrates() || hellMode)
-                            Utils.stopVibration(vibrator);
+                            alarm.getVibrator().cancel();
                         alarmHandler.delayAlarm();
                         Utils.killApp(activity);
                     }
@@ -207,10 +187,9 @@ public class AlarmActivity extends AppCompatActivity {
                             }
                             Utils.killApp(activity);
                         } else {
-                            if (alarm.getRingtoneUri() != null && mediaPlayer != null)
-                                mediaPlayer.release();
+                            alarm.getMediaPlayer().release();
                             if (alarm.vibrates() || hellMode)
-                                Utils.stopVibration(vibrator);
+                                alarm.getVibrator().cancel();
                             alarmHandler.dismissAlarm(activity, wakeLock);
                         }
                     }
@@ -260,33 +239,6 @@ public class AlarmActivity extends AppCompatActivity {
         countDownTimer.cancel();
         if (wakeLock.isHeld())
             wakeLock.release();
-    }
-
-    private void playRingtone(Uri ringtone) {
-        mediaPlayer = MediaPlayer.create(context, ringtone);
-        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        int volume = alarm.getVolume();
-        if (hellMode)
-            volume = Utils.getMaxVolume(context);
-        final int flags = 0;
-        audioManager.setStreamVolume(AudioManager.STREAM_ALARM, volume, flags);
-        int requestResult;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            requestResult = audioManager.requestAudioFocus(new AudioFocusChangeListener(audioManager, volume),
-                                                           AudioManager.STREAM_ALARM,
-                                                           AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
-        } else {
-            requestResult = audioManager.requestAudioFocus(new AudioFocusChangeListener(audioManager, volume),
-                                                           AudioManager.STREAM_ALARM,
-                                                           AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
-        }
-        if (requestResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            if (mediaPlayer != null) {
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
-                mediaPlayer.setLooping(true);
-                mediaPlayer.start();
-            }
-        }
     }
 
 }
