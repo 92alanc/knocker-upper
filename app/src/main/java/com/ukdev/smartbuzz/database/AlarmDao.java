@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Alan Camargo
  */
-public class AlarmDao extends BaseDao {
+public class AlarmDao extends Dao {
 
     private static final String TABLE_NAME = "ALARMS";
     private static final String WHERE_CLAUSE = String.format("%1$s = ?", Column.ID.toString());
@@ -246,9 +246,13 @@ public class AlarmDao extends BaseDao {
         values.put(Column.VIBRATE.toString(), alarm.vibrates() ? 1 : 0);
         if (alarm.getRingtoneUri() != null)
             values.put(Column.RINGTONE_URI.toString(), alarm.getRingtoneUri().toString());
+        else
+            values.put(Column.RINGTONE_URI.toString(), (String) null);
         values.put(Column.VOLUME.toString(), alarm.getVolume());
         if (alarm.getWallpaperUri() != null)
             values.put(Column.WALLPAPER.toString(), alarm.getWallpaperUri().toString());
+        else
+            values.put(Column.WALLPAPER.toString(), (String) null);
         values.put(Column.TEXT.toString(), alarm.getText());
         values.put(Column.SNOOZE_DURATION.toString(), alarm.getSnoozeDuration().getValue());
         values.put(Column.ACTIVE.toString(), alarm.isActive() ? 1 : 0);

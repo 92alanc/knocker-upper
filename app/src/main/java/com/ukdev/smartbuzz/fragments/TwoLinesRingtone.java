@@ -2,6 +2,7 @@ package com.ukdev.smartbuzz.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.util.Utils;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -42,6 +44,10 @@ public class TwoLinesRingtone extends TwoLinesDefaultFragment<Uri> {
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                int volume = Utils.getDefaultVolume(context);
+                final int flags = 0;
+                audioManager.setStreamVolume(AudioManager.STREAM_ALARM, volume, flags);
                 Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
                 intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, summary);
                 intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true);

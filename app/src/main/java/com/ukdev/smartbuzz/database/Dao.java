@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Alan Camargo
  */
-abstract class BaseDao {
+abstract class Dao {
 
     private DatabaseHelper helper;
 
@@ -20,10 +20,10 @@ abstract class BaseDao {
     Context context;
 
     /**
-     * Default constructor for {@code BaseDao}
+     * Default constructor for {@code Dao}
      * @param context the Android context
      */
-    BaseDao(Context context) {
+    Dao(Context context) {
         this.context = context;
         helper = new DatabaseHelper(context);
         openDatabase();
