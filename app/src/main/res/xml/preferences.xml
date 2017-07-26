@@ -4,6 +4,7 @@
             android:title="@string/theme"
             android:summary="@string/summary_theme">
         <ListPreference
-            android:entries="@array/themes"/>
+            android:entries="@array/themes"
+            android:entryValues="@array/themes_values"/>
     </PreferenceCategory>
 </PreferenceScreen>

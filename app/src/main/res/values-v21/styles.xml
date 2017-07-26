@@ -1,13 +1,13 @@
 <resources>>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/blue_dark</item>
     </style>
 
-    <style name="SmartBuzz.NoActionBar">
+    <style name="Dark.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>

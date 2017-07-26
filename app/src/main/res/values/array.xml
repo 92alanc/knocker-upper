@@ -31,4 +31,8 @@
         <item>Dark</item>
         <item>Light</item>
     </string-array>
+    <integer-array name="themes_values">
+        <item>@style/Dark</item>
+        <item>@style/Light</item>
+    </integer-array>
 </resources>

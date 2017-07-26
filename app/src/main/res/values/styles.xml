@@ -1,7 +1,7 @@
 <resources>
 
-    <!-- App theme -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- Light themes -->
+    <style name="Light" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
         <item name="colorAccent">@color/red</item>
@@ -9,6 +9,32 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
+        <item name="colorAccent">@color/red</item>
+    </style>
+
+    <style name="Light.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="Light.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <!-- Dark themes -->
+    <style name="Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">@color/red</item>
+    </style>
+
+    <style name="Dark.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Dark.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="Dark.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark"/>
 
     <!-- Toggle Buttons -->
     <style name="ToggleButton">
@@ -19,31 +45,6 @@
         <item name="android:textSize">17sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:background">@drawable/shape_toggle_button</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="colorPrimary">@color/blue</item>
-        <item name="colorPrimaryDark">@color/blue_dark</item>
-        <item name="colorAccent">@color/red</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-
-    <style name="SmartBuzz" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorAccent">@color/red</item>
-    </style>
-
-    <style name="SmartBuzz.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <style name="SmartBuzz.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark"/>
-
-    <style name="SmartBuzz.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
     </style>
 
 </resources>
