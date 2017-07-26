@@ -50,5 +50,6 @@
     <string name="tap_back_again">Toque de novo para sair</string>
     <string name="select_image">Selecione uma imagem</string>
     <string name="wallpaper">Papel de parede</string>
-    <string name="loading">Carregando...</string>
+    <string name="alarm_set">1 alarme programado</string>
+    <string name="alarms_set">%d alarmes programados</string>
 </resources>
