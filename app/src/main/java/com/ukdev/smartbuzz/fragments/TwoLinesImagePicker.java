@@ -74,7 +74,7 @@ public class TwoLinesImagePicker extends TwoLinesDefaultFragment<Uri> {
         this.value = value;
         if (imageView != null && value != null)
             imageView.setImageURI(value);
-        // FIXME: OutOfMemoryError when some muppet keeps on opening and closing this f***ing fragment
+        // FIXME: [KNOWN BUG] OutOfMemoryError when some muppet keeps on opening and closing this f***ing fragment
     }
 
 }
