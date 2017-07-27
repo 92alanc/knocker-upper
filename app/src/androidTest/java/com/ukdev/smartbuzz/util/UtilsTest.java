@@ -26,7 +26,7 @@ public class UtilsTest {
     private String singleDayString;
     private SparseBooleanArray sparseBooleanArray;
 
-    private static final int[] WEEKDAYS = {
+    private static final Integer[] WEEKDAYS = {
             Calendar.MONDAY,
             Calendar.TUESDAY,
             Calendar.WEDNESDAY,
@@ -34,18 +34,18 @@ public class UtilsTest {
             Calendar.FRIDAY
     };
 
-    private static final int[] WEEKENDS = {
+    private static final Integer[] WEEKENDS = {
             Calendar.SUNDAY,
             Calendar.SATURDAY
     };
 
-    private static final int[] MULTIPLE_DAYS = {
+    private static final Integer[] MULTIPLE_DAYS = {
             Calendar.MONDAY,
             Calendar.WEDNESDAY,
             Calendar.SATURDAY
     };
 
-    private static final int[] SINGLE_DAY = {
+    private static final Integer[] SINGLE_DAY = {
             Calendar.SATURDAY
     };
 
@@ -75,7 +75,7 @@ public class UtilsTest {
      */
     @Test
     public void shouldConvertWeekdaysStringToIntArray() {
-        int[] result = Utils.convertStringToIntArray(context, weekdaysString);
+        Integer[] result = Utils.convertStringToIntArray(context, weekdaysString);
         for (int i = 0; i < result.length; i++)
             Assert.assertEquals(WEEKDAYS[i], result[i]);
     }
@@ -87,7 +87,7 @@ public class UtilsTest {
      */
     @Test
     public void shouldConvertWeekendsStringToIntArray() {
-        int[] result = Utils.convertStringToIntArray(context, weekendsString);
+        Integer[] result = Utils.convertStringToIntArray(context, weekendsString);
         for (int i = 0; i < result.length; i++)
             Assert.assertEquals(WEEKENDS[i], result[i]);
     }
@@ -99,7 +99,7 @@ public class UtilsTest {
      */
     @Test
     public void shouldConvertMultipleDaysStringToIntArray() {
-        int[] result = Utils.convertStringToIntArray(context, multipleDaysString);
+        Integer[] result = Utils.convertStringToIntArray(context, multipleDaysString);
         for (int i = 0; i < result.length; i++)
             Assert.assertEquals(MULTIPLE_DAYS[i], result[i]);
     }
@@ -111,7 +111,7 @@ public class UtilsTest {
      */
     @Test
     public void shouldConvertSingleDayStringToIntArray() {
-        int[] result = Utils.convertStringToIntArray(context, singleDayString);
+        Integer[] result = Utils.convertStringToIntArray(context, singleDayString);
         for (int i = 0; i < result.length; i++)
             Assert.assertEquals(SINGLE_DAY[i], result[i]);
     }
@@ -119,7 +119,7 @@ public class UtilsTest {
     /**
      * Validates the {@code convertIntArrayToString} method
      * with a weekdays input
-     * @see Utils#convertIntArrayToString(Context, int[])
+     * @see Utils#convertIntArrayToString(Context, Integer[])
      */
     @Test
     public void shouldConvertWeekdaysToString() {
@@ -130,7 +130,7 @@ public class UtilsTest {
     /**
      * Validates the {@code convertIntArrayToString} method
      * with a weekends input
-     * @see Utils#convertIntArrayToString(Context, int[])
+     * @see Utils#convertIntArrayToString(Context, Integer[])
      */
     @Test
     public void shouldConvertWeekendsToString() {
@@ -141,7 +141,7 @@ public class UtilsTest {
     /**
      * Validates the {@code convertIntArrayToString} method
      * with a multiple days input
-     * @see Utils#convertIntArrayToString(Context, int[])
+     * @see Utils#convertIntArrayToString(Context, Integer[])
      */
     @Test
     public void shouldConvertMultipleDaysToString() {
@@ -152,7 +152,7 @@ public class UtilsTest {
     /**
      * Validates the {@code convertIntArrayToString} method
      * with a single day input
-     * @see Utils#convertIntArrayToString(Context, int[])
+     * @see Utils#convertIntArrayToString(Context, Integer[])
      */
     @Test
     public void shouldConvertSingleDayToString() {
@@ -162,13 +162,13 @@ public class UtilsTest {
 
     /**
      * Validates the {@code convertIntArrayToSparseBooleanArray} method
-     * @see Utils#convertIntArrayToSparseBooleanArray(int[])
+     * @see Utils#convertIntArrayToSparseBooleanArray(Integer[])
      */
     @Test
     public void shouldConvertIntArrayToSparseBooleanArray() {
         SparseBooleanArray result = Utils.convertIntArrayToSparseBooleanArray(MULTIPLE_DAYS);
         for (int i = 0; i < result.size(); i++)
-            Assert.assertEquals(MULTIPLE_DAYS[i], result.keyAt(i));
+            Assert.assertEquals(MULTIPLE_DAYS[i], (Integer) result.keyAt(i));
     }
 
     /**
@@ -177,9 +177,9 @@ public class UtilsTest {
      */
     @Test
     public void shouldConvertSparseBooleanArrayToIntArray() {
-        int[] result = Utils.convertSparseBooleanArrayToIntArray(sparseBooleanArray);
+        Integer[] result = Utils.convertSparseBooleanArrayToIntArray(sparseBooleanArray);
         for (int i = 0; i < result.length; i++)
-            Assert.assertEquals(sparseBooleanArray.keyAt(i), result[i]);
+            Assert.assertEquals((Integer) sparseBooleanArray.keyAt(i), result[i]);
     }
 
     private void populateSparseBooleanArray(SparseBooleanArray sparseBooleanArray) {

@@ -23,6 +23,7 @@ import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 import com.ukdev.smartbuzz.util.Utils;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -58,7 +59,7 @@ public class AlarmHandler {
         Intent intent = new Intent(IntentAction.CANCEL_ALARM.toString());
         intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(), intent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+                                                                 PendingIntent.FLAG_CANCEL_CURRENT);
         manager.cancel(pendingIntent);
     }
 
@@ -110,7 +111,7 @@ public class AlarmHandler {
      *               the voice command
      */
     public void setAlarmByVoice(Intent intent, Context context) {
-        // FIXME: this s*** is creating 2 damn alarms
+        // FIXME: [KNOWN BUG] creating 2 damn alarms after dismissing
         if (!intent.hasExtra(AlarmClock.EXTRA_HOUR)) {
             Intent i = new Intent(context, SetupActivity.class);
             i.putExtra(IntentExtra.EDIT_MODE.toString(), false);
@@ -129,17 +130,24 @@ public class AlarmHandler {
         long triggerTime = new Time(hour, minutes).toCalendar().getTimeInMillis();
         Uri ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         int volume = Utils.getDefaultVolume(context);
+        Integer[] repetition = null;
+        if (intent.hasExtra(AlarmClock.EXTRA_DAYS)) {
+            List<Integer> days = intent.getIntegerArrayListExtra(AlarmClock.EXTRA_DAYS);
+            repetition = new Integer[days.size()];
+            repetition = days.toArray(repetition);
+        }
 
         AlarmBuilder alarmBuilder = new AlarmBuilder();
         alarmBuilder.setTitle(title)
                     .setTriggerTime(triggerTime)
                     .setSnoozeDuration(SnoozeDuration.FIVE_MINUTES)
                     .setRingtoneUri(ringtoneUri)
-                    .setVolume(volume);
+                    .setVolume(volume)
+                    .setRepetition(repetition);
         alarm = alarmBuilder.build();
         long id = database.insert(alarm);
         alarm.setId((int) id);
-        database.update(alarm);
+        //database.update(alarm);
         setAlarm();
     }
 
@@ -179,7 +187,7 @@ public class AlarmHandler {
             boolean triggerToday = false;
             boolean triggerTomorrow = false;
             if (alarm.repeats()) {
-                int[] repetition = alarm.getRepetition();
+                Integer[] repetition = alarm.getRepetition();
                 for (int i = 0; i < repetition.length; i++) {
                     if (i < repetition.length - 1) {
                         if (repetition[i + 1] == tomorrow)

@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="days_of_the_week">
-        <item>Domingo</item>
-        <item>Segunda</item>
-        <item>Terça</item>
-        <item>Quarta</item>
-        <item>Quinta</item>
-        <item>Sexta</item>
-        <item>Sábado</item>
-    </string-array>
     <string-array name="days_of_the_week_short">
         <item>Dom</item>
         <item>Seg</item>
@@ -27,12 +18,4 @@
         <item>25 min</item>
         <item>30 min</item>
     </string-array>
-    <string-array name="themes">
-        <item>Escuro</item>
-        <item>Claro</item>
-    </string-array>
-    <integer-array name="themes_values">
-        <item>@style/Dark</item>
-        <item>@style/Light</item>
-    </integer-array>
 </resources>

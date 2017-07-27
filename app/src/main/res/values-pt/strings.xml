@@ -4,19 +4,15 @@
     <string name="every_day">Todo dia</string>
     <string name="week_days">Dias da semana</string>
     <string name="weekends">Fins de semana</string>
-    <string name="exception_null_alarm">Ocorreu um erro (NullAlarmException). Por favor reinicie o aplicativo ou reporte o problema para a Braincorp.</string>
     <string name="snooze_duration">Duração da soneca</string>
-    <string name="name">Nome</string>
     <string name="repeat">Repetir</string>
-    <string name="settings">Configurações</string>
     <string name="menuItem_About">Sobre</string>
     <string name="about">Desenvolvido por Braincorp Apps\ne-mail: alcam.ukdev@gmail.com</string>
-    <string name="theme">Tema</string>
-    <string name="behaviour">Funcionamento</string>
-    <string name="summary_behaviour">Como os alarmes devem funcionar</string>
-    <string name="summary_theme">Como o visual do aplicativo deve ser</string>
     <string name="enable_sleep_checker">Ativar Sleep Checker</string>
-    <string name="summary_enable_sleep_checker">Depois que você dispensar um alarme, seu dispositivo vai acender a tela em um tempo aleatório entre 3 e 5 minutos e te perguntar se você está acordado. Se você não apertar o botão \"Sim, estou acordado\" em 15 segundos, o alarme volta a tocar.</string>
+    <string name="summary_enable_sleep_checker">Depois que você dispensar um alarme, seu dispositivo vai acender a tela
+        em um tempo aleatório entre 3 e 5 minutos e te perguntar se você está acordado. Se você não apertar o botão
+        \"Estou acordado\" em 15 segundos, o alarme volta a tocar.
+    </string>
     <string name="description_day_night">Se o alarme vai tocar de dia ou de noite</string>
     <string name="ringtone">Toque</string>
     <string name="error_save_alarm">Erro ao salvar o alarme</string>
@@ -48,8 +44,8 @@
     <string name="dismiss">Parar</string>
     <string name="i_am_awake">Estou acordado(a)!</string>
     <string name="tap_back_again">Toque de novo para sair</string>
-    <string name="select_image">Selecione uma imagem</string>
     <string name="wallpaper">Papel de parede</string>
     <string name="alarm_set">1 alarme programado</string>
     <string name="alarms_set">%d alarmes programados</string>
+    <string name="are_you_awake">Você está acordado(a)?</string>
 </resources>

@@ -53,7 +53,6 @@ public class AlarmDao extends Dao {
      *         has been successful, otherwise
      *         {@code false}
      */
-    @Override
     public boolean delete(Alarm alarm) {
         if (!writer.isOpen())
             openDatabase();
@@ -68,7 +67,6 @@ public class AlarmDao extends Dao {
      * @param alarm the alarm to insert
      * @return the ID of the newly created alarm
      */
-    @Override
     public long insert(Alarm alarm) {
         if (!writer.isOpen())
             openDatabase();
@@ -84,7 +82,6 @@ public class AlarmDao extends Dao {
      * @see Alarm#isActive()
      * @return all active alarms
      */
-    @Override
     public List<Alarm> getActiveAlarms() {
         if (!reader.isOpen())
             openDatabase();
@@ -106,8 +103,7 @@ public class AlarmDao extends Dao {
      * Gets the last {@link Alarm} database ID
      * @return the last ID
      */
-    @Override
-    public int getLastId() {
+    int getLastId() {
         if (!reader.isOpen())
             openDatabase();
         final String selection = null;
@@ -133,7 +129,6 @@ public class AlarmDao extends Dao {
      * Gets all instances of {@link Alarm}
      * @return all alarms
      */
-    @Override
     public List<Alarm> select() {
         if (!reader.isOpen())
             openDatabase();
@@ -157,7 +152,6 @@ public class AlarmDao extends Dao {
      * @param id the ID
      * @return the alarm found
      */
-    @Override
     public Alarm select(int id) {
         if (!reader.isOpen())
             openDatabase();
@@ -173,7 +167,7 @@ public class AlarmDao extends Dao {
             int volume;
             SnoozeDuration snoozeDuration;
             boolean active, sleepCheckerOn, vibrate;
-            int[] repetition;
+            Integer[] repetition;
 
             title = cursor.getString(cursor.getColumnIndex(Column.TITLE.toString()));
             text = cursor.getString(cursor.getColumnIndex(Column.TEXT.toString()));
@@ -204,11 +198,13 @@ public class AlarmDao extends Dao {
             if (ringtoneUri != null) {
                 Uri ringtone =  Uri.parse(ringtoneUri);
                 alarmBuilder.setRingtoneUri(ringtone);
-            }
+            } else
+                alarmBuilder.setRingtoneUri(null);
             if (wallpaperUri != null) {
                 Uri wallpaper = Uri.parse(wallpaperUri);
                 alarmBuilder.setWallpaperUri(wallpaper);
-            }
+            } else
+                alarmBuilder.setWallpaperUri(null);
             alarmBuilder.setId(id);
             cursor.close();
             reader.close();
@@ -226,7 +222,6 @@ public class AlarmDao extends Dao {
      *         has been successful, otherwise
      *         {@code false}
      */
-    @Override
     public boolean update(Alarm alarm) {
         if (!writer.isOpen())
             openDatabase();
@@ -266,7 +261,7 @@ public class AlarmDao extends Dao {
             int volume;
             SnoozeDuration snoozeDuration;
             boolean active, sleepCheckerOn, vibrate;
-            int[] repetition;
+            Integer[] repetition;
 
             title = cursor.getString(cursor.getColumnIndex(Column.TITLE.toString()));
             text = cursor.getString(cursor.getColumnIndex(Column.TEXT.toString()));
@@ -297,11 +292,13 @@ public class AlarmDao extends Dao {
             if (ringtoneUri != null) {
                 Uri ringtone = Uri.parse(ringtoneUri);
                 alarmBuilder.setRingtoneUri(ringtone);
-            }
+            } else
+                alarmBuilder.setRingtoneUri(null);
             if (wallpaperUri != null) {
                 Uri wallpaper = Uri.parse(wallpaperUri);
                 alarmBuilder.setWallpaperUri(wallpaper);
-            }
+            } else
+                alarmBuilder.setWallpaperUri(null);
             int id = cursor.getInt(cursor.getColumnIndex(Column.ID.toString()));
             alarmBuilder.setId(id);
             alarms.add(alarmBuilder.build());

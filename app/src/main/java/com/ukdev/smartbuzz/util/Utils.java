@@ -36,7 +36,7 @@ public class Utils {
      * @param array the array
      * @return the array as a string
      */
-    public static String convertIntArrayToString(Context context, int[] array) {
+    public static String convertIntArrayToString(Context context, Integer[] array) {
         if (array == null || array.length == 0)
             return null;
         else {
@@ -92,31 +92,31 @@ public class Utils {
      * @param string the string
      * @return the string as an {@code int} array
      */
-    public static int[] convertStringToIntArray(Context context, String string) {
+    public static Integer[] convertStringToIntArray(Context context, String string) {
         if (string == null || string.equals(""))
             return null;
         else {
-            int[] values;
+            Integer[] values;
             if (string.equals(context.getString(R.string.every_day))) {
-                values = new int[LENGTH_WHOLE_WEEK];
+                values = new Integer[LENGTH_WHOLE_WEEK];
                 for (int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++)
                     values[i - 1] = i;
             } else if (string.equals(context.getString(R.string.week_days))) {
-                values = new int[LENGTH_WEEK_DAYS];
+                values = new Integer[LENGTH_WEEK_DAYS];
                 int j = 0;
                 for (int i = Calendar.MONDAY; i <= Calendar.FRIDAY; i++) {
                     values[j] = i;
                     j++;
                 }
             } else if (string.equals(context.getString(R.string.weekends))) {
-                values = new int[LENGTH_WEEKEND];
+                values = new Integer[LENGTH_WEEKEND];
                 values[0] = Calendar.SUNDAY;
                 values[1] = Calendar.SATURDAY;
             } else {
                 String[] texts = context.getResources()
                                         .getStringArray(R.array.days_of_the_week_short);
                 String[] split = string.split(", ");
-                values = new int[split.length];
+                values = new Integer[split.length];
                 for (int i = 0; i < split.length; i++) {
                     for (int j = 0; j < texts.length; j++) {
                         if (split[i].equalsIgnoreCase(texts[j])) {
@@ -136,7 +136,7 @@ public class Utils {
      * @param array the {@code int} array
      * @return the converted array
      */
-    public static SparseBooleanArray convertIntArrayToSparseBooleanArray(int[] array) {
+    public static SparseBooleanArray convertIntArrayToSparseBooleanArray(Integer[] array) {
         SparseBooleanArray sparseBooleanArray = new SparseBooleanArray();
         if (array != null) {
             for (int i : array)
@@ -151,7 +151,7 @@ public class Utils {
      * @param sparseBooleanArray the {@code SparseBooleanArray}
      * @return the converted array
      */
-    public static int[] convertSparseBooleanArrayToIntArray(SparseBooleanArray sparseBooleanArray) {
+    public static Integer[] convertSparseBooleanArrayToIntArray(SparseBooleanArray sparseBooleanArray) {
         List<Integer> integerList = new ArrayList<>();
         int j = 0;
         for (int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++) {
@@ -160,7 +160,7 @@ public class Utils {
                 j++;
             }
         }
-        int[] intArray = new int[integerList.size()];
+        Integer[] intArray = new Integer[integerList.size()];
         for (int i = 0; i < intArray.length; i++)
             intArray[i] = integerList.get(i);
         return intArray;

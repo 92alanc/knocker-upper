@@ -64,7 +64,7 @@ public class AlarmBuilder {
      * @param repetition the repetition
      * @return the alarm builder after being updated
      */
-    public AlarmBuilder setRepetition(int[] repetition) {
+    public AlarmBuilder setRepetition(Integer[] repetition) {
         alarm.setRepetition(repetition);
         return this;
     }

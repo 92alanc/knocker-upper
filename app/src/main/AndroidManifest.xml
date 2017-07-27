@@ -31,10 +31,11 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.SET_ALARM"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
+            TODO: not to be released until fixed -->
         </activity>
         <!-- Setup activity -->
         <activity
@@ -55,16 +56,6 @@
                 android:finishOnTaskLaunch="true"
                 android:excludeFromRecents="true"
                 android:theme="@style/Dark.NoActionBar">
-        </activity>
-        <!-- Settings activity -->
-        <activity
-                android:name=".activities.SettingsActivity"
-                android:label="@string/settings"
-                android:parentActivityName=".activities.MainActivity"
-                android:theme="@style/Dark">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.ukdev.smartbuzz.activities.MainActivity"/>
         </activity>
 
         <!-- BROADCAST RECEIVERS -->

@@ -27,7 +27,7 @@ public class Alarm {
     private String title;
     private long triggerTime;
     private SnoozeDuration snoozeDuration;
-    private int[] repetition;
+    private Integer[] repetition;
     private Uri ringtoneUri;
     private Uri wallpaperUri;
     private String text;
@@ -122,7 +122,7 @@ public class Alarm {
      * Gets the repetition
      * @return the repetition
      */
-    public int[] getRepetition() {
+    public Integer[] getRepetition() {
         return repetition;
     }
 
@@ -130,7 +130,7 @@ public class Alarm {
      * Sets the repetition
      * @param repetition the repetition
      */
-    void setRepetition(int[] repetition) {
+    void setRepetition(Integer[] repetition) {
         this.repetition = repetition;
     }
 
@@ -298,6 +298,8 @@ public class Alarm {
             if (vibrate)
                 vibrator.vibrate(vibrationPattern, 0);
         }
+        if (ringtoneUri == null)
+            return;
         manager.setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
         int requestResult;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)

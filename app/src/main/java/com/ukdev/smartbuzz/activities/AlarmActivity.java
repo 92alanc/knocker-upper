@@ -102,7 +102,10 @@ public class AlarmActivity extends AppCompatActivity {
         if (!sleepCheckerMode) {
             alarm.playRingtone(activity, hellMode);
             TextView text = findViewById(R.id.text_view_alarm_text);
-            text.setText(alarm.getText());
+            if (sleepCheckerMode)
+                text.setText(R.string.are_you_awake);
+            else
+                text.setText(alarm.getText());
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

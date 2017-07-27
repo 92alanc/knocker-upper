@@ -288,6 +288,12 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         vibrationFragment = new TwoLinesSwitch();
         String title = getString(R.string.vibrate);
         vibrationFragment.setTitle(title);
+        vibrationFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+            @Override
+            public void onViewInflated(Fragment fragment) {
+                ((TwoLinesSwitch) fragment).setValue(true);
+            }
+        });
     }
 
     private void setSleepCheckerFragment() {
@@ -314,7 +320,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         String title = titleFragment.getValue() != null ? titleFragment.getValue() : getString(R.string.new_alarm);
         long triggerTime = timePickerFragment.getValue().toCalendar().getTimeInMillis();
         SparseBooleanArray sparseBooleanArray = repetitionFragment.getValue();
-        int[] repetition = Utils.convertSparseBooleanArrayToIntArray(sparseBooleanArray);
+        Integer[] repetition = Utils.convertSparseBooleanArrayToIntArray(sparseBooleanArray);
         SnoozeDuration snoozeDuration = SnoozeDuration.valueOf(snoozeDurationFragment.getValue());
         Uri ringtoneUri = ringtoneFragment.getValue();
         Uri wallpaperUri = wallpaperFragment.getValue();

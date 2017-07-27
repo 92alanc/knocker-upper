@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initialiseComponents();
-        checkForVoiceCommand();
+        //checkForVoiceCommand(); TODO: not to be released until fixed
         setAddButton();
     }
 
@@ -109,10 +109,6 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.item_settings:
-                Intent intent = new Intent(context, SettingsActivity.class);
-                startActivity(intent);
-                break;
             case R.id.item_about:
                 ViewUtils.showAppInfo(context);
                 break;
