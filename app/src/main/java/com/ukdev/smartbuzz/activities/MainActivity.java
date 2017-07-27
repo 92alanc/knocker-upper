@@ -40,7 +40,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements OnItemClickListener {
 
     private AlarmDao dao;
-    private AlarmHandler alarmHandler;
     private Context context;
     private ImageView noAlarmsImageView;
     private int backPressedCount;
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initialiseComponents();
-        //checkForVoiceCommand(); TODO: not to be released until fixed
+        checkForVoiceCommand();
         setAddButton();
     }
 
@@ -127,8 +126,6 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     private void initialiseComponents() {
         context = this;
-        final Alarm alarm = null;
-        alarmHandler = new AlarmHandler(context, alarm);
         dao = AlarmDao.getInstance(context);
         listener = this;
         noAlarmsImageView = findViewById(R.id.image_view_no_alarms);
@@ -160,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     private void checkForVoiceCommand() {
         Intent intent = getIntent();
         if (AlarmClock.ACTION_SET_ALARM.equals(intent.getAction()))
-            alarmHandler.setAlarmByVoice(intent, context);
+            AlarmHandler.setAlarmByVoice(intent, this);
     }
 
 }

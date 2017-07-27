@@ -86,7 +86,7 @@ public class AlarmActivity extends AppCompatActivity {
         Context context = this;
         hellMode = false;
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        final int levelAndFlags = PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP;
+        final int levelAndFlags = PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP;
         final String tag = "Tag";
         wakeLock = powerManager.newWakeLock(levelAndFlags, tag);
         if (ViewUtils.isScreenLocked(context))
@@ -98,22 +98,21 @@ public class AlarmActivity extends AppCompatActivity {
         alarm = dao.select(alarmId);
         alarmHandler = new AlarmHandler(context, alarm);
         TextView titleTextView = findViewById(R.id.text_view_alarm_title);
-        titleTextView.setText(alarm.getTitle());
         if (!sleepCheckerMode) {
+            titleTextView.setText(alarm.getTitle());
             alarm.playRingtone(activity, hellMode);
             TextView text = findViewById(R.id.text_view_alarm_text);
-            if (sleepCheckerMode)
-                text.setText(R.string.are_you_awake);
-            else
-                text.setText(alarm.getText());
+            text.setText(alarm.getText());
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     alarmHandler.dismissAlarm(activity, wakeLock);
                 }
             }, Time.ONE_MINUTE);
-        } else
+        } else {
+            titleTextView.setText(context.getText(R.string.are_you_awake));
             startCountdown();
+        }
         setSnoozeButtonPlaceholder();
         setDismissFragment(sleepCheckerMode);
         Uri wallpaperUri = alarm.getWallpaperUri();

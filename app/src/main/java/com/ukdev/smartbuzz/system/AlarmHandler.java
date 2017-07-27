@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.AlarmClock;
+
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.activities.AlarmActivity;
 import com.ukdev.smartbuzz.activities.SetupActivity;
@@ -109,13 +110,13 @@ public class AlarmHandler {
      * Sets a new alarm by voice
      * @param intent the intent received from
      *               the voice command
+     * @param activity the activity
      */
-    public void setAlarmByVoice(Intent intent, Context context) {
-        // FIXME: [KNOWN BUG] creating 2 damn alarms after dismissing
+    public static void setAlarmByVoice(Intent intent, Activity activity) {
+        Context context = activity.getApplicationContext();
         if (!intent.hasExtra(AlarmClock.EXTRA_HOUR)) {
             Intent i = new Intent(context, SetupActivity.class);
             i.putExtra(IntentExtra.EDIT_MODE.toString(), false);
-            i.putExtra(IntentExtra.SLEEP_CHECKER_ON.toString(), true);
             context.startActivity(i);
             return;
         }
@@ -130,11 +131,14 @@ public class AlarmHandler {
         long triggerTime = new Time(hour, minutes).toCalendar().getTimeInMillis();
         Uri ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         int volume = Utils.getDefaultVolume(context);
+
         Integer[] repetition = null;
-        if (intent.hasExtra(AlarmClock.EXTRA_DAYS)) {
-            List<Integer> days = intent.getIntegerArrayListExtra(AlarmClock.EXTRA_DAYS);
-            repetition = new Integer[days.size()];
-            repetition = days.toArray(repetition);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (intent.hasExtra(AlarmClock.EXTRA_DAYS)) {
+                List<Integer> days = intent.getIntegerArrayListExtra(AlarmClock.EXTRA_DAYS);
+                repetition = new Integer[days.size()];
+                repetition = days.toArray(repetition);
+            }
         }
 
         AlarmBuilder alarmBuilder = new AlarmBuilder();
@@ -144,11 +148,30 @@ public class AlarmHandler {
                     .setRingtoneUri(ringtoneUri)
                     .setVolume(volume)
                     .setRepetition(repetition);
-        alarm = alarmBuilder.build();
-        long id = database.insert(alarm);
+        Alarm alarm = alarmBuilder.build();
+        AlarmDao dao = AlarmDao.getInstance(context);
+        long id = dao.insert(alarm);
         alarm.setId((int) id);
-        //database.update(alarm);
-        setAlarm();
+
+        long nextValidTriggerTime = Utils.getNextValidTriggerTime(alarm);
+        Intent receiverIntent = new Intent(context, AlarmReceiver.class);
+        receiverIntent.setAction(IntentAction.TRIGGER_ALARM.toString());
+        receiverIntent.putExtra(IntentExtra.ID.toString(), alarm.getId());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(),
+                                                                 receiverIntent, 0);
+
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            manager.set(AlarmManager.RTC_WAKEUP, nextValidTriggerTime, pendingIntent);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+                && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            manager.setExact(AlarmManager.RTC_WAKEUP, nextValidTriggerTime, pendingIntent);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(nextValidTriggerTime,
+                                                                                         pendingIntent);
+            manager.setAlarmClock(alarmClockInfo, pendingIntent);
+        }
+        Utils.killApp(activity);
     }
 
     /**

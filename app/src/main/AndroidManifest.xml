@@ -31,11 +31,10 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.SET_ALARM"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
-            TODO: not to be released until fixed -->
         </activity>
         <!-- Setup activity -->
         <activity
