@@ -116,6 +116,7 @@ public class AlarmHandler {
         Context context = activity.getApplicationContext();
         if (!intent.hasExtra(AlarmClock.EXTRA_HOUR)) {
             Intent i = new Intent(context, SetupActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.putExtra(IntentExtra.EDIT_MODE.toString(), false);
             context.startActivity(i);
             return;
