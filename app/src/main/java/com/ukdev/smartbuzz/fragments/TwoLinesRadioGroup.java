@@ -73,8 +73,13 @@ public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Long> {
     @Override
     public Long getValue() {
         if (value == null)
-            value = SnoozeDuration.OFF.getValue();
+            value = SnoozeDuration.FIVE_MINUTES.getValue();
         return value;
+    }
+
+    public void setSelectedItem(Long item) {
+        if (mapOptionValue.containsKey(item))
+            setValue(item);
     }
 
     private DialogInterface.OnClickListener clickListener = new DialogInterface.OnClickListener() {
@@ -87,7 +92,8 @@ public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Long> {
     private void showDialogue(Context context) {
         AlertDialog.Builder dialogueBuilder = new AlertDialog.Builder(context);
         dialogueBuilder.setTitle(title);
-        dialogueBuilder.setSingleChoiceItems(mapOptionValue.values().toArray(new String[0]), selectedIndex, clickListener);
+        dialogueBuilder.setSingleChoiceItems(mapOptionValue.values().toArray(new String[0]),
+                                             selectedIndex, clickListener);
 
         dialogueBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override

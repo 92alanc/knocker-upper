@@ -270,6 +270,12 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         long[] values = SnoozeDuration.getValues();
         args.putLongArray(TwoLinesRadioGroup.ARG_OPTIONS_VALUE, values);
         snoozeDurationFragment.setArguments(args);
+        snoozeDurationFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+            @Override
+            public void onViewInflated(Fragment fragment) {
+                snoozeDurationFragment.setSelectedItem(SnoozeDuration.FIVE_MINUTES.getValue());
+            }
+        });
     }
 
     private void setRingtoneFragment() {
