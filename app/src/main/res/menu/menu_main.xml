@@ -6,4 +6,15 @@
             android:id="@+id/item_about"
             android:title="@string/menuItem_About"
             app:showAsAction="never"/>
+    <!-- Rate -->
+    <item
+        android:id="@+id/item_rate"
+        android:title="@string/rate"
+        app:showAsAction="never"/>
+    <!-- Share -->
+    <item
+        android:id="@+id/item_share"
+        android:title="@string/share"
+        android:icon="@drawable/ic_share"
+        app:showAsAction="ifRoom"/>
 </menu>

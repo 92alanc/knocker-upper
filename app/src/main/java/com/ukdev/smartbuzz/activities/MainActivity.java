@@ -1,8 +1,11 @@
 package com.ukdev.smartbuzz.activities;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.AlarmClock;
@@ -112,6 +115,12 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
             case R.id.item_about:
                 ViewUtils.showAppInfo(context);
                 break;
+            case R.id.item_rate:
+                openAppPage();
+                break;
+            case R.id.item_share:
+                shareApp();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -165,6 +174,37 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         Intent intent = getIntent();
         if (AlarmClock.ACTION_SET_ALARM.equals(intent.getAction()))
             AlarmHandler.setAlarmByVoice(intent, this);
+    }
+
+    private void openAppPage() {
+        Uri uri;
+        uri = Uri.parse("market://details?id=" + getPackageName());
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        int flags;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            flags = Intent.FLAG_ACTIVITY_NO_HISTORY |
+                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK;
+        } else
+            flags = Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_MULTIPLE_TASK;
+        goToMarket.addFlags(flags);
+        try {
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            uri = Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName());
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
+    }
+
+    private void shareApp() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+        String text = String.format("https://play.google.com/store/apps/details?id=%s",
+                                    getPackageName());
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        startActivity(Intent.createChooser(intent, getString(R.string.share)));
     }
 
 }

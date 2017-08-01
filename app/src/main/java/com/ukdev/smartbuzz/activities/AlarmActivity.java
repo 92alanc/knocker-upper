@@ -51,6 +51,7 @@ public class AlarmActivity extends AppCompatActivity {
     private boolean hellMode;
     private boolean sleepCheckerMode;
     private CountDownTimer countDownTimer;
+    private TextView titleTextView;
     private PowerManager.WakeLock wakeLock;
 
     @Override
@@ -104,7 +105,7 @@ public class AlarmActivity extends AppCompatActivity {
         int alarmId = getIntent().getIntExtra(IntentExtra.ID.toString(), 0);
         alarm = dao.select(alarmId);
         alarmHandler = new AlarmHandler(context, alarm);
-        TextView titleTextView = findViewById(R.id.text_view_alarm_title);
+        titleTextView = findViewById(R.id.text_view_alarm_title);
         if (!sleepCheckerMode) {
             titleTextView.setText(alarm.getTitle());
             alarm.playRingtone(activity, hellMode);
@@ -139,6 +140,7 @@ public class AlarmActivity extends AppCompatActivity {
         hellMode = true;
         final boolean sleepCheckerOn = false;
         setDismissFragment(sleepCheckerOn);
+        titleTextView.setText(alarm.getTitle());
         if (wakeLock.isHeld())
             wakeLock.release();
         alarm.playRingtone(activity, hellMode);

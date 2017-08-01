@@ -48,4 +48,6 @@
     <string name="alarm_set">1 alarme programado</string>
     <string name="alarms_set">%d alarmes programados</string>
     <string name="are_you_awake">Você está acordado(a)?</string>
+    <string name="rate">Avaliar o aplicativo</string>
+    <string name="share">Compartilhar o aplicativo</string>
 </resources>

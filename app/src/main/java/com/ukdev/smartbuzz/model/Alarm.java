@@ -298,7 +298,7 @@ public class Alarm {
             if (vibrate)
                 vibrator.vibrate(vibrationPattern, 0);
         }
-        if (ringtoneUri == null)
+        if (ringtoneUri == null && !hellMode)
             return;
         manager.setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
         int requestResult;
@@ -314,6 +314,8 @@ public class Alarm {
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
             mediaPlayer.setLooping(true);
             try {
+                if (ringtoneUri == null)
+                    ringtoneUri = RingtoneManager.getValidRingtoneUri(context);
                 mediaPlayer.setDataSource(context, ringtoneUri);
                 mediaPlayer.prepare();
             } catch (IOException e) {
