@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -124,6 +125,12 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             dialogueBuilder.show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        recreate();
     }
 
     @Override
@@ -350,6 +357,9 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
     private void setFragmentValues() {
         final Alarm alarm = dao.select(alarmId);
+
+        if (alarm == null)
+            return;
 
         titleFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
             @Override

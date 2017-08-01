@@ -2,6 +2,7 @@ package com.ukdev.smartbuzz.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.AlarmClock;
@@ -113,6 +114,12 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        recreate();
     }
 
     @Override

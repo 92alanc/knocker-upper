@@ -1,5 +1,6 @@
 package com.ukdev.smartbuzz.fragments;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
+
 import com.ukdev.smartbuzz.R;
 
 import java.util.Calendar;
@@ -61,6 +63,17 @@ public class TwoLinesDayOfTheWeek extends TwoLinesDefaultFragment<SparseBooleanA
         thursdayButton.setOnCheckedChangeListener(changeListener);
         fridayButton.setOnCheckedChangeListener(changeListener);
         saturdayButton.setOnCheckedChangeListener(changeListener);
+        int screenSize = getContext().getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK;
+        if (screenSize >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
+            resizeButton(sundayButton);
+            resizeButton(mondayButton);
+            resizeButton(tuesdayButton);
+            resizeButton(wednesdayButton);
+            resizeButton(thursdayButton);
+            resizeButton(fridayButton);
+            resizeButton(saturdayButton);
+        }
     }
 
     /**
@@ -120,6 +133,12 @@ public class TwoLinesDayOfTheWeek extends TwoLinesDefaultFragment<SparseBooleanA
             default:
                 return -1;
         }
+    }
+
+    private void resizeButton(ToggleButton button) {
+        int value = button.getLayoutParams().width * 2;
+        button.getLayoutParams().width = value;
+        button.getLayoutParams().height = value;
     }
 
 }

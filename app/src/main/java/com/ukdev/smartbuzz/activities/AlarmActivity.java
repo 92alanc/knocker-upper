@@ -1,6 +1,7 @@
 package com.ukdev.smartbuzz.activities;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -79,6 +80,12 @@ public class AlarmActivity extends AppCompatActivity {
             if (alarm.vibrates() || hellMode)
                 alarm.getVibrator().cancel();
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        recreate();
     }
 
     private void initialiseComponents() {

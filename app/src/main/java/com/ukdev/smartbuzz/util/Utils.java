@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Process;
-import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.SparseBooleanArray;
@@ -50,15 +49,17 @@ public class Utils {
                 if (array.length != LENGTH_WEEKEND)
                     weekends = false;
                 if (array.length == LENGTH_WEEK_DAYS || array.length == LENGTH_WEEKEND) {
-                    for (int day : array) {
-                        if (day != Calendar.SUNDAY && day != Calendar.SATURDAY)
-                            weekends = false;
-                        if (day != Calendar.MONDAY
-                                && day != Calendar.TUESDAY
-                                && day != Calendar.WEDNESDAY
-                                && day != Calendar.THURSDAY
-                                && day != Calendar.FRIDAY) {
-                            weekDays = false;
+                    for (Integer day : array) {
+                        if (day != null) {
+                            if (day != Calendar.SUNDAY && day != Calendar.SATURDAY)
+                                weekends = false;
+                            if (day != Calendar.MONDAY
+                                    && day != Calendar.TUESDAY
+                                    && day != Calendar.WEDNESDAY
+                                    && day != Calendar.THURSDAY
+                                    && day != Calendar.FRIDAY) {
+                                weekDays = false;
+                            }
                         }
                     }
                 }
@@ -66,17 +67,27 @@ public class Utils {
                     return context.getString(R.string.week_days);
                 else if (weekends)
                     return context.getString(R.string.weekends);
-                else {
+                else if (array.length == 1) {
+                    String[] texts = context.getResources()
+                                            .getStringArray(R.array.days_of_the_week_long);
+                    if (array[0] != null) {
+                        int day = array[0];
+                        return texts[day - 1];
+                    } else
+                        return null;
+                } else {
                     String[] texts = context.getResources()
                                             .getStringArray(R.array.days_of_the_week_short);
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < array.length; i++) {
                         for (int j = 0; j < texts.length; j++) {
-                            if (j == (array[i] - 1)) {
-                                sb.append(texts[j]);
-                                if (i < array.length - 1)
-                                    sb.append(", ");
-                                break;
+                            if (array[i] != null) {
+                                if (j == (array[i] - 1)) {
+                                    sb.append(texts[j]);
+                                    if (i < array.length - 1)
+                                        sb.append(", ");
+                                    break;
+                                }
                             }
                         }
                     }
@@ -113,10 +124,16 @@ public class Utils {
                 values[0] = Calendar.SUNDAY;
                 values[1] = Calendar.SATURDAY;
             } else {
-                String[] texts = context.getResources()
-                                        .getStringArray(R.array.days_of_the_week_short);
                 String[] split = string.split(", ");
                 values = new Integer[split.length];
+                String[] texts;
+                if (split.length == 1) {
+                    texts = context.getResources()
+                                   .getStringArray(R.array.days_of_the_week_long);
+                } else {
+                    texts = context.getResources()
+                                   .getStringArray(R.array.days_of_the_week_short);
+                }
                 for (int i = 0; i < split.length; i++) {
                     for (int j = 0; j < texts.length; j++) {
                         if (split[i].equalsIgnoreCase(texts[j])) {
@@ -139,8 +156,10 @@ public class Utils {
     public static SparseBooleanArray convertIntArrayToSparseBooleanArray(Integer[] array) {
         SparseBooleanArray sparseBooleanArray = new SparseBooleanArray();
         if (array != null) {
-            for (int i : array)
-                sparseBooleanArray.put(i, true);
+            for (Integer i : array) {
+                if (i != null)
+                    sparseBooleanArray.put(i, true);
+            }
         }
         return sparseBooleanArray;
     }
@@ -248,24 +267,6 @@ public class Utils {
         final int requestCode = 123;
         String[] permissions = {permission};
         ActivityCompat.requestPermissions(activity, permissions, requestCode);
-    }
-
-    /**
-     * Starts vibration
-     * @param vibrator the device's vibrator
-     */
-    public static void startVibration(Vibrator vibrator) {
-        long[] pattern = { Time.ONE_SECOND, Time.ONE_SECOND };
-        final int repeat = 0;
-        vibrator.vibrate(pattern, repeat);
-    }
-
-    /**
-     * Stops a vibration
-     * @param vibrator the device's vibrator
-     */
-    public static void stopVibration(Vibrator vibrator) {
-        vibrator.cancel();
     }
 
 }
