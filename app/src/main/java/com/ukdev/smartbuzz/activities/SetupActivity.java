@@ -92,6 +92,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         replaceFragmentPlaceholders();
         if (editMode) {
             alarmId = getIntent().getIntExtra(IntentExtra.ID.toString(), 0);
+            alarmHandler = new AlarmHandler(context, dao.select(alarmId));
             setFragmentValues();
             replaceFragmentPlaceholders();
         }
@@ -207,14 +208,18 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 snackbar.setAction(R.string.error_delete_alarm, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (dao.delete(alarm))
+                        if (dao.delete(alarm)) {
+                            alarmHandler.cancelAlarm();
                             ackDelete();
+                        }
                     }
                 });
                 snackbar.show();
             }
-        } else
+        } else {
+            alarmHandler.cancelAlarm();
             ackDelete();
+        }
     }
 
     private void ackDelete() {

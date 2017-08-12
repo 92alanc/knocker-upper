@@ -21,6 +21,8 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         int id = intent.getIntExtra(IntentExtra.ID.toString(), 0);
         Alarm alarm = AlarmDao.getInstance(context).select(id);
+        if (alarm == null)
+            return;
         AlarmHandler handler = new AlarmHandler(context, alarm);
         if (intent.getAction().equals(IntentAction.TRIGGER_ALARM.toString()))
             handler.triggerAlarm();
