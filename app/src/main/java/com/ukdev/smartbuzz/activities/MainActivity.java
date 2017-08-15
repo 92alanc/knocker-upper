@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initialiseComponents();
+        checkForVersionChange();
         checkForVoiceCommand();
         setAddButton();
     }
@@ -174,6 +175,16 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         Intent intent = getIntent();
         if (AlarmClock.ACTION_SET_ALARM.equals(intent.getAction()))
             AlarmHandler.setAlarmByVoice(intent, this);
+    }
+
+    private void checkForVersionChange() {
+        if (Utils.hasChangedAppVersion(this)) {
+            for (Alarm alarm : dao.getActiveAlarms()) {
+                AlarmHandler handler = new AlarmHandler(this, alarm);
+                handler.setAlarm();
+            }
+            Utils.updateAppVersion(this);
+        }
     }
 
     private void openAppPage() {

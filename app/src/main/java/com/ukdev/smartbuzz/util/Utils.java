@@ -3,6 +3,8 @@ package com.ukdev.smartbuzz.util;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Process;
@@ -25,9 +27,11 @@ import java.util.List;
  */
 public class Utils {
 
+    private static final String KEY_VERSION = "version";
     private static final int LENGTH_WEEK_DAYS = 5;
     private static final int LENGTH_WEEKEND = 2;
     private static final int LENGTH_WHOLE_WEEK = 7;
+    private static final String PREFERENCES_NAME = "preferences";
 
     /**
      * Converts a {@code int} array to string
@@ -260,6 +264,26 @@ public class Utils {
     }
 
     /**
+     * Determines whether the user has updated the app
+     * @param context the Android context
+     * @return {@code true} if positive, otherwise {@code false}
+     */
+    public static boolean hasChangedAppVersion(Context context) {
+        boolean result = false;
+        String packageName = context.getPackageName();
+        try {
+            PackageInfo info = context.getPackageManager()
+                                      .getPackageInfo(packageName, 0);
+            int versionCode = info.versionCode;
+            int storedVersionCode = getStoredVersionCode(context);
+            result = versionCode != storedVersionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
      * Requests the read storage permission
      */
     public static void requestStoragePermission(Activity activity) {
@@ -267,6 +291,30 @@ public class Utils {
         final int requestCode = 123;
         String[] permissions = {permission};
         ActivityCompat.requestPermissions(activity, permissions, requestCode);
+    }
+
+    /**
+     * Updates the app's version code in {@code SharedPreferences}
+     * @param context the Android context
+     */
+    public static void updateAppVersion(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_NAME,
+                                                                     Context.MODE_PRIVATE);
+        String packageName = context.getPackageName();
+        try {
+            PackageInfo info = context.getPackageManager()
+                                      .getPackageInfo(packageName, 0);
+            int version = info.versionCode;
+            preferences.edit().putInt(KEY_VERSION, version).apply();
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static int getStoredVersionCode(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_NAME,
+                                                                     Context.MODE_PRIVATE);
+        return preferences.getInt(KEY_VERSION, -1);
     }
 
 }
