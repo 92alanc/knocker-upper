@@ -74,7 +74,7 @@ public class AlarmHandler {
         intent.setAction(IntentAction.DELAY_ALARM.toString());
         intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(), intent, 0);
-        startAlarmManager(triggerTime, pendingIntent);
+        startAlarmManager(manager, triggerTime, pendingIntent);
     }
 
     /**
@@ -103,7 +103,7 @@ public class AlarmHandler {
         intent.setAction(IntentAction.TRIGGER_ALARM.toString());
         intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(), intent, 0);
-        startAlarmManager(triggerTime, pendingIntent);
+        startAlarmManager(manager, triggerTime, pendingIntent);
     }
 
     /**
@@ -162,16 +162,7 @@ public class AlarmHandler {
                                                                  receiverIntent, 0);
 
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            manager.set(AlarmManager.RTC_WAKEUP, nextValidTriggerTime, pendingIntent);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-                && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            manager.setExact(AlarmManager.RTC_WAKEUP, nextValidTriggerTime, pendingIntent);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(nextValidTriggerTime,
-                                                                                         pendingIntent);
-            manager.setAlarmClock(alarmClockInfo, pendingIntent);
-        }
+        startAlarmManager(manager, nextValidTriggerTime, pendingIntent);
         Utils.killApp(activity);
     }
 
@@ -265,19 +256,23 @@ public class AlarmHandler {
         final int requestCode = 999;
         final int flags = 0;
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, flags);
-        startAlarmManager(callTime, pendingIntent);
+        startAlarmManager(manager, callTime, pendingIntent);
     }
 
-    private void startAlarmManager(long triggerTime, PendingIntent pendingIntent) {
+    private static void startAlarmManager(AlarmManager manager, long triggerTime,
+                                          PendingIntent pendingIntent) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             manager.set(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
                 && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             manager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
             AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(triggerTime,
                                                                                          pendingIntent);
             manager.setAlarmClock(alarmClockInfo, pendingIntent);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime,
+                                              pendingIntent);
         }
     }
 
