@@ -33,6 +33,8 @@ public class TwoLinesRingtone extends TwoLinesDefaultFragment<Uri> {
         View view = inflater.inflate(R.layout.two_lines_default, container, ATTACH_TO_ROOT);
         context = view.getContext();
         rootView = view.findViewById(R.id.rootView);
+        if (value == null)
+            value = RingtoneManager.getValidRingtoneUri(context);
         if (onViewInflatedListener != null)
             onViewInflatedListener.onViewInflated(this);
         return view;
@@ -72,7 +74,8 @@ public class TwoLinesRingtone extends TwoLinesDefaultFragment<Uri> {
     public void setValue(Uri value) {
         this.value = value;
         if (textSummary != null) {
-            boolean isDefaultAlarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM).equals(value);
+            boolean isDefaultAlarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+                                                       .equals(value);
             if (value != null && !isDefaultAlarmUri) {
                 Ringtone ringtone = RingtoneManager.getRingtone(context, value);
                 if (ringtone != null) {

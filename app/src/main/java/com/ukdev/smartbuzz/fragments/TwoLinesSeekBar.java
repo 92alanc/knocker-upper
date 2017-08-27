@@ -23,7 +23,8 @@ public class TwoLinesSeekBar extends TwoLinesDefaultFragment<Integer> {
         View view = inflater.inflate(R.layout.two_lines_seekbar, container, ATTACH_TO_ROOT);
         seekBar = view.findViewById(R.id.seekbar);
         seekBar.setMax(Utils.getMaxVolume(view.getContext()));
-        value = seekBar.getProgress();
+        if (value == null)
+            value = Utils.getDefaultVolume(getContext());
         if (onViewInflatedListener != null)
             onViewInflatedListener.onViewInflated(this);
         return view;
