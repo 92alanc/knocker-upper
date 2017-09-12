@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.AlarmClock;
+import android.util.Log;
 
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.activities.AlarmActivity;
@@ -208,6 +209,18 @@ public class AlarmHandler {
                         if (repetition[i + 1] == tomorrow)
                             triggerTomorrow = true;
                     } else {
+                        Calendar time = Calendar.getInstance();
+                        time.setTimeInMillis(alarm.getTriggerTime());
+                        Log.d("Alan", String.format("trigger time = %1$d:%2$d",
+                                                    time.get(Calendar.HOUR_OF_DAY),
+                                                    time.get(Calendar.MINUTE)));
+                        Integer[] repetition1 = alarm.getRepetition();
+                        for (int i1 = 0; i1 < repetition1.length; i1++) {
+                            Integer day = repetition1[i1];
+                            Log.d("Alan", "repetition[" + i1 + "] = " + day);
+                        }
+                        Log.d("Alan", "today = " + today);
+                        Log.d("Alan", "tomorrow = " + tomorrow);
                         if (repetition[0] == tomorrow)
                             triggerTomorrow = true;
                     }
