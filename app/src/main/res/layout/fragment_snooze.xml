@@ -13,6 +13,7 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textAlignment="center"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:hapticFeedbackEnabled="true"/>
 
 </RelativeLayout>
