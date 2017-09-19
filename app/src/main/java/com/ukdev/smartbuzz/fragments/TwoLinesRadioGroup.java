@@ -42,8 +42,8 @@ public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Long> {
                 }
             }
         }
-        if (onViewInflatedListener != null)
-            onViewInflatedListener.onViewInflated(this);
+        if (onFragmentInflatedListener != null)
+            onFragmentInflatedListener.onViewInflated(this);
         return view;
     }
 

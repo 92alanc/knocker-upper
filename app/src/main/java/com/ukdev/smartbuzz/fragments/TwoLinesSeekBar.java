@@ -25,8 +25,8 @@ public class TwoLinesSeekBar extends TwoLinesDefaultFragment<Integer> {
         seekBar.setMax(Utils.getMaxVolume(view.getContext()));
         if (value == null)
             value = Utils.getDefaultVolume(getContext());
-        if (onViewInflatedListener != null)
-            onViewInflatedListener.onViewInflated(this);
+        if (onFragmentInflatedListener != null)
+            onFragmentInflatedListener.onViewInflated(this);
         return view;
     }
 

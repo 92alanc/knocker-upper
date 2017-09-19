@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
  *
  * @author Alan Camargo
  */
-public interface OnViewInflatedListener {
+public interface OnFragmentInflatedListener {
 
     /**
      * Method called when a view is inflated

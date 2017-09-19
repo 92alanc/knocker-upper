@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.ukdev.smartbuzz.R;
@@ -20,10 +21,12 @@ import static android.app.Activity.RESULT_OK;
  *
  * @author Alan Camargo
  */
-public class TwoLinesImagePicker extends TwoLinesDefaultFragment<Uri> {
+public class TwoLinesImagePicker extends TwoLinesDefaultFragment<Uri>
+        implements View.OnClickListener {
 
     private static final int REQUEST_CODE_IMAGE = 1;
 
+    private ImageButton clearButton;
     private ImageView imageView;
     private ViewGroup rootView;
 
@@ -32,10 +35,16 @@ public class TwoLinesImagePicker extends TwoLinesDefaultFragment<Uri> {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.two_lines_image_picker, container, ATTACH_TO_ROOT);
+        clearButton = view.findViewById(R.id.button_clear_wallpaper);
+        clearButton.setOnClickListener(this);
+        if (value == null)
+            clearButton.setVisibility(View.GONE);
+        else
+            clearButton.setVisibility(View.VISIBLE);
         imageView = view.findViewById(R.id.image_wallpaper);
         rootView = view.findViewById(R.id.rootView);
-        if (onViewInflatedListener != null)
-            onViewInflatedListener.onViewInflated(this);
+        if (onFragmentInflatedListener != null)
+            onFragmentInflatedListener.onViewInflated(this);
         return view;
     }
 
@@ -73,12 +82,23 @@ public class TwoLinesImagePicker extends TwoLinesDefaultFragment<Uri> {
     public void setValue(Uri value) {
         this.value = value;
         try {
-            if (imageView != null && value != null)
+            if (imageView != null) {
                 imageView.setImageURI(value);
+                if (value != null)
+                    clearButton.setVisibility(View.VISIBLE);
+                else
+                    clearButton.setVisibility(View.GONE);
+            }
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
             // [WORKAROUND] This error only happens when some muppet keeps on opening and closing the fragment
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.button_clear_wallpaper)
+            setValue(null);
     }
 
 }

@@ -46,8 +46,8 @@ public class TwoLinesDayOfTheWeek extends TwoLinesDefaultFragment<SparseBooleanA
         thursdayButton = view.findViewById(R.id.btThursday);
         fridayButton = view.findViewById(R.id.btFriday);
         saturdayButton = view.findViewById(R.id.btSaturday);
-        if (onViewInflatedListener != null)
-            onViewInflatedListener.onViewInflated(this);
+        if (onFragmentInflatedListener != null)
+            onFragmentInflatedListener.onViewInflated(this);
         if (value == null)
             value = new SparseBooleanArray();
         return view;

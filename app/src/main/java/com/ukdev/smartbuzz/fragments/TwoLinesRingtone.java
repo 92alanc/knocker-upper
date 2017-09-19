@@ -35,8 +35,8 @@ public class TwoLinesRingtone extends TwoLinesDefaultFragment<Uri> {
         rootView = view.findViewById(R.id.rootView);
         if (value == null)
             value = RingtoneManager.getValidRingtoneUri(context);
-        if (onViewInflatedListener != null)
-            onViewInflatedListener.onViewInflated(this);
+        if (onFragmentInflatedListener != null)
+            onFragmentInflatedListener.onViewInflated(this);
         return view;
     }
 

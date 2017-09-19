@@ -37,7 +37,7 @@ import com.ukdev.smartbuzz.fragments.TwoLinesRingtone;
 import com.ukdev.smartbuzz.fragments.TwoLinesSeekBar;
 import com.ukdev.smartbuzz.fragments.TwoLinesSwitch;
 import com.ukdev.smartbuzz.fragments.TwoLinesTimePicker;
-import com.ukdev.smartbuzz.listeners.OnViewInflatedListener;
+import com.ukdev.smartbuzz.listeners.OnFragmentInflatedListener;
 import com.ukdev.smartbuzz.misc.IntentExtra;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.AlarmBuilder;
@@ -282,7 +282,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         long[] values = SnoozeDuration.getValues();
         args.putLongArray(TwoLinesRadioGroup.ARG_OPTIONS_VALUE, values);
         snoozeDurationFragment.setArguments(args);
-        snoozeDurationFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+        snoozeDurationFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
                 snoozeDurationFragment.setSelectedItem(SnoozeDuration.FIVE_MINUTES.getValue());
@@ -306,7 +306,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         vibrationFragment = new TwoLinesSwitch();
         String title = getString(R.string.vibrate);
         vibrationFragment.setTitle(title);
-        vibrationFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+        vibrationFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
                 ((TwoLinesSwitch) fragment).setValue(true);
@@ -366,7 +366,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         if (alarm == null)
             return;
 
-        titleFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+        titleFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
                 titleFragment.setSummary(alarm.getTitle());
@@ -375,7 +375,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         });
         setTitle(alarm.getTitle());
 
-        timePickerFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+        timePickerFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
                 Time time = Time.valueOf(alarm.getTriggerTime());
@@ -384,14 +384,14 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
-        repetitionFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+        repetitionFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
                 repetitionFragment.setValue(Utils.convertIntArrayToSparseBooleanArray(alarm.getRepetition()));
             }
         });
 
-        snoozeDurationFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+        snoozeDurationFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
                 snoozeDurationFragment.setSummary(alarm.getSnoozeDuration().toString());
@@ -399,7 +399,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
-        ringtoneFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+        ringtoneFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
                 RingtoneManager manager = new RingtoneManager(context);
@@ -414,28 +414,28 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
-        volumeFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+        volumeFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
                 volumeFragment.setValue(alarm.getVolume());
             }
         });
 
-        vibrationFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+        vibrationFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
                 vibrationFragment.setValue(alarm.vibrates());
             }
         });
 
-        sleepCheckerFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+        sleepCheckerFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
                 sleepCheckerFragment.setValue(alarm.isSleepCheckerOn());
             }
         });
 
-        textFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+        textFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
                 textFragment.setSummary(alarm.getText());
@@ -443,7 +443,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
-        wallpaperFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+        wallpaperFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
                 Uri wallpaperUri = alarm.getWallpaperUri();

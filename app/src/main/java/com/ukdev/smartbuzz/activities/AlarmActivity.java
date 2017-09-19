@@ -23,7 +23,7 @@ import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.fragments.DismissFragment;
 import com.ukdev.smartbuzz.fragments.SnoozeFragment;
-import com.ukdev.smartbuzz.listeners.OnViewInflatedListener;
+import com.ukdev.smartbuzz.listeners.OnFragmentInflatedListener;
 import com.ukdev.smartbuzz.misc.IntentAction;
 import com.ukdev.smartbuzz.misc.IntentExtra;
 import com.ukdev.smartbuzz.model.Alarm;
@@ -158,7 +158,7 @@ public class AlarmActivity extends AppCompatActivity {
 
     private void setSnoozeFragment() {
         SnoozeFragment snoozeFragment = new SnoozeFragment();
-        snoozeFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+        snoozeFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
                 ((SnoozeFragment) fragment).setButtonText(alarm.getSnoozeDuration());
@@ -182,7 +182,7 @@ public class AlarmActivity extends AppCompatActivity {
 
     private void setDismissFragment(final boolean sleepCheckerOn) {
         DismissFragment dismissFragment = new DismissFragment();
-        dismissFragment.setOnViewInflatedListener(new OnViewInflatedListener() {
+        dismissFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
                 ((DismissFragment) fragment).setOnClickListener(new View.OnClickListener() {

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/rootView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="15dp"
-                android:clickable="true">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/rootView"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:paddingLeft="20dp"
+              android:paddingRight="20dp"
+              android:paddingTop="15dp"
+              android:clickable="true">
 
     <TextView
         android:id="@+id/title"
@@ -19,14 +20,29 @@
         android:id="@+id/summary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:layout_below="@id/title"/>
+        android:textSize="15sp"/>
 
-    <ImageView
-        android:id="@+id/image_wallpaper"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/summary"
-        android:contentDescription="@string/wallpaper"/>
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/button_clear_wallpaper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/image_wallpaper"
+            android:layout_toRightOf="@+id/image_wallpaper"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:contentDescription="@string/clear"
+            android:visibility="gone"
+            android:src="@drawable/ic_clear"/>
 
-</RelativeLayout>
+        <ImageView
+            android:id="@id/image_wallpaper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/wallpaper"/>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -57,5 +57,6 @@
     <string name="are_you_awake">Are you awake?</string>
     <string name="rate">Rate the app</string>
     <string name="share">Share the app</string>
+    <string name="clear">Clear</string>
 
 </resources>
