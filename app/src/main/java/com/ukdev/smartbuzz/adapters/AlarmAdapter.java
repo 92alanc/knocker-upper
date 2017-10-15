@@ -14,7 +14,7 @@ import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.listeners.OnItemClickListener;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.Time;
-import com.ukdev.smartbuzz.system.AlarmHandler;
+import com.ukdev.smartbuzz.util.AlarmHandler;
 import com.ukdev.smartbuzz.util.Utils;
 
 import java.util.List;

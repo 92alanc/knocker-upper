@@ -17,7 +17,6 @@
         android:fullBackupContent="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:theme="@style/Dark"
         tools:ignore="GoogleAppIndexingWarning">
 
@@ -25,9 +24,9 @@
         <!-- Main activity -->
         <activity
             android:name=".activities.MainActivity"
+            android:configChanges="locale"
             android:label="@string/app_name"
-            android:theme="@style/Dark"
-            android:configChanges="locale">
+            android:theme="@style/Dark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -40,10 +39,10 @@
         <!-- Setup activity -->
         <activity
             android:name=".activities.SetupActivity"
+            android:configChanges="locale"
             android:label="@string/new_alarm"
             android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/Dark"
-            android:configChanges="locale">
+            android:theme="@style/Dark">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ukdev.smartbuzz.activities.MainActivity"/>
@@ -52,18 +51,18 @@
         <activity
             android:name=".activities.AlarmActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|locale"
+            android:excludeFromRecents="true"
+            android:finishOnTaskLaunch="true"
             android:label="@string/app_name"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:finishOnTaskLaunch="true"
-            android:excludeFromRecents="true"
             android:theme="@style/Dark.NoActionBar">
         </activity>
 
         <!-- BROADCAST RECEIVERS -->
         <!-- Alarm receiver -->
         <receiver
-            android:name=".system.AlarmReceiver"
+            android:name=".receivers.AlarmReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="com.android.alarm.permission.SET_ALARM">
@@ -75,12 +74,20 @@
         </receiver>
         <!-- Boot receiver -->
         <receiver
-            android:name=".system.BootReceiver"
+            android:name=".receivers.BootReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
 
                 <category android:name="android.intent.category.HOME"/>
+            </intent-filter>
+        </receiver>
+        <!-- Time change receiver -->
+        <receiver
+            android:name=".receivers.TimeChangeReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_SET"/>
             </intent-filter>
         </receiver>
 

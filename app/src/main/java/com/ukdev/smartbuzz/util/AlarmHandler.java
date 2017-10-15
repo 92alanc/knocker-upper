@@ -1,4 +1,4 @@
-package com.ukdev.smartbuzz.system;
+package com.ukdev.smartbuzz.util;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -22,7 +22,7 @@ import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.AlarmBuilder;
 import com.ukdev.smartbuzz.model.Time;
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
-import com.ukdev.smartbuzz.util.Utils;
+import com.ukdev.smartbuzz.receivers.AlarmReceiver;
 
 import java.util.Calendar;
 import java.util.List;
@@ -179,7 +179,7 @@ public class AlarmHandler {
      * Starts the target activity to display
      * the alarm being triggered
      */
-    void startAlarmActivity() {
+    public void startAlarmActivity() {
         Intent activityIntent = new Intent(context, AlarmActivity.class);
         activityIntent.setAction(IntentAction.TRIGGER_ALARM.toString());
         activityIntent.putExtra(IntentExtra.SLEEP_CHECKER_ON.toString(), false);
@@ -191,7 +191,7 @@ public class AlarmHandler {
     /**
      * Triggers an alarm
      */
-    void triggerAlarm() {
+    public void triggerAlarm() {
         if (alarm.isActive()) {
             Calendar now = Calendar.getInstance();
             int today = now.get(Calendar.DAY_OF_WEEK);
@@ -241,7 +241,7 @@ public class AlarmHandler {
     /**
      * Triggers Sleep Checker
      */
-    void triggerSleepChecker() {
+    public void triggerSleepChecker() {
         Intent activityIntent = new Intent(context, AlarmActivity.class);
         activityIntent.putExtra(IntentExtra.ID.toString(), alarm.getId());
         activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

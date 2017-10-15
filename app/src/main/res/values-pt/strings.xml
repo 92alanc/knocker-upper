@@ -51,4 +51,5 @@
     <string name="rate">Avaliar o aplicativo</string>
     <string name="share">Compartilhar o aplicativo</string>
     <string name="clear">Limpar</string>
+    <string name="time_changed">Alarmes reprogramados devido a mudança no horário do sistema</string>
 </resources>

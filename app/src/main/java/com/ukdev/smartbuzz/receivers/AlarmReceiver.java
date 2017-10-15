@@ -1,4 +1,4 @@
-package com.ukdev.smartbuzz.system;
+package com.ukdev.smartbuzz.receivers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.misc.IntentAction;
 import com.ukdev.smartbuzz.misc.IntentExtra;
 import com.ukdev.smartbuzz.model.Alarm;
+import com.ukdev.smartbuzz.util.AlarmHandler;
 
 /**
  * A {@code WakefulBroadcastReceiver} for alarms
@@ -24,11 +25,11 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         if (alarm == null)
             return;
         AlarmHandler handler = new AlarmHandler(context, alarm);
-        if (intent.getAction().equals(IntentAction.TRIGGER_ALARM.toString()))
+        if (IntentAction.TRIGGER_ALARM.toString().equals(intent.getAction()))
             handler.triggerAlarm();
-        else if (intent.getAction().equals(IntentAction.TRIGGER_SLEEP_CHECKER.toString()))
+        else if (IntentAction.TRIGGER_SLEEP_CHECKER.toString().equals(intent.getAction()))
             handler.triggerSleepChecker();
-        else if (intent.getAction().equals(IntentAction.DELAY_ALARM.toString()))
+        else if (IntentAction.DELAY_ALARM.toString().equals(intent.getAction()))
             handler.startAlarmActivity();
     }
 
