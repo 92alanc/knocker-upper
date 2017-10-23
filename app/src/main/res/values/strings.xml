@@ -52,12 +52,13 @@
     <string name="i_am_awake">I\'m awake!</string>
     <string name="tap_back_again">Tap again to exit</string>
     <string name="wallpaper">Wallpaper</string>
-    <string name="alarm_set">1 alarm set</string>
-    <string name="alarms_set">%d alarms set</string>
+    <plurals name="alarms_set">
+        <item quantity="one">%d alarm set</item>
+        <item quantity="other">%d alarms set</item>
+    </plurals>
     <string name="are_you_awake">Are you awake?</string>
     <string name="rate">Rate the app</string>
     <string name="share">Share the app</string>
     <string name="clear">Clear</string>
-    <string name="time_changed">Alarms reset due to change in system time</string>
 
 </resources>

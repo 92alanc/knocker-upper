@@ -45,11 +45,12 @@
     <string name="i_am_awake">Estou acordado(a)!</string>
     <string name="tap_back_again">Toque de novo para sair</string>
     <string name="wallpaper">Papel de parede</string>
-    <string name="alarm_set">1 alarme programado</string>
-    <string name="alarms_set">%d alarmes programados</string>
+    <plurals name="alarms_set">
+        <item quantity="one">%d alarme programado</item>
+        <item quantity="other">%d alarmes programados</item>
+    </plurals>
     <string name="are_you_awake">Você está acordado(a)?</string>
     <string name="rate">Avaliar o aplicativo</string>
     <string name="share">Compartilhar o aplicativo</string>
     <string name="clear">Limpar</string>
-    <string name="time_changed">Alarmes reprogramados devido a mudança no horário do sistema</string>
 </resources>

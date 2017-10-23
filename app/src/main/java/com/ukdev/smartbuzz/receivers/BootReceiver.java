@@ -30,11 +30,7 @@ public class BootReceiver extends BroadcastReceiver {
                 AlarmHandler handler = new AlarmHandler(context, alarm);
                 handler.setAlarm();
             }
-            String text;
-            if (size == 1)
-                text = context.getString(R.string.alarm_set);
-            else
-                text = String.format(context.getString(R.string.alarms_set), size);
+            String text = context.getResources().getQuantityString(R.plurals.alarms_set, size, size);
             Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
         }
     }

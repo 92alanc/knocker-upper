@@ -2,7 +2,6 @@ package com.ukdev.smartbuzz.activities;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import android.os.PowerManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -94,13 +94,15 @@ public class AlarmActivity extends AppCompatActivity {
         Context context = this;
         hellMode = false;
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        if (powerManager == null)
+            return;
         final int levelAndFlags = PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP;
         final String tag = "Tag";
         wakeLock = powerManager.newWakeLock(levelAndFlags, tag);
         if (ViewUtils.isScreenLocked(context))
-            wakeLock.acquire();
+            wakeLock.acquire(Time.ONE_MINUTE);
         String sleepCheckerAction = IntentAction.TRIGGER_SLEEP_CHECKER.toString();
-        sleepCheckerMode = getIntent().getAction().equals(sleepCheckerAction);
+        sleepCheckerMode = sleepCheckerAction.equals(getIntent().getAction());
         dao = AlarmDao.getInstance(context);
         int alarmId = getIntent().getIntExtra(IntentExtra.ID.toString(), 0);
         alarm = dao.select(alarmId);
@@ -221,15 +223,16 @@ public class AlarmActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 int secondsLeft = (int) (millisUntilFinished / 1000);
+                Context context = getBaseContext();
                 switch (secondsLeft) {
                     case 14:
-                        countdownTextView.setTextColor(Color.parseColor("#009688")); // Green
+                        countdownTextView.setTextColor(ContextCompat.getColor(context, R.color.green));
                         break;
                     case 9:
-                        countdownTextView.setTextColor(Color.parseColor("#FFC107")); // Amber
+                        countdownTextView.setTextColor(ContextCompat.getColor(context, R.color.amber));
                         break;
                     case 4:
-                        countdownTextView.setTextColor(Color.parseColor("#F44336")); // Red
+                        countdownTextView.setTextColor(ContextCompat.getColor(context, R.color.red));
                         break;
                 }
                 countdownTextView.setText(String.valueOf(secondsLeft));
