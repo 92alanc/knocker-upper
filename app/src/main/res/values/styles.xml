@@ -1,28 +1,5 @@
 <resources>
 
-    <!-- Light themes -->
-    <style name="Light" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/blue</item>
-        <item name="colorPrimaryDark">@color/blue_dark</item>
-        <item name="colorAccent">@color/red</item>
-        <item name="actionModeBackground">@color/blue_dark</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="Light.NoActionBar">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="colorPrimary">@color/blue</item>
-        <item name="colorPrimaryDark">@color/blue_dark</item>
-        <item name="colorAccent">@color/red</item>
-    </style>
-
-    <style name="Light.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <style name="Light.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-
-    <!-- Dark themes -->
     <style name="Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="colorAccent">@color/red</item>
     </style>
@@ -35,6 +12,10 @@
     <style name="Dark.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="Dark.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark"/>
+
+    <style name="TwoLinesFragment">
+        <item name="android:background">@null</item>
+    </style>
 
     <!-- Toggle Buttons -->
     <style name="ToggleButton">

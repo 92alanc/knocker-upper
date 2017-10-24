@@ -31,7 +31,7 @@ public class LogTool {
      */
     public void info(String text) {
         dialogue.setMessage(text);
-        dialogue.setIcon(R.drawable.ic_launcher);
+        dialogue.setIcon(R.mipmap.ic_launcher);
         dialogue.setNeutralButton(R.string.ok, null);
         dialogue.show();
     }
