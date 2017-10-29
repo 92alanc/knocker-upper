@@ -71,6 +71,16 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     private TwoLinesImagePicker wallpaperFragment;
     private View.OnClickListener onClickListener;
 
+    public static Intent getIntent(Context context) {
+        return new Intent(context, SetupActivity.class);
+    }
+
+    public static Intent getIntent(Context context, int alarmId) {
+        Intent intent = new Intent(context, SetupActivity.class);
+        intent.putExtra(IntentExtra.ID.toString(), alarmId);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,16 +92,15 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             actionBar.setDisplayHomeAsUpEnabled(true);
         Activity activity = this;
         ViewUtils.showAds(activity, R.id.ad_view_setup);
+        parseIntent();
         initialiseComponents();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        editMode = getIntent().getBooleanExtra(IntentExtra.EDIT_MODE.toString(), false);
         replaceFragmentPlaceholders();
         if (editMode) {
-            alarmId = getIntent().getIntExtra(IntentExtra.ID.toString(), 0);
             alarmHandler = new AlarmHandler(context, dao.select(alarmId));
             setFragmentValues();
             replaceFragmentPlaceholders();
@@ -225,6 +234,11 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     private void ackDelete() {
         Toast.makeText(context, R.string.alarm_deleted, Toast.LENGTH_SHORT)
              .show();
+    }
+
+    private void parseIntent() {
+        alarmId = getIntent().getIntExtra(IntentExtra.ID.toString(), 0);
+        editMode = alarmId > 0;
     }
 
     private void replaceFragmentPlaceholders() {

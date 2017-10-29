@@ -27,7 +27,6 @@ import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.adapters.AlarmAdapter;
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.listeners.OnItemClickListener;
-import com.ukdev.smartbuzz.misc.IntentExtra;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.Time;
 import com.ukdev.smartbuzz.util.AlarmHandler;
@@ -135,9 +134,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     @Override
     public void onItemClick(View view, int position) {
         Alarm alarm = alarms.get(position);
-        Intent intent = new Intent(context, SetupActivity.class);
-        intent.putExtra(IntentExtra.EDIT_MODE.toString(), true);
-        intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
+        Intent intent = SetupActivity.getIntent(this, alarm.getId());
         startActivity(intent);
     }
 
@@ -157,8 +154,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
             @Override
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE);
-                Intent intent = new Intent(context, SetupActivity.class);
-                intent.putExtra(IntentExtra.EDIT_MODE.toString(), false);
+                Intent intent = SetupActivity.getIntent(getApplicationContext());
                 startActivity(intent);
             }
         });

@@ -8,12 +8,6 @@ package com.ukdev.smartbuzz.misc;
 public enum IntentExtra {
 
     /**
-     * Whether {@link com.ukdev.smartbuzz.activities.SetupActivity}
-     * should be loaded as edit mode
-     */
-    EDIT_MODE("EDIT_MODE"),
-
-    /**
      * The ID of an alarm
      */
     ID("ID"),

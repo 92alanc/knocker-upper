@@ -1,6 +1,7 @@
 package com.ukdev.smartbuzz.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -51,8 +52,18 @@ public class AlarmActivity extends AppCompatActivity {
     private boolean hellMode;
     private boolean sleepCheckerMode;
     private CountDownTimer countDownTimer;
+    private int alarmId;
     private TextView titleTextView;
     private PowerManager.WakeLock wakeLock;
+
+    public static Intent getIntent(Context context, int alarmId, boolean triggerSleepChecker) {
+        Intent intent = new Intent(context, AlarmActivity.class);
+        intent.putExtra(IntentExtra.ID.toString(), alarmId);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (triggerSleepChecker)
+            intent.setAction(IntentAction.TRIGGER_SLEEP_CHECKER.toString());
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +75,7 @@ public class AlarmActivity extends AppCompatActivity {
                                      WindowManager.LayoutParams.FLAG_FULLSCREEN |
                                      WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
                                      WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+        parseIntent();
         initialiseComponents();
     }
 
@@ -101,10 +113,7 @@ public class AlarmActivity extends AppCompatActivity {
         wakeLock = powerManager.newWakeLock(levelAndFlags, tag);
         if (ViewUtils.isScreenLocked(context))
             wakeLock.acquire(Time.ONE_MINUTE);
-        String sleepCheckerAction = IntentAction.TRIGGER_SLEEP_CHECKER.toString();
-        sleepCheckerMode = sleepCheckerAction.equals(getIntent().getAction());
         dao = AlarmDao.getInstance(context);
-        int alarmId = getIntent().getIntExtra(IntentExtra.ID.toString(), 0);
         alarm = dao.select(alarmId);
         alarmHandler = new AlarmHandler(context, alarm);
         titleTextView = findViewById(R.id.text_view_alarm_title);
@@ -136,6 +145,12 @@ public class AlarmActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void parseIntent() {
+        alarmId = getIntent().getIntExtra(IntentExtra.ID.toString(), -1);
+        sleepCheckerMode = IntentAction.TRIGGER_SLEEP_CHECKER.toString()
+                                                             .equals(getIntent().getAction());
     }
 
     private void raiseHell() {
@@ -183,7 +198,7 @@ public class AlarmActivity extends AppCompatActivity {
     }
 
     private void setDismissFragment(final boolean sleepCheckerOn) {
-        DismissFragment dismissFragment = new DismissFragment();
+        DismissFragment dismissFragment = DismissFragment.newInstance(sleepCheckerOn);
         dismissFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
@@ -207,9 +222,6 @@ public class AlarmActivity extends AppCompatActivity {
                 });
             }
         });
-        Bundle args = new Bundle();
-        args.putBoolean(IntentExtra.SLEEP_CHECKER_ON.toString(), sleepCheckerOn);
-        dismissFragment.setArguments(args);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.placeholder_dismiss_button, dismissFragment);

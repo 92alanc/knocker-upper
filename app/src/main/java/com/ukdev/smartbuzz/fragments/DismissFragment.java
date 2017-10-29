@@ -24,12 +24,19 @@ public class DismissFragment extends Fragment {
     private Button button;
     private OnFragmentInflatedListener onFragmentInflatedListener;
 
+    public static DismissFragment newInstance(boolean sleepCheckerMode) {
+        DismissFragment instance = new DismissFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(IntentExtra.SLEEP_CHECKER_ON.toString(), sleepCheckerMode);
+        instance.setArguments(args);
+        return instance;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final boolean attachToRoot = false;
-        Bundle args = getArguments();
-        sleepCheckerMode = args != null && args.getBoolean(IntentExtra.SLEEP_CHECKER_ON.toString());
+        parseArgs();
         View view = inflater.inflate(R.layout.fragment_dismiss, container, attachToRoot);
         button = view.findViewById(R.id.btDismiss);
         setButtonShape();
@@ -52,6 +59,11 @@ public class DismissFragment extends Fragment {
      */
     public void setOnClickListener(View.OnClickListener onClickListener) {
         button.setOnClickListener(onClickListener);
+    }
+
+    private void parseArgs() {
+        Bundle args = getArguments();
+        sleepCheckerMode = args != null && args.getBoolean(IntentExtra.SLEEP_CHECKER_ON.toString());
     }
 
     private void setButtonShape() {

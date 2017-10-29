@@ -118,7 +118,6 @@ public class AlarmHandler {
         if (!intent.hasExtra(AlarmClock.EXTRA_HOUR)) {
             Intent i = new Intent(context, SetupActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            i.putExtra(IntentExtra.EDIT_MODE.toString(), false);
             context.startActivity(i);
             return;
         }
@@ -180,12 +179,9 @@ public class AlarmHandler {
      * the alarm being triggered
      */
     public void startAlarmActivity() {
-        Intent activityIntent = new Intent(context, AlarmActivity.class);
-        activityIntent.setAction(IntentAction.TRIGGER_ALARM.toString());
-        activityIntent.putExtra(IntentExtra.SLEEP_CHECKER_ON.toString(), false);
-        activityIntent.putExtra(IntentExtra.ID.toString(), alarm.getId());
-        activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(activityIntent);
+        final boolean triggerSleepChecker = false;
+        Intent intent = AlarmActivity.getIntent(context, alarm.getId(), triggerSleepChecker);
+        context.startActivity(intent);
     }
 
     /**
@@ -242,11 +238,9 @@ public class AlarmHandler {
      * Triggers Sleep Checker
      */
     public void triggerSleepChecker() {
-        Intent activityIntent = new Intent(context, AlarmActivity.class);
-        activityIntent.putExtra(IntentExtra.ID.toString(), alarm.getId());
-        activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        activityIntent.setAction(IntentAction.TRIGGER_SLEEP_CHECKER.toString());
-        context.startActivity(activityIntent);
+        final boolean triggerSleepChecker = true;
+        Intent intent = AlarmActivity.getIntent(context, alarm.getId(), triggerSleepChecker);
+        context.startActivity(intent);
     }
 
     private void cancelDelay() {
