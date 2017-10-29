@@ -10,11 +10,11 @@ import android.database.sqlite.SQLiteDatabase;
  */
 abstract class Dao {
 
-    private DatabaseHelper helper;
+    private final DatabaseHelper helper;
 
     SQLiteDatabase reader;
     SQLiteDatabase writer;
-    Context context;
+    final Context context;
 
     /**
      * Default constructor for {@code Dao}

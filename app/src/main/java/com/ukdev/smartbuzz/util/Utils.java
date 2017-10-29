@@ -234,7 +234,7 @@ public class Utils {
      */
     public static int getMaxVolume(Context context) {
         AudioManager manager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
-        return manager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
+        return manager != null ? manager.getStreamMaxVolume(AudioManager.STREAM_ALARM) : 0;
     }
 
     /**

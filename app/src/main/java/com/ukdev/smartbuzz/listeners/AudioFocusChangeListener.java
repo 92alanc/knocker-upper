@@ -9,8 +9,8 @@ import android.media.AudioManager;
  */
 public class AudioFocusChangeListener implements AudioManager.OnAudioFocusChangeListener {
 
-    private AudioManager manager;
-    private int volume;
+    private final AudioManager manager;
+    private final int volume;
 
     /**
      * Default constructor for {@code AudioFocusChangeListener}

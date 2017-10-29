@@ -16,12 +16,12 @@ import com.ukdev.smartbuzz.listeners.OnItemClickListener;
  */
 public class AlarmHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    ImageView dayNightImageView;
-    TextView alarmTitleTextView;
-    TextView triggerTimeTextView;
-    TextView repetitionTextView;
-    SwitchCompat alarmSwitch;
-    private OnItemClickListener onItemClickListener;
+    final ImageView dayNightImageView;
+    final TextView alarmTitleTextView;
+    final TextView triggerTimeTextView;
+    final TextView repetitionTextView;
+    final SwitchCompat alarmSwitch;
+    private final OnItemClickListener onItemClickListener;
 
     /**
      * The alarm holder
@@ -42,7 +42,7 @@ public class AlarmHolder extends RecyclerView.ViewHolder implements View.OnClick
 
     @Override
     public void onClick(View view) {
-        onItemClickListener.onItemClick(view, getLayoutPosition());
+        onItemClickListener.onItemClick(getLayoutPosition());
     }
 
 }

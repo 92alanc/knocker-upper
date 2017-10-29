@@ -70,8 +70,8 @@ public enum SnoozeDuration {
         return values;
     }
 
-    private static LongSparseArray<SnoozeDuration> sparseArray = new LongSparseArray<>();
-    private static long[] values = new long[values().length];
+    private static final LongSparseArray<SnoozeDuration> sparseArray = new LongSparseArray<>();
+    private static final long[] values = new long[values().length];
 
     static {
         SnoozeDuration[] enumValues = SnoozeDuration.values();

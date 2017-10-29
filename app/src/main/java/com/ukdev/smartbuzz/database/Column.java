@@ -33,11 +33,6 @@ enum Column {
     REPETITION("REPETITION"),
 
     /**
-     * The {@code RINGTONE_TITLE} column
-     */
-    RINGTONE_TITLE("RINGTONE_TITLE"),
-
-    /**
      * The {@code RINGTONE_URI} column
      */
     RINGTONE_URI("RINGTONE_URI"),

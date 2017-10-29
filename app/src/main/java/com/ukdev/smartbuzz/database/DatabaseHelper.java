@@ -24,7 +24,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "database.db";
     private static final int DB_VERSION = 10;
     private SQLiteDatabase database;
-    private Context context;
+    private final Context context;
 
     /**
      * Default constructor for {@code DatabaseHelper}
@@ -33,15 +33,11 @@ class DatabaseHelper extends SQLiteOpenHelper {
     DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
-        try {
-            createDatabase();
-            openDatabase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        createDatabase();
+        openDatabase();
     }
 
-    private void createDatabase() throws IOException {
+    private void createDatabase() {
         boolean dbExists = checkDatabase();
         if (!dbExists) {
             getReadableDatabase();

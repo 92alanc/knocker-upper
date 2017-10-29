@@ -21,8 +21,8 @@ public abstract class TwoLinesDefaultFragment<T> extends Fragment {
     }
 
     TextView textSummary;
-    protected T value;
-    protected String title;
+    T value;
+    String title;
     String summary;
     OnFragmentInflatedListener onFragmentInflatedListener;
     TwoLinesChangeListener<T> changeListener;
@@ -30,6 +30,8 @@ public abstract class TwoLinesDefaultFragment<T> extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        if (getView() == null)
+            return;
         TextView textTitle = getView().findViewById(R.id.title);
         textSummary = getView().findViewById(R.id.summary);
         textTitle.setText(title);
@@ -42,7 +44,7 @@ public abstract class TwoLinesDefaultFragment<T> extends Fragment {
      * Sets the value
      * @param value the value
      */
-    public abstract void setValue(T value);
+    protected abstract void setValue(T value);
 
     /**
      * Gets the value

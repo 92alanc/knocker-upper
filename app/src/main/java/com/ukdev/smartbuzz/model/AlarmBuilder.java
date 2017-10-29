@@ -10,7 +10,7 @@ import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
  */
 public class AlarmBuilder {
 
-    private Alarm alarm;
+    private final Alarm alarm;
 
     /**
      * Default constructor for {@code AlarmBuilder}

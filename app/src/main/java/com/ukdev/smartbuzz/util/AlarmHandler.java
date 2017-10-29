@@ -36,10 +36,10 @@ import java.util.Random;
  */
 public class AlarmHandler {
 
-    private Alarm alarm;
-    private AlarmManager manager;
-    private Context context;
-    private AlarmDao database;
+    private final Alarm alarm;
+    private final AlarmManager manager;
+    private final Context context;
+    private final AlarmDao database;
 
     /**
      * Default constructor for {@code AlarmHandler}

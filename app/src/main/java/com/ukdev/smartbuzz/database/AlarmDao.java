@@ -100,32 +100,6 @@ public class AlarmDao extends Dao {
     }
 
     /**
-     * Gets the last {@link Alarm} database ID
-     * @return the last ID
-     */
-    int getLastId() {
-        if (!reader.isOpen())
-            openDatabase();
-        final String selection = null;
-        final String[] selectionArgs = null;
-        final String groupBy = null;
-        final String having = null;
-        String orderBy = String.format("%s DESC", Column.ID.toString());
-        String limit = String.valueOf(1);
-        Cursor cursor = reader.query(TABLE_NAME,
-                                     new String[] { Column.ID.toString() },
-                                     selection, selectionArgs, groupBy,
-                                     having, orderBy, limit);
-        cursor.moveToFirst();
-        int lastId = 0;
-        if (cursor.getCount() > 0)
-            lastId = cursor.getInt(cursor.getColumnIndex(Column.ID.toString()));
-        cursor.close();
-        reader.close();
-        return lastId;
-    }
-
-    /**
      * Gets all instances of {@link Alarm}
      * @return all alarms
      */

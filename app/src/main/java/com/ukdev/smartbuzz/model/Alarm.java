@@ -295,10 +295,12 @@ public class Alarm {
             vibrator.vibrate(vibrationPattern, 0);
         } else {
             volume = this.volume;
-            if (vibrate)
+            if (vibrate && vibrator != null)
                 vibrator.vibrate(vibrationPattern, 0);
         }
         if (ringtoneUri == null && !hellMode)
+            return;
+        if (manager == null)
             return;
         manager.setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
         int requestResult;

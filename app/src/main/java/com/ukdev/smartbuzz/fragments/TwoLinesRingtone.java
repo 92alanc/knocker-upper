@@ -49,7 +49,8 @@ public class TwoLinesRingtone extends TwoLinesDefaultFragment<Uri> {
                 AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
                 int volume = Utils.getDefaultVolume(context);
                 final int flags = 0;
-                audioManager.setStreamVolume(AudioManager.STREAM_ALARM, volume, flags);
+                if (audioManager != null)
+                    audioManager.setStreamVolume(AudioManager.STREAM_ALARM, volume, flags);
                 Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
                 intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, summary);
                 intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true);

@@ -16,8 +16,8 @@ public class Time {
     public static final long TWO_SECONDS = 2000;
     public static final int THREE_MINUTES = 180000;
 
-    private int hour;
-    private int minute;
+    private final int hour;
+    private final int minute;
 
     /**
      * Creates an instance of {@code Time}

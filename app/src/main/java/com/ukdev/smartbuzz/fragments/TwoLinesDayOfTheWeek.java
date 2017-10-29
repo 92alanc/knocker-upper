@@ -28,7 +28,7 @@ public class TwoLinesDayOfTheWeek extends TwoLinesDefaultFragment<SparseBooleanA
     private ToggleButton fridayButton;
     private ToggleButton saturdayButton;
 
-    private CompoundButton.OnCheckedChangeListener changeListener = new CompoundButton.OnCheckedChangeListener() {
+    private final CompoundButton.OnCheckedChangeListener changeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton button, boolean isChecked) {
             int index = getIndexFromButton(button.getId());
@@ -86,7 +86,7 @@ public class TwoLinesDayOfTheWeek extends TwoLinesDefaultFragment<SparseBooleanA
         this.value = value != null ? value : new SparseBooleanArray();
         for (int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++) {
             CompoundButton compoundButton = getButtonFromIndex(i);
-            if (compoundButton != null) {
+            if (compoundButton != null && value != null) {
                 boolean checked = value.get(i);
                 compoundButton.setChecked(checked);
             }

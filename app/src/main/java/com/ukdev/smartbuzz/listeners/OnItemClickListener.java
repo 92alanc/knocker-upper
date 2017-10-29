@@ -1,7 +1,5 @@
 package com.ukdev.smartbuzz.listeners;
 
-import android.view.View;
-
 /**
  * Listener for recycler view item clicks
  *
@@ -11,9 +9,8 @@ public interface OnItemClickListener {
 
     /**
      * Method called when a recycler view item is clicked
-     * @param view the clicked view
      * @param position the clicked position
      */
-    void onItemClick(View view, int position);
+    void onItemClick(int position);
 
 }

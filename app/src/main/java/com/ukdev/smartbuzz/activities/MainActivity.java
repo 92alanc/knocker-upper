@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     }
 
     @Override
-    public void onItemClick(View view, int position) {
+    public void onItemClick(int position) {
         Alarm alarm = alarms.get(position);
         Intent intent = SetupActivity.getIntent(this, alarm.getId());
         startActivity(intent);

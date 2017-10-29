@@ -71,7 +71,7 @@ public class TwoLinesTimePicker extends TwoLinesDefaultFragment<Time> {
         timePickerDialogue.show();
     }
 
-    private TimePickerDialog.OnTimeSetListener listener = new TimePickerDialog.OnTimeSetListener() {
+    private final TimePickerDialog.OnTimeSetListener listener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker timePicker, int hour, int minute) {
             setValue(new Time(hour, minute));

@@ -24,10 +24,10 @@ import java.util.List;
  */
 public class AlarmAdapter extends RecyclerView.Adapter<AlarmHolder> {
 
-    private AlarmDao dao;
-    private Context context;
-    private List<Alarm> objects;
-    private OnItemClickListener listener;
+    private final AlarmDao dao;
+    private final Context context;
+    private final List<Alarm> objects;
+    private final OnItemClickListener listener;
 
     /**
      * Default constructor for {@code AlarmAdapter}

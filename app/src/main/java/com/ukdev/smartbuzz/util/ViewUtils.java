@@ -5,7 +5,6 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.support.annotation.IdRes;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -27,16 +26,16 @@ public class ViewUtils {
      */
     public static boolean isScreenLocked(Context context) {
         KeyguardManager manager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-        return manager.inKeyguardRestrictedInputMode();
+        return manager != null && manager.inKeyguardRestrictedInputMode();
     }
 
     /**
      * Shows ads into an {@code AdView}
      * @param activity the target activity
-     * @param resId the {@code AdView} resource ID
+     *
      */
-    public static void showAds(Activity activity, @IdRes int resId) {
-        AdView adView = activity.findViewById(resId);
+    public static void showAds(Activity activity) {
+        AdView adView = activity.findViewById(R.id.ad_view_setup);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
     }

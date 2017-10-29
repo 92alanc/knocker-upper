@@ -82,7 +82,7 @@ public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Long> {
             setValue(item);
     }
 
-    private DialogInterface.OnClickListener clickListener = new DialogInterface.OnClickListener() {
+    private final DialogInterface.OnClickListener clickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogueInterface, int which) {
             selectedIndex = which;
