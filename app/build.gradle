@@ -13,12 +13,26 @@ android {
         versionName "4.10"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "DB_PATH", '"/data/data/com.ukdev.smartbuzz/databases/"')
+    }
+
+    signingConfigs {
+        config { // TODO: replace with real values
+            keyAlias 'a'
+            keyPassword 'a'
+            storeFile file('a')
+            storePassword 'a'
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "DB_NAME", '"database.db"')
+        }
+        debug {
+            buildConfigField("String", "DB_NAME", '"test_database.db"')
         }
     }
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/androidTest/assets/'] } }

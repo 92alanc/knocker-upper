@@ -1,6 +1,5 @@
 package com.ukdev.smartbuzz.database;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,6 +11,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import static com.ukdev.smartbuzz.BuildConfig.DB_NAME;
+import static com.ukdev.smartbuzz.BuildConfig.DB_PATH;
+
 /**
  * A helper to access SQLite databases
  *
@@ -19,9 +21,6 @@ import java.io.OutputStream;
  */
 class DatabaseHelper extends SQLiteOpenHelper {
 
-    @SuppressLint("SdCardPath")
-    private static final String DB_PATH = "/data/data/com.ukdev.smartbuzz/databases/";
-    private static final String DB_NAME = "database.db";
     private static final int DB_VERSION = 10;
     private SQLiteDatabase database;
     private final Context context;
