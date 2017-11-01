@@ -60,5 +60,11 @@
     <string name="rate">Rate the app</string>
     <string name="share">Share the app</string>
     <string name="clear">Clear</string>
+    <string name="five_min" translatable="false">+5 min</string>
+    <string name="ten_min" translatable="false">+10 min</string>
+    <string name="fifteen_min" translatable="false">+15 min</string>
+    <string name="twenty_min" translatable="false">+20 min</string>
+    <string name="twenty_five_min" translatable="false">+25 min</string>
+    <string name="thirty_min" translatable="false">+30 min</string>
 
 </resources>

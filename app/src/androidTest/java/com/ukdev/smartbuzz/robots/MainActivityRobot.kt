@@ -16,18 +16,12 @@ import com.ukdev.smartbuzz.adapters.AlarmHolder
 import com.ukdev.smartbuzz.misc.IntentExtra
 import org.junit.Rule
 
-class MainActivityRobot {
-
-    companion object {
-        val INITIAL_TOUCH_MODE = false
-        val LAUNCH_ACTIVITY = false
-    }
+class MainActivityRobot : BaseActivityRobot() {
 
     @Rule
     @JvmField
     val rule = IntentsTestRule<MainActivity>(MainActivity::class.java,
-                                              INITIAL_TOUCH_MODE,
-                                              LAUNCH_ACTIVITY)
+                                              initialTouchMode, launchActivity)
 
     fun checkIfIntentHasAlarmId(alarmId: Int): MainActivityRobot {
         intended(hasExtra(IntentExtra.ID.toString(), alarmId))

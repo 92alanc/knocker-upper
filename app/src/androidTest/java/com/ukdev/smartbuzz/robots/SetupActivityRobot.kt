@@ -5,24 +5,19 @@ import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.intent.Intents.intended
 import android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent
-import android.support.test.espresso.intent.rule.IntentsTestRule
 import android.support.test.espresso.matcher.ViewMatchers.withId
+import android.support.test.rule.ActivityTestRule
 import com.ukdev.smartbuzz.R
 import com.ukdev.smartbuzz.activities.MainActivity
 import com.ukdev.smartbuzz.activities.SetupActivity
 import org.junit.Rule
 
-class SetupActivityRobot {
-
-    companion object {
-        val INITIAL_TOUCH_MODE = false
-        val LAUNCH_ACTIVITY = false
-    }
+class SetupActivityRobot : BaseActivityRobot() {
 
     @Rule
     @JvmField
-    val rule = IntentsTestRule<SetupActivity>(SetupActivity::class.java, INITIAL_TOUCH_MODE,
-                                              LAUNCH_ACTIVITY)
+    val rule = ActivityTestRule<SetupActivity>(SetupActivity::class.java,
+                                              initialTouchMode, launchActivity)
 
     fun launchActivity(): SetupActivityRobot {
         val context = InstrumentationRegistry.getTargetContext()

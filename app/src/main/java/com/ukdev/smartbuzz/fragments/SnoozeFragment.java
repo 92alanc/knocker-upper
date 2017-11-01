@@ -55,30 +55,26 @@ public class SnoozeFragment extends Fragment {
      * @param snoozeDuration the snooze duration
      */
     public void setButtonText(SnoozeDuration snoozeDuration) {
-        StringBuilder sb = new StringBuilder("+");
         switch (snoozeDuration) {
             case FIVE_MINUTES:
-                sb.append("5 min");
+                button.setText(R.string.five_min);
                 break;
             case TEN_MINUTES:
-                sb.append("10 min");
+                button.setText(R.string.ten_min);
                 break;
             case FIFTEEN_MINUTES:
-                sb.append("15 min");
+                button.setText(R.string.fifteen_min);
                 break;
             case TWENTY_MINUTES:
-                sb.append("20 min");
+                button.setText(R.string.twenty_min);
                 break;
             case TWENTY_FIVE_MINUTES:
-                sb.append("25 min");
+                button.setText(R.string.twenty_five_min);
                 break;
             case THIRTY_MINUTES:
-                sb.append("30 min");
+                button.setText(R.string.thirty_min);
                 break;
-            default:
-                return;
         }
-        button.setText(sb.toString());
     }
 
 }
