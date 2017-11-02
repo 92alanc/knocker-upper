@@ -8,11 +8,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Process;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.SparseBooleanArray;
 
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.annotations.SnoozeDuration;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.Time;
 
@@ -186,6 +188,26 @@ public class Utils {
         return intArray;
     }
 
+    @Nullable
+    public static String convertSnoozeDurationToString(Context context,
+                                                       @SnoozeDuration long snoozeDuration) {
+        String[] array = context.getResources().getStringArray(R.array.snooze_durations);
+        if (snoozeDuration == Time.ZERO)
+            return array[0];
+        else if (snoozeDuration == Time.FIVE_MINUTES)
+            return array[1];
+        else if (snoozeDuration == Time.FIFTEEN_MINUTES)
+            return array[2];
+        else if (snoozeDuration == Time.TWENTY_MINUTES)
+            return array[3];
+        else if (snoozeDuration == Time.TWENTY_FIVE_MINUTES)
+            return array[4];
+        else if (snoozeDuration == Time.THIRTY_MINUTES)
+            return array[5];
+        else
+            return null;
+    }
+
     /**
      * Gets the next valid trigger time for an alarm.
      *
@@ -201,7 +223,7 @@ public class Utils {
      * @param alarm the alarm
      * @return the next valid trigger time
      */
-    public static long getNextValidTriggerTime(Alarm alarm) {
+    static long getNextValidTriggerTime(Alarm alarm) {
         Time time = Time.valueOf(alarm.getTriggerTime());
         int hours = time.getHour();
         int minutes = time.getMinute();

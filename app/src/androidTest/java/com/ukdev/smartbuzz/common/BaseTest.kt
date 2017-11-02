@@ -5,7 +5,7 @@ import com.ukdev.smartbuzz.database.AlarmDao
 
 open class BaseTest {
 
-    val context = InstrumentationRegistry.getTargetContext()
+    val context = InstrumentationRegistry.getTargetContext()!!
 
     fun clearDatabase() {
         val dao = getDao()

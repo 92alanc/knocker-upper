@@ -25,11 +25,10 @@ import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.fragments.DismissFragment;
 import com.ukdev.smartbuzz.fragments.SnoozeFragment;
 import com.ukdev.smartbuzz.listeners.OnFragmentInflatedListener;
-import com.ukdev.smartbuzz.misc.IntentAction;
-import com.ukdev.smartbuzz.misc.IntentExtra;
+import com.ukdev.smartbuzz.misc.Action;
+import com.ukdev.smartbuzz.misc.Extra;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.Time;
-import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 import com.ukdev.smartbuzz.util.AlarmHandler;
 import com.ukdev.smartbuzz.util.Utils;
 import com.ukdev.smartbuzz.util.ViewUtils;
@@ -58,10 +57,10 @@ public class AlarmActivity extends AppCompatActivity {
 
     public static Intent getIntent(Context context, int alarmId, boolean triggerSleepChecker) {
         Intent intent = new Intent(context, AlarmActivity.class);
-        intent.putExtra(IntentExtra.ID.toString(), alarmId);
+        intent.putExtra(Extra.ID, alarmId);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (triggerSleepChecker)
-            intent.setAction(IntentAction.TRIGGER_SLEEP_CHECKER.toString());
+            intent.setAction(Action.TRIGGER_SLEEP_CHECKER);
         return intent;
     }
 
@@ -148,9 +147,9 @@ public class AlarmActivity extends AppCompatActivity {
     }
 
     private void parseIntent() {
-        alarmId = getIntent().getIntExtra(IntentExtra.ID.toString(), -1);
-        sleepCheckerMode = IntentAction.TRIGGER_SLEEP_CHECKER.toString()
-                                                             .equals(getIntent().getAction());
+        alarmId = getIntent().getIntExtra(Extra.ID, -1);
+        sleepCheckerMode = Action.TRIGGER_SLEEP_CHECKER
+                                                       .equals(getIntent().getAction());
     }
 
     private void raiseHell() {
@@ -165,7 +164,7 @@ public class AlarmActivity extends AppCompatActivity {
 
     private void setSnoozeButtonPlaceholder() {
         FrameLayout snoozeButtonPlaceholder = findViewById(R.id.placeholder_snooze_button);
-        if (sleepCheckerMode || hellMode || alarm.getSnoozeDuration() == SnoozeDuration.OFF)
+        if (sleepCheckerMode || hellMode || alarm.getSnoozeDuration() == Time.ZERO)
             snoozeButtonPlaceholder.setVisibility(View.GONE);
         else {
             snoozeButtonPlaceholder.setVisibility(View.VISIBLE);

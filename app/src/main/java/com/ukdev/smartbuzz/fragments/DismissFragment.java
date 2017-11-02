@@ -11,7 +11,7 @@ import android.widget.Button;
 
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.listeners.OnFragmentInflatedListener;
-import com.ukdev.smartbuzz.misc.IntentExtra;
+import com.ukdev.smartbuzz.misc.Extra;
 
 /**
  * Fragment for the dismiss operation
@@ -27,7 +27,7 @@ public class DismissFragment extends Fragment {
     public static DismissFragment newInstance(boolean sleepCheckerMode) {
         DismissFragment instance = new DismissFragment();
         Bundle args = new Bundle();
-        args.putBoolean(IntentExtra.SLEEP_CHECKER_ON.toString(), sleepCheckerMode);
+        args.putBoolean(Extra.SLEEP_CHECKER_ON, sleepCheckerMode);
         instance.setArguments(args);
         return instance;
     }
@@ -63,7 +63,7 @@ public class DismissFragment extends Fragment {
 
     private void parseArgs() {
         Bundle args = getArguments();
-        sleepCheckerMode = args != null && args.getBoolean(IntentExtra.SLEEP_CHECKER_ON.toString());
+        sleepCheckerMode = args != null && args.getBoolean(Extra.SLEEP_CHECKER_ON);
     }
 
     private void setButtonShape() {

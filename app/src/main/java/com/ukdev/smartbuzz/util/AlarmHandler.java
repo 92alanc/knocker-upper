@@ -16,12 +16,11 @@ import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.activities.AlarmActivity;
 import com.ukdev.smartbuzz.activities.SetupActivity;
 import com.ukdev.smartbuzz.database.AlarmDao;
-import com.ukdev.smartbuzz.misc.IntentAction;
-import com.ukdev.smartbuzz.misc.IntentExtra;
+import com.ukdev.smartbuzz.misc.Action;
+import com.ukdev.smartbuzz.misc.Extra;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.AlarmBuilder;
 import com.ukdev.smartbuzz.model.Time;
-import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 import com.ukdev.smartbuzz.receivers.AlarmReceiver;
 
 import java.util.Calendar;
@@ -58,8 +57,8 @@ public class AlarmHandler {
      */
     public void cancelAlarm() {
         cancelDelay();
-        Intent intent = new Intent(IntentAction.CANCEL_ALARM.toString());
-        intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
+        Intent intent = new Intent(Action.CANCEL_ALARM);
+        intent.putExtra(Extra.ID, alarm.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(), intent,
                                                                  PendingIntent.FLAG_CANCEL_CURRENT);
         manager.cancel(pendingIntent);
@@ -70,10 +69,10 @@ public class AlarmHandler {
      */
     public void delayAlarm() {
         Calendar now = Calendar.getInstance();
-        long triggerTime = alarm.getSnoozeDuration().getValue() + now.getTimeInMillis();
+        long triggerTime = alarm.getSnoozeDuration() + now.getTimeInMillis();
         Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.setAction(IntentAction.DELAY_ALARM.toString());
-        intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
+        intent.setAction(Action.DELAY_ALARM);
+        intent.putExtra(Extra.ID, alarm.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(), intent, 0);
         startAlarmManager(manager, triggerTime, pendingIntent);
     }
@@ -101,8 +100,8 @@ public class AlarmHandler {
     public void setAlarm() {
         long triggerTime = Utils.getNextValidTriggerTime(alarm);
         Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.setAction(IntentAction.TRIGGER_ALARM.toString());
-        intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
+        intent.setAction(Action.TRIGGER_ALARM);
+        intent.putExtra(Extra.ID, alarm.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(), intent, 0);
         startAlarmManager(manager, triggerTime, pendingIntent);
     }
@@ -145,7 +144,7 @@ public class AlarmHandler {
         AlarmBuilder alarmBuilder = new AlarmBuilder();
         alarmBuilder.setTitle(title)
                     .setTriggerTime(triggerTime)
-                    .setSnoozeDuration(SnoozeDuration.FIVE_MINUTES)
+                    .setSnoozeDuration(Time.FIVE_MINUTES)
                     .setRingtoneUri(ringtoneUri)
                     .setVolume(volume)
                     .setRepetition(repetition);
@@ -156,8 +155,8 @@ public class AlarmHandler {
 
         long nextValidTriggerTime = Utils.getNextValidTriggerTime(alarm);
         Intent receiverIntent = new Intent(context, AlarmReceiver.class);
-        receiverIntent.setAction(IntentAction.TRIGGER_ALARM.toString());
-        receiverIntent.putExtra(IntentExtra.ID.toString(), alarm.getId());
+        receiverIntent.setAction(Action.TRIGGER_ALARM);
+        receiverIntent.putExtra(Extra.ID, alarm.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(),
                                                                  receiverIntent, 0);
 
@@ -244,8 +243,8 @@ public class AlarmHandler {
     }
 
     private void cancelDelay() {
-        Intent intent = new Intent(IntentAction.DELAY_ALARM.toString());
-        intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
+        Intent intent = new Intent(Action.DELAY_ALARM);
+        intent.putExtra(Extra.ID, alarm.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarm.getId(), intent,
                                                                  PendingIntent.FLAG_CANCEL_CURRENT);
         manager.cancel(pendingIntent);
@@ -258,8 +257,8 @@ public class AlarmHandler {
         int randomTime = Time.THREE_MINUTES + upToTwoMinutes;
         long callTime = now.getTimeInMillis() + randomTime;
         Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.setAction(IntentAction.TRIGGER_SLEEP_CHECKER.toString());
-        intent.putExtra(IntentExtra.ID.toString(), alarm.getId());
+        intent.setAction(Action.TRIGGER_SLEEP_CHECKER);
+        intent.putExtra(Extra.ID, alarm.getId());
         final int requestCode = 999;
         final int flags = 0;
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, flags);

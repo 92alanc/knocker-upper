@@ -7,8 +7,9 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.ukdev.smartbuzz.R;
-import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
+import com.ukdev.smartbuzz.model.Time;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -73,11 +74,12 @@ public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Long> {
     @Override
     public Long getValue() {
         if (value == null)
-            value = SnoozeDuration.FIVE_MINUTES.getValue();
+            value = Time.FIVE_MINUTES;
         return value;
     }
 
-    public void setSelectedItem(Long item) {
+    public void setDefaultSelectedItem() {
+        long item = Time.FIVE_MINUTES;
         if (mapOptionValue.containsKey(item))
             setValue(item);
     }

@@ -1,7 +1,8 @@
 package com.ukdev.smartbuzz.model;
 
 import android.net.Uri;
-import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
+
+import com.ukdev.smartbuzz.annotations.SnoozeDuration;
 
 /**
  * Alarm builder
@@ -54,7 +55,7 @@ public class AlarmBuilder {
      * @param snoozeDuration the snooze duration
      * @return the alarm builder after being updated
      */
-    public AlarmBuilder setSnoozeDuration(SnoozeDuration snoozeDuration) {
+    public AlarmBuilder setSnoozeDuration(@SnoozeDuration long snoozeDuration) {
         alarm.setSnoozeDuration(snoozeDuration);
         return this;
     }

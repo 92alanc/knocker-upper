@@ -38,11 +38,10 @@ import com.ukdev.smartbuzz.fragments.TwoLinesSeekBar;
 import com.ukdev.smartbuzz.fragments.TwoLinesSwitch;
 import com.ukdev.smartbuzz.fragments.TwoLinesTimePicker;
 import com.ukdev.smartbuzz.listeners.OnFragmentInflatedListener;
-import com.ukdev.smartbuzz.misc.IntentExtra;
+import com.ukdev.smartbuzz.misc.Extra;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.AlarmBuilder;
 import com.ukdev.smartbuzz.model.Time;
-import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 import com.ukdev.smartbuzz.util.AlarmHandler;
 import com.ukdev.smartbuzz.util.Utils;
 import com.ukdev.smartbuzz.util.ViewUtils;
@@ -77,7 +76,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
     public static Intent getIntent(Context context, int alarmId) {
         Intent intent = new Intent(context, SetupActivity.class);
-        intent.putExtra(IntentExtra.ID.toString(), alarmId);
+        intent.putExtra(Extra.ID, alarmId);
         return intent;
     }
 
@@ -237,7 +236,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void parseIntent() {
-        alarmId = getIntent().getIntExtra(IntentExtra.ID.toString(), 0);
+        alarmId = getIntent().getIntExtra(Extra.ID, 0);
         editMode = alarmId > 0;
     }
 
@@ -293,13 +292,15 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         Bundle args = new Bundle();
         String[] snoozeDurations = getResources().getStringArray(R.array.snooze_durations);
         args.putStringArray(TwoLinesRadioGroup.ARG_OPTIONS_TEXT, snoozeDurations);
-        long[] values = SnoozeDuration.getValues();
+        long[] values = { Time.ZERO, Time.FIVE_MINUTES, Time.TEN_MINUTES,
+                          Time.FIFTEEN_MINUTES, Time.TWENTY_MINUTES,
+                          Time.TWENTY_FIVE_MINUTES, Time.THIRTY_MINUTES };
         args.putLongArray(TwoLinesRadioGroup.ARG_OPTIONS_VALUE, values);
         snoozeDurationFragment.setArguments(args);
         snoozeDurationFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
-                snoozeDurationFragment.setSelectedItem(SnoozeDuration.FIVE_MINUTES.getValue());
+                snoozeDurationFragment.setDefaultSelectedItem();
             }
         });
     }
@@ -353,7 +354,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         long triggerTime = timePickerFragment.getValue().toCalendar().getTimeInMillis();
         SparseBooleanArray sparseBooleanArray = repetitionFragment.getValue();
         Integer[] repetition = Utils.convertSparseBooleanArrayToIntArray(sparseBooleanArray);
-        SnoozeDuration snoozeDuration = SnoozeDuration.valueOf(snoozeDurationFragment.getValue());
+        long snoozeDuration = snoozeDurationFragment.getValue();
         Uri ringtoneUri = ringtoneFragment.getValue();
         Uri wallpaperUri = wallpaperFragment.getValue();
         int volume = volumeFragment.getValue();
@@ -408,8 +409,10 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         snoozeDurationFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
-                snoozeDurationFragment.setSummary(alarm.getSnoozeDuration().toString());
-                snoozeDurationFragment.setValue(alarm.getSnoozeDuration().getValue());
+                String summary = Utils.convertSnoozeDurationToString(context,
+                                                                     alarm.getSnoozeDuration());
+                snoozeDurationFragment.setSummary(summary);
+                snoozeDurationFragment.setValue(alarm.getSnoozeDuration());
             }
         });
 

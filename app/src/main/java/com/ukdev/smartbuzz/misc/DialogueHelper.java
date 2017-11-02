@@ -6,28 +6,28 @@ import android.support.v7.app.AlertDialog;
 import com.ukdev.smartbuzz.R;
 
 /**
- * A graphic log tool
+ * An {@code AlertDialog} helper
  *
  * @author Alan Camargo
  */
-public class LogTool {
+public class DialogueHelper {
 
     private final AlertDialog.Builder dialogue;
 
     /**
-     * Default constructor for {@code LogTool}
+     * Default constructor for {@code DialogueHelper}
      * @param context the Android context
      */
-    public LogTool(Context context) {
+    public DialogueHelper(Context context) {
         dialogue = new AlertDialog.Builder(context);
         dialogue.setTitle(R.string.app_name);
     }
 
     /**
-     * Logs simple information
-     * @param text the information text
+     * Shows a dialogue
+     * @param text the dialogue text
      */
-    public void info(String text) {
+    public void showDialogue(String text) {
         dialogue.setMessage(text);
         dialogue.setIcon(R.mipmap.ic_launcher);
         dialogue.setNeutralButton(R.string.ok, null);

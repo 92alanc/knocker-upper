@@ -9,8 +9,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Vibrator;
 
+import com.ukdev.smartbuzz.annotations.SnoozeDuration;
 import com.ukdev.smartbuzz.listeners.AudioFocusChangeListener;
-import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 import com.ukdev.smartbuzz.util.Utils;
 
 import java.io.IOException;
@@ -26,7 +26,10 @@ public class Alarm {
     private int id;
     private String title;
     private long triggerTime;
-    private SnoozeDuration snoozeDuration;
+
+    @SnoozeDuration
+    private long snoozeDuration;
+
     private Integer[] repetition;
     private Uri ringtoneUri;
     private Uri wallpaperUri;
@@ -44,7 +47,7 @@ public class Alarm {
     Alarm() {
         active = true;
         ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        snoozeDuration = SnoozeDuration.FIVE_MINUTES;
+        snoozeDuration = Time.FIVE_MINUTES;
         triggerTime = Calendar.getInstance().getTimeInMillis();
         vibrate = true;
     }
@@ -106,7 +109,8 @@ public class Alarm {
      * Gets the snooze duration
      * @return the snooze duration
      */
-    public SnoozeDuration getSnoozeDuration() {
+    @SnoozeDuration
+    public long getSnoozeDuration() {
         return snoozeDuration;
     }
 
@@ -114,7 +118,7 @@ public class Alarm {
      * Sets the snooze duration
      * @param snoozeDuration the snooze duration
      */
-    void setSnoozeDuration(SnoozeDuration snoozeDuration) {
+    void setSnoozeDuration(@SnoozeDuration long snoozeDuration) {
         this.snoozeDuration = snoozeDuration;
     }
 

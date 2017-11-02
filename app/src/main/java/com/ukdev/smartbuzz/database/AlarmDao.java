@@ -5,9 +5,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.AlarmBuilder;
-import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
 import com.ukdev.smartbuzz.util.Utils;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
 public class AlarmDao extends Dao {
 
     private static final String TABLE_NAME = "ALARMS";
-    private static final String WHERE_CLAUSE = String.format("%1$s = ?", Column.ID.toString());
+    private static final String WHERE_CLAUSE = String.format("%1$s = ?", Column.ID);
     private static final String[] COLUMNS = null;
     private static final String GROUP_BY = null;
     private static final String HAVING = null;
@@ -85,7 +85,7 @@ public class AlarmDao extends Dao {
     public List<Alarm> getActiveAlarms() {
         if (!reader.isOpen())
             openDatabase();
-        String selection = String.format("%1$s = ?", Column.ACTIVE.toString());
+        String selection = String.format("%1$s = ?", Column.ACTIVE);
         String[] selectionArgs = new String[] {ACTIVE_STRING};
         final String orderBy = null;
         Cursor cursor = reader.query(TABLE_NAME, COLUMNS, selection, selectionArgs, GROUP_BY, HAVING, orderBy);
@@ -108,7 +108,7 @@ public class AlarmDao extends Dao {
             openDatabase();
         final String selection = null;
         final String[] selectionArgs = null;
-        String orderBy = String.format("%1$s ASC", Column.ID.toString());
+        String orderBy = String.format("%1$s ASC", Column.ID);
         Cursor cursor = reader.query(TABLE_NAME, COLUMNS, selection, selectionArgs, GROUP_BY, HAVING, orderBy);
         ArrayList<Alarm> alarms = new ArrayList<>();
         if (cursor.getCount() > 0) {
@@ -129,7 +129,7 @@ public class AlarmDao extends Dao {
     public Alarm select(int id) {
         if (!reader.isOpen())
             openDatabase();
-        String selection = String.format("%1$s = ?", Column.ID.toString());
+        String selection = String.format("%1$s = ?", Column.ID);
         String[] selectionArgs = new String[] {String.valueOf(id)};
         final String orderBy = null;
         Cursor cursor = reader.query(TABLE_NAME, COLUMNS, selection, selectionArgs,
@@ -137,28 +137,27 @@ public class AlarmDao extends Dao {
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             String title, ringtoneUri, wallpaperUri, text;
-            long triggerTime, snooze;
+            long triggerTime, snoozeDuration;
             int volume;
-            SnoozeDuration snoozeDuration;
             boolean active, sleepCheckerOn, vibrate;
             Integer[] repetition;
 
-            title = cursor.getString(cursor.getColumnIndex(Column.TITLE.toString()));
-            text = cursor.getString(cursor.getColumnIndex(Column.TEXT.toString()));
+            title = cursor.getString(cursor.getColumnIndex(Column.TITLE));
+            text = cursor.getString(cursor.getColumnIndex(Column.TEXT));
 
-            triggerTime = cursor.getLong(cursor.getColumnIndex(Column.TRIGGER_TIME.toString()));
+            triggerTime = cursor.getLong(cursor.getColumnIndex(Column.TRIGGER_TIME));
 
-            active = cursor.getInt(cursor.getColumnIndex(Column.ACTIVE.toString())) == 1;
-            sleepCheckerOn = cursor.getInt(cursor.getColumnIndex(Column.SLEEP_CHECKER_ON.toString())) == 1;
-            ringtoneUri = cursor.getString(cursor.getColumnIndex(Column.RINGTONE_URI.toString()));
-            wallpaperUri = cursor.getString(cursor.getColumnIndex(Column.WALLPAPER.toString()));
-            volume = cursor.getInt(cursor.getColumnIndex(Column.VOLUME.toString()));
-            snooze = cursor.getLong(cursor.getColumnIndex(Column.SNOOZE_DURATION.toString()));
-            snoozeDuration = SnoozeDuration.valueOf(snooze);
-            vibrate = cursor.getInt(cursor.getColumnIndex(Column.VIBRATE.toString())) == 1;
+            active = cursor.getInt(cursor.getColumnIndex(Column.ACTIVE)) == 1;
+            sleepCheckerOn = cursor.getInt(cursor.getColumnIndex(Column.SLEEP_CHECKER_ON)) == 1;
+            ringtoneUri = cursor.getString(cursor.getColumnIndex(Column.RINGTONE_URI));
+            wallpaperUri = cursor.getString(cursor.getColumnIndex(Column.WALLPAPER));
+            volume = cursor.getInt(cursor.getColumnIndex(Column.VOLUME));
+            snoozeDuration = cursor.getLong(cursor.getColumnIndex(Column.SNOOZE_DURATION));
+            vibrate = cursor.getInt(cursor.getColumnIndex(Column.VIBRATE)) == 1;
 
             repetition = Utils.convertStringToIntArray(context,
-                                                       cursor.getString(cursor.getColumnIndex(Column.REPETITION.toString())));
+                                                       cursor.getString(cursor.getColumnIndex(
+                                                               Column.REPETITION)));
 
             AlarmBuilder alarmBuilder = new AlarmBuilder().setTitle(title)
                                                                  .setTriggerTime(triggerTime)
@@ -208,51 +207,51 @@ public class AlarmDao extends Dao {
     }
 
     private void fillFields(Alarm alarm, ContentValues values) {
-        values.put(Column.TITLE.toString(), alarm.getTitle());
-        values.put(Column.TRIGGER_TIME.toString(), alarm.getTriggerTime());
-        values.put(Column.REPETITION.toString(), Utils.convertIntArrayToString(context, alarm.getRepetition()));
-        values.put(Column.SLEEP_CHECKER_ON.toString(), alarm.isSleepCheckerOn() ? 1 : 0);
-        values.put(Column.VIBRATE.toString(), alarm.vibrates() ? 1 : 0);
+        values.put(Column.TITLE, alarm.getTitle());
+        values.put(Column.TRIGGER_TIME, alarm.getTriggerTime());
+        values.put(Column.REPETITION, Utils.convertIntArrayToString(context, alarm.getRepetition()));
+        values.put(Column.SLEEP_CHECKER_ON, alarm.isSleepCheckerOn() ? 1 : 0);
+        values.put(Column.VIBRATE, alarm.vibrates() ? 1 : 0);
         if (alarm.getRingtoneUri() != null)
-            values.put(Column.RINGTONE_URI.toString(), alarm.getRingtoneUri().toString());
+            values.put(Column.RINGTONE_URI, alarm.getRingtoneUri().toString());
         else
-            values.put(Column.RINGTONE_URI.toString(), (String) null);
-        values.put(Column.VOLUME.toString(), alarm.getVolume());
+            values.put(Column.RINGTONE_URI, (String) null);
+        values.put(Column.VOLUME, alarm.getVolume());
         if (alarm.getWallpaperUri() != null)
-            values.put(Column.WALLPAPER.toString(), alarm.getWallpaperUri().toString());
+            values.put(Column.WALLPAPER, alarm.getWallpaperUri().toString());
         else
-            values.put(Column.WALLPAPER.toString(), (String) null);
-        values.put(Column.TEXT.toString(), alarm.getText());
-        values.put(Column.SNOOZE_DURATION.toString(), alarm.getSnoozeDuration().getValue());
-        values.put(Column.ACTIVE.toString(), alarm.isActive() ? 1 : 0);
+            values.put(Column.WALLPAPER, (String) null);
+        values.put(Column.TEXT, alarm.getText());
+        values.put(Column.SNOOZE_DURATION, alarm.getSnoozeDuration());
+        values.put(Column.ACTIVE, alarm.isActive() ? 1 : 0);
     }
 
     private ArrayList<Alarm> queryAlarms(Cursor cursor) {
         ArrayList<Alarm> alarms = new ArrayList<>();
         do {
             String title, ringtoneUri, wallpaperUri, text;
-            long triggerTime, snooze;
+            long triggerTime;
             int volume;
-            SnoozeDuration snoozeDuration;
+            long snoozeDuration;
             boolean active, sleepCheckerOn, vibrate;
             Integer[] repetition;
 
-            title = cursor.getString(cursor.getColumnIndex(Column.TITLE.toString()));
-            text = cursor.getString(cursor.getColumnIndex(Column.TEXT.toString()));
+            title = cursor.getString(cursor.getColumnIndex(Column.TITLE));
+            text = cursor.getString(cursor.getColumnIndex(Column.TEXT));
 
-            triggerTime = cursor.getLong(cursor.getColumnIndex(Column.TRIGGER_TIME.toString()));
+            triggerTime = cursor.getLong(cursor.getColumnIndex(Column.TRIGGER_TIME));
 
-            active = cursor.getInt(cursor.getColumnIndex(Column.ACTIVE.toString())) == 1;
-            sleepCheckerOn = cursor.getInt(cursor.getColumnIndex(Column.SLEEP_CHECKER_ON.toString())) == 1;
-            ringtoneUri = cursor.getString(cursor.getColumnIndex(Column.RINGTONE_URI.toString()));
-            volume = cursor.getInt(cursor.getColumnIndex(Column.VOLUME.toString()));
-            snooze = cursor.getLong(cursor.getColumnIndex(Column.SNOOZE_DURATION.toString()));
-            snoozeDuration = SnoozeDuration.valueOf(snooze);
-            vibrate = cursor.getInt(cursor.getColumnIndex(Column.VIBRATE.toString())) == 1;
-            wallpaperUri = cursor.getString(cursor.getColumnIndex(Column.WALLPAPER.toString()));
+            active = cursor.getInt(cursor.getColumnIndex(Column.ACTIVE)) == 1;
+            sleepCheckerOn = cursor.getInt(cursor.getColumnIndex(Column.SLEEP_CHECKER_ON)) == 1;
+            ringtoneUri = cursor.getString(cursor.getColumnIndex(Column.RINGTONE_URI));
+            volume = cursor.getInt(cursor.getColumnIndex(Column.VOLUME));
+            snoozeDuration = cursor.getLong(cursor.getColumnIndex(Column.SNOOZE_DURATION));
+            vibrate = cursor.getInt(cursor.getColumnIndex(Column.VIBRATE)) == 1;
+            wallpaperUri = cursor.getString(cursor.getColumnIndex(Column.WALLPAPER));
 
             repetition = Utils.convertStringToIntArray(context,
-                                                       cursor.getString(cursor.getColumnIndex(Column.REPETITION.toString())));
+                                                       cursor.getString(cursor.getColumnIndex(
+                                                               Column.REPETITION)));
 
             AlarmBuilder alarmBuilder = new AlarmBuilder().setTitle(title)
                                                                  .setTriggerTime(triggerTime)
@@ -273,7 +272,7 @@ public class AlarmDao extends Dao {
                 alarmBuilder.setWallpaperUri(wallpaper);
             } else
                 alarmBuilder.setWallpaperUri(null);
-            int id = cursor.getInt(cursor.getColumnIndex(Column.ID.toString()));
+            int id = cursor.getInt(cursor.getColumnIndex(Column.ID));
             alarmBuilder.setId(id);
             alarms.add(alarmBuilder.build());
         } while (cursor.moveToNext());

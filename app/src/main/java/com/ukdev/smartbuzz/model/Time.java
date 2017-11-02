@@ -9,12 +9,19 @@ import java.util.Calendar;
  */
 public class Time {
 
+    public static final long ZERO = 0L;
+    public static final long ONE_SECOND = 1000;
+    public static final long TWO_SECONDS = 2000;
     public static final long FIFTEEN_SECONDS = 15000;
     public static final long ONE_MINUTE = 60000;
-    public static final long ONE_SECOND = 1000;
     public static final int TWO_MINUTES = 120000;
-    public static final long TWO_SECONDS = 2000;
     public static final int THREE_MINUTES = 180000;
+    public static final long FIVE_MINUTES = 300000L;
+    public static final long TEN_MINUTES = 600000L;
+    public static final long FIFTEEN_MINUTES = 900000L;
+    public static final long TWENTY_MINUTES = 1200000L;
+    public static final long TWENTY_FIVE_MINUTES = 1500000L;
+    public static final long THIRTY_MINUTES = 1800000L;
 
     private final int hour;
     private final int minute;

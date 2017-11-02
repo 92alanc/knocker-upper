@@ -9,8 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.ukdev.smartbuzz.R;
+import com.ukdev.smartbuzz.annotations.SnoozeDuration;
 import com.ukdev.smartbuzz.listeners.OnFragmentInflatedListener;
-import com.ukdev.smartbuzz.model.enums.SnoozeDuration;
+import com.ukdev.smartbuzz.model.Time;
 
 /**
  * Fragment for the snooze operation
@@ -54,27 +55,19 @@ public class SnoozeFragment extends Fragment {
      * the alarm snooze duration
      * @param snoozeDuration the snooze duration
      */
-    public void setButtonText(SnoozeDuration snoozeDuration) {
-        switch (snoozeDuration) {
-            case FIVE_MINUTES:
-                button.setText(R.string.five_min);
-                break;
-            case TEN_MINUTES:
-                button.setText(R.string.ten_min);
-                break;
-            case FIFTEEN_MINUTES:
-                button.setText(R.string.fifteen_min);
-                break;
-            case TWENTY_MINUTES:
-                button.setText(R.string.twenty_min);
-                break;
-            case TWENTY_FIVE_MINUTES:
-                button.setText(R.string.twenty_five_min);
-                break;
-            case THIRTY_MINUTES:
-                button.setText(R.string.thirty_min);
-                break;
-        }
+    public void setButtonText(@SnoozeDuration long snoozeDuration) {
+        if (snoozeDuration == Time.FIVE_MINUTES)
+            button.setText(R.string.five_min);
+        else if (snoozeDuration == Time.TEN_MINUTES)
+            button.setText(R.string.ten_min);
+        else if (snoozeDuration == Time.FIFTEEN_MINUTES)
+            button.setText(R.string.fifteen_min);
+        else if (snoozeDuration == Time.TWENTY_MINUTES)
+            button.setText(R.string.twenty_min);
+        else if (snoozeDuration == Time.TWENTY_FIVE_MINUTES)
+            button.setText(R.string.twenty_five_min);
+        else if (snoozeDuration == Time.THIRTY_MINUTES)
+            button.setText(R.string.thirty_min);
     }
 
 }

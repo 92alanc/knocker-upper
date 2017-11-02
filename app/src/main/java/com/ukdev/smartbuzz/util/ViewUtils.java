@@ -9,7 +9,7 @@ import android.content.pm.PackageManager;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.ukdev.smartbuzz.R;
-import com.ukdev.smartbuzz.misc.LogTool;
+import com.ukdev.smartbuzz.misc.DialogueHelper;
 
 /**
  * View utilities
@@ -41,11 +41,11 @@ public class ViewUtils {
     }
 
     /**
-     * Shows app info
+     * Shows app showDialogue
      * @param context the Android context
      */
     public static void showAppInfo(Context context) {
-        LogTool log = new LogTool(context);
+        DialogueHelper log = new DialogueHelper(context);
         try {
             PackageManager manager = context.getPackageManager();
             final int flags = 0;
@@ -54,7 +54,7 @@ public class ViewUtils {
             String appName = context.getString(R.string.app_name);
             String about = context.getString(R.string.about);
             String text = String.format("%1$s %2$s\n%3$s", appName, version, about);
-            log.info(text);
+            log.showDialogue(text);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

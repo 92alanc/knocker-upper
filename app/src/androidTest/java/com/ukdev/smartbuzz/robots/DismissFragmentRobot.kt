@@ -37,7 +37,7 @@ class DismissFragmentRobot : BaseFragmentRobot() {
 
     fun checkIfActivityIsDestroyed(): DismissFragmentRobot {
         Thread.sleep(500)
-        assertTrue(rule.fragment.activity.isDestroyed)
+        assertTrue(rule.fragment.activity!!.isDestroyed)
         return this
     }
 
@@ -54,7 +54,7 @@ class DismissFragmentRobot : BaseFragmentRobot() {
     private fun fragment(sleepCheckerMode: Boolean): DismissFragment {
         val fragment = DismissFragment.newInstance(sleepCheckerMode)
         fragment.setOnFragmentInflatedListener {
-            fragment.setOnClickListener { fragment.activity.finish() }
+            fragment.setOnClickListener { fragment.activity!!.finish() }
         }
         return fragment
     }

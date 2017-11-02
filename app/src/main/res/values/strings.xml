@@ -3,9 +3,9 @@
 
     <!-- Not translatable -->
     <string name="adUnitId" translatable="false">ca-app-pub-3993772572074236/8461240508</string>
-    <string name="app_name" translatable="false">Smart Buzz</string>
 
     <!-- Translatable -->
+    <string name="app_name">Smart Buzz</string>
     <string name="new_alarm">New alarm</string>
     <string name="every_day">Every day</string>
     <string name="week_days">Week days</string>

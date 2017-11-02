@@ -10,7 +10,6 @@ import com.ukdev.smartbuzz.R
 import com.ukdev.smartbuzz.activities.AlarmActivity
 import com.ukdev.smartbuzz.common.BaseFragmentRobot
 import com.ukdev.smartbuzz.fragments.SnoozeFragment
-import com.ukdev.smartbuzz.model.enums.SnoozeDuration
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 
@@ -26,7 +25,7 @@ class SnoozeFragmentRobot : BaseFragmentRobot() {
                                                                launchFragment)
 
     // FIXME: not launching fragment
-    fun launchFragment(snoozeDuration: SnoozeDuration): SnoozeFragmentRobot {
+    fun launchFragment(snoozeDuration: Long): SnoozeFragmentRobot {
         rule.launchFragment(fragment(snoozeDuration))
         return this
     }
@@ -38,7 +37,7 @@ class SnoozeFragmentRobot : BaseFragmentRobot() {
 
     fun checkIfActivityIsDestroyed(): SnoozeFragmentRobot {
         Thread.sleep(500)
-        assertTrue(rule.fragment.activity.isDestroyed)
+        assertTrue(rule.fragment.activity!!.isDestroyed)
         return this
     }
 
@@ -82,11 +81,11 @@ class SnoozeFragmentRobot : BaseFragmentRobot() {
         return this
     }
 
-    private fun fragment(snoozeDuration: SnoozeDuration): SnoozeFragment {
+    private fun fragment(snoozeDuration: Long): SnoozeFragment {
         val fragment = SnoozeFragment()
         fragment.setOnFragmentInflatedListener {
             fragment.setButtonText(snoozeDuration)
-            fragment.setOnClickListener { fragment.activity.finish() }
+            fragment.setOnClickListener { fragment.activity!!.finish() }
         }
         return fragment
     }

@@ -14,7 +14,7 @@ import com.ukdev.smartbuzz.activities.MainActivity
 import com.ukdev.smartbuzz.activities.SetupActivity
 import com.ukdev.smartbuzz.adapters.AlarmHolder
 import com.ukdev.smartbuzz.common.BaseActivityRobot
-import com.ukdev.smartbuzz.misc.IntentExtra
+import com.ukdev.smartbuzz.misc.Extra
 import org.junit.Rule
 
 class MainActivityRobot : BaseActivityRobot() {
@@ -25,7 +25,7 @@ class MainActivityRobot : BaseActivityRobot() {
                                               initialTouchMode, launchActivity)
 
     fun checkIfIntentHasAlarmId(alarmId: Int): MainActivityRobot {
-        intended(hasExtra(IntentExtra.ID.toString(), alarmId))
+        intended(hasExtra(Extra.ID, alarmId))
         return this
     }
 
