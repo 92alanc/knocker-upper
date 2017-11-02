@@ -3,6 +3,7 @@ package com.ukdev.smartbuzz.fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,7 @@ public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Long> {
     private int selectedIndex = -1;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.two_lines_default, container, ATTACH_TO_ROOT);
         rootView = view.findViewById(R.id.rootView);
         if (getArguments() != null) {

@@ -2,6 +2,7 @@ package com.ukdev.smartbuzz.fragments;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +38,7 @@ public class TwoLinesDayOfTheWeek extends TwoLinesDefaultFragment<SparseBooleanA
     };
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.two_lines_day_of_week, container, ATTACH_TO_ROOT);
         sundayButton = view.findViewById(R.id.btSunday);
         mondayButton = view.findViewById(R.id.btMonday);
@@ -63,7 +64,7 @@ public class TwoLinesDayOfTheWeek extends TwoLinesDefaultFragment<SparseBooleanA
         thursdayButton.setOnCheckedChangeListener(changeListener);
         fridayButton.setOnCheckedChangeListener(changeListener);
         saturdayButton.setOnCheckedChangeListener(changeListener);
-        int screenSize = getContext().getResources().getConfiguration().screenLayout &
+        int screenSize = getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK;
         if (screenSize >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
             resizeButton(sundayButton);

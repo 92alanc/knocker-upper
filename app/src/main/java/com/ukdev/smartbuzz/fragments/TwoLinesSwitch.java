@@ -1,6 +1,7 @@
 package com.ukdev.smartbuzz.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ public class TwoLinesSwitch extends TwoLinesDefaultFragment<Boolean> {
     private CompoundButton mSwitch;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.two_lines_switch, container, ATTACH_TO_ROOT);
         mSwitch = view.findViewById(R.id.switch_view);
         if (onFragmentInflatedListener != null)

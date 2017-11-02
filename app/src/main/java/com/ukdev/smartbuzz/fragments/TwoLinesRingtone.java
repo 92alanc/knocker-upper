@@ -7,6 +7,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class TwoLinesRingtone extends TwoLinesDefaultFragment<Uri> {
     private ViewGroup rootView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.two_lines_default, container, ATTACH_TO_ROOT);
         context = view.getContext();
         rootView = view.findViewById(R.id.rootView);
