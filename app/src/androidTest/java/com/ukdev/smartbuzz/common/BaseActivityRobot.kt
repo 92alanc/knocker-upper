@@ -1,4 +1,4 @@
-package com.ukdev.smartbuzz.robots
+package com.ukdev.smartbuzz.common
 
 open class BaseActivityRobot {
 

@@ -9,6 +9,7 @@ import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
 import com.ukdev.smartbuzz.R
 import com.ukdev.smartbuzz.activities.AlarmActivity
+import com.ukdev.smartbuzz.common.BaseActivityRobot
 import com.ukdev.smartbuzz.database.AlarmDao
 import com.ukdev.smartbuzz.model.Alarm
 import org.junit.Rule

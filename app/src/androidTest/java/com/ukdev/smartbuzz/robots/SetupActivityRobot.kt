@@ -10,6 +10,7 @@ import android.support.test.rule.ActivityTestRule
 import com.ukdev.smartbuzz.R
 import com.ukdev.smartbuzz.activities.MainActivity
 import com.ukdev.smartbuzz.activities.SetupActivity
+import com.ukdev.smartbuzz.common.BaseActivityRobot
 import org.junit.Rule
 
 class SetupActivityRobot : BaseActivityRobot() {

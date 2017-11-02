@@ -8,6 +8,7 @@ import android.support.test.espresso.matcher.ViewMatchers.*
 import com.android21buttons.fragmenttestrule.FragmentTestRule
 import com.ukdev.smartbuzz.R
 import com.ukdev.smartbuzz.activities.AlarmActivity
+import com.ukdev.smartbuzz.common.BaseFragmentRobot
 import com.ukdev.smartbuzz.fragments.SnoozeFragment
 import com.ukdev.smartbuzz.model.enums.SnoozeDuration
 import org.junit.Assert.assertTrue
@@ -24,6 +25,7 @@ class SnoozeFragmentRobot : BaseFragmentRobot() {
                                                                launchActivity,
                                                                launchFragment)
 
+    // FIXME: not launching fragment
     fun launchFragment(snoozeDuration: SnoozeDuration): SnoozeFragmentRobot {
         rule.launchFragment(fragment(snoozeDuration))
         return this

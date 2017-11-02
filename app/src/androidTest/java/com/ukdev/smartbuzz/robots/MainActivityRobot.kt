@@ -13,6 +13,7 @@ import com.ukdev.smartbuzz.R
 import com.ukdev.smartbuzz.activities.MainActivity
 import com.ukdev.smartbuzz.activities.SetupActivity
 import com.ukdev.smartbuzz.adapters.AlarmHolder
+import com.ukdev.smartbuzz.common.BaseActivityRobot
 import com.ukdev.smartbuzz.misc.IntentExtra
 import org.junit.Rule
 

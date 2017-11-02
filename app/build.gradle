@@ -1,5 +1,45 @@
+import groovy.swing.SwingBuilder
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+
+gradle.taskGraph.whenReady { taskGraph ->
+    if (taskGraph.hasTask(':app:assembleRelase')) {
+        def password = ""
+
+        if (System.console() == null) {
+            new SwingBuilder().edt {
+                dialog(modal: true,
+                        title: "Enter password",
+                        alwaysOnTop: true,
+                        resizable: false,
+                        locationRelativeTo: null,
+                        pack: true,
+                        show: true
+                ) {
+                    vbox {
+                        label(text: "Enter password: ")
+                        input = passwordField()
+                        button(defaultButton: true, text: 'OK', actionPerformed: {
+                            password = input.password
+                            dispose()
+                        })
+                    }
+                }
+            }
+        } else {
+            password = System.console().readPassword("\nEnter password: ")
+            password = new String(password)
+        }
+
+        if (password.size() <= 0) {
+            throw new InvalidUserDataException("Empty password")
+        }
+
+        android.signingConfigs.release.storePassword = password
+        android.signingConfigs.release.keyPassword = password
+    }
+}
 
 android {
     compileSdkVersion 26
@@ -17,19 +57,21 @@ android {
     }
 
     signingConfigs {
-        config { // TODO: replace with real values
-            keyAlias 'a'
-            keyPassword 'a'
-            storeFile file('a')
-            storePassword 'a'
+        config {
+            keyAlias 'smartbuzz'
+            keyPassword ''
+            storeFile file('../smartbuzz_keystore.jks')
+            storePassword ''
         }
     }
 
     buildTypes {
-        release {
+        release { // FIXME: not prompting for keystore password
             minifyEnabled false
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("String", "DB_NAME", '"database.db"')
+            signingConfig signingConfigs.config
         }
         debug {
             buildConfigField("String", "DB_NAME", '"test_database.db"')

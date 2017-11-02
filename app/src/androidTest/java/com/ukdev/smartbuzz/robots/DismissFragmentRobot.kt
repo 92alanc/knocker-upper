@@ -9,6 +9,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.android21buttons.fragmenttestrule.FragmentTestRule
 import com.ukdev.smartbuzz.R
 import com.ukdev.smartbuzz.activities.AlarmActivity
+import com.ukdev.smartbuzz.common.BaseFragmentRobot
 import com.ukdev.smartbuzz.fragments.DismissFragment
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -23,6 +24,7 @@ class DismissFragmentRobot : BaseFragmentRobot() {
                                                                 launchActivity,
                                                                 launchFragment)
 
+    // FIXME: not launching fragment
     fun launchFragment(sleepCheckerMode: Boolean): DismissFragmentRobot {
         rule.launchFragment(fragment(sleepCheckerMode))
         return this
