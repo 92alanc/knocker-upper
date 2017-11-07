@@ -40,3 +40,7 @@ projectFilesBackup1/
 
 # Promotion files
 *.csv
+
+# Release properties
+app/release.properties
+

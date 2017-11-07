@@ -1,45 +1,5 @@
-import groovy.swing.SwingBuilder
-
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-
-gradle.taskGraph.whenReady { taskGraph ->
-    if (taskGraph.hasTask(':app:assembleRelase')) {
-        def password = ""
-
-        if (System.console() == null) {
-            new SwingBuilder().edt {
-                dialog(modal: true,
-                        title: "Enter password",
-                        alwaysOnTop: true,
-                        resizable: false,
-                        locationRelativeTo: null,
-                        pack: true,
-                        show: true
-                ) {
-                    vbox {
-                        label(text: "Enter password: ")
-                        input = passwordField()
-                        button(defaultButton: true, text: 'OK', actionPerformed: {
-                            password = input.password
-                            dispose()
-                        })
-                    }
-                }
-            }
-        } else {
-            password = System.console().readPassword("\nEnter password: ")
-            password = new String(password)
-        }
-
-        if (password.size() <= 0) {
-            throw new InvalidUserDataException("Empty password")
-        }
-
-        android.signingConfigs.release.storePassword = password
-        android.signingConfigs.release.keyPassword = password
-    }
-}
 
 android {
     compileSdkVersion 27
@@ -58,15 +18,17 @@ android {
 
     signingConfigs {
         config {
+            def properties = new Properties()
+            file("release.properties").withInputStream { properties.load(it) }
+            keyPassword = properties.getProperty("key.password")
+            storePassword = properties.getProperty("store.password")
             keyAlias 'smartbuzz'
-            keyPassword ''
             storeFile file('../smartbuzz_keystore.jks')
-            storePassword ''
         }
     }
 
     buildTypes {
-        release { // FIXME: not prompting for keystore password
+        release {
             minifyEnabled false
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
