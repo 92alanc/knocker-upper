@@ -22,8 +22,8 @@ android {
             file("release.properties").withInputStream { properties.load(it) }
             keyPassword = properties.getProperty("key.password")
             storePassword = properties.getProperty("store.password")
-            keyAlias 'smartbuzz'
-            storeFile file('../smartbuzz_keystore.jks')
+            keyAlias properties.getProperty("key.alias")
+            storeFile file(properties.getProperty("store.file"))
         }
     }
 
