@@ -1,6 +1,8 @@
 package com.ukdev.smartbuzz.adapters;
 
 import android.content.Context;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +59,8 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmHolder> {
         Time time = Time.valueOf(alarm.getTriggerTime());
         int src = getImageViewSrc(time.getHour());
         holder.dayNightImageView.setImageResource(src);
+        int contentDescription = getImageViewContentDescription(time.getHour());
+        holder.dayNightImageView.setContentDescription(context.getString(contentDescription));
 
         holder.alarmNameTextView.setText(alarm.getName());
 
@@ -86,11 +90,20 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmHolder> {
         return objects.size();
     }
 
+    @DrawableRes
     private int getImageViewSrc(int hour) {
         if (hour >= 6 && hour <= 18)
             return R.drawable.ic_day;
         else
             return R.drawable.ic_night;
+    }
+
+    @StringRes
+    private int getImageViewContentDescription(int hour) {
+        if (hour >= 6 && hour <= 18)
+            return R.string.description_daytime;
+        else
+            return R.string.description_nighttime;
     }
 
 }

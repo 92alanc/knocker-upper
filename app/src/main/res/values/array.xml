@@ -10,13 +10,13 @@
         <item>Sat</item>
     </string-array>
     <string-array name="days_of_the_week_long">
-        <item>Every Sunday</item>
-        <item>Every Monday</item>
-        <item>Every Tuesday</item>
-        <item>Every Wednesday</item>
-        <item>Every Thursday</item>
-        <item>Every Friday</item>
-        <item>Every Saturday</item>
+        <item>every Sunday</item>
+        <item>every Monday</item>
+        <item>every Tuesday</item>
+        <item>every Wednesday</item>
+        <item>every Thursday</item>
+        <item>every Friday</item>
+        <item>every Saturday</item>
     </string-array>
     <string-array name="snooze_durations">
         <item>0 min</item>

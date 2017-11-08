@@ -10,13 +10,13 @@
         <item>Sáb</item>
     </string-array>
     <string-array name="days_of_the_week_long">
-        <item>Todo domingo</item>
-        <item>Toda segunda</item>
-        <item>Toda terça</item>
-        <item>Toda quarta</item>
-        <item>Toda quinta</item>
-        <item>Toda sexta</item>
-        <item>Todo sábado</item>
+        <item>todo domingo</item>
+        <item>toda segunda</item>
+        <item>toda terça</item>
+        <item>toda quarta</item>
+        <item>toda quinta</item>
+        <item>toda sexta</item>
+        <item>todo sábado</item>
     </string-array>
     <string-array name="snooze_durations">
         <item>0 min</item>

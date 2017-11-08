@@ -20,7 +20,8 @@
         at a random time between 3 and 5 minutes and ask you if you\'re awake. If you don\'t press the \'I\'m awake\'
         button in 15 seconds the alarm will go off again.
     </string>
-    <string name="description_day_night">Whether the alarm will ring at day or night time</string>
+    <string name="description_daytime">Daytime</string>
+    <string name="description_nighttime">Nighttime</string>
     <string name="ringtone">ringtone</string>
     <string name="error_save_alarm">Error saving alarm</string>
     <string name="retry">Retry</string>
