@@ -33,7 +33,7 @@
                 tools:ignore="RelativeOverlap">
             <!-- Title -->
             <TextView
-                    android:id="@+id/text_view_alarm_title_card"
+                    android:id="@+id/text_view_alarm_name_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -44,7 +44,7 @@
                     android:id="@+id/text_view_trigger_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/text_view_alarm_title_card"
+                    android:layout_below="@id/text_view_alarm_name_card"
                     android:layout_marginBottom="5dp"
                     android:textStyle="bold"
                     android:textSize="26sp"/>

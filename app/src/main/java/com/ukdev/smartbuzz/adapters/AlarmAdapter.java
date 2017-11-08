@@ -58,7 +58,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmHolder> {
         int src = getImageViewSrc(time.getHour());
         holder.dayNightImageView.setImageResource(src);
 
-        holder.alarmTitleTextView.setText(alarm.getTitle());
+        holder.alarmNameTextView.setText(alarm.getName());
 
         String triggerTime = time.toString();
         holder.triggerTimeTextView.setText(triggerTime);

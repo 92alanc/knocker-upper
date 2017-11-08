@@ -121,9 +121,9 @@ public class AlarmHandler {
             return;
         }
         final int defaultValue = 0;
-        String title = context.getString(R.string.new_alarm);
+        String name = context.getString(R.string.new_alarm);
         if (intent.hasExtra(AlarmClock.EXTRA_MESSAGE))
-            title = intent.getStringExtra(AlarmClock.EXTRA_MESSAGE);
+            name = intent.getStringExtra(AlarmClock.EXTRA_MESSAGE);
         int hour = intent.getIntExtra(AlarmClock.EXTRA_HOUR, defaultValue);
         int minutes = 0;
         if (intent.hasExtra(AlarmClock.EXTRA_MINUTES))
@@ -142,7 +142,7 @@ public class AlarmHandler {
         }
 
         AlarmBuilder alarmBuilder = new AlarmBuilder();
-        alarmBuilder.setTitle(title)
+        alarmBuilder.setName(name)
                     .setTriggerTime(triggerTime)
                     .setSnoozeDuration(Time.FIVE_MINUTES)
                     .setRingtoneUri(ringtoneUri)

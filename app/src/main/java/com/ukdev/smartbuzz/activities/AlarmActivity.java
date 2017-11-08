@@ -52,7 +52,7 @@ public class AlarmActivity extends AppCompatActivity {
     private boolean sleepCheckerMode;
     private CountDownTimer countDownTimer;
     private int alarmId;
-    private TextView titleTextView;
+    private TextView nameTextView;
     private PowerManager.WakeLock wakeLock;
 
     public static Intent getIntent(Context context, int alarmId, boolean triggerSleepChecker) {
@@ -115,9 +115,9 @@ public class AlarmActivity extends AppCompatActivity {
         dao = AlarmDao.getInstance(context);
         alarm = dao.select(alarmId);
         alarmHandler = new AlarmHandler(context, alarm);
-        titleTextView = findViewById(R.id.text_view_alarm_title);
+        nameTextView = findViewById(R.id.text_view_alarm_name);
         if (!sleepCheckerMode) {
-            titleTextView.setText(alarm.getTitle());
+            nameTextView.setText(alarm.getName());
             alarm.playRingtone(activity, hellMode);
             TextView text = findViewById(R.id.text_view_alarm_text);
             text.setText(alarm.getText());
@@ -128,7 +128,7 @@ public class AlarmActivity extends AppCompatActivity {
                 }
             }, Time.ONE_MINUTE);
         } else {
-            titleTextView.setText(context.getText(R.string.are_you_awake));
+            nameTextView.setText(context.getText(R.string.are_you_awake));
             startCountdown();
         }
         setSnoozeButtonPlaceholder();
@@ -156,7 +156,7 @@ public class AlarmActivity extends AppCompatActivity {
         hellMode = true;
         final boolean sleepCheckerOn = false;
         setDismissFragment(sleepCheckerOn);
-        titleTextView.setText(alarm.getTitle());
+        nameTextView.setText(alarm.getName());
         if (wakeLock.isHeld())
             wakeLock.release();
         alarm.playRingtone(activity, hellMode);

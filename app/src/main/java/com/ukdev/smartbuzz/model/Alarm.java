@@ -24,7 +24,7 @@ import java.util.Calendar;
 public class Alarm {
 
     private int id;
-    private String title;
+    private String name;
     private long triggerTime;
 
     @SnoozeDuration
@@ -54,7 +54,7 @@ public class Alarm {
 
     @Override
     public String toString() {
-        return title;
+        return name;
     }
 
     /**
@@ -74,19 +74,19 @@ public class Alarm {
     }
 
     /**
-     * Gets the title
-     * @return the title
+     * Gets the name
+     * @return the name
      */
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Sets the title
-     * @param title the title
+     * Sets the name
+     * @param name the name
      */
-    void setTitle(String title) {
-        this.title = title;
+    void setName(String name) {
+        this.name = name;
     }
 
     /**

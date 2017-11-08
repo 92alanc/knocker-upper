@@ -58,7 +58,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     private boolean editMode;
     private Context context;
     private int alarmId;
-    private TwoLinesEditText titleFragment;
+    private TwoLinesEditText nameFragment;
     private TwoLinesTimePicker timePickerFragment;
     private TwoLinesDayOfTheWeek repetitionFragment;
     private TwoLinesRadioGroup snoozeDurationFragment;
@@ -243,7 +243,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     private void replaceFragmentPlaceholders() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.placeholder_title, titleFragment);
+        transaction.replace(R.id.placeholder_name, nameFragment);
         transaction.replace(R.id.placeholder_time_picker, timePickerFragment);
         transaction.replace(R.id.placeholder_repetition, repetitionFragment);
         transaction.replace(R.id.placeholder_snooze_duration, snoozeDurationFragment);
@@ -262,10 +262,10 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void setTitleFragment() {
-        titleFragment = new TwoLinesEditText();
-        String title = getString(R.string.title);
-        titleFragment.setTitle(title);
-        titleFragment.setChangeListener(new TwoLinesDefaultFragment.TwoLinesChangeListener<String>() {
+        nameFragment = new TwoLinesEditText();
+        String name = getString(R.string.name);
+        nameFragment.setTitle(name);
+        nameFragment.setChangeListener(new TwoLinesDefaultFragment.TwoLinesChangeListener<String>() {
             @Override
             public void onChange(String newValue) {
                 setTitle(newValue);
@@ -350,7 +350,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private Alarm buildAlarm() {
-        String title = titleFragment.getValue() != null ? titleFragment.getValue() : getString(R.string.new_alarm);
+        String name = nameFragment.getValue() != null ? nameFragment.getValue() : getString(R.string.new_alarm);
         long triggerTime = timePickerFragment.getValue().toCalendar().getTimeInMillis();
         SparseBooleanArray sparseBooleanArray = repetitionFragment.getValue();
         Integer[] repetition = Utils.convertSparseBooleanArrayToIntArray(sparseBooleanArray);
@@ -362,7 +362,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         boolean sleepCheckerOn = sleepCheckerFragment.getValue();
         String text = textFragment.getValue();
         AlarmBuilder builder = new AlarmBuilder().setId(alarmId)
-                                                 .setTitle(title)
+                                                 .setName(name)
                                                  .setTriggerTime(triggerTime)
                                                  .setRepetition(repetition)
                                                  .setSnoozeDuration(snoozeDuration)
@@ -381,14 +381,14 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         if (alarm == null)
             return;
 
-        titleFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
+        nameFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onViewInflated(Fragment fragment) {
-                titleFragment.setSummary(alarm.getTitle());
-                titleFragment.setValue(alarm.getTitle());
+                nameFragment.setSummary(alarm.getName());
+                nameFragment.setValue(alarm.getName());
             }
         });
-        setTitle(alarm.getTitle());
+        setTitle(alarm.getName());
 
         timePickerFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override

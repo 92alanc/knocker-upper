@@ -17,7 +17,7 @@ import com.ukdev.smartbuzz.listeners.OnItemClickListener;
 public class AlarmHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     final ImageView dayNightImageView;
-    final TextView alarmTitleTextView;
+    final TextView alarmNameTextView;
     final TextView triggerTimeTextView;
     final TextView repetitionTextView;
     final SwitchCompat alarmSwitch;
@@ -34,7 +34,7 @@ public class AlarmHolder extends RecyclerView.ViewHolder implements View.OnClick
         View.OnClickListener onClickListener = this;
         itemView.setOnClickListener(onClickListener);
         dayNightImageView = itemView.findViewById(R.id.image_view_day_night);
-        alarmTitleTextView = itemView.findViewById(R.id.text_view_alarm_title_card);
+        alarmNameTextView = itemView.findViewById(R.id.text_view_alarm_name_card);
         triggerTimeTextView = itemView.findViewById(R.id.text_view_trigger_time);
         repetitionTextView = itemView.findViewById(R.id.text_view_repetition);
         alarmSwitch = itemView.findViewById(R.id.switch_alarm);

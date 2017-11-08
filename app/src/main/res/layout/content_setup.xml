@@ -15,9 +15,9 @@
         android:layout_height="wrap_content"
         android:descendantFocusability="blocksDescendants"
         android:orientation="vertical">
-        <!-- Title -->
+        <!-- Name -->
         <FrameLayout
-            android:id="@+id/placeholder_title"
+            android:id="@+id/placeholder_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

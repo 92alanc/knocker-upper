@@ -31,12 +31,12 @@ public class AlarmBuilder {
     }
 
     /**
-     * Sets the title
-     * @param title the title
+     * Sets the name
+     * @param name the name
      * @return the alarm builder after being updated
      */
-    public AlarmBuilder setTitle(String title) {
-        alarm.setTitle(title);
+    public AlarmBuilder setName(String name) {
+        alarm.setName(name);
         return this;
     }
 
