@@ -16,10 +16,7 @@
     <string name="menuItem_About">About</string>
     <string name="about">Developed by Braincorp Apps\ne-mail: alcam.ukdev@gmail.com</string>
     <string name="enable_sleep_checker">enable Sleep Checker</string>
-    <string name="summary_enable_sleep_checker">After you dismiss an alarm, your device will silently turn on the screen
-        at a random time between 3 and 5 minutes and ask you if you\'re awake. If you don\'t press the \'I\'m awake\'
-        button in 15 seconds the alarm will go off again.
-    </string>
+    <string name="summary_enable_sleep_checker">Tip: after you turn off the alarm, keep using your device until the app asks if you\'re awake. It will take up to 5 minutes.</string>
     <string name="description_daytime">Daytime</string>
     <string name="description_nighttime">Nighttime</string>
     <string name="ringtone">ringtone</string>
