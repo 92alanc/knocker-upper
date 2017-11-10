@@ -57,7 +57,7 @@ public class TwoLinesImagePicker extends TwoLinesDefaultFragment<Uri>
             public void onClick(View view) {
                 Utils.requestStoragePermission(getActivity());
                 if (Utils.hasStoragePermission(getActivity())) {
-                    if (Build.VERSION.SDK_INT < 19) {
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
                         Intent intent = new Intent();
                         intent.setAction(Intent.ACTION_GET_CONTENT);
                         intent.setType("*/*");
