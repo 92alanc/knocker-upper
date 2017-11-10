@@ -21,7 +21,7 @@ import static com.ukdev.smartbuzz.BuildConfig.DB_PATH;
  */
 class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DB_VERSION = 10;
+    private static final int DB_VERSION = 11;
     private SQLiteDatabase database;
     private final Context context;
 

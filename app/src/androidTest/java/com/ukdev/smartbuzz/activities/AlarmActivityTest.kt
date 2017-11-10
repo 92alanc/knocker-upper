@@ -18,11 +18,4 @@ class AlarmActivityTest : BaseTest() {
              .validateTitle()
     }
 
-    @Test
-    fun shouldDisplayCorrectText() {
-        val triggerSleepChecker = false
-        robot.launchActivity(triggerSleepChecker)
-             .validateText()
-    }
-
 }

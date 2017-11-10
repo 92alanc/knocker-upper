@@ -31,7 +31,6 @@ import com.ukdev.smartbuzz.fragments.TwoLinesDayOfTheWeek;
 import com.ukdev.smartbuzz.fragments.TwoLinesDefaultFragment;
 import com.ukdev.smartbuzz.fragments.TwoLinesEditText;
 import com.ukdev.smartbuzz.fragments.TwoLinesImagePicker;
-import com.ukdev.smartbuzz.fragments.TwoLinesMemo;
 import com.ukdev.smartbuzz.fragments.TwoLinesRadioGroup;
 import com.ukdev.smartbuzz.fragments.TwoLinesRingtone;
 import com.ukdev.smartbuzz.fragments.TwoLinesSeekBar;
@@ -66,7 +65,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     private TwoLinesSeekBar volumeFragment;
     private TwoLinesSwitch vibrationFragment;
     private TwoLinesSwitch sleepCheckerFragment;
-    private TwoLinesMemo textFragment;
     private TwoLinesImagePicker wallpaperFragment;
     private View.OnClickListener onClickListener;
 
@@ -201,7 +199,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         setVolumeFragment();
         setVibrationFragment();
         setSleepCheckerFragment();
-        setTextFragment();
         setWallpaperFragment();
     }
 
@@ -251,7 +248,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         transaction.replace(R.id.placeholder_volume, volumeFragment);
         transaction.replace(R.id.placeholder_vibrate, vibrationFragment);
         transaction.replace(R.id.placeholder_sleep_checker, sleepCheckerFragment);
-        transaction.replace(R.id.placeholder_text, textFragment);
         transaction.replace(R.id.placeholder_wallpaper, wallpaperFragment);
         transaction.commit();
     }
@@ -337,12 +333,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         sleepCheckerFragment.setSummary(summary);
     }
 
-    private void setTextFragment() {
-        textFragment = new TwoLinesMemo();
-        String title = getString(R.string.text);
-        textFragment.setTitle(title);
-    }
-
     private void setWallpaperFragment() {
         wallpaperFragment = new TwoLinesImagePicker();
         String title = getString(R.string.wallpaper);
@@ -360,7 +350,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         int volume = volumeFragment.getValue();
         boolean vibrate = vibrationFragment.getValue();
         boolean sleepCheckerOn = sleepCheckerFragment.getValue();
-        String text = textFragment.getValue();
         AlarmBuilder builder = new AlarmBuilder().setId(alarmId)
                                                  .setName(name)
                                                  .setTriggerTime(triggerTime)
@@ -370,7 +359,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                                                  .setVolume(volume)
                                                  .setVibrate(vibrate)
                                                  .setSleepCheckerOn(sleepCheckerOn)
-                                                 .setText(text)
                                                  .setWallpaperUri(wallpaperUri);
         return builder.build();
     }
@@ -449,14 +437,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onViewInflated(Fragment fragment) {
                 sleepCheckerFragment.setValue(alarm.isSleepCheckerOn());
-            }
-        });
-
-        textFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
-            @Override
-            public void onViewInflated(Fragment fragment) {
-                textFragment.setSummary(alarm.getText());
-                textFragment.setValue(alarm.getText());
             }
         });
 

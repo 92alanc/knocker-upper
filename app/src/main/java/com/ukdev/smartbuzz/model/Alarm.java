@@ -33,7 +33,6 @@ public class Alarm {
     private Integer[] repetition;
     private Uri ringtoneUri;
     private Uri wallpaperUri;
-    private String text;
     private boolean sleepCheckerOn;
     private boolean active;
     private boolean vibrate;
@@ -162,22 +161,6 @@ public class Alarm {
      */
     void setRingtoneUri(Uri ringtoneUri) {
         this.ringtoneUri = ringtoneUri;
-    }
-
-    /**
-     * Gets the text
-     * @return the text
-     */
-    public String getText() {
-        return text;
-    }
-
-    /**
-     * Sets the text
-     * @param text the text
-     */
-    void setText(String text) {
-        this.text = text;
     }
 
     /**

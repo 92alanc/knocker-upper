@@ -3,50 +3,45 @@
                 android:id="@+id/layout_alarm"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:keepScreenOn="true"
                 android:fitsSystemWindows="true"
+                android:keepScreenOn="true"
                 android:padding="10dp"
                 tools:context="com.ukdev.smartbuzz.activities.AlarmActivity">
 
     <TextView
-            android:id="@+id/text_view_alarm_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:textSize="28sp"
-            android:textStyle="bold"/>
-
-    <TextView
-            android:id="@+id/text_view_countdown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/text_view_alarm_name"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:textSize="40sp"
-            android:textStyle="bold"
-            android:visibility="gone"/>
-
-    <FrameLayout
-            android:id="@+id/placeholder_dismiss_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
-
-    <TextView
-        android:id="@+id/text_view_alarm_text"
-        android:layout_width="match_parent"
+        android:id="@+id/text_view_alarm_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/placeholder_dismiss_button"
-        android:layout_marginTop="5dp"
-        android:maxLines="5"
-        android:textSize="20sp"/>
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="28sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/text_view_countdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_alarm_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:visibility="gone"/>
 
     <FrameLayout
-            android:id="@+id/placeholder_snooze_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"/>
+        android:id="@+id/placeholder_dismiss_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <FrameLayout
+        android:id="@+id/placeholder_snooze_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"/>
 
 </RelativeLayout>

@@ -41,18 +41,8 @@ class AlarmActivityRobot : BaseActivityRobot() {
         return this
     }
 
-    fun validateText(): AlarmActivityRobot {
-        textTextView().check(matches(isDisplayed()))
-        textTextView().check(matches(withText(alarm.text)))
-        return this
-    }
-
     private fun titleTextView(): ViewInteraction {
         return onView(withId(R.id.text_view_alarm_name))
-    }
-
-    private fun textTextView(): ViewInteraction {
-        return onView(withId(R.id.text_view_alarm_text))
     }
 
 }

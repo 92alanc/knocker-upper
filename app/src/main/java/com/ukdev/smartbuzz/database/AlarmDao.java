@@ -136,14 +136,13 @@ public class AlarmDao extends Dao {
                                      GROUP_BY, HAVING, orderBy, LIMIT);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
-            String name, ringtoneUri, wallpaperUri, text;
+            String name, ringtoneUri, wallpaperUri;
             long triggerTime, snoozeDuration;
             int volume;
             boolean active, sleepCheckerOn, vibrate;
             Integer[] repetition;
 
             name = cursor.getString(cursor.getColumnIndex(Column.NAME));
-            text = cursor.getString(cursor.getColumnIndex(Column.TEXT));
 
             triggerTime = cursor.getLong(cursor.getColumnIndex(Column.TRIGGER_TIME));
 
@@ -163,7 +162,6 @@ public class AlarmDao extends Dao {
                                                                  .setTriggerTime(triggerTime)
                                                                  .setSnoozeDuration(snoozeDuration)
                                                                  .setRepetition(repetition)
-                                                                 .setText(text)
                                                                  .setSleepCheckerOn(sleepCheckerOn)
                                                                  .setVibrate(vibrate)
                                                                  .setVolume(volume)
@@ -221,7 +219,6 @@ public class AlarmDao extends Dao {
             values.put(Column.WALLPAPER, alarm.getWallpaperUri().toString());
         else
             values.put(Column.WALLPAPER, (String) null);
-        values.put(Column.TEXT, alarm.getText());
         values.put(Column.SNOOZE_DURATION, alarm.getSnoozeDuration());
         values.put(Column.ACTIVE, alarm.isActive() ? 1 : 0);
     }
@@ -229,7 +226,7 @@ public class AlarmDao extends Dao {
     private ArrayList<Alarm> queryAlarms(Cursor cursor) {
         ArrayList<Alarm> alarms = new ArrayList<>();
         do {
-            String name, ringtoneUri, wallpaperUri, text;
+            String name, ringtoneUri, wallpaperUri;
             long triggerTime;
             int volume;
             long snoozeDuration;
@@ -237,7 +234,6 @@ public class AlarmDao extends Dao {
             Integer[] repetition;
 
             name = cursor.getString(cursor.getColumnIndex(Column.NAME));
-            text = cursor.getString(cursor.getColumnIndex(Column.TEXT));
 
             triggerTime = cursor.getLong(cursor.getColumnIndex(Column.TRIGGER_TIME));
 
@@ -257,7 +253,7 @@ public class AlarmDao extends Dao {
                                                                  .setTriggerTime(triggerTime)
                                                                  .setSnoozeDuration(snoozeDuration)
                                                                  .setRepetition(repetition)
-                                                                 .setText(text)
+
                                                                  .setSleepCheckerOn(sleepCheckerOn)
                                                                  .setVibrate(vibrate)
                                                                  .setVolume(volume)

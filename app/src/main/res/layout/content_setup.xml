@@ -63,12 +63,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <!-- Text -->
-        <FrameLayout
-            android:id="@+id/placeholder_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
         <!-- Wallpaper -->
         <FrameLayout
             android:id="@+id/placeholder_wallpaper"

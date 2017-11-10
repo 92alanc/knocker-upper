@@ -81,16 +81,6 @@ public class AlarmBuilder {
     }
 
     /**
-     * Sets the text
-     * @param text the text
-     * @return the alarm builder after being updated
-     */
-    public AlarmBuilder setText(String text) {
-        alarm.setText(text);
-        return this;
-    }
-
-    /**
      * Sets the {@code sleepCheckerOn} flag
      * @param isSleepCheckerOn the flag value
      * @return the alarm builder after being updated
