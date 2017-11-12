@@ -29,6 +29,8 @@ import java.util.List;
  */
 public class Utils {
 
+    private Utils() { }
+
     private static final String KEY_VERSION = "version";
     private static final int LENGTH_WEEK_DAYS = 5;
     private static final int LENGTH_WEEKEND = 2;

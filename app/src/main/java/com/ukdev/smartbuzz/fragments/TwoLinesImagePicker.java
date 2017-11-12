@@ -38,12 +38,12 @@ public class TwoLinesImagePicker extends TwoLinesDefaultFragment<Uri>
         View view = inflater.inflate(R.layout.two_lines_image_picker, container, ATTACH_TO_ROOT);
         clearButton = view.findViewById(R.id.button_clear_wallpaper);
         clearButton.setOnClickListener(this);
+        imageView = view.findViewById(R.id.image_wallpaper);
+        rootView = view.findViewById(R.id.rootView);
         if (value == null)
             clearButton.setVisibility(View.GONE);
         else
             clearButton.setVisibility(View.VISIBLE);
-        imageView = view.findViewById(R.id.image_wallpaper);
-        rootView = view.findViewById(R.id.rootView);
         if (onFragmentInflatedListener != null)
             onFragmentInflatedListener.onViewInflated(this);
         return view;

@@ -20,7 +20,7 @@ import java.util.Map;
  *
  * @author William Miranda
  */
-public class TwoLinesRadioGroup extends TwoLinesDefaultFragment<Long> {
+public class TwoLinesSnoozeDurationPicker extends TwoLinesDefaultFragment<Long> {
 
     public static final String ARG_OPTIONS_TEXT = "options_text";
     public static final String ARG_OPTIONS_VALUE = "options_value";

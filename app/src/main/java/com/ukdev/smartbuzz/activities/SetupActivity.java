@@ -31,7 +31,7 @@ import com.ukdev.smartbuzz.fragments.TwoLinesDayOfTheWeek;
 import com.ukdev.smartbuzz.fragments.TwoLinesDefaultFragment;
 import com.ukdev.smartbuzz.fragments.TwoLinesEditText;
 import com.ukdev.smartbuzz.fragments.TwoLinesImagePicker;
-import com.ukdev.smartbuzz.fragments.TwoLinesRadioGroup;
+import com.ukdev.smartbuzz.fragments.TwoLinesSnoozeDurationPicker;
 import com.ukdev.smartbuzz.fragments.TwoLinesRingtone;
 import com.ukdev.smartbuzz.fragments.TwoLinesSeekBar;
 import com.ukdev.smartbuzz.fragments.TwoLinesSwitch;
@@ -60,7 +60,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     private TwoLinesEditText nameFragment;
     private TwoLinesTimePicker timePickerFragment;
     private TwoLinesDayOfTheWeek repetitionFragment;
-    private TwoLinesRadioGroup snoozeDurationFragment;
+    private TwoLinesSnoozeDurationPicker snoozeDurationFragment;
     private TwoLinesRingtone ringtoneFragment;
     private TwoLinesSeekBar volumeFragment;
     private TwoLinesSwitch vibrationFragment;
@@ -282,16 +282,16 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void setSnoozeDurationFragment() {
-        snoozeDurationFragment = new TwoLinesRadioGroup();
+        snoozeDurationFragment = new TwoLinesSnoozeDurationPicker();
         String title = getString(R.string.snooze_duration);
         snoozeDurationFragment.setTitle(title);
         Bundle args = new Bundle();
         String[] snoozeDurations = getResources().getStringArray(R.array.snooze_durations);
-        args.putStringArray(TwoLinesRadioGroup.ARG_OPTIONS_TEXT, snoozeDurations);
+        args.putStringArray(TwoLinesSnoozeDurationPicker.ARG_OPTIONS_TEXT, snoozeDurations);
         long[] values = { Time.ZERO, Time.FIVE_MINUTES, Time.TEN_MINUTES,
                           Time.FIFTEEN_MINUTES, Time.TWENTY_MINUTES,
                           Time.TWENTY_FIVE_MINUTES, Time.THIRTY_MINUTES };
-        args.putLongArray(TwoLinesRadioGroup.ARG_OPTIONS_VALUE, values);
+        args.putLongArray(TwoLinesSnoozeDurationPicker.ARG_OPTIONS_VALUE, values);
         snoozeDurationFragment.setArguments(args);
         snoozeDurationFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override

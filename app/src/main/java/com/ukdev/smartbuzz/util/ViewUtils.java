@@ -18,6 +18,8 @@ import com.ukdev.smartbuzz.misc.DialogueHelper;
  */
 public class ViewUtils {
 
+    private ViewUtils() { }
+
     /**
      * Determines whether the screen is locked
      * @param context the Android context
