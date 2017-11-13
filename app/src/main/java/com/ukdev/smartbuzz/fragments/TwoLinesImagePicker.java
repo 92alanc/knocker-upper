@@ -45,7 +45,7 @@ public class TwoLinesImagePicker extends TwoLinesDefaultFragment<Uri>
         else
             clearButton.setVisibility(View.VISIBLE);
         if (onFragmentInflatedListener != null)
-            onFragmentInflatedListener.onViewInflated(this);
+            onFragmentInflatedListener.onFragmentInflated(this);
         return view;
     }
 

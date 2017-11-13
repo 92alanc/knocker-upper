@@ -1,6 +1,10 @@
 package com.ukdev.smartbuzz.util;
 
 import android.content.SharedPreferences;
+import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
+
+import com.ukdev.smartbuzz.R;
 
 /**
  * Preferences utilities
@@ -9,6 +13,7 @@ import android.content.SharedPreferences;
  */
 public class PreferenceUtils {
 
+    public static final String FILE_NAME = "smart_buzz_preferences";
     private static final String THEME = "theme";
 
     private SharedPreferences preferences;
@@ -21,35 +26,37 @@ public class PreferenceUtils {
         this.preferences = preferences;
     }
 
+    public Theme getTheme() {
+        return Theme.valueOf(preferences.getInt(THEME, Theme.DARK.getRes()));
+    }
+
     public void setTheme(Theme theme) {
-        preferences.edit().putString(THEME, theme.name).apply();
+        preferences.edit().putInt(THEME, theme.getRes()).apply();
     }
 
     public enum Theme {
 
-        DARK("dark"),
-        LIGHT("light");
+        DARK(R.style.Dark),
+        LIGHT(R.style.Light);
 
-        String name;
+        @StyleRes int res;
 
-        Theme(String name) {
-            this.name = name;
+        Theme(@StyleRes int res) {
+            this.res = res;
         }
 
-        @Override
-        public String toString() {
-            return name;
+        @StyleRes
+        public int getRes() {
+            return res;
         }
 
-        private static String[] strings;
-
-        static {
-            for (int i = 0; i < values().length; i++)
-                strings[i] = values()[i].name;
-        }
-
-        public static String[] getStrings() {
-            return strings;
+        @Nullable
+        public static Theme valueOf(@StyleRes int res) {
+            for (Theme theme : values()) {
+                if (theme.getRes() == res)
+                    return theme;
+            }
+            return null;
         }
 
     }

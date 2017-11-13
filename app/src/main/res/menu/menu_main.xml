@@ -11,6 +11,11 @@
         android:id="@+id/item_rate"
         android:title="@string/rate"
         app:showAsAction="never"/>
+    <!-- Settings -->
+    <item
+        android:id="@+id/item_settings"
+        android:title="@string/settings"
+        app:showAsAction="never"/>
     <!-- Share -->
     <item
         android:id="@+id/item_share"

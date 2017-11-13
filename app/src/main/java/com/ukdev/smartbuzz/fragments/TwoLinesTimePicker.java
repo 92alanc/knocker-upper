@@ -28,7 +28,7 @@ public class TwoLinesTimePicker extends TwoLinesDefaultFragment<Time> {
         View view = inflater.inflate(R.layout.two_lines_default, container, ATTACH_TO_ROOT);
         rootView = view.findViewById(R.id.rootView);
         if (onFragmentInflatedListener != null)
-            onFragmentInflatedListener.onViewInflated(this);
+            onFragmentInflatedListener.onFragmentInflated(this);
         return view;
     }
 

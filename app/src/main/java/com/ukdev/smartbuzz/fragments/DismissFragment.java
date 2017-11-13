@@ -42,7 +42,7 @@ public class DismissFragment extends Fragment {
         button = view.findViewById(R.id.btDismiss);
         setButtonShape();
         if (onFragmentInflatedListener != null)
-            onFragmentInflatedListener.onViewInflated(this);
+            onFragmentInflatedListener.onFragmentInflated(this);
         return view;
     }
 

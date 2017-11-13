@@ -1,9 +1,12 @@
 package com.ukdev.smartbuzz.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +38,10 @@ public class TwoLinesThemePicker extends TwoLinesDefaultFragment<PreferenceUtils
     }
 
     private ViewGroup rootView;
-    private Map<String, PreferenceUtils.Theme> mapOptionValue;
+    private Map<PreferenceUtils.Theme, String> mapOptionValue;
     private int selectedIndex = -1;
     private String[] labels;
+    private PreferenceUtils preferenceUtils;
     private PreferenceUtils.Theme[] values;
 
     @Nullable
@@ -46,12 +50,20 @@ public class TwoLinesThemePicker extends TwoLinesDefaultFragment<PreferenceUtils
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.two_lines_default, container, ATTACH_TO_ROOT);
         rootView = view.findViewById(R.id.rootView);
+        Context context = getContext();
+        if (context != null) {
+            SharedPreferences preferences = context.getSharedPreferences(PreferenceUtils.FILE_NAME,
+                                                                         Context.MODE_PRIVATE);
+            preferenceUtils = new PreferenceUtils(preferences);
+        }
         if (getArguments() != null) {
             parseArgs();
             mapOptionValue = new LinkedHashMap<>();
             for (int i = 0; i < values.length; i++)
-                mapOptionValue.put(labels[i], values[i]);
+                mapOptionValue.put(values[i], labels[i]);
         }
+        if (onFragmentInflatedListener != null)
+            onFragmentInflatedListener.onFragmentInflated(this);
         return view;
     }
 
@@ -68,8 +80,31 @@ public class TwoLinesThemePicker extends TwoLinesDefaultFragment<PreferenceUtils
 
     @Override
     protected void setValue(PreferenceUtils.Theme value) {
-
+        this.value = value;
+        if (textSummary != null)
+            textSummary.setText(mapOptionValue.get(value));
+        preferenceUtils.setTheme(value);
+        if (changeListener != null)
+            changeListener.onChange(value);
     }
+
+    @Override
+    public PreferenceUtils.Theme getValue() {
+        if (value == null)
+            value = PreferenceUtils.Theme.DARK;
+        return value;
+    }
+
+    public void setDefaultSelectedItem() {
+        setValue(preferenceUtils.getTheme());
+    }
+
+    private final DialogInterface.OnClickListener clickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogueInterface, int which) {
+            selectedIndex = which;
+        }
+    };
 
     private void parseArgs() {
         Bundle args = getArguments();
@@ -79,7 +114,24 @@ public class TwoLinesThemePicker extends TwoLinesDefaultFragment<PreferenceUtils
     }
 
     private void showDialogue(Context context) {
+        AlertDialog.Builder dialogueBuilder = new AlertDialog.Builder(context);
+        dialogueBuilder.setTitle(title);
+        dialogueBuilder.setSingleChoiceItems(mapOptionValue.values().toArray(new String[0]),
+                                             selectedIndex, clickListener);
 
+        dialogueBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogueInterface, int which) {
+                int i = 0;
+                for (Map.Entry<PreferenceUtils.Theme, String> entry : mapOptionValue.entrySet()) {
+                    if (i == selectedIndex)
+                        setValue(entry.getKey());
+                    i++;
+                }
+            }
+        });
+        dialogueBuilder.setNegativeButton(R.string.cancel, null);
+        dialogueBuilder.show();
     }
 
 }

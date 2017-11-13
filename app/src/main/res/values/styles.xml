@@ -13,6 +13,21 @@
 
     <style name="Dark.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark"/>
 
+    <style name="Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">@color/indigo</item>
+        <item name="colorPrimary">@color/indigo</item>
+        <item name="colorPrimaryDark">@color/indigo_dark</item>
+    </style>
+
+    <style name="Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Light.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar"/>
+
+    <style name="Light.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
     <style name="TwoLinesFragment">
         <item name="android:background">@null</item>
     </style>

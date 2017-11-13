@@ -52,4 +52,6 @@
     <string name="share">Compartilhar o aplicativo</string>
     <string name="clear">Limpar</string>
     <string name="description_nighttime">Durante a noite</string>
+    <string name="settings">Configurações</string>
+    <string name="theme">Tema</string>
 </resources>

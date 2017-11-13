@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -42,6 +43,7 @@ import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.AlarmBuilder;
 import com.ukdev.smartbuzz.model.Time;
 import com.ukdev.smartbuzz.util.AlarmHandler;
+import com.ukdev.smartbuzz.util.PreferenceUtils;
 import com.ukdev.smartbuzz.util.Utils;
 import com.ukdev.smartbuzz.util.ViewUtils;
 
@@ -80,6 +82,10 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = getSharedPreferences(PreferenceUtils.FILE_NAME,
+                                                                   MODE_PRIVATE);
+        PreferenceUtils preferenceUtils = new PreferenceUtils(sharedPreferences);
+        setTheme(preferenceUtils.getTheme().getRes());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -295,7 +301,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         snoozeDurationFragment.setArguments(args);
         snoozeDurationFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
-            public void onViewInflated(Fragment fragment) {
+            public void onFragmentInflated(Fragment fragment) {
                 snoozeDurationFragment.setDefaultSelectedItem();
             }
         });
@@ -319,7 +325,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         vibrationFragment.setTitle(title);
         vibrationFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
-            public void onViewInflated(Fragment fragment) {
+            public void onFragmentInflated(Fragment fragment) {
                 ((TwoLinesSwitch) fragment).setValue(true);
             }
         });
@@ -371,7 +377,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
         nameFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
-            public void onViewInflated(Fragment fragment) {
+            public void onFragmentInflated(Fragment fragment) {
                 nameFragment.setSummary(alarm.getName());
                 nameFragment.setValue(alarm.getName());
             }
@@ -380,7 +386,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
         timePickerFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
-            public void onViewInflated(Fragment fragment) {
+            public void onFragmentInflated(Fragment fragment) {
                 Time time = Time.valueOf(alarm.getTriggerTime());
                 timePickerFragment.setSummary(time.toString());
                 timePickerFragment.setValue(time);
@@ -389,14 +395,14 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
         repetitionFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
-            public void onViewInflated(Fragment fragment) {
+            public void onFragmentInflated(Fragment fragment) {
                 repetitionFragment.setValue(Utils.convertIntArrayToSparseBooleanArray(alarm.getRepetition()));
             }
         });
 
         snoozeDurationFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
-            public void onViewInflated(Fragment fragment) {
+            public void onFragmentInflated(Fragment fragment) {
                 String summary = Utils.convertSnoozeDurationToString(context,
                                                                      alarm.getSnoozeDuration());
                 snoozeDurationFragment.setSummary(summary);
@@ -406,7 +412,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
         ringtoneFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
-            public void onViewInflated(Fragment fragment) {
+            public void onFragmentInflated(Fragment fragment) {
                 RingtoneManager manager = new RingtoneManager(context);
                 int ringtonePosition = manager.getRingtonePosition(alarm.getRingtoneUri());
                 if (alarm.getRingtoneUri() == null)
@@ -421,28 +427,28 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
         volumeFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
-            public void onViewInflated(Fragment fragment) {
+            public void onFragmentInflated(Fragment fragment) {
                 volumeFragment.setValue(alarm.getVolume());
             }
         });
 
         vibrationFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
-            public void onViewInflated(Fragment fragment) {
+            public void onFragmentInflated(Fragment fragment) {
                 vibrationFragment.setValue(alarm.vibrates());
             }
         });
 
         sleepCheckerFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
-            public void onViewInflated(Fragment fragment) {
+            public void onFragmentInflated(Fragment fragment) {
                 sleepCheckerFragment.setValue(alarm.isSleepCheckerOn());
             }
         });
 
         wallpaperFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
-            public void onViewInflated(Fragment fragment) {
+            public void onFragmentInflated(Fragment fragment) {
                 Uri wallpaperUri = alarm.getWallpaperUri();
                 if (wallpaperUri != null)
                     wallpaperFragment.setValue(wallpaperUri);

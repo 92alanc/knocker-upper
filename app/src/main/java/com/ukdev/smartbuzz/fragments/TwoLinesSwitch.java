@@ -23,7 +23,7 @@ public class TwoLinesSwitch extends TwoLinesDefaultFragment<Boolean> {
         View view = inflater.inflate(R.layout.two_lines_switch, container, ATTACH_TO_ROOT);
         mSwitch = view.findViewById(R.id.switch_view);
         if (onFragmentInflatedListener != null)
-            onFragmentInflatedListener.onViewInflated(this);
+            onFragmentInflatedListener.onFragmentInflated(this);
         return view;
     }
 

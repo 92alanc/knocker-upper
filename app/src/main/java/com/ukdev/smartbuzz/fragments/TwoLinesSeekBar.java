@@ -27,7 +27,7 @@ public class TwoLinesSeekBar extends TwoLinesDefaultFragment<Integer> {
         if (value == null)
             value = Utils.getDefaultVolume(getContext());
         if (onFragmentInflatedListener != null)
-            onFragmentInflatedListener.onViewInflated(this);
+            onFragmentInflatedListener.onFragmentInflated(this);
         return view;
     }
 

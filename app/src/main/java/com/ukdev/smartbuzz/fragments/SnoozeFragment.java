@@ -31,7 +31,7 @@ public class SnoozeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_snooze, container, attachToRoot);
         button = view.findViewById(R.id.btSnooze);
         if (onFragmentInflatedListener != null)
-            onFragmentInflatedListener.onViewInflated(this);
+            onFragmentInflatedListener.onFragmentInflated(this);
         return view;
     }
 

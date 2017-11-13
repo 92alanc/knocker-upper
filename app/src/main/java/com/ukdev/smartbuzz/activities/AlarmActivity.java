@@ -2,6 +2,7 @@ package com.ukdev.smartbuzz.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -30,6 +31,7 @@ import com.ukdev.smartbuzz.misc.Extra;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.Time;
 import com.ukdev.smartbuzz.util.AlarmHandler;
+import com.ukdev.smartbuzz.util.PreferenceUtils;
 import com.ukdev.smartbuzz.util.Utils;
 import com.ukdev.smartbuzz.util.ViewUtils;
 
@@ -66,6 +68,10 @@ public class AlarmActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = getSharedPreferences(PreferenceUtils.FILE_NAME,
+                                                                   MODE_PRIVATE);
+        PreferenceUtils preferenceUtils = new PreferenceUtils(sharedPreferences);
+        setTheme(preferenceUtils.getTheme().getRes());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
@@ -174,7 +180,7 @@ public class AlarmActivity extends AppCompatActivity {
         SnoozeFragment snoozeFragment = new SnoozeFragment();
         snoozeFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
-            public void onViewInflated(Fragment fragment) {
+            public void onFragmentInflated(Fragment fragment) {
                 ((SnoozeFragment) fragment).setButtonText(alarm.getSnoozeDuration());
                 ((SnoozeFragment) fragment).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -198,7 +204,7 @@ public class AlarmActivity extends AppCompatActivity {
         DismissFragment dismissFragment = DismissFragment.newInstance(sleepCheckerOn);
         dismissFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
-            public void onViewInflated(Fragment fragment) {
+            public void onFragmentInflated(Fragment fragment) {
                 ((DismissFragment) fragment).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

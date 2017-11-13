@@ -3,6 +3,7 @@ package com.ukdev.smartbuzz.activities;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
@@ -30,6 +31,7 @@ import com.ukdev.smartbuzz.listeners.OnItemClickListener;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.Time;
 import com.ukdev.smartbuzz.util.AlarmHandler;
+import com.ukdev.smartbuzz.util.PreferenceUtils;
 import com.ukdev.smartbuzz.util.Utils;
 import com.ukdev.smartbuzz.util.ViewUtils;
 
@@ -54,6 +56,10 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = getSharedPreferences(PreferenceUtils.FILE_NAME,
+                                                                   MODE_PRIVATE);
+        PreferenceUtils preferenceUtils = new PreferenceUtils(sharedPreferences);
+        setTheme(preferenceUtils.getTheme().getRes());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -117,6 +123,9 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
                 break;
             case R.id.item_rate:
                 openAppPage();
+                break;
+            case R.id.item_settings:
+                openSettings();
                 break;
             case R.id.item_share:
                 shareApp();
@@ -202,6 +211,11 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         }
+    }
+
+    private void openSettings() {
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivity(intent);
     }
 
     private void shareApp() {

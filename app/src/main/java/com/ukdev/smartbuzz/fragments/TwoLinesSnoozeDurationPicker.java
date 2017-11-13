@@ -45,7 +45,7 @@ public class TwoLinesSnoozeDurationPicker extends TwoLinesDefaultFragment<Long> 
             }
         }
         if (onFragmentInflatedListener != null)
-            onFragmentInflatedListener.onViewInflated(this);
+            onFragmentInflatedListener.onFragmentInflated(this);
         return view;
     }
 
