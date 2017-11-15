@@ -70,7 +70,7 @@ public class AlarmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences = getSharedPreferences(PreferenceUtils.FILE_NAME,
                                                                    MODE_PRIVATE);
-        PreferenceUtils preferenceUtils = new PreferenceUtils(sharedPreferences);
+        PreferenceUtils preferenceUtils = new PreferenceUtils(this, sharedPreferences);
         setTheme(preferenceUtils.getTheme().getRes());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);

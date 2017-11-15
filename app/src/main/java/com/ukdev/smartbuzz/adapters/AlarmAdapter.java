@@ -1,5 +1,6 @@
 package com.ukdev.smartbuzz.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.DrawableRes;
@@ -96,7 +97,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmHolder> {
     private int getImageViewSrc(int hour) {
         SharedPreferences preferences = context.getSharedPreferences(PreferenceUtils.FILE_NAME,
                                                                      Context.MODE_PRIVATE);
-        PreferenceUtils preferenceUtils = new PreferenceUtils(preferences);
+        PreferenceUtils preferenceUtils = new PreferenceUtils((Activity) context, preferences);
         if (hour >= 6 && hour <= 18) {
             if (preferenceUtils.getTheme() == PreferenceUtils.Theme.DARK)
                 return R.drawable.ic_day;

@@ -10,11 +10,6 @@
         <item name="text_colour_toggle_button">@color/toggle_text</item>
     </style>
 
-    <style name="Dark.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
     <style name="Dark.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="Dark.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark"/>

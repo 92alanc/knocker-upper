@@ -18,7 +18,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Dark"
+        android:theme="@style/Light"
         tools:ignore="GoogleAppIndexingWarning">
 
         <!-- ACTIVITIES -->
@@ -27,7 +27,7 @@
             android:name=".activities.MainActivity"
             android:configChanges="locale"
             android:label="@string/app_name"
-            android:theme="@style/Dark">
+            android:theme="@style/Light">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -45,7 +45,7 @@
             android:configChanges="locale"
             android:label="@string/new_alarm"
             android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/Dark">
+            android:theme="@style/Light">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ukdev.smartbuzz.activities.MainActivity"/>
@@ -59,13 +59,13 @@
             android:label="@string/app_name"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Dark.NoActionBar">
+            android:theme="@style/Light">
         </activity>
         <!-- Settings activity -->
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/settings"
-            android:theme="@style/Dark"
+            android:theme="@style/Light"
             android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

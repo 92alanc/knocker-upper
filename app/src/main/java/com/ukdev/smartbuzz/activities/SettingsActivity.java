@@ -3,7 +3,6 @@ package com.ukdev.smartbuzz.activities;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -13,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.fragments.TwoLinesDefaultFragment;
 import com.ukdev.smartbuzz.fragments.TwoLinesThemePicker;
-import com.ukdev.smartbuzz.listeners.OnFragmentInflatedListener;
 import com.ukdev.smartbuzz.util.PreferenceUtils;
 import com.ukdev.smartbuzz.util.ViewUtils;
 
@@ -23,8 +21,7 @@ import com.ukdev.smartbuzz.util.ViewUtils;
  * @author Alan Camargo
  */
 public class SettingsActivity extends AppCompatActivity
-        implements OnFragmentInflatedListener,
-                   TwoLinesDefaultFragment.TwoLinesChangeListener<PreferenceUtils.Theme> {
+        implements TwoLinesDefaultFragment.TwoLinesChangeListener<PreferenceUtils.Theme> {
 
     private PreferenceUtils preferenceUtils;
 
@@ -32,7 +29,7 @@ public class SettingsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences = getSharedPreferences(PreferenceUtils.FILE_NAME,
                                                                    MODE_PRIVATE);
-        preferenceUtils = new PreferenceUtils(sharedPreferences);
+        preferenceUtils = new PreferenceUtils(this, sharedPreferences);
         setTheme(preferenceUtils.getTheme().getRes());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
@@ -44,12 +41,6 @@ public class SettingsActivity extends AppCompatActivity
         Activity activity = this;
         ViewUtils.showAds(activity, R.id.ad_view_settings);
         replaceFragmentPlaceholders();
-    }
-
-    @Override
-    public void onFragmentInflated(Fragment fragment) {
-        TwoLinesThemePicker themePicker = (TwoLinesThemePicker) fragment;
-        themePicker.setDefaultSelectedItem();
     }
 
     @Override
@@ -69,7 +60,6 @@ public class SettingsActivity extends AppCompatActivity
         String[] labels = getResources().getStringArray(R.array.themes);
         PreferenceUtils.Theme[] values = PreferenceUtils.Theme.values();
         TwoLinesThemePicker fragment = TwoLinesThemePicker.newInstance(labels, values);
-        fragment.setOnFragmentInflatedListener(this);
         fragment.setChangeListener(this);
         fragment.setTitle(getString(R.string.theme));
         transaction.replace(R.id.placeholder_theme, fragment);

@@ -41,6 +41,7 @@ public class TwoLinesThemePicker extends TwoLinesDefaultFragment<PreferenceUtils
     private Map<PreferenceUtils.Theme, String> mapOptionValue;
     private int selectedIndex = -1;
     private String[] labels;
+    private PreferenceUtils preferenceUtils;
     private PreferenceUtils.Theme[] values;
 
     @Nullable
@@ -55,8 +56,13 @@ public class TwoLinesThemePicker extends TwoLinesDefaultFragment<PreferenceUtils
             for (int i = 0; i < values.length; i++)
                 mapOptionValue.put(values[i], labels[i]);
         }
-        if (onFragmentInflatedListener != null)
-            onFragmentInflatedListener.onFragmentInflated(this);
+        Context context = getContext();
+        if (context != null) {
+            SharedPreferences preferences = context.getSharedPreferences(PreferenceUtils.FILE_NAME,
+                                                                         Context.MODE_PRIVATE);
+            preferenceUtils = new PreferenceUtils(getActivity(), preferences);
+            setValue(preferenceUtils.getTheme());
+        }
         return view;
     }
 
@@ -81,18 +87,8 @@ public class TwoLinesThemePicker extends TwoLinesDefaultFragment<PreferenceUtils
     @Override
     public PreferenceUtils.Theme getValue() {
         if (value == null)
-            value = PreferenceUtils.Theme.DARK;
+            value = preferenceUtils.getTheme();
         return value;
-    }
-
-    public void setDefaultSelectedItem() {
-        Context context = getContext();
-        if (context != null) {
-            SharedPreferences preferences = context.getSharedPreferences(PreferenceUtils.FILE_NAME,
-                                                                         Context.MODE_PRIVATE);
-            PreferenceUtils preferenceUtils = new PreferenceUtils(preferences);
-            setValue(preferenceUtils.getTheme());
-        }
     }
 
     private final DialogInterface.OnClickListener clickListener = new DialogInterface.OnClickListener() {

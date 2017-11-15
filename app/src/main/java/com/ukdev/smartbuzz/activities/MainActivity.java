@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences = getSharedPreferences(PreferenceUtils.FILE_NAME,
                                                                    MODE_PRIVATE);
-        PreferenceUtils preferenceUtils = new PreferenceUtils(sharedPreferences);
+        PreferenceUtils preferenceUtils = new PreferenceUtils(this, sharedPreferences);
         setTheme(preferenceUtils.getTheme().getRes());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
