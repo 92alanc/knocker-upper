@@ -2,6 +2,11 @@
 
     <style name="Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="colorAccent">@color/red</item>
+        <item name="icon_clear">@drawable/ic_clear</item>
+        <item name="icon_day">@drawable/ic_day</item>
+        <item name="icon_no_alarms">@drawable/ic_no_alarms</item>
+        <item name="shape_toggle_button">@drawable/shape_toggle_button</item>
+        <item name="text_colour_toggle_button">@color/toggle_text</item>
     </style>
 
     <style name="Dark.NoActionBar">
@@ -17,6 +22,11 @@
         <item name="colorAccent">@color/indigo</item>
         <item name="colorPrimary">@color/indigo</item>
         <item name="colorPrimaryDark">@color/indigo_dark</item>
+        <item name="icon_clear">@drawable/ic_clear_light</item>
+        <item name="icon_day">@drawable/ic_day_light</item>
+        <item name="icon_no_alarms">@drawable/ic_no_alarms_light</item>
+        <item name="shape_toggle_button">@drawable/shape_toggle_button_light</item>
+        <item name="text_colour_toggle_button">@color/toggle_text_light</item>
     </style>
 
     <style name="Light.NoActionBar">
@@ -40,7 +50,8 @@
         <item name="android:layout_weight">2</item>
         <item name="android:textSize">17sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background">@drawable/shape_toggle_button</item>
+        <item name="android:textColor">?attr/text_colour_toggle_button</item>
+        <item name="android:background">?attr/shape_toggle_button</item>
     </style>
 
 </resources>

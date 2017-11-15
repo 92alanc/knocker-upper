@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="icon_clear" format="reference"/>
+    <attr name="icon_day" format="reference"/>
+    <attr name="icon_night" format="reference"/>
+    <attr name="icon_no_alarms" format="reference"/>
+    <attr name="shape_toggle_button" format="reference"/>
+    <attr name="text_colour_toggle_button" format="color"/>
+</resources>

@@ -36,7 +36,6 @@
     <string name="time">time</string>
     <string name="volume">volume</string>
     <string name="vibrate">vibrate</string>
-    <string name="text">text</string>
     <string name="delete">Delete</string>
     <string name="alarm_deleted">Alarm deleted</string>
     <string name="error_delete_alarm">Error deleting alarm</string>

@@ -29,7 +29,6 @@
     <string name="time">horário</string>
     <string name="volume">volume</string>
     <string name="vibrate">vibrar</string>
-    <string name="text">texto</string>
     <string name="delete">Excluir</string>
     <string name="alarm_deleted">Alarme excluído</string>
     <string name="error_delete_alarm">Erro ao excluir o alarme</string>
