@@ -5,6 +5,7 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.support.annotation.IdRes;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -34,10 +35,10 @@ public class ViewUtils {
     /**
      * Shows ads into an {@code AdView}
      * @param activity the target activity
-     *
+     * @param resId the AdView ID
      */
-    public static void showAds(Activity activity) {
-        AdView adView = activity.findViewById(R.id.ad_view_setup);
+    public static void showAds(Activity activity, @IdRes int resId) {
+        AdView adView = activity.findViewById(resId);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
     }

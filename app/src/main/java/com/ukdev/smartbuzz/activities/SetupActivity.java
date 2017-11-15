@@ -94,7 +94,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
         Activity activity = this;
-        ViewUtils.showAds(activity);
+        ViewUtils.showAds(activity, R.id.ad_view_setup);
         parseIntent();
         initialiseComponents();
     }

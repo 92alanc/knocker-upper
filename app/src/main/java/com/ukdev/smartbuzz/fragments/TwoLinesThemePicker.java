@@ -41,7 +41,6 @@ public class TwoLinesThemePicker extends TwoLinesDefaultFragment<PreferenceUtils
     private Map<PreferenceUtils.Theme, String> mapOptionValue;
     private int selectedIndex = -1;
     private String[] labels;
-    private PreferenceUtils preferenceUtils;
     private PreferenceUtils.Theme[] values;
 
     @Nullable
@@ -50,12 +49,6 @@ public class TwoLinesThemePicker extends TwoLinesDefaultFragment<PreferenceUtils
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.two_lines_default, container, ATTACH_TO_ROOT);
         rootView = view.findViewById(R.id.rootView);
-        Context context = getContext();
-        if (context != null) {
-            SharedPreferences preferences = context.getSharedPreferences(PreferenceUtils.FILE_NAME,
-                                                                         Context.MODE_PRIVATE);
-            preferenceUtils = new PreferenceUtils(preferences);
-        }
         if (getArguments() != null) {
             parseArgs();
             mapOptionValue = new LinkedHashMap<>();
@@ -83,9 +76,6 @@ public class TwoLinesThemePicker extends TwoLinesDefaultFragment<PreferenceUtils
         this.value = value;
         if (textSummary != null)
             textSummary.setText(mapOptionValue.get(value));
-        preferenceUtils.setTheme(value);
-        if (changeListener != null)
-            changeListener.onChange(value);
     }
 
     @Override
@@ -96,7 +86,13 @@ public class TwoLinesThemePicker extends TwoLinesDefaultFragment<PreferenceUtils
     }
 
     public void setDefaultSelectedItem() {
-        setValue(preferenceUtils.getTheme());
+        Context context = getContext();
+        if (context != null) {
+            SharedPreferences preferences = context.getSharedPreferences(PreferenceUtils.FILE_NAME,
+                                                                         Context.MODE_PRIVATE);
+            PreferenceUtils preferenceUtils = new PreferenceUtils(preferences);
+            setValue(preferenceUtils.getTheme());
+        }
     }
 
     private final DialogInterface.OnClickListener clickListener = new DialogInterface.OnClickListener() {
@@ -128,6 +124,8 @@ public class TwoLinesThemePicker extends TwoLinesDefaultFragment<PreferenceUtils
                         setValue(entry.getKey());
                     i++;
                 }
+                if (changeListener != null)
+                    changeListener.onChange(value);
             }
         });
         dialogueBuilder.setNegativeButton(R.string.cancel, null);

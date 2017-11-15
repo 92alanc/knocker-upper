@@ -61,6 +61,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/Dark.NoActionBar">
         </activity>
+        <!-- Settings activity -->
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/settings"
+            android:theme="@style/Dark"
+            android:parentActivityName=".activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ukdev.smartbuzz.activities.MainActivity"/>
+        </activity>
 
         <!-- BROADCAST RECEIVERS -->
         <!-- Alarm receiver -->
@@ -99,8 +109,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
 
-        <activity android:name=".activities.SettingsActivity">
-        </activity>
     </application>
 
 </manifest>

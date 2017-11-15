@@ -1,17 +1,21 @@
 package com.ukdev.smartbuzz.activities;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.fragments.TwoLinesDefaultFragment;
 import com.ukdev.smartbuzz.fragments.TwoLinesThemePicker;
 import com.ukdev.smartbuzz.listeners.OnFragmentInflatedListener;
 import com.ukdev.smartbuzz.util.PreferenceUtils;
+import com.ukdev.smartbuzz.util.ViewUtils;
 
 /**
  * The settings activity
@@ -19,16 +23,26 @@ import com.ukdev.smartbuzz.util.PreferenceUtils;
  * @author Alan Camargo
  */
 public class SettingsActivity extends AppCompatActivity
-        implements OnFragmentInflatedListener, TwoLinesDefaultFragment.TwoLinesChangeListener {
+        implements OnFragmentInflatedListener,
+                   TwoLinesDefaultFragment.TwoLinesChangeListener<PreferenceUtils.Theme> {
+
+    private PreferenceUtils preferenceUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences = getSharedPreferences(PreferenceUtils.FILE_NAME,
                                                                    MODE_PRIVATE);
-        PreferenceUtils preferenceUtils = new PreferenceUtils(sharedPreferences);
+        preferenceUtils = new PreferenceUtils(sharedPreferences);
         setTheme(preferenceUtils.getTheme().getRes());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        Activity activity = this;
+        ViewUtils.showAds(activity, R.id.ad_view_settings);
         replaceFragmentPlaceholders();
     }
 
@@ -39,8 +53,9 @@ public class SettingsActivity extends AppCompatActivity
     }
 
     @Override
-    public void onChange(Object newValue) {
-        recreate(); // FIXME
+    public void onChange(PreferenceUtils.Theme newValue) {
+        preferenceUtils.setTheme(newValue);
+        recreate();
     }
 
     private void replaceFragmentPlaceholders() {
@@ -55,6 +70,7 @@ public class SettingsActivity extends AppCompatActivity
         PreferenceUtils.Theme[] values = PreferenceUtils.Theme.values();
         TwoLinesThemePicker fragment = TwoLinesThemePicker.newInstance(labels, values);
         fragment.setOnFragmentInflatedListener(this);
+        fragment.setChangeListener(this);
         fragment.setTitle(getString(R.string.theme));
         transaction.replace(R.id.placeholder_theme, fragment);
     }
