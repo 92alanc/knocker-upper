@@ -5,6 +5,7 @@
         <item name="icon_clear">@drawable/ic_clear</item>
         <item name="icon_day">@drawable/ic_day</item>
         <item name="icon_no_alarms">@drawable/ic_no_alarms</item>
+        <item name="menu_style">@style/Dark.PopupOverlay</item>
         <item name="shape_toggle_button">@drawable/shape_toggle_button</item>
         <item name="text_colour_toggle_button">@color/toggle_text</item>
     </style>
@@ -25,18 +26,15 @@
         <item name="icon_clear">@drawable/ic_clear_light</item>
         <item name="icon_day">@drawable/ic_day_light</item>
         <item name="icon_no_alarms">@drawable/ic_no_alarms_light</item>
+        <item name="menu_style">@style/Light.PopupOverlay</item>
         <item name="shape_toggle_button">@drawable/shape_toggle_button_light</item>
         <item name="text_colour_toggle_button">@color/toggle_text_light</item>
     </style>
 
-    <style name="Light.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="Light.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:colorBackground">@color/white</item>
+        <item name="android:textColor">@color/black</item>
     </style>
-
-    <style name="Light.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar"/>
-
-    <style name="Light.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <style name="TwoLinesFragment">
         <item name="android:background">@null</item>
