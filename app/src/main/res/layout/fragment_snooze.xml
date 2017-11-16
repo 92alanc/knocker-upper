@@ -1,19 +1,19 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.ukdev.smartbuzz.fragments.SnoozeFragment">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ukdev.smartbuzz.fragments.SnoozeFragment">
 
     <Button
-            android:id="@+id/btSnooze"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/background_snooze"
-            android:text="@string/snooze"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:hapticFeedbackEnabled="true"/>
+        android:id="@+id/btSnooze"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:background="@drawable/shape_snooze"
+        android:hapticFeedbackEnabled="true"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="20sp"/>
 
 </RelativeLayout>

@@ -201,7 +201,7 @@ public class AlarmActivity extends AppCompatActivity {
     }
 
     private void setDismissFragment(final boolean sleepCheckerOn) {
-        DismissFragment dismissFragment = DismissFragment.newInstance(sleepCheckerOn);
+        DismissFragment dismissFragment = new DismissFragment();
         dismissFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onFragmentInflated(Fragment fragment) {
@@ -225,6 +225,13 @@ public class AlarmActivity extends AppCompatActivity {
                 });
             }
         });
+        FrameLayout placeholder = findViewById(R.id.placeholder_dismiss_button);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) placeholder.getLayoutParams();
+        if (sleepCheckerMode)
+            params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        else
+            params.addRule(RelativeLayout.ALIGN_PARENT_END);
+        placeholder.setLayoutParams(params); // FIXME
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.placeholder_dismiss_button, dismissFragment);

@@ -1,20 +1,24 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.ukdev.smartbuzz.fragments.DismissFragment">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ukdev.smartbuzz.fragments.DismissFragment">
 
-    <Button
-            android:id="@+id/btDismiss"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:padding="50dp"
-            android:background="@drawable/background_dismiss"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:textColor="@color/white"
-            android:textAllCaps="false"
-            android:textAlignment="gravity"
-            android:hapticFeedbackEnabled="true"/>
+    <ImageButton
+        android:id="@+id/btDismiss"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:background="@drawable/shape_dismiss"
+        android:gravity="center"
+        android:hapticFeedbackEnabled="true"
+        android:padding="50dp"
+        android:textAlignment="gravity"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:srcCompat="@drawable/ic_dismiss"
+        tools:ignore="ContentDescription"/>
 
 </RelativeLayout>
