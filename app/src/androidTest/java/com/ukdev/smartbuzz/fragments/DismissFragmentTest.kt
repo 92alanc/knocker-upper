@@ -12,24 +12,9 @@ class DismissFragmentTest {
 
     @Test
     fun shouldFinishActivityWhenClickingOnDismiss() {
-        val sleepCheckerMode = false
-        robot.launchFragment(sleepCheckerMode)
+        robot.launchFragment()
              .clickOnDismiss()
              .checkIfActivityIsDestroyed()
-    }
-
-    @Test
-    fun shouldDisplayCorrectTextWhenNotOnSleepCheckerMode() {
-        val sleepCheckerMode = false
-        robot.launchFragment(sleepCheckerMode)
-             .validateDismissButtonText()
-    }
-
-    @Test
-    fun shouldDisplayCorrectTextWhenOnSleepCheckerMode() {
-        val sleepCheckerMode = true
-        robot.launchFragment(sleepCheckerMode)
-             .validateIAmAwakeButtonText()
     }
 
 }

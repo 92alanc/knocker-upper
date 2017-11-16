@@ -3,9 +3,7 @@ package com.ukdev.smartbuzz.robots
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
 import android.support.test.espresso.action.ViewActions.click
-import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.withId
-import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.android21buttons.fragmenttestrule.FragmentTestRule
 import com.ukdev.smartbuzz.R
 import com.ukdev.smartbuzz.activities.AlarmActivity
@@ -25,8 +23,8 @@ class DismissFragmentRobot : BaseFragmentRobot() {
                                                                 launchFragment)
 
     // FIXME: not launching fragment
-    fun launchFragment(sleepCheckerMode: Boolean): DismissFragmentRobot {
-        rule.launchFragment(fragment(sleepCheckerMode))
+    fun launchFragment(): DismissFragmentRobot {
+        rule.launchFragment(fragment())
         return this
     }
 
@@ -41,26 +39,14 @@ class DismissFragmentRobot : BaseFragmentRobot() {
         return this
     }
 
-    fun validateDismissButtonText(): DismissFragmentRobot {
-        dismissButton().check(matches(withText(R.string.dismiss)))
-        return this
-    }
-
-    fun validateIAmAwakeButtonText(): DismissFragmentRobot {
-        dismissButton().check(matches(withText(R.string.i_am_awake)))
-        return this
-    }
-
-    private fun fragment(sleepCheckerMode: Boolean): DismissFragment {
-        val fragment = DismissFragment.newInstance(sleepCheckerMode)
+    private fun fragment(): DismissFragment {
+        val fragment = DismissFragment()
         fragment.setOnFragmentInflatedListener {
             fragment.setOnClickListener { fragment.activity!!.finish() }
         }
         return fragment
     }
 
-    private fun dismissButton(): ViewInteraction {
-        return onView(withId(R.id.btDismiss))
-    }
+    private fun dismissButton(): ViewInteraction = onView(withId(R.id.btDismiss))
 
 }
