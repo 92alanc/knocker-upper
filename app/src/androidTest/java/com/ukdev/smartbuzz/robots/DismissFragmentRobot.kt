@@ -1,29 +1,25 @@
 package com.ukdev.smartbuzz.robots
 
+import android.content.Intent
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import com.android21buttons.fragmenttestrule.FragmentTestRule
 import com.ukdev.smartbuzz.R
-import com.ukdev.smartbuzz.activities.AlarmActivity
-import com.ukdev.smartbuzz.common.BaseFragmentRobot
+import com.ukdev.smartbuzz.activities.TestActivity
 import com.ukdev.smartbuzz.fragments.DismissFragment
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 
-class DismissFragmentRobot : BaseFragmentRobot() {
+class DismissFragmentRobot {
 
     @Rule
     @JvmField
-    val rule = FragmentTestRule<AlarmActivity, DismissFragment>(AlarmActivity::class.java,
-                                                                DismissFragment::class.java,
-                                                                initialTouchMode,
-                                                                launchActivity,
-                                                                launchFragment)
+    val rule = FragmentTestRule(TestActivity::class.java, DismissFragment::class.java)
 
-    // FIXME: not launching fragment
     fun launchFragment(): DismissFragmentRobot {
+        rule.launchActivity(Intent())
         rule.launchFragment(fragment())
         return this
     }

@@ -1,5 +1,6 @@
 package com.ukdev.smartbuzz.robots
 
+import android.content.Intent
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
 import android.support.test.espresso.action.ViewActions.click
@@ -7,25 +8,19 @@ import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
 import com.android21buttons.fragmenttestrule.FragmentTestRule
 import com.ukdev.smartbuzz.R
-import com.ukdev.smartbuzz.activities.AlarmActivity
-import com.ukdev.smartbuzz.common.BaseFragmentRobot
+import com.ukdev.smartbuzz.activities.TestActivity
 import com.ukdev.smartbuzz.fragments.SnoozeFragment
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 
-class SnoozeFragmentRobot : BaseFragmentRobot() {
+class SnoozeFragmentRobot {
 
     @Rule
     @JvmField
-    val rule = FragmentTestRule<AlarmActivity, SnoozeFragment>(AlarmActivity::class.java,
+    val rule = FragmentTestRule(TestActivity::class.java, SnoozeFragment::class.java)
 
-                                                               SnoozeFragment::class.java,
-                                                               initialTouchMode,
-                                                               launchActivity,
-                                                               launchFragment)
-
-    // FIXME: not launching fragment
     fun launchFragment(snoozeDuration: Long): SnoozeFragmentRobot {
+        rule.launchActivity(Intent())
         rule.launchFragment(fragment(snoozeDuration))
         return this
     }
@@ -90,8 +85,6 @@ class SnoozeFragmentRobot : BaseFragmentRobot() {
         return fragment
     }
 
-    private fun snoozeButton(): ViewInteraction {
-        return onView(withId(R.id.btSnooze))
-    }
+    private fun snoozeButton(): ViewInteraction = onView(withId(R.id.btSnooze))
 
 }

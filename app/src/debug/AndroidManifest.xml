@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.ukdev.smartbuzz">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <application
+        android:allowBackup="true"
+        android:fullBackupContent="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Light"
+        tools:ignore="GoogleAppIndexingWarning">
+
+        <!-- ACTIVITIES -->
+        <!-- Main activity -->
+        <activity
+            android:name=".activities.MainActivity"
+            android:configChanges="locale"
+            android:label="@string/app_name"
+            android:theme="@style/Light">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SET_ALARM"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <!-- Setup activity -->
+        <activity
+            android:name=".activities.SetupActivity"
+            android:configChanges="locale"
+            android:label="@string/new_alarm"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/Light">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ukdev.smartbuzz.activities.MainActivity"/>
+        </activity>
+        <!-- Alarm activity -->
+        <activity
+            android:name=".activities.AlarmActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|locale"
+            android:excludeFromRecents="true"
+            android:finishOnTaskLaunch="true"
+            android:label="@string/app_name"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Light">
+        </activity>
+        <!-- Settings activity -->
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/settings"
+            android:theme="@style/Light"
+            android:parentActivityName=".activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ukdev.smartbuzz.activities.MainActivity"/>
+        </activity>
+
+        <activity android:name=".activities.TestActivity"/>
+
+        <!-- BROADCAST RECEIVERS -->
+        <!-- Alarm receiver -->
+        <receiver
+            android:name=".receivers.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.android.alarm.permission.SET_ALARM">
+            <intent-filter>
+                <action android:name="com.ukdev.smartbuzz.ACTION_TRIGGER_ALARM"/>
+                <action android:name="com.ukdev.smartbuzz.ACTION_TRIGGER_SLEEP_CHECKER"/>
+                <action android:name="com.ukdev.smartbuzz.ACTION_DELAY_ALARM"/>
+            </intent-filter>
+        </receiver>
+        <!-- Boot receiver -->
+        <receiver
+            android:name=".receivers.BootReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+
+                <category android:name="android.intent.category.HOME"/>
+            </intent-filter>
+        </receiver>
+        <!-- Time change receiver -->
+        <receiver
+            android:name=".receivers.TimeChangeReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_SET"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- ADS -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+
+    </application>
+
+</manifest>
