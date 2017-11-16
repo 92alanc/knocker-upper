@@ -1,6 +1,9 @@
 package com.ukdev.smartbuzz.model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * A time wrapper
@@ -59,9 +62,9 @@ public class Time {
 
     @Override
     public String toString() {
-        String hour = this.hour < 10 ? "0" + this.hour : "" + this.hour;
-        String minute = this.minute < 10 ? "0" + this.minute : "" + this.minute;
-        return String.format("%1$s:%2$s", hour, minute);
+        DateFormat format = SimpleDateFormat.getTimeInstance(DateFormat.SHORT,
+                                                             Locale.getDefault());
+        return format.format(toCalendar().getTime());
     }
 
     /**

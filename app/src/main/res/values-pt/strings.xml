@@ -37,9 +37,6 @@
     <string name="yes">Sim</string>
     <string name="no">Não</string>
     <string name="no_alarms">Nenhum alarme</string>
-    <string name="snooze">soneca</string>
-    <string name="dismiss">parar</string>
-    <string name="i_am_awake">Estou acordado(a)!</string>
     <string name="tap_back_again">Toque de novo para sair</string>
     <string name="wallpaper">papel de parede</string>
     <plurals name="alarms_set">

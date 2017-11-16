@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -227,10 +228,14 @@ public class AlarmActivity extends AppCompatActivity {
         });
         FrameLayout placeholder = findViewById(R.id.placeholder_dismiss_button);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) placeholder.getLayoutParams();
-        if (sleepCheckerMode)
+        if (sleepCheckerMode) {
             params.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        else
-            params.addRule(RelativeLayout.ALIGN_PARENT_END);
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+                params.addRule(RelativeLayout.ALIGN_PARENT_END);
+            else
+                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        }
         placeholder.setLayoutParams(params); // FIXME
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();

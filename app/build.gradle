@@ -53,6 +53,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.1'
     debugImplementation 'com.21buttons:fragment-test-rule:1.0.0'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.imankur.library:analogclockview:1.0.0'
     implementation 'com.android.support:appcompat-v7:27.0.1'
     implementation 'com.android.support:design:27.0.1'
     implementation 'com.android.support:cardview-v7:27.0.1'

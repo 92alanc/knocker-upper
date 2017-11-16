@@ -44,9 +44,6 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="no_alarms">No alarms</string>
-    <string name="snooze">snooze</string>
-    <string name="dismiss">dismiss</string>
-    <string name="i_am_awake">I\'m awake!</string>
     <string name="tap_back_again">Tap again to exit</string>
     <string name="wallpaper">wallpaper</string>
     <plurals name="alarms_set">
