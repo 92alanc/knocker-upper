@@ -14,8 +14,6 @@ open class BaseTest {
               .forEach { dao.delete(it) }
     }
 
-    fun getDao(): AlarmDao {
-        return AlarmDao.getInstance(context)
-    }
+    fun getDao(): AlarmDao = AlarmDao.getInstance(context)
 
 }

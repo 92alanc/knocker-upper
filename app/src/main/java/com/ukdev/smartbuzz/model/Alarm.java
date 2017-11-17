@@ -84,7 +84,7 @@ public class Alarm {
      * Sets the name
      * @param name the name
      */
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -100,7 +100,7 @@ public class Alarm {
      * Sets the trigger time
      * @param triggerTime the trigger time
      */
-    void setTriggerTime(long triggerTime) {
+    public void setTriggerTime(long triggerTime) {
         this.triggerTime = triggerTime;
     }
 
@@ -117,7 +117,7 @@ public class Alarm {
      * Sets the snooze duration
      * @param snoozeDuration the snooze duration
      */
-    void setSnoozeDuration(@SnoozeDuration long snoozeDuration) {
+    public void setSnoozeDuration(@SnoozeDuration long snoozeDuration) {
         this.snoozeDuration = snoozeDuration;
     }
 
@@ -133,7 +133,7 @@ public class Alarm {
      * Sets the repetition
      * @param repetition the repetition
      */
-    void setRepetition(Integer[] repetition) {
+    public void setRepetition(Integer[] repetition) {
         this.repetition = repetition;
     }
 
@@ -192,7 +192,7 @@ public class Alarm {
      * Sets the {@code sleepCheckerOn} flag
      * @param sleepCheckerOn the flag value
      */
-    void setSleepCheckerOn(boolean sleepCheckerOn) {
+    public void setSleepCheckerOn(boolean sleepCheckerOn) {
         this.sleepCheckerOn = sleepCheckerOn;
     }
 
@@ -228,7 +228,7 @@ public class Alarm {
      * Sets the {@code vibrate} flag
      * @param vibrate the flag value
      */
-    void setVibrate(boolean vibrate) {
+    public void setVibrate(boolean vibrate) {
         this.vibrate = vibrate;
     }
 
@@ -244,7 +244,7 @@ public class Alarm {
      * Sets the volume
      * @param volume the volume
      */
-    void setVolume(int volume) {
+    public void setVolume(int volume) {
         this.volume = volume;
     }
 
