@@ -387,7 +387,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         timePickerFragment.setOnFragmentInflatedListener(new OnFragmentInflatedListener() {
             @Override
             public void onFragmentInflated(Fragment fragment) {
-                Time time = Time.valueOf(alarm.getTriggerTime());
+                Time time = Time.valueOf(context, alarm.getTriggerTime());
                 timePickerFragment.setSummary(time.toString());
                 timePickerFragment.setValue(time);
             }

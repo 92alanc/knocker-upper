@@ -1,5 +1,7 @@
 package com.ukdev.smartbuzz.model;
 
+import android.content.Context;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,21 +31,27 @@ public class Time {
     private final int hour;
     private final int minute;
 
+    private Context context;
+
     /**
      * Creates an instance of {@code Time}
      * with the current time
+     * @param context the Android context
      */
-    public Time() {
+    public Time(Context context) {
+        this.context = context;
         hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         minute = Calendar.getInstance().get(Calendar.MINUTE);
     }
 
     /**
      * Creates an instance of {@code Time}
+     * @param context the Android context
      * @param hour the hour
      * @param minute the minute
      */
-    public Time(int hour, int minute) {
+    public Time(Context context, int hour, int minute) {
+        this.context = context;
         this.hour = hour;
         this.minute = minute;
     }
@@ -62,8 +70,11 @@ public class Time {
 
     @Override
     public String toString() {
-        DateFormat format = SimpleDateFormat.getTimeInstance(DateFormat.SHORT,
-                                                             Locale.getDefault());
+        DateFormat format;
+        if (android.text.format.DateFormat.is24HourFormat(context))
+            format = SimpleDateFormat.getTimeInstance(DateFormat.SHORT, Locale.UK);
+        else
+            format = SimpleDateFormat.getTimeInstance(DateFormat.SHORT, Locale.US);
         return format.format(toCalendar().getTime());
     }
 
@@ -86,15 +97,16 @@ public class Time {
     /**
      * Gets the {@code Time} value of a number
      * of milliseconds
+     * @param context the Android context
      * @param millis the milliseconds
      * @return the {@code Time} value
      */
-    public static Time valueOf(long millis) {
+    public static Time valueOf(Context context, long millis) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(millis);
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
-        return new Time(hour, minute);
+        return new Time(context, hour, minute);
     }
 
 }

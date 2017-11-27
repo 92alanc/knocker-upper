@@ -222,11 +222,12 @@ public class Utils {
      * alarm's trigger time is 15:00 without a specific
      * day, then the next valid trigger time will be
      * 15:00 of the following day.</p>
+     * @param context the Android context
      * @param alarm the alarm
      * @return the next valid trigger time
      */
-    static long getNextValidTriggerTime(Alarm alarm) {
-        Time time = Time.valueOf(alarm.getTriggerTime());
+    static long getNextValidTriggerTime(Context context, Alarm alarm) {
+        Time time = Time.valueOf(context, alarm.getTriggerTime());
         int hours = time.getHour();
         int minutes = time.getMinute();
         Calendar calendar = Calendar.getInstance();

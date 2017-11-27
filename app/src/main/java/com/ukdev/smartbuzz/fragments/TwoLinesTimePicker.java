@@ -58,7 +58,7 @@ public class TwoLinesTimePicker extends TwoLinesDefaultFragment<Time> {
     @Override
     public Time getValue() {
         if (value == null)
-            value = new Time();
+            value = new Time(getContext());
         return value;
     }
 
@@ -75,7 +75,7 @@ public class TwoLinesTimePicker extends TwoLinesDefaultFragment<Time> {
     private final TimePickerDialog.OnTimeSetListener listener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-            setValue(new Time(hour, minute));
+            setValue(new Time(getContext(), hour, minute));
         }
     };
 

@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 27
@@ -10,8 +11,8 @@ android {
         applicationId "com.ukdev.smartbuzz"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 51
-        versionName "5.0"
+        versionCode 52
+        versionName "5.1"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         def path = String.format('"/data/data/%s/databases/"', applicationId)
@@ -67,5 +68,3 @@ dependencies {
 repositories {
     mavenCentral()
 }
-
-apply plugin: 'kotlin-android-extensions'

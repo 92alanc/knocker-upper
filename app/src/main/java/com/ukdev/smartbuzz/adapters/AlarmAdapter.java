@@ -59,7 +59,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmHolder> {
     public void onBindViewHolder(AlarmHolder holder, int position) {
         final Alarm alarm = objects.get(position);
 
-        Time time = Time.valueOf(alarm.getTriggerTime());
+        Time time = Time.valueOf(context, alarm.getTriggerTime());
         int src = getImageViewSrc(time.getHour());
         holder.dayNightImageView.setImageResource(src);
         int contentDescription = getImageViewContentDescription(time.getHour());

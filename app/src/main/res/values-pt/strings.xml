@@ -12,7 +12,7 @@
     <string name="enable_sleep_checker">ativar Sleep Checker</string>
     <string name="summary_enable_sleep_checker">Dica: depois de desligar o alarme, continue usando seu dispositivo até o aplicativo perguntar se você está acordado(a). Isso leva até 5 minutos.</string>
     <string name="description_daytime">Durante o dia</string>
-    <string name="ringtone">Toque</string>
+    <string name="ringtone">toque</string>
     <string name="error_save_alarm">Erro ao salvar o alarme</string>
     <string name="retry">Tentar novamente</string>
     <string name="alarm_saved">Alarme salvo</string>

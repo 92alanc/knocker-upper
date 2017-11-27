@@ -7,7 +7,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuItemImpl;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.fragments.TwoLinesDefaultFragment;
@@ -44,6 +46,16 @@ public class SettingsActivity extends AppCompatActivity
     }
 
     @Override
+    public void onBackPressed() { }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onChange(PreferenceUtils.Theme newValue) {
         preferenceUtils.setTheme(newValue);
         recreate();
@@ -53,7 +65,7 @@ public class SettingsActivity extends AppCompatActivity
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         bindThemePicker(transaction);
-        transaction.commit();
+        transaction.commitNow();
     }
 
     private void bindThemePicker(FragmentTransaction transaction) {

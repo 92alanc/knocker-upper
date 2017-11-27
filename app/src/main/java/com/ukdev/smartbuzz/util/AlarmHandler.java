@@ -98,7 +98,7 @@ public class AlarmHandler {
      * Sets a new alarm
      */
     public void setAlarm() {
-        long triggerTime = Utils.getNextValidTriggerTime(alarm);
+        long triggerTime = Utils.getNextValidTriggerTime(context, alarm);
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.setAction(Action.TRIGGER_ALARM);
         intent.putExtra(Extra.ID, alarm.getId());
@@ -128,7 +128,7 @@ public class AlarmHandler {
         int minutes = 0;
         if (intent.hasExtra(AlarmClock.EXTRA_MINUTES))
             minutes = intent.getIntExtra(AlarmClock.EXTRA_MINUTES, defaultValue);
-        long triggerTime = new Time(hour, minutes).toCalendar().getTimeInMillis();
+        long triggerTime = new Time(context, hour, minutes).toCalendar().getTimeInMillis();
         Uri ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         int volume = Utils.getDefaultVolume(context);
 
@@ -153,7 +153,7 @@ public class AlarmHandler {
         long id = dao.insert(alarm);
         alarm.setId((int) id);
 
-        long nextValidTriggerTime = Utils.getNextValidTriggerTime(alarm);
+        long nextValidTriggerTime = Utils.getNextValidTriggerTime(context, alarm);
         Intent receiverIntent = new Intent(context, AlarmReceiver.class);
         receiverIntent.setAction(Action.TRIGGER_ALARM);
         receiverIntent.putExtra(Extra.ID, alarm.getId());
