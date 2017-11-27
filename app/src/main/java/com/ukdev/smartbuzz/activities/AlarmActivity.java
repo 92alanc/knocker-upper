@@ -85,6 +85,13 @@ public class AlarmActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if (sleepCheckerMode)
+            startCountdown();
+    }
+
+    @Override
     public void onBackPressed() { }
 
     @Override
@@ -131,10 +138,8 @@ public class AlarmActivity extends AppCompatActivity {
                     alarmHandler.dismissAlarm(activity, wakeLock);
                 }
             }, Time.ONE_MINUTE);
-        } else {
+        } else
             nameTextView.setText(context.getText(R.string.are_you_awake));
-            startCountdown();
-        }
         setSnoozeButtonPlaceholder();
         setDismissFragment(sleepCheckerMode);
         Uri wallpaperUri = alarm.getWallpaperUri();
