@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.SOURCE)
 @Target({ElementType.LOCAL_VARIABLE, ElementType.FIELD,
         ElementType.PARAMETER, ElementType.METHOD})
-@IntDef({Time.ZERO, Time.FIVE_MINUTES, Time.TEN_MINUTES,
-        Time.FIFTEEN_MINUTES, Time.TWENTY_MINUTES,
-        Time.TWENTY_FIVE_MINUTES, Time.THIRTY_MINUTES})
+@IntDef({(int) Time.ZERO, (int) Time.FIVE_MINUTES, (int) Time.TEN_MINUTES,
+        (int) Time.FIFTEEN_MINUTES, (int) Time.TWENTY_MINUTES,
+        (int) Time.TWENTY_FIVE_MINUTES, (int) Time.THIRTY_MINUTES})
 public @interface SnoozeDuration { }
