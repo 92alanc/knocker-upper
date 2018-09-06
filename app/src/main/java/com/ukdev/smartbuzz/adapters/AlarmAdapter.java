@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.CompoundButton;
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.listeners.OnItemClickListener;
+import com.ukdev.smartbuzz.listeners.OnItemRemovedListener;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.Time;
 import com.ukdev.smartbuzz.util.AlarmHandler;
@@ -47,8 +49,9 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmHolder> {
         dao = AlarmDao.getInstance(context);
     }
 
+    @NonNull
     @Override
-    public AlarmHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AlarmHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         final boolean attachToRoot = false;
         View view = inflater.inflate(R.layout.card_alarm, parent, attachToRoot);
@@ -56,7 +59,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmHolder> {
     }
 
     @Override
-    public void onBindViewHolder(AlarmHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AlarmHolder holder, int position) {
         final Alarm alarm = objects.get(position);
 
         Time time = Time.valueOf(context, alarm.getTriggerTime());
@@ -91,6 +94,12 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmHolder> {
     @Override
     public int getItemCount() {
         return objects.size();
+    }
+
+    public void removeAt(int position, OnItemRemovedListener<Alarm> onItemRemovedListener) {
+        onItemRemovedListener.onItemRemoved(objects.get(position));
+        objects.remove(position);
+        notifyItemRemoved(position);
     }
 
     @DrawableRes

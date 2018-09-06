@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,8 +27,10 @@ import android.widget.Toast;
 
 import com.ukdev.smartbuzz.R;
 import com.ukdev.smartbuzz.adapters.AlarmAdapter;
+import com.ukdev.smartbuzz.adapters.SwipeToDeleteCallback;
 import com.ukdev.smartbuzz.database.AlarmDao;
 import com.ukdev.smartbuzz.listeners.OnItemClickListener;
+import com.ukdev.smartbuzz.listeners.OnItemRemovedListener;
 import com.ukdev.smartbuzz.model.Alarm;
 import com.ukdev.smartbuzz.model.Time;
 import com.ukdev.smartbuzz.util.AlarmHandler;
@@ -42,7 +45,8 @@ import java.util.List;
  *
  * @author Alan Camargo
  */
-public class MainActivity extends AppCompatActivity implements OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements OnItemClickListener,
+        OnItemRemovedListener<Alarm> {
 
     private AlarmDao dao;
     private Context context;
@@ -147,6 +151,11 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         startActivity(intent);
     }
 
+    @Override
+    public void onItemRemoved(Alarm item) {
+        dao.delete(item);
+    }
+
     private void initialiseComponents() {
         context = this;
         dao = AlarmDao.getInstance(context);
@@ -174,6 +183,18 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         recyclerView.setLayoutManager(layoutManager);
         AlarmAdapter adapter = new AlarmAdapter(context, alarms, listener);
         recyclerView.setAdapter(adapter);
+
+        final OnItemRemovedListener<Alarm> listener = this;
+        SwipeToDeleteCallback swipeHandler = new SwipeToDeleteCallback(this) {
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                AlarmAdapter adapter = (AlarmAdapter) recyclerView.getAdapter();
+                adapter.removeAt(viewHolder.getAdapterPosition(), listener);
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeHandler);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     private void checkForVoiceCommand() {

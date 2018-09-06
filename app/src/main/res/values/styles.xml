@@ -9,6 +9,7 @@
         <item name="shape_toggle_button">@drawable/shape_toggle_button</item>
         <item name="text_colour_toggle_button">@color/toggle_text</item>
         <item name="android:typeface">serif</item>
+        <item name="cardViewStyle">@style/CardView</item>
     </style>
 
     <style name="Dark.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -30,6 +31,7 @@
         <item name="shape_toggle_button">@drawable/shape_toggle_button_light</item>
         <item name="text_colour_toggle_button">@color/toggle_text_light</item>
         <item name="android:typeface">serif</item>
+        <item name="cardViewStyle">@style/CardView</item>
     </style>
 
     <style name="Light.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
