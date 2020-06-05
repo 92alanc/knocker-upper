@@ -5,18 +5,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.ukdev.smartbuzz.R
 import com.ukdev.smartbuzz.domain.model.Alarm
+import com.ukdev.smartbuzz.ui.adapter.AlarmAdapter
+import com.ukdev.smartbuzz.ui.tools.hide
+import com.ukdev.smartbuzz.ui.tools.show
 import com.ukdev.smartbuzz.ui.viewmodel.state.AlarmViewModelState
 import com.ukdev.smartbuzz.ui.viewmodel.AlarmViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val viewModel by viewModel<AlarmViewModel>()
+    private val adapter = AlarmAdapter()
 
     private lateinit var viewModelState: AlarmViewModelState
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        recyclerView.adapter = adapter
         loadViewModelStateFromSavedInstanceState(savedInstanceState) ?: observeData()
     }
 
@@ -53,15 +59,19 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     private fun handleError() {
-        TODO("not implemented")
+        progressBar.hide()
+        // TODO: show error
     }
 
     private fun handleLoading() {
-        TODO("not implemented")
+        recyclerView.hide()
+        progressBar.show()
     }
 
     private fun handleSuccess(alarms: List<Alarm>) {
-        TODO("not implemented")
+        progressBar.hide()
+        recyclerView.show()
+        adapter.submitList(alarms)
     }
 
     private companion object {

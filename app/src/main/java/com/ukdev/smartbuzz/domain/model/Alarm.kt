@@ -1,8 +1,10 @@
 package com.ukdev.smartbuzz.domain.model
 
 import java.time.DayOfWeek
+import java.util.*
 
 data class Alarm(
+        val id: String = UUID.randomUUID().toString(),
         val label: String,
         val triggerTime: Long,
         val frequency: List<DayOfWeek>,
