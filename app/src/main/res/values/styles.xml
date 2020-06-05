@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorAccent">@color/indigo</item>
         <item name="colorPrimary">@color/indigo</item>
         <item name="colorPrimaryDark">@color/indigo_dark</item>

@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "label": "Work",
+      "trigger_time": "06:30",
+      "active": true,
+      "frequency": "Weekdays"
+    },
+    {
+      "label": "Church",
+      "trigger_time": "09:30",
+      "active": true,
+      "frequency": "Every Sunday"
+    },
+    {
+      "label": "Gym",
+      "trigger_time": "19:00",
+      "active": false,
+      "frequency": "Mon, Wed, Fri"
+    }
+  ]
+}
