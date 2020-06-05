@@ -4,12 +4,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 29
 
     defaultConfig {
         applicationId "com.ukdev.smartbuzz"
         minSdkVersion 16
-        targetSdkVersion 27
+        targetSdkVersion 29
         versionCode 53
         versionName "5.2"
         vectorDrawables.useSupportLibrary = true
@@ -20,16 +20,19 @@ android {
 
     signingConfigs {
         config {
-            def properties = new Properties()
-            file("release.properties").withInputStream { properties.load(it) }
-            keyPassword = properties.getProperty("key.password")
-            storePassword = properties.getProperty("store.password")
-            keyAlias properties.getProperty("key.alias")
-            storeFile file(properties.getProperty("store.file"))
+            keyAlias "${smart_buzz_key_alias}"
+            keyPassword = "${smart_buzz_key_password}"
+            storeFile file("${smart_buzz_store_file}")
+            storePassword = "${smart_buzz_store_password}"
         }
     }
 
     buildTypes {
+        debug {
+            testCoverageEnabled true
+            buildConfigField("String", "DB_NAME", '"test_database.db"')
+        }
+
         release {
             minifyEnabled false
             debuggable false
@@ -37,34 +40,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("String", "DB_NAME", '"database.db"')
         }
-        debug {
-            testCoverageEnabled true
-            buildConfigField("String", "DB_NAME", '"test_database.db"')
-        }
     }
-
-    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/androidTest/assets/'] } }
 }
 
 dependencies {
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2'
-    androidTestImplementation 'com.21buttons:fragment-test-rule:1.1.0'
-
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.imankur.library:analogclockview:1.0.0'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:animated-vector-drawable:27.1.1'
     implementation 'com.android.support:customtabs:27.1.1'
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support:cardview-v7:27.1.1'
-    implementation 'com.google.android.gms:play-services-ads:15.0.1'
     implementation 'com.android.support:support-v4:27.1.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
 }
