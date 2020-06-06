@@ -9,4 +9,6 @@ interface AlarmLocalDataSource {
 
     suspend fun saveOrUpdate(alarm: Alarm)
 
+    suspend fun delete(alarm: Alarm)
+
 }

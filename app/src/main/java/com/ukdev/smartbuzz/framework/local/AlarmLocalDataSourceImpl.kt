@@ -16,12 +16,28 @@ class AlarmLocalDataSourceImpl(private val alarmDao: AlarmDao) : AlarmLocalDataS
             }
             QueryResult.Success(alarms)
         } catch (t: Throwable) {
+            // TODO: use CrashReportManager
+            t.printStackTrace()
             QueryResult.Error
         }
     }
 
     override suspend fun saveOrUpdate(alarm: Alarm) {
-        alarmDao.insertOrUpdate(alarm.fromDomainToDatabase())
+        try {
+            alarmDao.insertOrUpdate(alarm.fromDomainToDatabase())
+        } catch (t: Throwable) {
+            // TODO: use CrashReportManager
+            t.printStackTrace()
+        }
+    }
+
+    override suspend fun delete(alarm: Alarm) {
+        try {
+            alarmDao.delete(alarm.id)
+        } catch (t: Throwable) {
+            // TODO: use CrashReportManager
+            t.printStackTrace()
+        }
     }
 
 }
