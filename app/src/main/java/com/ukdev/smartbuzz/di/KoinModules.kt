@@ -1,7 +1,9 @@
 package com.ukdev.smartbuzz.di
 
+import com.ukdev.smartbuzz.data.local.AlarmLocalDataSource
 import com.ukdev.smartbuzz.data.repository.AlarmRepository
 import com.ukdev.smartbuzz.data.repository.AlarmRepositoryImpl
+import com.ukdev.smartbuzz.framework.local.AlarmLocalDataSourceImpl
 import com.ukdev.smartbuzz.ui.viewmodel.AlarmViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -13,5 +15,6 @@ private val ui = module {
 }
 
 private val data = module {
-    factory<AlarmRepository> { AlarmRepositoryImpl() }
+    factory<AlarmRepository> { AlarmRepositoryImpl(get()) }
+    factory<AlarmLocalDataSource> { AlarmLocalDataSourceImpl() }
 }

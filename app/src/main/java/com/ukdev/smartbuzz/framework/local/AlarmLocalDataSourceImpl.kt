@@ -1,13 +1,13 @@
-package com.ukdev.smartbuzz.data.repository
+package com.ukdev.smartbuzz.framework.local
 
 import com.ukdev.smartbuzz.data.local.AlarmLocalDataSource
 import com.ukdev.smartbuzz.domain.model.Alarm
 import com.ukdev.smartbuzz.domain.model.QueryResult
 
-class AlarmRepositoryImpl(private val localDataSource: AlarmLocalDataSource) : AlarmRepository {
+class AlarmLocalDataSourceImpl : AlarmLocalDataSource {
 
     override suspend fun getAlarms(): QueryResult<List<Alarm>> {
-        return localDataSource.getAlarms()
+        TODO("not implemented")
     }
 
 }
