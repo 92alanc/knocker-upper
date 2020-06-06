@@ -8,7 +8,6 @@ import com.ukdev.smartbuzz.domain.model.Alarm
 import com.ukdev.smartbuzz.ui.adapter.AlarmAdapter
 import com.ukdev.smartbuzz.ui.tools.hide
 import com.ukdev.smartbuzz.ui.tools.show
-import com.ukdev.smartbuzz.ui.viewmodel.state.AlarmViewModelState
 import com.ukdev.smartbuzz.ui.viewmodel.AlarmViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -18,7 +17,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private val viewModel by viewModel<AlarmViewModel>()
     private val adapter = AlarmAdapter()
 
-    private lateinit var viewModelState: AlarmViewModelState
+    private lateinit var viewModelState: AlarmViewModel.State
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +36,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     private fun loadViewModelStateFromSavedInstanceState(savedInstanceState: Bundle?): Unit? {
-        return savedInstanceState?.getParcelable<AlarmViewModelState>(KEY_VIEW_MODEL_STATE)?.let {
+        return savedInstanceState?.getParcelable<AlarmViewModel.State>(KEY_VIEW_MODEL_STATE)?.let {
             viewModelState = it
             handleViewModelState(viewModelState)
         }
@@ -50,11 +49,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         })
     }
 
-    private fun handleViewModelState(viewModelState: AlarmViewModelState?) {
+    private fun handleViewModelState(viewModelState: AlarmViewModel.State?) {
         when (viewModelState) {
-            is AlarmViewModelState.Error -> handleError()
-            is AlarmViewModelState.Loading -> handleLoading()
-            is AlarmViewModelState.Success -> handleSuccess(viewModelState.alarms)
+            is AlarmViewModel.State.Error -> handleError()
+            is AlarmViewModel.State.Loading -> handleLoading()
+            is AlarmViewModel.State.Success -> handleSuccess(viewModelState.alarms)
         }
     }
 
