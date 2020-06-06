@@ -15,7 +15,7 @@ class AlarmRepositoryImpl(private val localDataSource: AlarmLocalDataSource) : A
     }
 
     override suspend fun delete(alarm: Alarm) {
-        localDataSource.saveOrUpdate(alarm)
+        localDataSource.delete(alarm)
     }
 
 }
