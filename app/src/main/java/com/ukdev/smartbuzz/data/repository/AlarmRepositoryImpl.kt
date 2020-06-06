@@ -10,4 +10,8 @@ class AlarmRepositoryImpl(private val localDataSource: AlarmLocalDataSource) : A
         return localDataSource.getAlarms()
     }
 
+    override suspend fun saveOrUpdate(alarm: Alarm) {
+        localDataSource.saveOrUpdate(alarm)
+    }
+
 }

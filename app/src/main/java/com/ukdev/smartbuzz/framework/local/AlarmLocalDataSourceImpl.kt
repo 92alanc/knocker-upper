@@ -5,6 +5,7 @@ import com.ukdev.smartbuzz.domain.model.Alarm
 import com.ukdev.smartbuzz.domain.model.QueryResult
 import com.ukdev.smartbuzz.framework.local.db.AlarmDao
 import com.ukdev.smartbuzz.framework.local.model.fromDatabaseToDomain
+import com.ukdev.smartbuzz.framework.local.model.fromDomainToDatabase
 
 class AlarmLocalDataSourceImpl(private val alarmDao: AlarmDao) : AlarmLocalDataSource {
 
@@ -17,6 +18,10 @@ class AlarmLocalDataSourceImpl(private val alarmDao: AlarmDao) : AlarmLocalDataS
         } catch (t: Throwable) {
             QueryResult.Error
         }
+    }
+
+    override suspend fun saveOrUpdate(alarm: Alarm) {
+        alarmDao.insertOrUpdate(alarm.fromDomainToDatabase())
     }
 
 }

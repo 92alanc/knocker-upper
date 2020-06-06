@@ -7,4 +7,6 @@ interface AlarmRepository {
 
     suspend fun getAlarms(): QueryResult<List<Alarm>>
 
+    suspend fun saveOrUpdate(alarm: Alarm)
+
 }
