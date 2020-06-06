@@ -22,6 +22,18 @@ class AlarmViewModel(private val repository: AlarmRepository) : ViewModel() {
 
     fun getAlarms(): LiveData<State> = stateLiveData
 
+    fun saveOrUpdate(alarm: Alarm) {
+        viewModelScope.launch {
+            repository.saveOrUpdate(alarm)
+        }
+    }
+
+    fun delete(alarm: Alarm) {
+        viewModelScope.launch {
+            repository.delete(alarm)
+        }
+    }
+
     private fun fetchData() {
         viewModelScope.launch {
             stateLiveData.postValue(State.Loading)
