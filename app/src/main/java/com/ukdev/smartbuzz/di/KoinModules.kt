@@ -1,8 +1,10 @@
 package com.ukdev.smartbuzz.di
 
+import com.ukdev.smartbuzz.data.helpers.crashreport.CrashReportManager
 import com.ukdev.smartbuzz.data.local.AlarmLocalDataSource
 import com.ukdev.smartbuzz.data.repository.AlarmRepository
 import com.ukdev.smartbuzz.data.repository.AlarmRepositoryImpl
+import com.ukdev.smartbuzz.framework.helpers.crashreport.CrashReportManagerImpl
 import com.ukdev.smartbuzz.framework.local.AlarmLocalDataSourceImpl
 import com.ukdev.smartbuzz.framework.local.db.provider.AlarmDaoProvider
 import com.ukdev.smartbuzz.ui.viewmodel.AlarmViewModel
@@ -18,7 +20,8 @@ private val ui = module {
 
 private val data = module {
     factory<AlarmRepository> { AlarmRepositoryImpl(get()) }
-    factory<AlarmLocalDataSource> { AlarmLocalDataSourceImpl(get()) }
+    factory<AlarmLocalDataSource> { AlarmLocalDataSourceImpl(get(), get()) }
+    factory<CrashReportManager> { CrashReportManagerImpl() }
 }
 
 private val framework = module {

@@ -3,6 +3,8 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.ukdev.smartbuzz">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".SmartBuzzApplication"
         android:allowBackup="true"

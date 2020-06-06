@@ -1,14 +1,12 @@
 package com.ukdev.smartbuzz.framework.local
 
 import com.google.common.truth.Truth.assertThat
+import com.ukdev.smartbuzz.data.helpers.crashreport.CrashReportManager
 import com.ukdev.smartbuzz.domain.model.QueryResult
 import com.ukdev.smartbuzz.framework.local.db.AlarmDao
 import com.ukdev.smartbuzz.framework.local.model.DbAlarm
-import io.mockk.MockKAnnotations
-import io.mockk.coEvery
-import io.mockk.coVerify
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
@@ -18,8 +16,8 @@ import java.io.IOException
 @ExperimentalCoroutinesApi
 class AlarmLocalDataSourceImplTest {
 
-    @MockK
-    lateinit var mockAlarmDao: AlarmDao
+    @MockK lateinit var mockAlarmDao: AlarmDao
+    @MockK lateinit var mockCrashReportManager: CrashReportManager
 
     private lateinit var localDataSource: AlarmLocalDataSourceImpl
 
@@ -27,7 +25,7 @@ class AlarmLocalDataSourceImplTest {
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        localDataSource = AlarmLocalDataSourceImpl(mockAlarmDao)
+        localDataSource = AlarmLocalDataSourceImpl(mockAlarmDao, mockCrashReportManager)
     }
 
     @Test
@@ -62,6 +60,33 @@ class AlarmLocalDataSourceImplTest {
         localDataSource.delete(mockk(relaxed = true))
 
         coVerify { mockAlarmDao.delete(any()) }
+    }
+
+    @Test
+    fun errorGettingAlarms_shouldLogToCrashReport() = runBlockingTest {
+        coEvery { mockAlarmDao.select() } throws IOException()
+
+        localDataSource.getAlarms()
+
+        verify { mockCrashReportManager.log(any<Throwable>()) }
+    }
+
+    @Test
+    fun errorSavingOrUpdating_shouldLogToCrashReport() = runBlockingTest {
+        coEvery { mockAlarmDao.insertOrUpdate(any()) } throws IOException()
+
+        localDataSource.saveOrUpdate(mockk())
+
+        verify { mockCrashReportManager.log(any<Throwable>()) }
+    }
+
+    @Test
+    fun errorDeleting_shouldLogToCrashReport() = runBlockingTest {
+        coEvery { mockAlarmDao.delete(any()) } throws IOException()
+
+        localDataSource.delete(mockk())
+
+        verify { mockCrashReportManager.log(any<Throwable>()) }
     }
 
     private fun mockAlarms(): List<DbAlarm> {

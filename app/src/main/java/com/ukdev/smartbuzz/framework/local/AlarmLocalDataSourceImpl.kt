@@ -1,5 +1,6 @@
 package com.ukdev.smartbuzz.framework.local
 
+import com.ukdev.smartbuzz.data.helpers.crashreport.CrashReportManager
 import com.ukdev.smartbuzz.data.local.AlarmLocalDataSource
 import com.ukdev.smartbuzz.domain.model.Alarm
 import com.ukdev.smartbuzz.domain.model.QueryResult
@@ -7,7 +8,10 @@ import com.ukdev.smartbuzz.framework.local.db.AlarmDao
 import com.ukdev.smartbuzz.framework.local.model.fromDatabaseToDomain
 import com.ukdev.smartbuzz.framework.local.model.fromDomainToDatabase
 
-class AlarmLocalDataSourceImpl(private val alarmDao: AlarmDao) : AlarmLocalDataSource {
+class AlarmLocalDataSourceImpl(
+        private val alarmDao: AlarmDao,
+        private val crashReportManager: CrashReportManager
+) : AlarmLocalDataSource {
 
     override suspend fun getAlarms(): QueryResult<List<Alarm>> {
         return try {
@@ -16,8 +20,7 @@ class AlarmLocalDataSourceImpl(private val alarmDao: AlarmDao) : AlarmLocalDataS
             }
             QueryResult.Success(alarms)
         } catch (t: Throwable) {
-            // TODO: use CrashReportManager
-            t.printStackTrace()
+            crashReportManager.log(t)
             QueryResult.Error
         }
     }
@@ -26,8 +29,7 @@ class AlarmLocalDataSourceImpl(private val alarmDao: AlarmDao) : AlarmLocalDataS
         try {
             alarmDao.insertOrUpdate(alarm.fromDomainToDatabase())
         } catch (t: Throwable) {
-            // TODO: use CrashReportManager
-            t.printStackTrace()
+            crashReportManager.log(t)
         }
     }
 
@@ -35,8 +37,7 @@ class AlarmLocalDataSourceImpl(private val alarmDao: AlarmDao) : AlarmLocalDataS
         try {
             alarmDao.delete(alarm.id)
         } catch (t: Throwable) {
-            // TODO: use CrashReportManager
-            t.printStackTrace()
+            crashReportManager.log(t)
         }
     }
 
