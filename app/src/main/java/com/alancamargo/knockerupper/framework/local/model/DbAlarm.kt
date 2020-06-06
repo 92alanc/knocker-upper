@@ -8,7 +8,10 @@ data class DbAlarm(
         @PrimaryKey val id: String,
         val label: String,
         val triggerTime: Long,
+        val ringtone: String?,
         val frequency: String,
+        val vibrate: Boolean,
+        val deleteOnDismiss: Boolean,
         val isActive: Boolean,
         val code: String?
 )

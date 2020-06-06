@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        recyclerView.adapter = adapter
+        setUpViews()
         loadViewModelStateFromSavedInstanceState(savedInstanceState) ?: observeData()
     }
 
@@ -39,6 +39,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         return savedInstanceState?.getParcelable<AlarmViewModel.State>(KEY_VIEW_MODEL_STATE)?.let {
             viewModelState = it
             handleViewModelState(viewModelState)
+        }
+    }
+
+    private fun setUpViews() {
+        recyclerView.adapter = adapter
+        fab.setOnClickListener {
+            val intent = AlarmDetailsActivity.getIntent(this)
+            startActivity(intent)
         }
     }
 

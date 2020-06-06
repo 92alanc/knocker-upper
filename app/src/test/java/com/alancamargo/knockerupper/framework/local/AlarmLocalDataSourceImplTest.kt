@@ -94,17 +94,23 @@ class AlarmLocalDataSourceImplTest {
                 "123-456",
                 "Alarm 1",
                 123L,
+                "mock-ringtone",
                 "MONDAY,TUESDAY",
-                true,
-                "code"
+                vibrate = true,
+                deleteOnDismiss = false,
+                isActive = true,
+                code = "code"
         )
 
         val alarm2 = DbAlarm(
                 "789-012",
                 "Alarm 2",
                 456L,
+                "mock-ringtone",
                 "SATURDAY,SUNDAY",
-                false,
+                vibrate = false,
+                deleteOnDismiss = true,
+                isActive = true,
                 code = null
         )
 

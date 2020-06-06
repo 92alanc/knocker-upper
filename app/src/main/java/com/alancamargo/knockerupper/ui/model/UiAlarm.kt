@@ -1,20 +1,19 @@
-package com.alancamargo.knockerupper.domain.model
+package com.alancamargo.knockerupper.ui.model
 
+import android.net.Uri
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.time.DayOfWeek
-import java.util.*
 
-data class Alarm(
-        val id: String = UUID.randomUUID().toString(),
+@Parcelize
+data class UiAlarm(
+        val id: String,
         val label: String,
         val triggerTime: Long,
-        val ringtone: String?,
+        val ringtone: Uri?,
         val frequency: List<DayOfWeek>,
         val vibrate: Boolean,
         val deleteOnDismiss: Boolean,
         val isActive: Boolean,
         val code: String?
-) {
-
-    fun hasCode() = code != null
-
-}
+) : Parcelable
