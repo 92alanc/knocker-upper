@@ -4,5 +4,6 @@ build/
 captures/
 app/google-services.json
 local.properties
+.DS_Store
 *.jks
 *.iml

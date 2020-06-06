@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- Not translatable -->
-    <string name="adUnitId" translatable="false">ca-app-pub-3993772572074236/8461240508</string>
-
-    <!-- Translatable -->
-    <string name="app_name">Smart Buzz</string>
-
+    <string name="app_name">Knocker-Upper</string>
 </resources>
