@@ -7,6 +7,8 @@ import com.alancamargo.knockerupper.domain.model.QueryResult
 import com.alancamargo.knockerupper.framework.local.db.AlarmDao
 import com.alancamargo.knockerupper.framework.local.model.fromDatabaseToDomain
 import com.alancamargo.knockerupper.framework.local.model.fromDomainToDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class AlarmLocalDataSourceImpl(
         private val alarmDao: AlarmDao,
@@ -15,8 +17,10 @@ class AlarmLocalDataSourceImpl(
 
     override suspend fun getAlarms(): QueryResult<List<Alarm>> {
         return try {
-            val alarms = alarmDao.select().map {
-                it.fromDatabaseToDomain()
+            val alarms = withContext(Dispatchers.IO) {
+                alarmDao.select().map {
+                    it.fromDatabaseToDomain()
+                }
             }
             QueryResult.Success(alarms)
         } catch (t: Throwable) {
@@ -27,7 +31,9 @@ class AlarmLocalDataSourceImpl(
 
     override suspend fun saveOrUpdate(alarm: Alarm) {
         try {
-            alarmDao.insertOrUpdate(alarm.fromDomainToDatabase())
+            withContext(Dispatchers.IO) {
+                alarmDao.insertOrUpdate(alarm.fromDomainToDatabase())
+            }
         } catch (t: Throwable) {
             crashReportManager.log(t)
         }
@@ -35,7 +41,9 @@ class AlarmLocalDataSourceImpl(
 
     override suspend fun delete(alarm: Alarm) {
         try {
-            alarmDao.delete(alarm.id)
+            withContext(Dispatchers.IO) {
+                alarmDao.delete(alarm.id)
+            }
         } catch (t: Throwable) {
             crashReportManager.log(t)
         }
