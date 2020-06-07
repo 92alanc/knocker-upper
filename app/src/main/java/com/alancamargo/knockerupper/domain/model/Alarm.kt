@@ -1,6 +1,5 @@
 package com.alancamargo.knockerupper.domain.model
 
-import java.time.DayOfWeek
 import java.util.*
 
 data class Alarm(
@@ -8,7 +7,7 @@ data class Alarm(
         val label: String,
         val triggerTime: Long,
         val ringtone: String?,
-        val frequency: List<DayOfWeek>,
+        val frequency: List<Day>,
         val vibrate: Boolean,
         val deleteOnDismiss: Boolean,
         val isActive: Boolean,

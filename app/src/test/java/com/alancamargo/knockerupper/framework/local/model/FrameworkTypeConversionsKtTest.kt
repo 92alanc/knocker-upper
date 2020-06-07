@@ -1,9 +1,9 @@
 package com.alancamargo.knockerupper.framework.local.model
 
 import com.alancamargo.knockerupper.domain.model.Alarm
+import com.alancamargo.knockerupper.domain.model.Day
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
-import java.time.DayOfWeek
 
 class FrameworkTypeConversionsKtTest {
 
@@ -14,7 +14,7 @@ class FrameworkTypeConversionsKtTest {
                 label = "Alarm",
                 triggerTime = 123L,
                 ringtone = "mock-ringtone",
-                frequency = listOf(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY),
+                frequency = listOf(Day.SATURDAY, Day.SUNDAY),
                 vibrate = true,
                 deleteOnDismiss = false,
                 isActive = true,
@@ -57,7 +57,7 @@ class FrameworkTypeConversionsKtTest {
                 label = "Alarm",
                 triggerTime = 123L,
                 ringtone = "mock-ringtone",
-                frequency = listOf(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY),
+                frequency = listOf(Day.SATURDAY, Day.SUNDAY),
                 vibrate = false,
                 deleteOnDismiss = true,
                 isActive = true,

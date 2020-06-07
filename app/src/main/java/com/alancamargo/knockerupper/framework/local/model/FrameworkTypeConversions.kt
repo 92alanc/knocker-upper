@@ -1,7 +1,7 @@
 package com.alancamargo.knockerupper.framework.local.model
 
 import com.alancamargo.knockerupper.domain.model.Alarm
-import java.time.DayOfWeek
+import com.alancamargo.knockerupper.domain.model.Day
 
 private const val STRING_SEPARATOR = ","
 
@@ -22,7 +22,7 @@ fun Alarm.fromDomainToDatabase(): DbAlarm {
 }
 
 fun DbAlarm.fromDatabaseToDomain(): Alarm {
-    val frequency = this.frequency.split(STRING_SEPARATOR).map { DayOfWeek.valueOf(it) }
+    val frequency = this.frequency.split(STRING_SEPARATOR).map { Day.valueOf(it) }
 
     return Alarm(
             id,

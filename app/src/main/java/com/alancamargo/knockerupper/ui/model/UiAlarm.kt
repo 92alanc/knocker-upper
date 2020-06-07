@@ -2,8 +2,8 @@ package com.alancamargo.knockerupper.ui.model
 
 import android.net.Uri
 import android.os.Parcelable
+import com.alancamargo.knockerupper.domain.model.Day
 import kotlinx.android.parcel.Parcelize
-import java.time.DayOfWeek
 
 @Parcelize
 data class UiAlarm(
@@ -11,7 +11,7 @@ data class UiAlarm(
         val label: String,
         val triggerTime: Long,
         val ringtone: Uri?,
-        val frequency: List<DayOfWeek>,
+        val frequency: List<Day>,
         val vibrate: Boolean,
         val deleteOnDismiss: Boolean,
         val isActive: Boolean,

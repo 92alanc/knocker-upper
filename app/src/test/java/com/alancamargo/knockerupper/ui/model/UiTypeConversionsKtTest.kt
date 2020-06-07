@@ -1,9 +1,9 @@
 package com.alancamargo.knockerupper.ui.model
 
 import com.alancamargo.knockerupper.domain.model.Alarm
+import com.alancamargo.knockerupper.domain.model.Day
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
-import java.time.DayOfWeek
 
 class UiTypeConversionsKtTest {
 
@@ -14,7 +14,7 @@ class UiTypeConversionsKtTest {
                 label = "Alarm",
                 triggerTime = 123L,
                 ringtone = null,
-                frequency = listOf(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY),
+                frequency = listOf(Day.SATURDAY, Day.SUNDAY),
                 vibrate = true,
                 deleteOnDismiss = false,
                 isActive = true,
@@ -26,7 +26,7 @@ class UiTypeConversionsKtTest {
                 label = "Alarm",
                 triggerTime = 123L,
                 ringtone = null,
-                frequency = listOf(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY),
+                frequency = listOf(Day.SATURDAY, Day.SUNDAY),
                 vibrate = true,
                 deleteOnDismiss = false,
                 isActive = true,
@@ -45,7 +45,7 @@ class UiTypeConversionsKtTest {
                 label = "Alarm",
                 triggerTime = 123L,
                 ringtone = null,
-                frequency = listOf(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY),
+                frequency = listOf(Day.SATURDAY, Day.SUNDAY),
                 vibrate = true,
                 deleteOnDismiss = true,
                 isActive = true,
@@ -57,7 +57,7 @@ class UiTypeConversionsKtTest {
                 label = "Alarm",
                 triggerTime = 123L,
                 ringtone = null,
-                frequency = listOf(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY),
+                frequency = listOf(Day.SATURDAY, Day.SUNDAY),
                 vibrate = true,
                 deleteOnDismiss = true,
                 isActive = true,
