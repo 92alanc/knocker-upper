@@ -4,10 +4,11 @@ import android.net.Uri
 import android.os.Parcelable
 import com.alancamargo.knockerupper.domain.entities.Day
 import kotlinx.android.parcel.Parcelize
+import java.util.*
 
 @Parcelize
 data class UiAlarm(
-        val id: String,
+        val id: String = UUID.randomUUID().toString(),
         val label: String,
         val triggerTime: Long,
         val ringtone: Uri?,

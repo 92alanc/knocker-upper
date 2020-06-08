@@ -1,9 +1,7 @@
 package com.alancamargo.knockerupper.domain.entities
 
-import java.util.*
-
 data class Alarm(
-        val id: String = UUID.randomUUID().toString(),
+        val id: String,
         val label: String,
         val triggerTime: Long,
         val ringtone: String?,
