@@ -4,7 +4,6 @@
         <item name="colorAccent">@color/indigo</item>
         <item name="colorPrimary">@color/indigo</item>
         <item name="colorPrimaryDark">@color/indigo_dark</item>
-        <item name="colorOnSurface">@color/white</item>
     </style>
     <style name="AppTheme.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorAccent">@color/indigo</item>
