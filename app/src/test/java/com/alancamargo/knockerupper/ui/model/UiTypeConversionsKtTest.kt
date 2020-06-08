@@ -1,14 +1,15 @@
 package com.alancamargo.knockerupper.ui.model
 
-import com.alancamargo.knockerupper.domain.model.Alarm
-import com.alancamargo.knockerupper.domain.model.Day
+import com.alancamargo.knockerupper.domain.entities.Alarm
+import com.alancamargo.knockerupper.domain.entities.Code
+import com.alancamargo.knockerupper.domain.entities.Day
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
 class UiTypeConversionsKtTest {
 
     @Test
-    fun fromDomainToUi() {
+    fun alarm_fromDomainToUi() {
         val domain = Alarm(
                 id = "123-456",
                 label = "Alarm",
@@ -39,7 +40,7 @@ class UiTypeConversionsKtTest {
     }
 
     @Test
-    fun fromUiToDomain() {
+    fun alarm_fromUiToDomain() {
         val ui = UiAlarm(
                 id = "123-456",
                 label = "Alarm",
@@ -63,6 +64,26 @@ class UiTypeConversionsKtTest {
                 isActive = true,
                 code = null
         )
+
+        val actual = ui.fromUiToDomain()
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun code_fromDomainToUi() {
+        val domain = Code("Dairy Milk", "code")
+        val expected = UiCode("Dairy Milk", "code")
+
+        val actual = domain.fromDomainToUi()
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun code_fromUiToDomain() {
+        val ui = UiCode("Dairy Milk", "code")
+        val expected = Code("Dairy Milk", "code")
 
         val actual = ui.fromUiToDomain()
 

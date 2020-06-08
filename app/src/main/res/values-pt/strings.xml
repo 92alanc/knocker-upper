@@ -9,4 +9,11 @@
     <string name="friday">Sexta</string>
     <string name="saturday">Sábado</string>
     <string name="sunday">Domingo</string>
+    <string name="ringtone">Toque</string>
+    <string name="will_go_off_only_once">Vai tocar só uma vez</string>
+    <string name="scan_code_to_dismiss">Escanear código para desligar</string>
+    <string name="rationale_code">Escolha um código de barra ou QR code para você escanear quando o alarme tocar</string>
+    <string name="code_selected">Código selecionado:</string>
+    <string name="vibrate">Vibrar</string>
+    <string name="delete_after_going_off">Excluir depois que tocar</string>
 </resources>

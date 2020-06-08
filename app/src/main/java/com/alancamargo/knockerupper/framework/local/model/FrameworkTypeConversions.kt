@@ -1,7 +1,8 @@
 package com.alancamargo.knockerupper.framework.local.model
 
-import com.alancamargo.knockerupper.domain.model.Alarm
-import com.alancamargo.knockerupper.domain.model.Day
+import com.alancamargo.knockerupper.domain.entities.Alarm
+import com.alancamargo.knockerupper.domain.entities.Code
+import com.alancamargo.knockerupper.domain.entities.Day
 
 private const val STRING_SEPARATOR = ","
 
@@ -17,12 +18,17 @@ fun Alarm.fromDomainToDatabase(): DbAlarm {
             vibrate,
             deleteOnDismiss,
             isActive,
-            code
+            code?.label,
+            code?.value
     )
 }
 
 fun DbAlarm.fromDatabaseToDomain(): Alarm {
     val frequency = this.frequency.split(STRING_SEPARATOR).map { Day.valueOf(it) }
+    val code = if (codeLabel != null && codeValue != null)
+        Code(codeLabel, codeValue)
+    else
+        null
 
     return Alarm(
             id,

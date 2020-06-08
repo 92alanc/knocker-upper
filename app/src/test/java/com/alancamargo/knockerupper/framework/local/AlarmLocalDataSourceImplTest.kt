@@ -1,7 +1,7 @@
 package com.alancamargo.knockerupper.framework.local
 
 import com.alancamargo.knockerupper.data.helpers.crashreport.CrashReportManager
-import com.alancamargo.knockerupper.domain.model.QueryResult
+import com.alancamargo.knockerupper.domain.wrappers.QueryResult
 import com.alancamargo.knockerupper.framework.local.db.AlarmDao
 import com.alancamargo.knockerupper.framework.local.model.DbAlarm
 import com.google.common.truth.Truth.assertThat
@@ -97,7 +97,8 @@ class AlarmLocalDataSourceImplTest {
                 vibrate = true,
                 deleteOnDismiss = false,
                 isActive = true,
-                code = "code"
+                codeLabel = "Cereal box",
+                codeValue = "code"
         )
 
         val alarm2 = DbAlarm(
@@ -109,7 +110,8 @@ class AlarmLocalDataSourceImplTest {
                 vibrate = false,
                 deleteOnDismiss = true,
                 isActive = true,
-                code = null
+                codeLabel = "Toothpaste",
+                codeValue = "code2"
         )
 
         return listOf(alarm1, alarm2)

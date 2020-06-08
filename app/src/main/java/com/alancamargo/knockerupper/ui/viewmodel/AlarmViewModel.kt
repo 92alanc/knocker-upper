@@ -6,10 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alancamargo.knockerupper.data.repository.AlarmRepository
-import com.alancamargo.knockerupper.domain.model.Alarm
-import com.alancamargo.knockerupper.domain.model.QueryResult
+import com.alancamargo.knockerupper.domain.entities.Alarm
+import com.alancamargo.knockerupper.domain.wrappers.QueryResult
+import com.alancamargo.knockerupper.ui.model.UiAlarm
+import com.alancamargo.knockerupper.ui.model.fromDomainToUi
 import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
 import kotlinx.coroutines.launch
 
 class AlarmViewModel(private val repository: AlarmRepository) : ViewModel() {
@@ -45,7 +46,12 @@ class AlarmViewModel(private val repository: AlarmRepository) : ViewModel() {
 
     private fun getStateFromResult(result: QueryResult<List<Alarm>>): State = when (result) {
         is QueryResult.Error -> State.Error
-        is QueryResult.Success -> State.Success(result.body)
+        is QueryResult.Success -> handleSuccess(result)
+    }
+
+    private fun handleSuccess(result: QueryResult.Success<List<Alarm>>): State.Success {
+        val body = result.body.map(Alarm::fromDomainToUi)
+        return State.Success(body)
     }
 
     sealed class State : Parcelable {
@@ -57,7 +63,7 @@ class AlarmViewModel(private val repository: AlarmRepository) : ViewModel() {
         object Loading : State()
 
         @Parcelize
-        data class Success(val alarms: @RawValue List<Alarm>) : State()
+        data class Success(val alarms: List<UiAlarm>) : State()
 
     }
 

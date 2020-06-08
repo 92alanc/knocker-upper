@@ -1,4 +1,4 @@
-package com.alancamargo.knockerupper.domain.model
+package com.alancamargo.knockerupper.domain.entities
 
 enum class Day {
     MONDAY,

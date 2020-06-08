@@ -13,5 +13,6 @@ data class DbAlarm(
         val vibrate: Boolean,
         val deleteOnDismiss: Boolean,
         val isActive: Boolean,
-        val code: String?
+        val codeLabel: String?,
+        val codeValue: String?
 )

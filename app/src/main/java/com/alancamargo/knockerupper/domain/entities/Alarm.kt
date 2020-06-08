@@ -1,4 +1,4 @@
-package com.alancamargo.knockerupper.domain.model
+package com.alancamargo.knockerupper.domain.entities
 
 import java.util.*
 
@@ -11,7 +11,7 @@ data class Alarm(
         val vibrate: Boolean,
         val deleteOnDismiss: Boolean,
         val isActive: Boolean,
-        val code: String?
+        val code: Code?
 ) {
 
     fun hasCode() = code != null

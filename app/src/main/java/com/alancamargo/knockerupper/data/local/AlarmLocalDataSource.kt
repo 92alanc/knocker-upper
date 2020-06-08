@@ -1,7 +1,7 @@
 package com.alancamargo.knockerupper.data.local
 
-import com.alancamargo.knockerupper.domain.model.Alarm
-import com.alancamargo.knockerupper.domain.model.QueryResult
+import com.alancamargo.knockerupper.domain.entities.Alarm
+import com.alancamargo.knockerupper.domain.wrappers.QueryResult
 
 interface AlarmLocalDataSource {
 

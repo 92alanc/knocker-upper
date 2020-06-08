@@ -9,4 +9,11 @@
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
     <string name="sunday">Sunday</string>
+    <string name="ringtone">Ringtone</string>
+    <string name="will_go_off_only_once">Will go off only once</string>
+    <string name="scan_code_to_dismiss">Scan code to dismiss</string>
+    <string name="rationale_code">Choose a barcode or a QR code for you to scan when the alarm goes off</string>
+    <string name="code_selected">Code selected:</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="delete_after_going_off">Delete after going off</string>
 </resources>

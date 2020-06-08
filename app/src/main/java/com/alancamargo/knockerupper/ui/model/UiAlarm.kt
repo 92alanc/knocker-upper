@@ -2,7 +2,7 @@ package com.alancamargo.knockerupper.ui.model
 
 import android.net.Uri
 import android.os.Parcelable
-import com.alancamargo.knockerupper.domain.model.Day
+import com.alancamargo.knockerupper.domain.entities.Day
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -15,5 +15,5 @@ data class UiAlarm(
         val vibrate: Boolean,
         val deleteOnDismiss: Boolean,
         val isActive: Boolean,
-        val code: String?
+        val code: UiCode?
 ) : Parcelable

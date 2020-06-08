@@ -25,7 +25,127 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="@dimen/padding_default">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txtCode"
+                    style="@style/AppStyle.TextAppearance.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/scan_code_to_dismiss"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txtCodeRationale"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_marginEnd="@dimen/margin_default"
+                    android:text="@string/rationale_code"
+                    app:layout_constraintTop_toBottomOf="@id/txtCode"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/codeSwitch"/>
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/codeSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/txtCode"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:checked="true"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txtCodeLabelTitle"
+                    style="@style/TextAppearance.MaterialComponents.Body2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:text="@string/code_selected"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/txtCodeRationale"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txtCodeLabel"
+                    style="@style/TextAppearance.MaterialComponents.Body2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginStart="@dimen/margin_default"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/txtCodeRationale"
+                    app:layout_constraintStart_toEndOf="@id/txtCodeLabelTitle"
+                    app:layout_constraintEnd_toStartOf="@id/codeSwitch"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:text="Cereal box"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/ringtone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:orientation="vertical">
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/AppStyle.TextAppearance.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ringtone"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    tools:text="Frenzied chimpanzees"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/frequency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:orientation="vertical">
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/AppStyle.TextAppearance.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/frequency"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    tools:text="@string/will_go_off_only_once"/>
+            </LinearLayout>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/vibrateSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@string/vibrate"
+                android:textAppearance="@style/AppStyle.TextAppearance.Title"
+                android:textColor="@color/indigo"
+                tools:checked="true"/>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/deleteOnDismissSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@string/delete_after_going_off"
+                android:textAppearance="@style/AppStyle.TextAppearance.Title"
+                android:textColor="@color/indigo"
+                tools:checked="true"/>
 
         </LinearLayout>
     </ScrollView>

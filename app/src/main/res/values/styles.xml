@@ -1,10 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorAccent">@color/indigo</item>
-        <item name="colorPrimary">@color/indigo</item>
-        <item name="colorPrimaryDark">@color/indigo_dark</item>
-        <item name="colorOnSurface">@color/white</item>
+    <style name="AppStyle.TextAppearance.Title" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/indigo</item>
+        <item name="android:textStyle">bold</item>
     </style>
-
 </resources>

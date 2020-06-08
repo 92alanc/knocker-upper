@@ -1,7 +1,8 @@
 package com.alancamargo.knockerupper.ui.model
 
 import android.net.Uri
-import com.alancamargo.knockerupper.domain.model.Alarm
+import com.alancamargo.knockerupper.domain.entities.Alarm
+import com.alancamargo.knockerupper.domain.entities.Code
 
 fun Alarm.fromDomainToUi(): UiAlarm {
     val ringtone = if (this.ringtone != null)
@@ -17,7 +18,7 @@ fun Alarm.fromDomainToUi(): UiAlarm {
             frequency,
             vibrate, deleteOnDismiss,
             isActive,
-            code
+            code?.fromDomainToUi()
     )
 }
 
@@ -36,6 +37,10 @@ fun UiAlarm.fromUiToDomain(): Alarm {
             vibrate,
             deleteOnDismiss,
             isActive,
-            code
+            code?.fromUiToDomain()
     )
 }
+
+fun Code.fromDomainToUi(): UiCode = UiCode(label, value)
+
+fun UiCode.fromUiToDomain(): Code = Code(label, value)

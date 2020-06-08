@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.alancamargo.knockerupper.R
-import com.alancamargo.knockerupper.domain.model.Alarm
+import com.alancamargo.knockerupper.ui.model.UiAlarm
 
-class AlarmAdapter : ListAdapter<Alarm, AlarmViewHolder>(ItemCallback) {
+class AlarmAdapter : ListAdapter<UiAlarm, AlarmViewHolder>(ItemCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlarmViewHolder {
         val inflater = LayoutInflater.from(parent.context)

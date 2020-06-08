@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.alancamargo.knockerupper.R
-import com.alancamargo.knockerupper.domain.model.Alarm
 import com.alancamargo.knockerupper.ui.adapter.AlarmAdapter
+import com.alancamargo.knockerupper.ui.model.UiAlarm
 import com.alancamargo.knockerupper.ui.tools.hide
 import com.alancamargo.knockerupper.ui.tools.show
 import com.alancamargo.knockerupper.ui.viewmodel.AlarmViewModel
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         progressBar.show()
     }
 
-    private fun handleSuccess(alarms: List<Alarm>) {
+    private fun handleSuccess(alarms: List<UiAlarm>) {
         progressBar.hide()
         recyclerView.show()
         adapter.submitList(alarms)

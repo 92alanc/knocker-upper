@@ -1,8 +1,8 @@
 package com.alancamargo.knockerupper.data.repository
 
 import com.alancamargo.knockerupper.data.local.AlarmLocalDataSource
-import com.alancamargo.knockerupper.domain.model.Alarm
-import com.alancamargo.knockerupper.domain.model.QueryResult
+import com.alancamargo.knockerupper.domain.entities.Alarm
+import com.alancamargo.knockerupper.domain.wrappers.QueryResult
 
 class AlarmRepositoryImpl(private val localDataSource: AlarmLocalDataSource) : AlarmRepository {
 

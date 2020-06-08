@@ -1,7 +1,7 @@
 package com.alancamargo.knockerupper.framework.local.model
 
-import com.alancamargo.knockerupper.domain.model.Alarm
-import com.alancamargo.knockerupper.domain.model.Day
+import com.alancamargo.knockerupper.domain.entities.Alarm
+import com.alancamargo.knockerupper.domain.entities.Day
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
@@ -30,7 +30,8 @@ class FrameworkTypeConversionsKtTest {
                 vibrate = true,
                 deleteOnDismiss = false,
                 isActive = true,
-                code = null
+                codeLabel = null,
+                codeValue = null
         )
 
         val actual = domain.fromDomainToDatabase()
@@ -49,7 +50,8 @@ class FrameworkTypeConversionsKtTest {
                 vibrate = false,
                 deleteOnDismiss = true,
                 isActive = true,
-                code = null
+                codeLabel = null,
+                codeValue = null
         )
 
         val expected = Alarm(

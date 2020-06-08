@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.alancamargo.knockerupper.R
-import com.alancamargo.knockerupper.domain.model.Day
+import com.alancamargo.knockerupper.domain.entities.Day
 import kotlinx.android.synthetic.main.dialogue_frequency.*
 
 class FrequencyDialogue : DialogFragment() {
