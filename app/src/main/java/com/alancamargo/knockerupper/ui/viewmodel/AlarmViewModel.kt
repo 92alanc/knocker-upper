@@ -10,6 +10,7 @@ import com.alancamargo.knockerupper.domain.entities.Alarm
 import com.alancamargo.knockerupper.domain.wrappers.QueryResult
 import com.alancamargo.knockerupper.ui.model.UiAlarm
 import com.alancamargo.knockerupper.ui.model.fromDomainToUi
+import com.alancamargo.knockerupper.ui.model.fromUiToDomain
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.launch
 
@@ -23,15 +24,15 @@ class AlarmViewModel(private val repository: AlarmRepository) : ViewModel() {
 
     fun getAlarms(): LiveData<State> = stateLiveData
 
-    fun saveOrUpdate(alarm: Alarm) {
+    fun saveOrUpdate(alarm: UiAlarm) {
         viewModelScope.launch {
-            repository.saveOrUpdate(alarm)
+            repository.saveOrUpdate(alarm.fromUiToDomain())
         }
     }
 
-    fun delete(alarm: Alarm) {
+    fun delete(alarm: UiAlarm) {
         viewModelScope.launch {
-            repository.delete(alarm)
+            repository.delete(alarm.fromUiToDomain())
         }
     }
 
