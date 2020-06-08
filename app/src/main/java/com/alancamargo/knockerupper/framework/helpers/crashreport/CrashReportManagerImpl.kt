@@ -12,6 +12,7 @@ class CrashReportManagerImpl : CrashReportManager {
     }
 
     override fun log(t: Throwable) {
+        Log.e(TAG, t.message, t)
         FirebaseCrashlytics.getInstance().recordException(t)
     }
 
